@@ -5,9 +5,49 @@ All notable changes to EcoleHub will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.0.0] - 2024-08-27
+
+### Added - Stage 1 Complete SEL System
+
+#### 💱 SEL (Système d'Échange Local)
+- **Service Marketplace**: Create and browse services from other parents
+- **10 Service Categories**: garde, devoirs, transport, cuisine, bricolage, jardinage, ménage, courses, proposition, autre
+- **Service Proposals**: Special "proposition" category for new service types
+- **Transaction System**: Complete workflow (pending → approved → completed)
+- **Belgian Balance Rules**: -300 to +600 units with automatic validation
+- **Balance Management**: Initial 120 units (2 hours credit) per user
+- **Units System**: 60 units = 1 hour standard rate
+
+#### 🗄️ Database Migration
+- **PostgreSQL 15**: Migration from SQLite with UUID primary keys
+- **Data Preservation**: Automatic migration scripts for Stage 0 → Stage 1
+- **Performance**: Optimized for 30+ families with proper indexing
+- **Constraints**: Belgian-specific rules and validation
+
+#### 🎨 Enhanced Frontend
+- **Multi-tab Interface**: Dashboard, Services SEL, Transactions, Profile
+- **Real-time Balance**: Visible in header with color coding
+- **Service Creation**: Advanced form with category selection and proposals
+- **Transaction Management**: Approve/cancel transactions with confirmation
+- **Responsive Design**: Mobile-optimized with improved UX
+
+#### 🔧 Infrastructure Improvements
+- **Docker Multi-stage**: Stage 0 and Stage 1 configurations
+- **SQLite Host Mount**: Enables seamless migration to PostgreSQL
+- **Nginx SEL Routes**: Complete API routing for SEL endpoints
+- **Migration Scripts**: Automated Stage 0 → Stage 1 transition
+- **Requirements Management**: Separate dependencies per stage
+
+#### 💭 Innovation: Service Proposal System
+- **Community-driven**: Users can propose new service categories
+- **Organic Growth**: New categories based on actual community needs
+- **Special Marking**: Proposals tagged with [PROPOSITION: Category Name]
+- **Visibility**: All proposals visible to community for adoption
+- **Future Integration**: Popular proposals can become official categories
+
 ## [0.1.0] - 2024-08-27
 
-### Added - Stage 0 Initial Release
+### Added - Stage 0 Foundation
 
 #### 🏫 Core Features
 - **User Authentication**: Secure registration and login with JWT tokens
