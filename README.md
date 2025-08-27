@@ -1,8 +1,8 @@
-# 🏫 EcoleHub - Stage 0
+# 🏫 EcoleHub - Stage 2
 
 Plateforme scolaire collaborative pour l'École Notre-Dame Immaculée, Evere (Bruxelles).
 
-**Stage 0** : Version minimale avec authentification et gestion des profils.
+**Stage Actuel** : Messagerie temps réel + Événements école + Système SEL complet.
 
 ## 🚀 Installation Rapide (5 minutes)
 
@@ -10,49 +10,61 @@ Plateforme scolaire collaborative pour l'École Notre-Dame Immaculée, Evere (Br
 - Docker & Docker Compose
 - Git
 
-### Démarrage
+### Démarrage Stage 2
 ```bash
 # 1. Cloner le projet
-git clone <votre-repo>
-cd schoolhub
+git clone git@github.com:gilmry/ecolehub.git
+cd ecolehub
 
-# 2. Configuration
-cp .env.example .env
+# 2. Lancer Stage 2 (Messaging + Events)
+cp .env.stage2.example .env
+docker-compose -f docker-compose.stage2.yml up -d
 
-# 3. Lancer l'application
-docker-compose up -d
-
-# 4. Ouvrir dans le navigateur
+# 3. Ouvrir dans le navigateur
 open http://localhost
 ```
 
 **C'est tout !** 🎉
 
-📖 **Guide d'installation détaillé** : Voir [INSTALL.md](INSTALL.md)
+📖 **Guides détaillés** : [INSTALL.md](INSTALL.md) • [Stage 1](README-STAGE1.md) • [Stage 2](README-STAGE2.md)
 
-## ✅ Fonctionnalités Stage 0
+## ✅ Fonctionnalités Stage 2
 
+### 🏠 Base (Stages 0+1)
 - ✅ **Inscription/Connexion** avec email + mot de passe
-- ✅ **Profil utilisateur** (prénom, nom)
-- ✅ **Gestion enfants** avec classes belges (M1-M3, P1-P6)
-- ✅ **Interface responsive** (mobile + desktop)
-- ✅ **Sécurité de base** (JWT, mots de passe hashés)
+- ✅ **Profil utilisateur** + enfants avec classes belges
+- ✅ **Système SEL** : Échanges entre parents (-300/+600 unités)
+- ✅ **Services** : 10 catégories + propositions communautaires
 
-## 🏗️ Architecture Stage 0
+### 💬 Messages (Stage 2)
+- ✅ **Messages directs** : Parent-à-parent avec auto-refresh 3s
+- ✅ **Groupes classe** : M1, M2, M3, P1, P2, P3, P4, P5, P6
+- ✅ **Annonces école** : Canal officiel Notre-Dame Immaculée
+- ✅ **Interface chat** : Bulles, timestamps, auto-scroll
+
+### 📅 Événements École (Stage 2)
+- ✅ **🍝 Spaghetti Saint-Nicolas** : Tradition NDI (6 décembre)
+- ✅ **Fancy Fair** : Fête annuelle + stands + spectacles
+- ✅ **Carnaval** : Déguisements + concours costumes
+- ✅ **Classes vertes P6** : Séjour Ardennes belges
+- ✅ **Inscriptions** : Avec limites + deadlines
+
+## 🏗️ Architecture Stage 2
 
 ```
-┌─────────────┐    ┌─────────────┐    ┌─────────────┐
-│   Frontend  │    │   Nginx     │    │   Backend   │
-│   Vue 3     │───▶│   Proxy     │───▶│   FastAPI   │
-│   (CDN)     │    │             │    │   SQLite    │
-└─────────────┘    └─────────────┘    └─────────────┘
+┌─────────────┐    ┌─────────────┐    ┌─────────────┐    ┌─────────────┐
+│   Frontend  │    │   Nginx     │    │   Backend   │    │ PostgreSQL  │
+│   Vue 3     │───▶│ Proxy + WS  │───▶│ FastAPI+SEL │───▶│   + Redis   │
+│  6 onglets  │    │             │    │ +Messaging  │    │             │
+└─────────────┘    └─────────────┘    └─────────────┘    └─────────────┘
 ```
 
-### Stack Technique
-- **Backend** : FastAPI + SQLAlchemy + SQLite
-- **Frontend** : HTML + Vue 3 CDN + Tailwind CDN
-- **Proxy** : Nginx
-- **Déploiement** : Docker Compose
+### Stack Technique Stage 2
+- **Backend** : FastAPI + PostgreSQL + Redis + WebSockets
+- **Frontend** : Vue 3 responsive avec 6 onglets
+- **Cache** : Redis pour sessions + temps réel
+- **Messagerie** : Polling 3s + conversations persistantes
+- **Déploiement** : Docker Compose 4 services
 
 ## 🇧🇪 Spécificités Belges
 
@@ -192,26 +204,29 @@ curl -X POST http://localhost:8000/register \
 - [ ] SSL configuré en production
 - [ ] Backup SQLite fonctionnel
 
-## 🔮 Migration vers Stage 1
+## 🔮 Évolution par Stages
 
-### Passage au Système SEL
+### Stage 1 - Système SEL
 ```bash
-# Migration automatique Stage 0 → Stage 1
+# Migration Stage 0 → Stage 1
 ./migrate.sh
 ```
+- **SEL complet** : Échanges entre parents
+- **PostgreSQL** : Base évolutive (30 familles)
+- **Documentation** : [README-STAGE1.md](README-STAGE1.md)
 
-**Nouveautés Stage 1 :**
-- **PostgreSQL** : Base de données évolutive 
-- **Système SEL** : Échanges entre parents
-- **Balances** : -300 à +600 unités (règles belges)
-- **Services** : 9 catégories (garde, devoirs, transport...)
-- **Capacité** : 30 familles
-
-### Documentation Stage 1
-📖 **Guide complet** : [README-STAGE1.md](README-STAGE1.md)
+### Stage 2 - Messages + Événements ✨ **ACTUEL**
+```bash
+# Migration Stage 1 → Stage 2
+cp .env.stage2.example .env
+docker-compose -f docker-compose.stage2.yml up -d
+```
+- **💬 Messagerie** : Parent-à-parent temps réel
+- **📅 Événements** : École + Spaghetti Saint-Nicolas
+- **🔴 Redis** : Cache + performance (60 familles)
+- **Documentation** : [README-STAGE2.md](README-STAGE2.md)
 
 ### Stages Suivants (Planifiés)
-- **Stage 2** : Messagerie temps réel + Événements
 - **Stage 3** : Boutique collaborative + Éducation
 - **Stage 4** : Multilingual + Analytics + Admin
 

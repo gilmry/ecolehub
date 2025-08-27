@@ -5,6 +5,52 @@ All notable changes to EcoleHub will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [2.0.0] - 2024-08-27
+
+### Added - Stage 2 Real-time Messaging + Events
+
+#### 💬 Real-time Messaging System
+- **Direct Messages**: Parent-to-parent private conversations
+- **Group Conversations**: Class groups and interest-based discussions
+- **Auto-refresh Polling**: Messages update every 3 seconds for quasi real-time
+- **Message History**: Persistent storage in PostgreSQL with timestamps
+- **Conversation Types**: Direct, group, class-specific, and announcements
+- **User Interface**: Chat bubbles, message timestamps, auto-scroll
+
+#### 📅 School Events System
+- **Event Management**: Create and manage school events with registration
+- **Event Types**: School, class, parent meetings, activities, celebrations
+- **Registration System**: Capacity limits and deadline management
+- **Belgian School Events**: Fancy Fair, Saint-Nicolas, class meetings
+- **Event Filters**: Filter by type (school, class, celebrations)
+- **Participant Tracking**: Registration status and attendance
+
+#### 🔴 Redis Infrastructure
+- **Redis Cache**: Session management and real-time data caching
+- **WebSocket Support**: Infrastructure for future real-time features
+- **Performance**: Optimized for 60+ families
+- **Scalability**: Ready for high-frequency messaging
+
+#### 🎨 Enhanced User Interface
+- **6-Tab Navigation**: Dashboard, Services, Transactions, Messages, Events, Profile
+- **Message Integration**: Direct messaging from service listings
+- **Event Calendar**: Visual event display with Belgian formatting
+- **Real-time Updates**: Auto-refresh for conversations and events
+- **Responsive Design**: Mobile-optimized messaging interface
+
+#### 🔧 Technical Improvements
+- **Docker Compose Stage 2**: PostgreSQL + Redis + Backend + Frontend
+- **API Extensions**: Complete messaging and events endpoints
+- **Error Handling**: Improved 404/422 error resolution
+- **Route Management**: Nginx configuration for WebSocket and API routing
+- **Performance**: Polling system for quasi real-time communication
+
+#### 🇧🇪 Belgian School Context Integration
+- **Class Groups**: Automatic conversation groups for M1-M3, P1-P6
+- **School Calendar**: Belgian school events and holiday awareness
+- **Parent Communication**: Direct messaging for service coordination
+- **Event Types**: Aligned with Belgian school activities and celebrations
+
 ## [1.0.0] - 2024-08-27
 
 ### Added - Stage 1 Complete SEL System
