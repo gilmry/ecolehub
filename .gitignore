@@ -1,0 +1,48 @@
+# Environment
+.env
+.env.local
+
+# Base de données SQLite
+*.db
+*.sqlite
+*.sqlite3
+
+# Python
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+.Python
+*.egg-info/
+dist/
+build/
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# Logs
+*.log
+
+# Docker
+.dockerignore
+
+# SSL certificates (production)
+ssl/
+certs/
+
+# Backups
+backup/
+*.backup
+*.dump
+
+# Node modules si ajoutés plus tard
+node_modules/
+
+# MacOS
+.DS_Store
+
+# Windows
+Thumbs.db

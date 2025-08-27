@@ -1,0 +1,210 @@
+Voici le prompt optimisé pour Claude Code avec tes spécifications :
+
+```markdown
+# Prompt pour Claude Code - Implémentation SchoolHub
+
+Tu vas implémenter SchoolHub, une plateforme scolaire collaborative open source avec une approche de croissance progressive par stages. Le projet doit être développé de manière modulaire, en commençant par le Stage 0 le plus simple possible.
+
+## CONTEXTE
+- École primaire en Belgique (Evere, Bruxelles)
+- Système scolaire belge : classes M1-M3 (maternelle), P1-P6 (primaire), CEB en P6
+- Approche "sans stress" : on grandit selon l'énergie disponible
+- Parent développeur qui prend en charge techniquement pour 10 ans
+- Budget minimal : VPS 10€/mois max
+
+## PHILOSOPHIE DE DÉVELOPPEMENT
+1. **Simplicité avant tout** : Si c'est compliqué, on simplifie
+2. **Progressif** : Chaque stage doit être utilisable indépendamment
+3. **Pas de dette technique** : Code propre dès le début mais sans sur-ingénierie
+4. **Open source** : Réutilisable par d'autres écoles
+5. **Production-ready** : Même le Stage 0 doit être déployable
+
+## ARCHITECTURE PAR STAGES
+
+### Stage 0 (PRIORITÉ ABSOLUE) - 5-10 familles
+**Backend:**
+- FastAPI minimal
+- SQLite (pas de PostgreSQL)
+- Auth basique (JWT)
+- 2 tables : users, children
+- Pas de Redis, pas de Celery, pas de WebSockets
+
+**Frontend:**
+- HTML simple + Vue 3 CDN (pas de build)
+- Ou Vue 3 minimal avec Vite si vraiment nécessaire
+- Tailwind CDN
+- Formulaires login/register/profile
+
+**Fonctionnalités:**
+- Inscription/connexion
+- Profil utilisateur
+- Liste enfants avec classe (P1-P6)
+- C'est tout !
+
+### Stage 1 - 30 familles (à implémenter APRÈS que Stage 0 fonctionne)
+- Migration SQLite → PostgreSQL
+- Module SEL (Système d'Échange Local)
+- Limites -300/+600 unités
+- Balance initiale : 120 unités
+
+### Stages 2-4 (NE PAS IMPLÉMENTER MAINTENANT)
+- Stage 2: Messagerie + Événements
+- Stage 3: Boutique + Éducation  
+- Stage 4: Multilingual + Analytics
+
+## STRUCTURE DE FICHIERS ATTENDUE
+
+```
+schoolhub/
+├── backend/
+│   ├── app/
+│   │   ├── main.py          # FastAPI app simple
+│   │   ├── models.py         # SQLAlchemy models
+│   │   ├── schemas.py        # Pydantic schemas
+│   │   ├── auth.py           # JWT auth
+│   │   └── database.py       # SQLite connection
+│   ├── requirements.txt      # Minimal : fastapi, sqlalchemy, jose
+│   └── schoolhub.db         # SQLite database
+├── frontend/
+│   └── index.html           # Single page avec Vue CDN
+├── docker-compose.yml       # Simple : backend + nginx
+└── README.md               # Instructions claires
+```
+
+## SPÉCIFICATIONS TECHNIQUES STAGE 0
+
+### Modèles de données (SQLite)
+```python
+# Tables minimales
+users:
+  - id: int
+  - email: str (unique)
+  - first_name: str
+  - last_name: str  
+  - hashed_password: str
+  - is_active: bool
+  - created_at: datetime
+
+children:
+  - id: int
+  - parent_id: int (FK users)
+  - first_name: str
+  - class_name: str (M1,M2,M3,P1,P2,P3,P4,P5,P6)
+  - created_at: datetime
+```
+
+### Endpoints API (Stage 0 uniquement)
+```
+POST /register - Inscription
+POST /login - Connexion  
+GET /me - Profil utilisateur
+PUT /me - Mise à jour profil
+GET /children - Liste enfants
+POST /children - Ajouter enfant
+GET /health - Health check
+```
+
+### Frontend Stage 0
+- Une seule page HTML
+- Pas de router (tout en v-if/v-show)
+- LocalStorage pour le token JWT
+- Fetch API (pas d'axios au Stage 0)
+
+## CONTRAINTES IMPORTANTES
+
+1. **PAS de sur-ingénierie Stage 0** :
+   - Pas de structure complexe de dossiers
+   - Pas de services/repositories patterns
+   - Pas d'async si pas nécessaire
+   - Pas de tests unitaires (pour l'instant)
+
+2. **Sécurité minimale mais correcte** :
+   - Mots de passe hashés (bcrypt)
+   - JWT pour l'auth
+   - CORS configuré
+   - HTTPS en production (Let's Encrypt)
+
+3. **Docker simple** :
+   ```yaml
+   # docker-compose.yml Stage 0
+   services:
+     backend:
+       build: ./backend
+       ports: ["8000:8000"]
+       volumes: ["./data:/app/data"]
+     
+     frontend:
+       image: nginx:alpine
+       ports: ["80:80"]
+       volumes: ["./frontend:/usr/share/nginx/html"]
+   ```
+
+4. **Pas de dépendances inutiles** :
+   - Backend : ~10 packages max
+   - Frontend : 0 packages (CDN uniquement) au Stage 0
+
+## LIVRABLES ATTENDUS
+
+1. **Code Stage 0 fonctionnel** qui:
+   - Permet inscription/connexion
+   - Affiche profil utilisateur
+   - Gère les enfants/classes
+   - Se lance avec `docker-compose up`
+
+2. **README.md** avec:
+   - Installation en 5 commandes max
+   - Configuration .env minimale
+   - Guide déploiement VPS
+
+3. **Migration path** :
+   - Script pour Stage 0 → Stage 1
+   - Pas de perte de données
+
+## ORDRE D'IMPLÉMENTATION
+
+1. Backend main.py avec FastAPI minimal
+2. Models SQLAlchemy pour SQLite
+3. Endpoints auth (register/login)
+4. Frontend HTML avec Vue CDN
+5. Docker Compose
+6. README
+7. Test complet du flow
+8. (Plus tard) Scripts migration vers Stage 1
+
+## CE QU'ON NE VEUT PAS
+
+- Architecture microservices
+- GraphQL
+- TypeScript au Stage 0
+- Tests unitaires extensifs (pour l'instant)
+- CI/CD complexe
+- Kubernetes
+- Message brokers
+- Elasticsearch
+- Structure hexagonale/DDD
+
+## RÉFÉRENCES À INTÉGRER
+
+[Copie ici les artifacts SchoolHub fournis précédemment]
+
+## COMMANDES À UTILISER
+
+Commence par créer la structure minimale :
+```bash
+mkdir -p schoolhub/backend/app schoolhub/frontend
+cd schoolhub
+```
+
+Puis implémente dans l'ordre :
+1. backend/app/main.py
+2. backend/app/models.py
+3. backend/app/auth.py
+4. frontend/index.html
+5. docker-compose.yml
+
+Le Stage 0 doit être 100% fonctionnel avant de penser au Stage 1.
+
+IMPORTANT: Reste SIMPLE. Si tu hésites entre deux approches, choisis la plus simple. On pourra toujours complexifier plus tard.
+```
+
+Ce prompt est optimisé pour que Claude Code comprenne exactement ce que tu veux : une implémentation progressive et simple, en commençant par un Stage 0 minimal mais fonctionnel, sans sur-ingénierie, adapté au contexte belge.

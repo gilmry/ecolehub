@@ -1,0 +1,765 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EcoleHub Stage 1 - École Notre-Dame Immaculée</title>
+    <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        [v-cloak] { display: none; }
+    </style>
+</head>
+<body class="bg-gray-50">
+    <div id="app" v-cloak class="min-h-screen">
+        <!-- Header -->
+        <header class="bg-white shadow">
+            <div class="max-w-6xl mx-auto px-4 py-6">
+                <h1 class="text-3xl font-bold text-gray-900">
+                    🏫 EcoleHub Stage 1 - École Notre-Dame Immaculée
+                </h1>
+                <p class="text-gray-600 mt-2">Plateforme d'entraide avec Système SEL - Evere</p>
+                <div v-if="isAuthenticated" class="mt-2 flex justify-between items-center">
+                    <span class="text-sm text-green-600">
+                        Connecté: {{ user.first_name }} {{ user.last_name }}
+                    </span>
+                    <div v-if="balance" class="text-sm">
+                        <span class="font-semibold" :class="balanceColor">
+                            💰 {{ balance.balance }} unités
+                        </span>
+                        <span class="text-gray-500 ml-2">SEL</span>
+                    </div>
+                </div>
+            </div>
+        </header>
+
+        <main class="max-w-6xl mx-auto px-4 py-8">
+            <!-- Messages -->
+            <div v-if="errorMessage" class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded mb-4">
+                {{ errorMessage }}
+                <button @click="errorMessage = ''" class="float-right text-red-700 hover:text-red-900">×</button>
+            </div>
+
+            <div v-if="successMessage" class="bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded mb-4">
+                {{ successMessage }}
+                <button @click="successMessage = ''" class="float-right text-green-700 hover:text-green-900">×</button>
+            </div>
+
+            <!-- Login/Register -->
+            <div v-if="!isAuthenticated" class="max-w-md mx-auto">
+                <div class="bg-white rounded-lg shadow-lg p-6">
+                    <h2 class="text-2xl font-bold mb-6 text-center">
+                        {{ isLogin ? 'Connexion' : 'Inscription' }}
+                    </h2>
+                    
+                    <form @submit.prevent="isLogin ? login() : register()">
+                        <div class="mb-4">
+                            <label class="block text-gray-700 text-sm font-bold mb-2">Email</label>
+                            <input
+                                v-model="formData.email"
+                                type="email"
+                                class="w-full p-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                                required
+                                placeholder="votre.email@ndi.be"
+                            >
+                        </div>
+                        
+                        <div v-if="!isLogin" class="mb-4">
+                            <label class="block text-gray-700 text-sm font-bold mb-2">Prénom</label>
+                            <input
+                                v-model="formData.first_name"
+                                type="text"
+                                class="w-full p-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                                required
+                                placeholder="Prénom"
+                            >
+                        </div>
+                        
+                        <div v-if="!isLogin" class="mb-4">
+                            <label class="block text-gray-700 text-sm font-bold mb-2">Nom</label>
+                            <input
+                                v-model="formData.last_name"
+                                type="text"
+                                class="w-full p-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                                required
+                                placeholder="Nom de famille"
+                            >
+                        </div>
+                        
+                        <div class="mb-6">
+                            <label class="block text-gray-700 text-sm font-bold mb-2">Mot de passe</label>
+                            <input
+                                v-model="formData.password"
+                                type="password"
+                                class="w-full p-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                                required
+                                placeholder="••••••••"
+                                minlength="6"
+                            >
+                        </div>
+                        
+                        <button
+                            type="submit"
+                            :disabled="isLoading"
+                            class="w-full bg-blue-500 text-white p-3 rounded-lg hover:bg-blue-600 disabled:opacity-50"
+                        >
+                            <span v-if="isLoading">⏳ Chargement...</span>
+                            <span v-else>{{ isLogin ? 'Se connecter' : "S'inscrire" }}</span>
+                        </button>
+                    </form>
+                    
+                    <p class="mt-6 text-center text-gray-600">
+                        <a href="#" @click.prevent="toggleForm" class="text-blue-500 hover:underline">
+                            {{ isLogin ? "Pas encore de compte ? S'inscrire" : "Déjà inscrit ? Se connecter" }}
+                        </a>
+                    </p>
+                </div>
+            </div>
+
+            <!-- Dashboard Utilisateur Connecté -->
+            <div v-else>
+                <!-- Navigation -->
+                <nav class="bg-white rounded-lg shadow mb-6">
+                    <div class="flex space-x-4 p-4">
+                        <button
+                            @click="currentTab = 'dashboard'"
+                            :class="{'bg-blue-500 text-white': currentTab === 'dashboard', 'text-blue-500': currentTab !== 'dashboard'}"
+                            class="px-4 py-2 rounded-lg font-medium"
+                        >
+                            🏠 Dashboard
+                        </button>
+                        <button
+                            @click="currentTab = 'services'"
+                            :class="{'bg-blue-500 text-white': currentTab === 'services', 'text-blue-500': currentTab !== 'services'}"
+                            class="px-4 py-2 rounded-lg font-medium"
+                        >
+                            💼 Services SEL
+                        </button>
+                        <button
+                            @click="currentTab = 'transactions'"
+                            :class="{'bg-blue-500 text-white': currentTab === 'transactions', 'text-blue-500': currentTab !== 'transactions'}"
+                            class="px-4 py-2 rounded-lg font-medium"
+                        >
+                            💱 Transactions
+                        </button>
+                        <button
+                            @click="currentTab = 'profile'"
+                            :class="{'bg-blue-500 text-white': currentTab === 'profile', 'text-blue-500': currentTab !== 'profile'}"
+                            class="px-4 py-2 rounded-lg font-medium"
+                        >
+                            👤 Profil
+                        </button>
+                    </div>
+                </nav>
+
+                <!-- Dashboard Tab -->
+                <div v-if="currentTab === 'dashboard'">
+                    <!-- Balance SEL -->
+                    <div class="bg-white rounded-lg shadow-lg p-6 mb-6">
+                        <h2 class="text-2xl font-bold mb-4">💰 Ma Balance SEL</h2>
+                        <div v-if="balance" class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                            <div class="text-center p-4 bg-blue-50 rounded-lg">
+                                <div class="text-3xl font-bold" :class="balanceColor">{{ balance.balance }}</div>
+                                <div class="text-gray-600">Unités actuelles</div>
+                            </div>
+                            <div class="text-center p-4 bg-green-50 rounded-lg">
+                                <div class="text-2xl font-bold text-green-600">{{ balance.total_received }}</div>
+                                <div class="text-gray-600">Reçues</div>
+                            </div>
+                            <div class="text-center p-4 bg-orange-50 rounded-lg">
+                                <div class="text-2xl font-bold text-orange-600">{{ balance.total_given }}</div>
+                                <div class="text-gray-600">Données</div>
+                            </div>
+                        </div>
+                        <div class="mt-4 text-sm text-gray-600">
+                            <p><strong>Règles belges :</strong> -300 à +600 unités • 60 unités = 1 heure</p>
+                        </div>
+                    </div>
+
+                    <!-- Services Disponibles -->
+                    <div class="bg-white rounded-lg shadow-lg p-6 mb-6">
+                        <h2 class="text-2xl font-bold mb-4">🛍️ Services Disponibles</h2>
+                        <div v-if="availableServices.length > 0" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+                            <div v-for="service in availableServices" :key="service.id" 
+                                 class="border rounded-lg p-4 hover:shadow-md transition">
+                                <div class="flex justify-between items-start mb-2">
+                                    <h3 class="font-semibold">{{ service.title }}</h3>
+                                    <span class="text-2xl">{{ getCategoryIcon(service.category) }}</span>
+                                </div>
+                                <p class="text-gray-600 text-sm mb-3">{{ service.description }}</p>
+                                <div class="flex justify-between items-center">
+                                    <span class="text-blue-600 font-medium">{{ service.units_per_hour }} unités/h</span>
+                                    <button 
+                                        @click="requestService(service)"
+                                        class="bg-blue-500 text-white px-3 py-1 rounded text-sm hover:bg-blue-600"
+                                    >
+                                        Demander
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                        <p v-else class="text-gray-500">Aucun service disponible pour le moment.</p>
+                    </div>
+                </div>
+
+                <!-- Services Tab -->
+                <div v-if="currentTab === 'services'">
+                    <!-- Mes Services -->
+                    <div class="bg-white rounded-lg shadow-lg p-6 mb-6">
+                        <h2 class="text-2xl font-bold mb-4">💼 Mes Services</h2>
+                        
+                        <!-- Liste mes services -->
+                        <div v-if="myServices.length > 0" class="space-y-4 mb-6">
+                            <div v-for="service in myServices" :key="service.id" 
+                                 class="flex items-center justify-between border rounded-lg p-4">
+                                <div class="flex-1">
+                                    <h3 class="font-semibold">{{ service.title }}</h3>
+                                    <p class="text-gray-600 text-sm">{{ service.description }}</p>
+                                    <span class="inline-block bg-blue-100 text-blue-800 px-2 py-1 rounded text-xs mt-2">
+                                        {{ getCategoryIcon(service.category) }} {{ service.category }}
+                                    </span>
+                                </div>
+                                <div class="text-right">
+                                    <div class="font-medium">{{ service.units_per_hour }} unités/h</div>
+                                    <div class="text-sm" :class="service.is_active ? 'text-green-600' : 'text-red-600'">
+                                        {{ service.is_active ? 'Actif' : 'Inactif' }}
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Formulaire nouveau service -->
+                        <h3 class="text-lg font-semibold mb-4">Proposer un nouveau service</h3>
+                        <form @submit.prevent="createService()" class="space-y-4">
+                            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                                <div>
+                                    <label class="block text-gray-700 text-sm font-bold mb-2">Titre du service</label>
+                                    <input
+                                        v-model="serviceForm.title"
+                                        type="text"
+                                        class="w-full p-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                                        required
+                                        placeholder="ex: Garde après école"
+                                    >
+                                </div>
+                                <div>
+                                    <label class="block text-gray-700 text-sm font-bold mb-2">Catégorie</label>
+                                    <select
+                                        v-model="serviceForm.category"
+                                        class="w-full p-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                                        required
+                                    >
+                                        <option value="">Choisir une catégorie</option>
+                                        <option v-for="cat in categories" :key="cat.id" :value="cat.name">
+                                            {{ cat.icon }} {{ cat.name }} - {{ cat.description }}
+                                        </option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div>
+                                <label class="block text-gray-700 text-sm font-bold mb-2">Description</label>
+                                <textarea
+                                    v-model="serviceForm.description"
+                                    class="w-full p-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                                    rows="3"
+                                    placeholder="Décrivez votre service..."
+                                ></textarea>
+                            </div>
+                            <div class="w-full md:w-1/2">
+                                <label class="block text-gray-700 text-sm font-bold mb-2">Unités par heure</label>
+                                <input
+                                    v-model.number="serviceForm.units_per_hour"
+                                    type="number"
+                                    min="30"
+                                    max="120"
+                                    class="w-full p-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                                    placeholder="60"
+                                >
+                                <div class="text-xs text-gray-500 mt-1">Standard: 60 unités = 1 heure</div>
+                            </div>
+                            <button
+                                type="submit"
+                                :disabled="isLoading"
+                                class="bg-green-500 text-white px-6 py-3 rounded-lg hover:bg-green-600 disabled:opacity-50"
+                            >
+                                Créer le service
+                            </button>
+                        </form>
+                    </div>
+                </div>
+
+                <!-- Transactions Tab -->
+                <div v-if="currentTab === 'transactions'">
+                    <div class="bg-white rounded-lg shadow-lg p-6">
+                        <h2 class="text-2xl font-bold mb-4">💱 Mes Transactions</h2>
+                        
+                        <div v-if="transactions.length > 0" class="space-y-4">
+                            <div v-for="transaction in transactions" :key="transaction.id"
+                                 class="border rounded-lg p-4">
+                                <div class="flex justify-between items-start mb-2">
+                                    <div>
+                                        <div class="font-semibold">
+                                            {{ transaction.from_user_id === user.id ? '→' : '←' }}
+                                            {{ transaction.units }} unités
+                                        </div>
+                                        <div class="text-sm text-gray-600">
+                                            {{ formatDate(transaction.created_at) }}
+                                        </div>
+                                    </div>
+                                    <span class="px-2 py-1 rounded text-xs"
+                                          :class="getStatusClass(transaction.status)">
+                                        {{ getStatusText(transaction.status) }}
+                                    </span>
+                                </div>
+                                <p v-if="transaction.description" class="text-gray-600 text-sm mb-2">
+                                    {{ transaction.description }}
+                                </p>
+                                
+                                <!-- Actions -->
+                                <div v-if="transaction.status === 'pending'" class="flex space-x-2 mt-3">
+                                    <button v-if="transaction.to_user_id === user.id"
+                                            @click="approveTransaction(transaction.id)"
+                                            class="bg-green-500 text-white px-3 py-1 rounded text-sm hover:bg-green-600">
+                                        ✅ Approuver
+                                    </button>
+                                    <button @click="cancelTransaction(transaction.id)"
+                                            class="bg-red-500 text-white px-3 py-1 rounded text-sm hover:bg-red-600">
+                                        ❌ Annuler
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                        <p v-else class="text-gray-500">Aucune transaction pour le moment.</p>
+                    </div>
+                </div>
+
+                <!-- Profile Tab -->
+                <div v-if="currentTab === 'profile'">
+                    <!-- Profil Utilisateur -->
+                    <div class="bg-white rounded-lg shadow-lg p-6 mb-6">
+                        <h2 class="text-2xl font-bold mb-4">👤 Mon Profil</h2>
+                        <div class="space-y-2">
+                            <p><strong>Email:</strong> {{ user.email }}</p>
+                            <p><strong>Prénom:</strong> {{ user.first_name }}</p>
+                            <p><strong>Nom:</strong> {{ user.last_name }}</p>
+                        </div>
+                    </div>
+
+                    <!-- Enfants -->
+                    <div class="bg-white rounded-lg shadow-lg p-6 mb-6">
+                        <h2 class="text-2xl font-bold mb-4">👶 Mes Enfants</h2>
+                        
+                        <div v-if="children.length > 0" class="space-y-3 mb-6">
+                            <div v-for="child in children" :key="child.id"
+                                 class="flex items-center justify-between bg-gray-50 p-3 rounded-lg">
+                                <div>
+                                    <span class="font-semibold">{{ child.first_name }}</span>
+                                    <span class="ml-2 px-2 py-1 bg-blue-100 text-blue-800 rounded text-sm">
+                                        {{ child.class_name }}
+                                    </span>
+                                </div>
+                                <button @click="deleteChild(child.id)" class="text-red-500 hover:text-red-700">
+                                    🗑️
+                                </button>
+                            </div>
+                        </div>
+                        
+                        <form @submit.prevent="addChild()" class="space-y-4">
+                            <div class="grid md:grid-cols-2 gap-4">
+                                <div>
+                                    <label class="block text-gray-700 text-sm font-bold mb-2">Prénom de l'enfant</label>
+                                    <input
+                                        v-model="childForm.first_name"
+                                        type="text"
+                                        class="w-full p-2 border rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
+                                        required
+                                    >
+                                </div>
+                                <div>
+                                    <label class="block text-gray-700 text-sm font-bold mb-2">Classe</label>
+                                    <select
+                                        v-model="childForm.class_name"
+                                        class="w-full p-2 border rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
+                                        required
+                                    >
+                                        <option value="">Choisir une classe</option>
+                                        <option value="M1">M1 (1ère maternelle)</option>
+                                        <option value="M2">M2 (2ème maternelle)</option>
+                                        <option value="M3">M3 (3ème maternelle)</option>
+                                        <option value="P1">P1 (1ère primaire)</option>
+                                        <option value="P2">P2 (2ème primaire)</option>
+                                        <option value="P3">P3 (3ème primaire)</option>
+                                        <option value="P4">P4 (4ème primaire)</option>
+                                        <option value="P5">P5 (5ème primaire)</option>
+                                        <option value="P6">P6 (6ème primaire)</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <button type="submit" class="bg-green-500 text-white px-4 py-2 rounded hover:bg-green-600">
+                                Ajouter l'enfant
+                            </button>
+                        </form>
+                    </div>
+                </div>
+
+                <!-- Info Stage 1 -->
+                <div class="bg-blue-50 border border-blue-200 rounded-lg p-4 mb-6">
+                    <h3 class="text-lg font-semibold text-blue-800 mb-2">🚀 Stage 1 - Système SEL</h3>
+                    <p class="text-blue-700">
+                        Nouvelles fonctionnalités : Système d'Échange Local entre parents.
+                        <br>
+                        <strong>Prochaine étape :</strong> Messagerie temps réel (Stage 2).
+                    </p>
+                </div>
+
+                <!-- Déconnexion -->
+                <div class="text-center">
+                    <button @click="logout()" class="bg-red-500 text-white px-6 py-2 rounded hover:bg-red-600">
+                        Se déconnecter
+                    </button>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <script>
+        const { createApp } = Vue;
+        
+        createApp({
+            data() {
+                return {
+                    // État global
+                    isLoading: false,
+                    errorMessage: '',
+                    successMessage: '',
+                    currentTab: 'dashboard',
+                    
+                    // Auth
+                    isLogin: true,
+                    isAuthenticated: false,
+                    user: null,
+                    
+                    // Forms
+                    formData: { email: '', first_name: '', last_name: '', password: '' },
+                    childForm: { first_name: '', class_name: '' },
+                    serviceForm: { title: '', description: '', category: '', units_per_hour: 60 },
+                    
+                    // SEL Data
+                    balance: null,
+                    categories: [],
+                    myServices: [],
+                    availableServices: [],
+                    transactions: [],
+                    children: []
+                }
+            },
+            
+            computed: {
+                balanceColor() {
+                    if (!this.balance) return 'text-gray-600';
+                    if (this.balance.balance < 0) return 'text-red-600';
+                    if (this.balance.balance > 300) return 'text-green-600';
+                    return 'text-blue-600';
+                }
+            },
+            
+            async mounted() {
+                const token = localStorage.getItem('token');
+                if (token) {
+                    await this.loadUserData(token);
+                }
+                await this.loadCategories();
+            },
+            
+            methods: {
+                async loadUserData(token) {
+                    try {
+                        const userResponse = await fetch('/me', {
+                            headers: { 'Authorization': `Bearer ${token}` }
+                        });
+                        
+                        if (userResponse.ok) {
+                            this.user = await userResponse.json();
+                            this.isAuthenticated = true;
+                            await this.loadAllData();
+                        } else {
+                            localStorage.removeItem('token');
+                        }
+                    } catch (error) {
+                        console.error('Erreur chargement utilisateur:', error);
+                        localStorage.removeItem('token');
+                    }
+                },
+                
+                async loadAllData() {
+                    await Promise.all([
+                        this.loadBalance(),
+                        this.loadChildren(),
+                        this.loadMyServices(),
+                        this.loadAvailableServices(),
+                        this.loadTransactions()
+                    ]);
+                },
+                
+                async loadBalance() {
+                    try {
+                        const token = localStorage.getItem('token');
+                        const response = await fetch('/sel/balance', {
+                            headers: { 'Authorization': `Bearer ${token}` }
+                        });
+                        if (response.ok) {
+                            this.balance = await response.json();
+                        }
+                    } catch (error) {
+                        console.error('Erreur balance:', error);
+                    }
+                },
+                
+                async loadCategories() {
+                    try {
+                        const response = await fetch('/sel/categories');
+                        if (response.ok) {
+                            this.categories = await response.json();
+                        }
+                    } catch (error) {
+                        console.error('Erreur catégories:', error);
+                    }
+                },
+                
+                async loadMyServices() {
+                    try {
+                        const token = localStorage.getItem('token');
+                        const response = await fetch('/sel/services/mine', {
+                            headers: { 'Authorization': `Bearer ${token}` }
+                        });
+                        if (response.ok) {
+                            this.myServices = await response.json();
+                        }
+                    } catch (error) {
+                        console.error('Erreur services:', error);
+                    }
+                },
+                
+                async loadAvailableServices() {
+                    try {
+                        const token = localStorage.getItem('token');
+                        const response = await fetch('/sel/services', {
+                            headers: { 'Authorization': `Bearer ${token}` }
+                        });
+                        if (response.ok) {
+                            this.availableServices = await response.json();
+                        }
+                    } catch (error) {
+                        console.error('Erreur services disponibles:', error);
+                    }
+                },
+                
+                async loadTransactions() {
+                    try {
+                        const token = localStorage.getItem('token');
+                        const response = await fetch('/sel/transactions', {
+                            headers: { 'Authorization': `Bearer ${token}` }
+                        });
+                        if (response.ok) {
+                            this.transactions = await response.json();
+                        }
+                    } catch (error) {
+                        console.error('Erreur transactions:', error);
+                    }
+                },
+                
+                async loadChildren() {
+                    try {
+                        const token = localStorage.getItem('token');
+                        const response = await fetch('/children', {
+                            headers: { 'Authorization': `Bearer ${token}` }
+                        });
+                        if (response.ok) {
+                            this.children = await response.json();
+                        }
+                    } catch (error) {
+                        console.error('Erreur enfants:', error);
+                    }
+                },
+                
+                async register() {
+                    this.isLoading = true;
+                    this.errorMessage = '';
+                    
+                    try {
+                        const response = await fetch('/register', {
+                            method: 'POST',
+                            headers: { 'Content-Type': 'application/json' },
+                            body: JSON.stringify(this.formData)
+                        });
+                        
+                        if (response.ok) {
+                            const data = await response.json();
+                            localStorage.setItem('token', data.access_token);
+                            await this.loadUserData(data.access_token);
+                            this.successMessage = 'Inscription réussie ! Balance SEL: 120 unités créée.';
+                        } else {
+                            const errorData = await response.json();
+                            this.errorMessage = errorData.detail || 'Erreur inscription';
+                        }
+                    } catch (error) {
+                        this.errorMessage = 'Erreur de connexion au serveur';
+                    } finally {
+                        this.isLoading = false;
+                    }
+                },
+                
+                async login() {
+                    this.isLoading = true;
+                    this.errorMessage = '';
+                    
+                    try {
+                        const formData = new FormData();
+                        formData.append('email', this.formData.email);
+                        formData.append('password', this.formData.password);
+                        
+                        const response = await fetch('/login', {
+                            method: 'POST',
+                            body: formData
+                        });
+                        
+                        if (response.ok) {
+                            const data = await response.json();
+                            localStorage.setItem('token', data.access_token);
+                            await this.loadUserData(data.access_token);
+                            this.successMessage = 'Connexion réussie !';
+                        } else {
+                            this.errorMessage = 'Email ou mot de passe incorrect';
+                        }
+                    } catch (error) {
+                        this.errorMessage = 'Erreur de connexion au serveur';
+                    } finally {
+                        this.isLoading = false;
+                    }
+                },
+                
+                async createService() {
+                    this.isLoading = true;
+                    
+                    try {
+                        const token = localStorage.getItem('token');
+                        const response = await fetch('/sel/services', {
+                            method: 'POST',
+                            headers: {
+                                'Content-Type': 'application/json',
+                                'Authorization': `Bearer ${token}`
+                            },
+                            body: JSON.stringify(this.serviceForm)
+                        });
+                        
+                        if (response.ok) {
+                            await this.loadMyServices();
+                            await this.loadAvailableServices();
+                            this.serviceForm = { title: '', description: '', category: '', units_per_hour: 60 };
+                            this.successMessage = 'Service créé avec succès !';
+                        } else {
+                            const errorData = await response.json();
+                            this.errorMessage = errorData.detail || 'Erreur création service';
+                        }
+                    } catch (error) {
+                        this.errorMessage = 'Erreur de connexion';
+                    } finally {
+                        this.isLoading = false;
+                    }
+                },
+                
+                async addChild() {
+                    this.isLoading = true;
+                    
+                    try {
+                        const token = localStorage.getItem('token');
+                        const response = await fetch('/children', {
+                            method: 'POST',
+                            headers: {
+                                'Content-Type': 'application/json',
+                                'Authorization': `Bearer ${token}`
+                            },
+                            body: JSON.stringify(this.childForm)
+                        });
+                        
+                        if (response.ok) {
+                            await this.loadChildren();
+                            this.childForm = { first_name: '', class_name: '' };
+                            this.successMessage = 'Enfant ajouté !';
+                        } else {
+                            const errorData = await response.json();
+                            this.errorMessage = errorData.detail || 'Erreur ajout enfant';
+                        }
+                    } catch (error) {
+                        this.errorMessage = 'Erreur de connexion';
+                    } finally {
+                        this.isLoading = false;
+                    }
+                },
+                
+                async deleteChild(childId) {
+                    if (!confirm('Supprimer cet enfant ?')) return;
+                    
+                    try {
+                        const token = localStorage.getItem('token');
+                        const response = await fetch(`/children/${childId}`, {
+                            method: 'DELETE',
+                            headers: { 'Authorization': `Bearer ${token}` }
+                        });
+                        
+                        if (response.ok) {
+                            await this.loadChildren();
+                            this.successMessage = 'Enfant supprimé';
+                        }
+                    } catch (error) {
+                        this.errorMessage = 'Erreur suppression';
+                    }
+                },
+                
+                getCategoryIcon(category) {
+                    const cat = this.categories.find(c => c.name === category);
+                    return cat ? cat.icon : '💡';
+                },
+                
+                getStatusClass(status) {
+                    const classes = {
+                        pending: 'bg-yellow-100 text-yellow-800',
+                        approved: 'bg-green-100 text-green-800',
+                        completed: 'bg-blue-100 text-blue-800',
+                        cancelled: 'bg-red-100 text-red-800'
+                    };
+                    return classes[status] || 'bg-gray-100 text-gray-800';
+                },
+                
+                getStatusText(status) {
+                    const texts = {
+                        pending: 'En attente',
+                        approved: 'Approuvée', 
+                        completed: 'Terminée',
+                        cancelled: 'Annulée'
+                    };
+                    return texts[status] || status;
+                },
+                
+                formatDate(dateStr) {
+                    return new Date(dateStr).toLocaleString('fr-BE');
+                },
+                
+                toggleForm() {
+                    this.isLogin = !this.isLogin;
+                    this.formData = { email: '', first_name: '', last_name: '', password: '' };
+                    this.errorMessage = '';
+                },
+                
+                logout() {
+                    localStorage.removeItem('token');
+                    this.isAuthenticated = false;
+                    this.user = null;
+                    this.currentTab = 'dashboard';
+                    this.successMessage = 'Déconnexion réussie';
+                }
+            }
+        }).mount('#app');
+    </script>
+</body>
+</html>
