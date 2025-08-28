@@ -1,6 +1,6 @@
 # 🏫 EcoleHub - Stage 2
 
-Plateforme scolaire collaborative pour l'École Notre-Dame Immaculée, Evere (Bruxelles).
+Plateforme scolaire collaborative pour l'EcoleHub (Bruxelles).
 
 **Stage Actuel** : Messagerie temps réel + Événements école + Système SEL complet.
 
@@ -39,11 +39,11 @@ open http://localhost
 ### 💬 Messages (Stage 2)
 - ✅ **Messages directs** : Parent-à-parent avec auto-refresh 3s
 - ✅ **Groupes classe** : M1, M2, M3, P1, P2, P3, P4, P5, P6
-- ✅ **Annonces école** : Canal officiel Notre-Dame Immaculée
+- ✅ **Annonces école** : Canal officiel EcoleHub
 - ✅ **Interface chat** : Bulles, timestamps, auto-scroll
 
 ### 📅 Événements École (Stage 2)
-- ✅ **🍝 Spaghetti Saint-Nicolas** : Tradition NDI (6 décembre)
+- ✅ **🍝 Spaghetti Saint-Nicolas** : Tradition EcoleHub (6 décembre)
 - ✅ **Fancy Fair** : Fête annuelle + stands + spectacles
 - ✅ **Carnaval** : Déguisements + concours costumes
 - ✅ **Classes vertes P6** : Séjour Ardennes belges
@@ -257,7 +257,7 @@ docker-compose logs frontend
 
 ### Contact
 - **Technique** : Voir les issues GitHub
-- **École** : Contact administration École Notre-Dame Immaculée
+- **École** : Contact administration EcoleHub
 
 ## 📝 Licence
 
@@ -269,4 +269,4 @@ Open Source - Réutilisable par d'autres écoles.
 
 **Version** : Stage 0 (v0.1.0)  
 **Dernière mise à jour** : $(date +%Y-%m-%d)  
-**École** : École Notre-Dame Immaculée, Evere, Bruxelles 🇧🇪
+**École** : EcoleHub, Bruxelles 🇧🇪

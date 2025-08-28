@@ -4,7 +4,7 @@
 EcoleHub - Plateforme scolaire collaborative belge avec croissance progressive par stages.
 
 ## Contexte Éducatif Belge
-- École Notre-Dame Immaculée à Evere, Bruxelles
+- EcoleHub à Bruxelles
 - Système scolaire: M1-M3 (maternelle), P1-P6 (primaire)
 - CEB (Certificat d'Études de Base) en fin de P6
 - Communautés linguistiques: FR (principal), NL, EN (optionnel)

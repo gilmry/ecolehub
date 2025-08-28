@@ -1,6 +1,6 @@
 # 🏫 EcoleHub Stage 1 - Système SEL
 
-Plateforme scolaire collaborative avec **Système d'Échange Local (SEL)** pour l'École Notre-Dame Immaculée, Evere.
+Plateforme scolaire collaborative avec **Système d'Échange Local (SEL)** pour l'EcoleHub.
 
 **Stage 1** : PostgreSQL + Système SEL pour 30 familles.
 
@@ -220,4 +220,4 @@ SELECT * FROM sel_transactions; # Voir transactions
 **Version** : Stage 1 (v1.0.0)  
 **Base de données** : PostgreSQL 15  
 **Capacité** : 30 familles  
-**École** : École Notre-Dame Immaculée, Evere 🏫
+**École** : EcoleHub 🏫

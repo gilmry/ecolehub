@@ -85,7 +85,7 @@ class Token(BaseModel):
 app = FastAPI(
     title="EcoleHub Stage 0",
     version="0.1.0",
-    description="Plateforme scolaire collaborative - École Notre-Dame Immaculée, Evere"
+    description="Plateforme scolaire collaborative - EcoleHub"
 )
 
 app.add_middleware(
@@ -154,7 +154,7 @@ def read_root():
     return {
         "message": "EcoleHub API Stage 0", 
         "status": "running",
-        "école": "École Notre-Dame Immaculée, Evere",
+        "école": "EcoleHub",
         "version": "0.1.0"
     }
 
@@ -263,7 +263,7 @@ def health_check():
         "status": "healthy", 
         "stage": 0,
         "database": "SQLite",
-        "école": "École Notre-Dame Immaculée, Evere"
+        "école": "EcoleHub"
     }
 
 if __name__ == "__main__":

@@ -123,12 +123,12 @@ ON CONFLICT DO NOTHING;
 -- General school announcement conversation
 INSERT INTO conversations (name, type, created_by)
 SELECT 
-    'Annonces École Notre-Dame Immaculée',
+    'Annonces EcoleHub',
     'announcement', 
     (SELECT id FROM users LIMIT 1)
 WHERE NOT EXISTS (SELECT 1 FROM conversations WHERE type = 'announcement' AND name LIKE '%Notre-Dame%');
 
--- Sample school events (École Notre-Dame Immaculée specific)
+-- Sample school events (EcoleHub specific)
 INSERT INTO events (title, description, start_date, end_date, location, event_type, registration_required, max_participants, created_by)
 SELECT 
     'Spaghetti de Saint-Nicolas',
@@ -144,7 +144,7 @@ WHERE NOT EXISTS (SELECT 1 FROM events WHERE title LIKE '%Spaghetti%Saint%');
 
 INSERT INTO events (title, description, start_date, end_date, location, event_type, registration_required, created_by)
 SELECT 
-    'Fancy Fair Notre-Dame Immaculée 2025',
+    'Fancy Fair EcoleHub 2025',
     'Grande fête annuelle de l''école avec stands, tombola, jeux, restauration et spectacles des enfants',
     '2025-05-17 10:00:00'::timestamptz,
     '2025-05-17 18:00:00'::timestamptz,

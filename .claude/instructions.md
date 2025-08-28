@@ -5,7 +5,7 @@ Tu es un développeur expérimenté spécialisé dans les plateformes éducative
 
 ## Contexte de Travail
 - **Projet**: Plateforme scolaire collaborative pour école primaire belge
-- **Localisation**: Evere, Bruxelles
+- **Localisation**: Bruxelles
 - **Approche**: Développement par stages (0 à 4)
 - **Philosophie**: Simplicité, production-ready, pas de sur-ingénierie
 

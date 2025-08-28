@@ -1,6 +1,6 @@
 # 🚀 Installation Guide - EcoleHub Stage 0
 
-Guide d'installation pour EcoleHub - École Notre-Dame Immaculée, Evere.
+Guide d'installation pour EcoleHub - EcoleHub.
 
 ## ⚡ Installation Rapide (5 minutes)
 
@@ -117,7 +117,7 @@ curl -I http://localhost/
 curl -X POST http://localhost:8000/register \
   -H "Content-Type: application/json" \
   -d '{
-    "email": "parent@ndi.be",
+    "email": "parent@ecolehub.local",
     "password": "motdepasse123",
     "first_name": "Marie",
     "last_name": "Martin"
@@ -319,8 +319,8 @@ docker-compose logs --tail=20
 
 ### Contact
 - **Issues Techniques**: [GitHub Issues](https://github.com/votre-org/schoolhub/issues)
-- **École**: Administration École Notre-Dame Immaculée
-- **Email**: admin@ndi.be (exemple)
+- **École**: Administration EcoleHub
+- **Email**: admin@ecolehub.local (exemple)
 
 ### Informations Système
 ```bash
@@ -348,4 +348,4 @@ Une fois Stage 0 stable avec 5+ familles :
 ---
 
 **Version**: Stage 0 (v0.1.0)  
-**École**: École Notre-Dame Immaculée, Evere 🏫
+**École**: EcoleHub 🏫

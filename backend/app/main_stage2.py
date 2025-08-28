@@ -63,7 +63,7 @@ pwd_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
 app = FastAPI(
     title="EcoleHub Stage 2 - Messaging + Events",
     version="2.0.0", 
-    description="Plateforme scolaire collaborative avec messagerie temps réel - École Notre-Dame Immaculée, Evere"
+    description="Plateforme scolaire collaborative avec messagerie temps réel - EcoleHub"
 )
 
 app.add_middleware(
@@ -141,7 +141,7 @@ def read_root():
     return {
         "message": "EcoleHub API Stage 2 - Messaging + Events", 
         "status": "running",
-        "école": "École Notre-Dame Immaculée, Evere",
+        "école": "EcoleHub",
         "version": "2.0.0",
         "features": ["Authentication", "Profiles", "Children", "SEL System", "Messaging", "Events", "Real-time"]
     }
@@ -169,7 +169,7 @@ def health_check(db: Session = Depends(get_db), redis_conn = Depends(get_redis))
         "database_status": db_status,
         "redis": "Redis",
         "redis_status": redis_status,
-        "école": "École Notre-Dame Immaculée, Evere"
+        "école": "EcoleHub"
     }
 
 # ==========================================

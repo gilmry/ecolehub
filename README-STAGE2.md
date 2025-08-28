@@ -1,6 +1,6 @@
 # 🏫 EcoleHub Stage 2 - Messages + Événements
 
-Plateforme scolaire collaborative avec **messagerie temps réel** et **système d'événements** pour l'École Notre-Dame Immaculée, Evere.
+Plateforme scolaire collaborative avec **messagerie temps réel** et **système d'événements** pour l'EcoleHub.
 
 **Stage 2** : Messages + Événements + Redis pour 60 familles.
 
@@ -9,11 +9,11 @@ Plateforme scolaire collaborative avec **messagerie temps réel** et **système 
 ### 💬 Messagerie Temps Réel
 - **Messages directs** : Parent-à-parent avec conversations privées
 - **Groupes classe** : Conversations automatiques par classe (M1-M3, P1-P6)  
-- **Annonces école** : Communication officielle École Notre-Dame Immaculée
+- **Annonces école** : Communication officielle EcoleHub
 - **Auto-refresh** : Messages mis à jour toutes les 3 secondes
 - **Interface chat** : Bulles messages, timestamps, auto-scroll
 
-### 📅 Événements École Notre-Dame Immaculée
+### 📅 Événements EcoleHub
 - **Spaghetti de Saint-Nicolas** : Tradition de l'école (6 décembre)
 - **Fancy Fair** : Grande fête annuelle avec stands et spectacles
 - **Carnaval** : Défilé costumes et concours
@@ -79,7 +79,7 @@ curl http://localhost:8000/health
 **Fonctionnalités :**
 - **Inscription** avec limites de places
 - **Filtres** par type d'événement
-- **Calendrier** belge avec dates spécifiques NDI
+- **Calendrier** belge avec dates spécifiques EcoleHub
 
 ## 🔌 API Stage 2
 
@@ -157,7 +157,7 @@ STAGE=2
 5. **Jean** répond → Marie voit la réponse
 
 ### Test Événements École
-1. **Onglet Événements** → Voir événements NDI
+1. **Onglet Événements** → Voir événements EcoleHub
 2. **"Spaghetti de Saint-Nicolas"** → S'inscrire
 3. **Filtre "Fêtes"** → Voir Fancy Fair + Carnaval
 4. **Vérifier limites** : Places disponibles/maximum
@@ -167,7 +167,7 @@ STAGE=2
 2. **Onglet Messages** → Voir "Classe P3" automatiquement
 3. **Conversation classe** pour communication parents P3
 
-## 🇧🇪 Spécificités École Notre-Dame Immaculée
+## 🇧🇪 Spécificités EcoleHub
 
 ### Événements Traditionnels
 - **🍝 Spaghetti de Saint-Nicolas** : 6 décembre (120 places)
@@ -209,5 +209,5 @@ STAGE=2
 **Version** : Stage 2 (v2.0.0)  
 **Infrastructure** : PostgreSQL + Redis  
 **Capacité** : 60 familles  
-**École** : École Notre-Dame Immaculée, Evere 🏫  
+**École** : EcoleHub 🏫  
 **Spécialité** : Spaghetti de Saint-Nicolas ! 🍝

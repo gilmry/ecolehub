@@ -42,7 +42,7 @@ pwd_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
 app = FastAPI(
     title="EcoleHub Stage 1 - SEL",
     version="1.0.0",
-    description="Plateforme scolaire collaborative avec SEL - École Notre-Dame Immaculée, Evere"
+    description="Plateforme scolaire collaborative avec SEL - EcoleHub"
 )
 
 app.add_middleware(
@@ -114,7 +114,7 @@ def read_root():
     return {
         "message": "EcoleHub API Stage 1 - SEL", 
         "status": "running",
-        "école": "École Notre-Dame Immaculée, Evere",
+        "école": "EcoleHub",
         "version": "1.0.0",
         "features": ["Authentication", "Profiles", "Children", "SEL System"]
     }
@@ -133,7 +133,7 @@ def health_check(db: Session = Depends(get_db)):
         "stage": 1,
         "database": "PostgreSQL",
         "database_status": db_status,
-        "école": "École Notre-Dame Immaculée, Evere"
+        "école": "EcoleHub"
     }
 
 # Authentication Endpoints

@@ -124,8 +124,8 @@ INSERT INTO sel_categories (name, description, icon) VALUES
 -- Create initial admin user (optional, for testing)
 -- Password: admin123 (hashed with bcrypt)
 INSERT INTO users (email, first_name, last_name, hashed_password, is_verified) VALUES
-    ('admin@ndi.be', 'Admin', 'EcoleHub', '$2b$12$LQv3c1yqBWVHxkd0LHAkCOYz6TtxMQJqyc/Zo/.VjLaU0LYaOlOta', true);
+    ('admin@ecolehub.local', 'Admin', 'EcoleHub', '$2b$12$LQv3c1yqBWVHxkd0LHAkCOYz6TtxMQJqyc/Zo/.VjLaU0LYaOlOta', true);
 
 -- Create initial balance for admin
 INSERT INTO sel_balances (user_id, balance) 
-SELECT id, 120 FROM users WHERE email = 'admin@ndi.be';
+SELECT id, 120 FROM users WHERE email = 'admin@ecolehub.local';

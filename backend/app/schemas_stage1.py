@@ -6,7 +6,7 @@ from enum import Enum
 
 # Enums
 class TransactionStatus(str, Enum):
-    PENDING = "pending"
+    PEEcoleHubNG = "pending"
     APPROVED = "approved"
     COMPLETED = "completed"
     CANCELLED = "cancelled"

@@ -24,7 +24,7 @@
 ## Spécificités Bruxelles/Evere
 
 ### Contexte Géographique
-- **École**: École Notre-Dame Immaculée
+- **École**: EcoleHub
 - **Commune**: Evere (19 communes bruxelloises)
 - **Région**: Bruxelles-Capitale
 - **Communauté**: Française (majorité) + Flamande

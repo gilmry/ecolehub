@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>EcoleHub Stage 2 - École Notre-Dame Immaculée</title>
+    <title>EcoleHub Stage 3</title>
     <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
@@ -16,9 +16,9 @@
         <header class="bg-white shadow">
             <div class="max-w-6xl mx-auto px-4 py-6">
                 <h1 class="text-3xl font-bold text-gray-900">
-                    🏫 EcoleHub Stage 2 - École Notre-Dame Immaculée
+                    🏫 EcoleHub Stage 3
                 </h1>
-                <p class="text-gray-600 mt-2">Plateforme collaborative temps réel - Messages + Événements - Evere</p>
+                <p class="text-gray-600 mt-2">Plateforme collaborative complète - Boutique + Éducation</p>
                 <div v-if="isAuthenticated" class="mt-2 flex justify-between items-center">
                     <span class="text-sm text-green-600">
                         Connecté: {{ user.first_name }} {{ user.last_name }}
@@ -60,7 +60,7 @@
                                 type="email"
                                 class="w-full p-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
                                 required
-                                placeholder="votre.email@ndi.be"
+                                placeholder="votre.email@ecolehub.local"
                             >
                         </div>
                         
@@ -155,6 +155,20 @@
                             class="px-4 py-2 rounded-lg font-medium"
                         >
                             📅 Événements
+                        </button>
+                        <button
+                            @click="currentTab = 'shop'"
+                            :class="{'bg-blue-500 text-white': currentTab === 'shop', 'text-blue-500': currentTab !== 'shop'}"
+                            class="px-4 py-2 rounded-lg font-medium"
+                        >
+                            🛒 Boutique
+                        </button>
+                        <button
+                            @click="currentTab = 'education'"
+                            :class="{'bg-blue-500 text-white': currentTab === 'education', 'text-blue-500': currentTab !== 'education'}"
+                            class="px-4 py-2 rounded-lg font-medium"
+                        >
+                            📚 Éducation
                         </button>
                         <button
                             @click="currentTab = 'profile'"
@@ -613,6 +627,86 @@
                             </div>
                         </div>
                         <p v-else class="text-gray-500">Aucun événement {{ eventFilter === 'all' ? '' : 'dans cette catégorie' }}.</p>
+                    </div>
+                </div>
+
+                <!-- Shop Tab -->
+                <div v-if="currentTab === 'shop'">
+                    <div class="bg-white rounded-lg shadow-lg p-6">
+                        <h2 class="text-2xl font-bold mb-4">🛒 Boutique EcoleHub</h2>
+                        
+                        <!-- Coming soon message -->
+                        <div class="bg-blue-50 border border-blue-200 rounded-lg p-6 text-center">
+                            <div class="text-6xl mb-4">🏗️</div>
+                            <h3 class="text-xl font-semibold text-blue-800 mb-2">Boutique Collaborative en Construction</h3>
+                            <p class="text-blue-700 mb-4">
+                                Prochainement : Commandes groupées de fournitures scolaires, 
+                                T-shirts avec logo école, agendas personnalisés...
+                            </p>
+                            <div class="grid grid-cols-1 md:grid-cols-2 gap-4 text-left">
+                                <div class="bg-white p-4 rounded-lg">
+                                    <h4 class="font-semibold text-gray-800 mb-2">🎽 Articles EcoleHub</h4>
+                                    <ul class="text-sm text-gray-600 space-y-1">
+                                        <li>• T-shirts avec logo école</li>
+                                        <li>• Sacs à dos école</li>
+                                        <li>• Agendas scolaires personnalisés</li>
+                                        <li>• Cahiers avec logo école</li>
+                                    </ul>
+                                </div>
+                                <div class="bg-white p-4 rounded-lg">
+                                    <h4 class="font-semibold text-gray-800 mb-2">📚 Fournitures Groupées</h4>
+                                    <ul class="text-sm text-gray-600 space-y-1">
+                                        <li>• Listes fournitures par classe</li>
+                                        <li>• Commandes groupées parents</li>
+                                        <li>• Prix préférentiels négociés</li>
+                                        <li>• Livraison école directe</li>
+                                    </ul>
+                                </div>
+                            </div>
+                            <p class="text-sm text-blue-600 mt-4">
+                                💳 Paiements via Mollie (Bancontact, carte, virement)
+                            </p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Education Tab -->
+                <div v-if="currentTab === 'education'">
+                    <div class="bg-white rounded-lg shadow-lg p-6">
+                        <h2 class="text-2xl font-bold mb-4">📚 Éducation EcoleHub</h2>
+                        
+                        <!-- Coming soon message -->
+                        <div class="bg-green-50 border border-green-200 rounded-lg p-6 text-center">
+                            <div class="text-6xl mb-4">📖</div>
+                            <h3 class="text-xl font-semibold text-green-800 mb-2">Module Éducatif en Développement</h3>
+                            <p class="text-green-700 mb-4">
+                                Prochainement : Ressources pédagogiques, listes de fournitures, 
+                                calendrier scolaire et communications école.
+                            </p>
+                            <div class="grid grid-cols-1 md:grid-cols-2 gap-4 text-left">
+                                <div class="bg-white p-4 rounded-lg">
+                                    <h4 class="font-semibold text-gray-800 mb-2">📋 Ressources Classe</h4>
+                                    <ul class="text-sm text-gray-600 space-y-1">
+                                        <li>• Listes fournitures P1-P6, M1-M3</li>
+                                        <li>• Calendrier scolaire belge</li>
+                                        <li>• Formulaires école (inscriptions, sorties)</li>
+                                        <li>• Règlement intérieur école</li>
+                                    </ul>
+                                </div>
+                                <div class="bg-white p-4 rounded-lg">
+                                    <h4 class="font-semibold text-gray-800 mb-2">📢 Communications</h4>
+                                    <ul class="text-sm text-gray-600 space-y-1">
+                                        <li>• Annonces direction école</li>
+                                        <li>• Projet éducatif EcoleHub</li>
+                                        <li>• Info réunions parents</li>
+                                        <li>• Événements spéciaux école</li>
+                                    </ul>
+                                </div>
+                            </div>
+                            <p class="text-sm text-green-600 mt-4">
+                                📁 Stockage sécurisé avec accès contrôlé par classe
+                            </p>
+                        </div>
                     </div>
                 </div>
 

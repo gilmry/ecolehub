@@ -120,7 +120,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 #### 🇧🇪 Belgian Localization
 - **School Classes**: M1, M2, M3, P1, P2, P3, P4, P5, P6 validation
 - **French Interface**: Primary language support
-- **École Notre-Dame Immaculée**: Branded for specific school in Evere
+- **EcoleHub**: Branded for specific school in Evere
 - **Belgian Context**: Ready for multilingual support (FR/NL/EN)
 
 #### 🚀 Infrastructure & DevOps
@@ -168,7 +168,7 @@ ecolehub/
 
 ## Release Notes
 
-This initial release provides a solid foundation for the École Notre-Dame Immaculée parent collaboration platform. The Stage 0 implementation focuses on simplicity, security, and Belgian educational context compliance.
+This initial release provides a solid foundation for the EcoleHub parent collaboration platform. The Stage 0 implementation focuses on simplicity, security, and Belgian educational context compliance.
 
 ### Installation
 ```bash
@@ -180,7 +180,7 @@ docker-compose up -d
 
 ### Support
 - **Technical Issues**: GitHub Issues
-- **School Contact**: École Notre-Dame Immaculée administration
+- **School Contact**: EcoleHub administration
 
 ### License
 MIT License - See [LICENSE](LICENSE) file for details.

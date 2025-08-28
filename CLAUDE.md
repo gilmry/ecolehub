@@ -7,7 +7,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 EcoleHub is a Belgian school collaborative platform with progressive modular growth. The project follows a staged development approach where each stage builds upon the previous one while remaining functional independently.
 
 ### Target Context
-- École Notre-Dame Immaculée (Catholic primary school in Evere, Brussels)  
+- EcoleHub (Catholic primary school in Brussels)  
 - Belgian school system: M1-M3 (maternelle), P1-P6 (primaire), CEB in P6
 - Progressive growth from 5 families (Stage 0) to 200+ families (Stage 4)
 - Budget constraint: Max 10€/month VPS
