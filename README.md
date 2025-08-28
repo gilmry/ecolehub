@@ -1,4 +1,4 @@
-# 🏫 EcoleHub - Stage 2
+# 🏫 EcoleHub - Stage 3
 
 Plateforme scolaire collaborative pour l'EcoleHub (Bruxelles).
 
@@ -10,13 +10,13 @@ Plateforme scolaire collaborative pour l'EcoleHub (Bruxelles).
 - Docker & Docker Compose
 - Git
 
-### Démarrage Stage 2
+### Démarrage Stage 3
 ```bash
 # 1. Cloner le projet
 git clone git@github.com:gilmry/ecolehub.git
 cd ecolehub
 
-# 2. Lancer Stage 2 (Messaging + Events)
+# 2. Lancer Stage 3 (Messaging + Events)
 cp .env.stage2.example .env
 docker-compose -f docker-compose.stage2.yml up -d
 
@@ -26,9 +26,9 @@ open http://localhost
 
 **C'est tout !** 🎉
 
-📖 **Guides détaillés** : [INSTALL.md](INSTALL.md) • [Stage 1](README-STAGE1.md) • [Stage 2](README-STAGE2.md)
+📖 **Guides détaillés** : [INSTALL.md](INSTALL.md) • [Stage 1](README-STAGE1.md) • [Stage 3](README-STAGE2.md)
 
-## ✅ Fonctionnalités Stage 2
+## ✅ Fonctionnalités Stage 3
 
 ### 🏠 Base (Stages 0+1)
 - ✅ **Inscription/Connexion** avec email + mot de passe
@@ -36,20 +36,20 @@ open http://localhost
 - ✅ **Système SEL** : Échanges entre parents (-300/+600 unités)
 - ✅ **Services** : 10 catégories + propositions communautaires
 
-### 💬 Messages (Stage 2)
+### 💬 Messages (Stage 3)
 - ✅ **Messages directs** : Parent-à-parent avec auto-refresh 3s
 - ✅ **Groupes classe** : M1, M2, M3, P1, P2, P3, P4, P5, P6
 - ✅ **Annonces école** : Canal officiel EcoleHub
 - ✅ **Interface chat** : Bulles, timestamps, auto-scroll
 
-### 📅 Événements École (Stage 2)
+### 📅 Événements École (Stage 3)
 - ✅ **🍝 Spaghetti Saint-Nicolas** : Tradition EcoleHub (6 décembre)
 - ✅ **Fancy Fair** : Fête annuelle + stands + spectacles
 - ✅ **Carnaval** : Déguisements + concours costumes
 - ✅ **Classes vertes P6** : Séjour Ardennes belges
 - ✅ **Inscriptions** : Avec limites + deadlines
 
-## 🏗️ Architecture Stage 2
+## 🏗️ Architecture Stage 3
 
 ```
 ┌─────────────┐    ┌─────────────┐    ┌─────────────┐    ┌─────────────┐
@@ -59,7 +59,7 @@ open http://localhost
 └─────────────┘    └─────────────┘    └─────────────┘    └─────────────┘
 ```
 
-### Stack Technique Stage 2
+### Stack Technique Stage 3
 - **Backend** : FastAPI + PostgreSQL + Redis + WebSockets
 - **Frontend** : Vue 3 responsive avec 6 onglets
 - **Cache** : Redis pour sessions + temps réel
@@ -215,9 +215,9 @@ curl -X POST http://localhost:8000/register \
 - **PostgreSQL** : Base évolutive (30 familles)
 - **Documentation** : [README-STAGE1.md](README-STAGE1.md)
 
-### Stage 2 - Messages + Événements ✨ **ACTUEL**
+### Stage 3 - Messages + Événements ✨ **ACTUEL**
 ```bash
-# Migration Stage 1 → Stage 2
+# Migration Stage 1 → Stage 3
 cp .env.stage2.example .env
 docker-compose -f docker-compose.stage2.yml up -d
 ```

@@ -177,6 +177,14 @@
                         >
                             👤 Profil
                         </button>
+                        <button
+                            v-if="user && user.email && (user.email.includes('admin') || user.email.includes('direction'))"
+                            @click="currentTab = 'admin'"
+                            :class="{'bg-red-500 text-white': currentTab === 'admin', 'text-red-500': currentTab !== 'admin'}"
+                            class="px-4 py-2 rounded-lg font-medium"
+                        >
+                            ⚙️ Admin
+                        </button>
                     </div>
                 </nav>
 
@@ -633,39 +641,105 @@
                 <!-- Shop Tab -->
                 <div v-if="currentTab === 'shop'">
                     <div class="bg-white rounded-lg shadow-lg p-6">
-                        <h2 class="text-2xl font-bold mb-4">🛒 Boutique EcoleHub</h2>
+                        <h2 class="text-2xl font-bold mb-4">🛒 Boutique Collaborative EcoleHub</h2>
                         
-                        <!-- Coming soon message -->
-                        <div class="bg-blue-50 border border-blue-200 rounded-lg p-6 text-center">
-                            <div class="text-6xl mb-4">🏗️</div>
-                            <h3 class="text-xl font-semibold text-blue-800 mb-2">Boutique Collaborative en Construction</h3>
-                            <p class="text-blue-700 mb-4">
-                                Prochainement : Commandes groupées de fournitures scolaires, 
-                                T-shirts avec logo école, agendas personnalisés...
-                            </p>
-                            <div class="grid grid-cols-1 md:grid-cols-2 gap-4 text-left">
-                                <div class="bg-white p-4 rounded-lg">
-                                    <h4 class="font-semibold text-gray-800 mb-2">🎽 Articles EcoleHub</h4>
-                                    <ul class="text-sm text-gray-600 space-y-1">
-                                        <li>• T-shirts avec logo école</li>
-                                        <li>• Sacs à dos école</li>
-                                        <li>• Agendas scolaires personnalisés</li>
-                                        <li>• Cahiers avec logo école</li>
-                                    </ul>
+                        <!-- Filtres boutique -->
+                        <div class="mb-6 flex flex-wrap gap-2">
+                            <button
+                                @click="shopFilter = 'all'"
+                                :class="shopFilter === 'all' ? 'bg-blue-500 text-white' : 'bg-gray-200'"
+                                class="px-3 py-1 rounded-full text-sm"
+                            >
+                                Tous
+                            </button>
+                            <button
+                                @click="shopFilter = 'fournitures'"
+                                :class="shopFilter === 'fournitures' ? 'bg-blue-500 text-white' : 'bg-gray-200'"
+                                class="px-3 py-1 rounded-full text-sm"
+                            >
+                                📚 Fournitures
+                            </button>
+                            <button
+                                @click="shopFilter = 'vetements'"
+                                :class="shopFilter === 'vetements' ? 'bg-blue-500 text-white' : 'bg-gray-200'"
+                                class="px-3 py-1 rounded-full text-sm"
+                            >
+                                👕 Vêtements
+                            </button>
+                        </div>
+                        
+                        <!-- Produits boutique -->
+                        <div v-if="filteredShopProducts.length > 0" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                            <div v-for="product in filteredShopProducts" :key="product.product.id" 
+                                 class="border rounded-lg p-4 hover:shadow-md transition">
+                                <div class="mb-4">
+                                    <h3 class="text-lg font-semibold">{{ product.product.name }}</h3>
+                                    <p class="text-gray-600 text-sm mt-1">{{ product.product.description }}</p>
                                 </div>
-                                <div class="bg-white p-4 rounded-lg">
-                                    <h4 class="font-semibold text-gray-800 mb-2">📚 Fournitures Groupées</h4>
-                                    <ul class="text-sm text-gray-600 space-y-1">
-                                        <li>• Listes fournitures par classe</li>
-                                        <li>• Commandes groupées parents</li>
-                                        <li>• Prix préférentiels négociés</li>
-                                        <li>• Livraison école directe</li>
-                                    </ul>
+                                
+                                <!-- Prix et progression -->
+                                <div class="mb-4">
+                                    <div class="flex justify-between items-center mb-2">
+                                        <span class="text-lg font-bold text-green-600">{{ product.price_breakdown.total_amount }}€</span>
+                                        <span class="text-sm text-gray-500">TVA incluse</span>
+                                    </div>
+                                    
+                                    <!-- Barre de progression commande groupée -->
+                                    <div class="w-full bg-gray-200 rounded-full h-3 mb-2">
+                                        <div 
+                                            class="bg-blue-500 h-3 rounded-full transition-all duration-300"
+                                            :style="{ width: product.progress_percentage + '%' }"
+                                        ></div>
+                                    </div>
+                                    
+                                    <div class="flex justify-between text-sm">
+                                        <span>{{ product.total_interest }}/{{ product.min_quantity }}</span>
+                                        <span class="font-medium" :class="product.can_order ? 'text-green-600' : 'text-orange-600'">
+                                            {{ product.can_order ? 'Prêt à commander !' : Math.round(product.progress_percentage) + '%' }}
+                                        </span>
+                                    </div>
+                                </div>
+                                
+                                <!-- Actions -->
+                                <div class="space-y-2">
+                                    <button 
+                                        v-if="!product.user_interest.has_interest"
+                                        @click="expressInterest(product.product)"
+                                        class="w-full bg-blue-500 text-white py-2 rounded hover:bg-blue-600"
+                                    >
+                                        ✋ Je suis intéressé(e)
+                                    </button>
+                                    
+                                    <div v-else class="space-y-2">
+                                        <div class="text-center text-green-600 font-medium">
+                                            ✅ Intérêt exprimé ({{ product.user_interest.quantity }} pcs)
+                                        </div>
+                                        <button 
+                                            @click="cancelInterest(product.product.id)"
+                                            class="w-full bg-red-500 text-white py-2 rounded hover:bg-red-600"
+                                        >
+                                            ❌ Annuler intérêt
+                                        </button>
+                                    </div>
+                                </div>
+                                
+                                <!-- Info participants -->
+                                <div v-if="product.interested_users_count > 0" class="mt-3 text-sm text-gray-600">
+                                    👥 {{ product.interested_users_count }} parent(s) intéressé(s)
                                 </div>
                             </div>
-                            <p class="text-sm text-blue-600 mt-4">
-                                💳 Paiements via Mollie (Bancontact, carte, virement)
-                            </p>
+                        </div>
+                        <p v-else class="text-gray-500">Aucun produit disponible pour le moment.</p>
+                        
+                        <!-- Info système commandes groupées -->
+                        <div class="mt-8 bg-blue-50 border border-blue-200 rounded-lg p-4">
+                            <h3 class="font-semibold text-blue-800 mb-2">💡 Comment ça marche ?</h3>
+                            <ol class="text-sm text-blue-700 space-y-1">
+                                <li><strong>1.</strong> Les parents expriment leur intérêt pour un produit</li>
+                                <li><strong>2.</strong> Quand le seuil minimum est atteint → commande groupée possible</li>
+                                <li><strong>3.</strong> Paiement via Mollie (Bancontact, carte, virement)</li>
+                                <li><strong>4.</strong> Livraison groupée = prix avantageux pour tous !</li>
+                            </ol>
                         </div>
                     </div>
                 </div>
@@ -789,6 +863,217 @@
                     </p>
                 </div>
 
+                <!-- Admin Tab -->
+                <div v-if="currentTab === 'admin'">
+                    <div class="bg-white rounded-lg shadow-lg p-6">
+                        <h2 class="text-2xl font-bold mb-4">⚙️ Administration EcoleHub</h2>
+                        
+                        <!-- Navigation Admin -->
+                        <div class="mb-6 flex space-x-4">
+                            <button
+                                @click="adminSection = 'products'"
+                                :class="adminSection === 'products' ? 'bg-red-500 text-white' : 'bg-gray-200'"
+                                class="px-4 py-2 rounded font-medium"
+                            >
+                                📦 Produits
+                            </button>
+                            <button
+                                @click="adminSection = 'interests'"
+                                :class="adminSection === 'interests' ? 'bg-red-500 text-white' : 'bg-gray-200'"
+                                class="px-4 py-2 rounded font-medium"
+                            >
+                                👥 Intérêts
+                            </button>
+                            <button
+                                @click="adminSection = 'orders'"
+                                :class="adminSection === 'orders' ? 'bg-red-500 text-white' : 'bg-gray-200'"
+                                class="px-4 py-2 rounded font-medium"
+                            >
+                                🚀 Commandes
+                            </button>
+                            <button
+                                @click="adminSection = 'stats'"
+                                :class="adminSection === 'stats' ? 'bg-red-500 text-white' : 'bg-gray-200'"
+                                class="px-4 py-2 rounded font-medium"
+                            >
+                                📊 Statistiques
+                            </button>
+                        </div>
+
+                        <!-- Section Gestion Produits -->
+                        <div v-if="adminSection === 'products'">
+                            <div class="flex justify-between items-center mb-4">
+                                <h3 class="text-lg font-semibold">📦 Gestion des Produits</h3>
+                                <button 
+                                    @click="showProductForm = !showProductForm"
+                                    class="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600"
+                                >
+                                    ➕ Nouveau Produit
+                                </button>
+                            </div>
+                            
+                            <!-- Formulaire création produit -->
+                            <div v-if="showProductForm" class="bg-gray-50 border rounded-lg p-4 mb-6">
+                                <h4 class="font-semibold mb-3">Créer un nouveau produit</h4>
+                                <form @submit.prevent="createProduct()" class="space-y-4">
+                                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                                        <div>
+                                            <label class="block text-gray-700 text-sm font-bold mb-2">Nom du produit</label>
+                                            <input
+                                                v-model="newProduct.name"
+                                                type="text"
+                                                class="w-full p-2 border rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
+                                                required
+                                                placeholder="ex: T-shirt EcoleHub"
+                                            >
+                                        </div>
+                                        <div>
+                                            <label class="block text-gray-700 text-sm font-bold mb-2">Catégorie</label>
+                                            <select
+                                                v-model="newProduct.category"
+                                                class="w-full p-2 border rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
+                                                required
+                                            >
+                                                <option value="">Choisir catégorie</option>
+                                                <option value="fournitures">📚 Fournitures</option>
+                                                <option value="vetements">👕 Vêtements</option>
+                                                <option value="accessoires">🎒 Accessoires</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div>
+                                        <label class="block text-gray-700 text-sm font-bold mb-2">Description</label>
+                                        <textarea
+                                            v-model="newProduct.description"
+                                            class="w-full p-2 border rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
+                                            rows="3"
+                                            placeholder="Description du produit..."
+                                        ></textarea>
+                                    </div>
+                                    <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                                        <div>
+                                            <label class="block text-gray-700 text-sm font-bold mb-2">Prix (€)</label>
+                                            <input
+                                                v-model.number="newProduct.base_price"
+                                                type="number"
+                                                step="0.01"
+                                                min="0"
+                                                class="w-full p-2 border rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
+                                                required
+                                                placeholder="12.50"
+                                            >
+                                        </div>
+                                        <div>
+                                            <label class="block text-gray-700 text-sm font-bold mb-2">Quantité minimum</label>
+                                            <input
+                                                v-model.number="newProduct.min_quantity"
+                                                type="number"
+                                                min="1"
+                                                class="w-full p-2 border rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
+                                                required
+                                                placeholder="10"
+                                            >
+                                        </div>
+                                        <div class="flex items-end">
+                                            <button
+                                                type="submit"
+                                                :disabled="isLoading"
+                                                class="w-full bg-green-500 text-white py-2 rounded hover:bg-green-600 disabled:opacity-50"
+                                            >
+                                                Créer Produit
+                                            </button>
+                                        </div>
+                                    </div>
+                                    <button
+                                        type="button"
+                                        @click="showProductForm = false; resetProductForm()"
+                                        class="bg-gray-500 text-white px-4 py-2 rounded hover:bg-gray-600"
+                                    >
+                                        Annuler
+                                    </button>
+                                </form>
+                            </div>
+                            
+                            <!-- Liste produits admin -->
+                            <div v-if="shopProducts.length > 0" class="space-y-4">
+                                <div v-for="product in shopProducts" :key="product.product.id" 
+                                     class="border rounded-lg p-4 bg-gray-50">
+                                    <div class="flex justify-between items-start mb-3">
+                                        <div class="flex-1">
+                                            <h4 class="font-semibold">{{ product.product.name }}</h4>
+                                            <p class="text-gray-600 text-sm">{{ product.product.description }}</p>
+                                            <div class="flex items-center space-x-4 mt-2 text-sm">
+                                                <span class="font-medium">{{ product.price_breakdown.total_amount }}€</span>
+                                                <span class="text-gray-500">{{ product.product.category }}</span>
+                                                <span class="text-gray-500">Min: {{ product.product.min_quantity }}</span>
+                                            </div>
+                                        </div>
+                                        <div class="text-right">
+                                            <div class="text-lg font-bold" :class="product.can_order ? 'text-green-600' : 'text-orange-600'">
+                                                {{ product.total_interest }}/{{ product.min_quantity }}
+                                            </div>
+                                            <div class="text-sm text-gray-500">{{ Math.round(product.progress_percentage) }}%</div>
+                                        </div>
+                                    </div>
+                                    
+                                    <div class="flex space-x-2">
+                                        <button
+                                            v-if="product.can_order"
+                                            @click="createGroupOrder(product.product.id)"
+                                            class="bg-green-500 text-white px-4 py-2 rounded hover:bg-green-600"
+                                        >
+                                            🚀 Lancer Commande Groupée
+                                        </button>
+                                        <button
+                                            @click="toggleProductActive(product.product)"
+                                            :class="product.product.is_active ? 'bg-orange-500 hover:bg-orange-600' : 'bg-green-500 hover:bg-green-600'"
+                                            class="text-white px-3 py-2 rounded"
+                                        >
+                                            {{ product.product.is_active ? '⏸️ Désactiver' : '▶️ Activer' }}
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Section Intérêts -->
+                        <div v-if="adminSection === 'interests'">
+                            <h3 class="text-lg font-semibold mb-4">👥 Vue des Intérêts Parents</h3>
+                            <div class="bg-blue-50 border border-blue-200 rounded-lg p-4 text-center">
+                                <div class="text-4xl mb-2">🔄</div>
+                                <p class="text-blue-700">
+                                    Interface de gestion des intérêts en développement.<br>
+                                    Prochainement : Vue détaillée par parent et par produit.
+                                </p>
+                            </div>
+                        </div>
+
+                        <!-- Section Commandes -->
+                        <div v-if="adminSection === 'orders'">
+                            <h3 class="text-lg font-semibold mb-4">🚀 Gestion des Commandes</h3>
+                            <div class="bg-green-50 border border-green-200 rounded-lg p-4 text-center">
+                                <div class="text-4xl mb-2">📋</div>
+                                <p class="text-green-700">
+                                    Interface de gestion des commandes en développement.<br>
+                                    Prochainement : Suivi Mollie, status livraisons, relances parents.
+                                </p>
+                            </div>
+                        </div>
+
+                        <!-- Section Statistiques -->
+                        <div v-if="adminSection === 'stats'">
+                            <h3 class="text-lg font-semibold mb-4">📊 Statistiques Boutique</h3>
+                            <div class="bg-purple-50 border border-purple-200 rounded-lg p-4 text-center">
+                                <div class="text-4xl mb-2">📈</div>
+                                <p class="text-purple-700">
+                                    Tableau de bord statistiques en développement.<br>
+                                    Prochainement : CA, produits populaires, taux conversion.
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
                 <!-- Déconnexion -->
                 <div class="text-center">
                     <button @click="logout()" class="bg-red-500 text-white px-6 py-2 rounded hover:bg-red-600">
@@ -841,7 +1126,26 @@
                     
                     // Stage 2: Events Data
                     events: [],
-                    eventFilter: 'all'
+                    eventFilter: 'all',
+                    
+                    // Stage 3: Shop Data
+                    shopProducts: [],
+                    shopFilter: 'all',
+                    
+                    // Stage 3: Education Data
+                    educationResources: [],
+                    educationFilter: 'all',
+                    
+                    // Admin Data
+                    adminSection: 'products',
+                    showProductForm: false,
+                    newProduct: {
+                        name: '',
+                        description: '',
+                        category: '',
+                        base_price: 0,
+                        min_quantity: 10
+                    }
                 }
             },
             
@@ -856,6 +1160,11 @@
                 filteredEvents() {
                     if (this.eventFilter === 'all') return this.events;
                     return this.events.filter(event => event.event_type === this.eventFilter);
+                },
+                
+                filteredShopProducts() {
+                    if (this.shopFilter === 'all') return this.shopProducts;
+                    return this.shopProducts.filter(product => product.product.category === this.shopFilter);
                 }
             },
             
@@ -897,7 +1206,9 @@
                         this.loadAvailableServices(),
                         this.loadTransactions(),
                         this.loadConversations(),
-                        this.loadOtherUsers()
+                        this.loadOtherUsers(),
+                        this.loadShopProducts(),
+                        this.loadEducationResources()
                     ]);
                     
                     // Load events after other data
@@ -1534,6 +1845,182 @@
                     } catch (error) {
                         this.errorMessage = 'Erreur envoi message';
                     }
+                },
+                
+                async loadShopProducts() {
+                    try {
+                        const token = localStorage.getItem('token');
+                        const response = await fetch('/shop/products', {
+                            headers: { 'Authorization': `Bearer ${token}` }
+                        });
+                        if (response.ok) {
+                            this.shopProducts = await response.json();
+                            console.log('🛒 Produits boutique chargés:', this.shopProducts.length);
+                        }
+                    } catch (error) {
+                        console.error('Erreur produits boutique:', error);
+                    }
+                },
+                
+                async loadEducationResources() {
+                    try {
+                        const token = localStorage.getItem('token');
+                        const response = await fetch('/education/resources', {
+                            headers: { 'Authorization': `Bearer ${token}` }
+                        });
+                        if (response.ok) {
+                            this.educationResources = await response.json();
+                            console.log('📚 Ressources éducation chargées:', this.educationResources.length);
+                        }
+                    } catch (error) {
+                        console.error('Erreur ressources éducation:', error);
+                    }
+                },
+                
+                async expressInterest(product) {
+                    const quantity = prompt(`Combien de "${product.name}" souhaitez-vous ?`, '1');
+                    if (!quantity || isNaN(quantity) || quantity <= 0) return;
+                    
+                    const notes = prompt('Notes particulières (taille, couleur...) :', '');
+                    
+                    try {
+                        const token = localStorage.getItem('token');
+                        const response = await fetch(`/shop/products/${product.id}/interest`, {
+                            method: 'POST',
+                            headers: {
+                                'Content-Type': 'application/json',
+                                'Authorization': `Bearer ${token}`
+                            },
+                            body: JSON.stringify({
+                                quantity: parseInt(quantity),
+                                notes: notes
+                            })
+                        });
+                        
+                        if (response.ok) {
+                            const result = await response.json();
+                            await this.loadShopProducts();
+                            this.successMessage = result.message;
+                        } else {
+                            const errorData = await response.json();
+                            this.errorMessage = errorData.detail || 'Erreur expression intérêt';
+                        }
+                    } catch (error) {
+                        this.errorMessage = 'Erreur de connexion';
+                    }
+                },
+                
+                async cancelInterest(productId) {
+                    if (!confirm('Annuler votre intérêt pour ce produit ?')) return;
+                    
+                    try {
+                        const token = localStorage.getItem('token');
+                        const response = await fetch(`/shop/products/${productId}/interest`, {
+                            method: 'DELETE',
+                            headers: { 'Authorization': `Bearer ${token}` }
+                        });
+                        
+                        if (response.ok) {
+                            await this.loadShopProducts();
+                            this.successMessage = 'Intérêt annulé';
+                        } else {
+                            this.errorMessage = 'Erreur annulation intérêt';
+                        }
+                    } catch (error) {
+                        this.errorMessage = 'Erreur de connexion';
+                    }
+                },
+                
+                // Admin Methods
+                async createGroupOrder(productId) {
+                    if (!confirm('Lancer la commande groupée pour ce produit ?')) return;
+                    
+                    try {
+                        const token = localStorage.getItem('token');
+                        const response = await fetch(`/shop/products/${productId}/order`, {
+                            method: 'POST',
+                            headers: { 'Authorization': `Bearer ${token}` }
+                        });
+                        
+                        if (response.ok) {
+                            const result = await response.json();
+                            await this.loadShopProducts();
+                            this.successMessage = `Commande groupée créée ! ${result.participants} participants, Total: ${result.total_price}€`;
+                        } else {
+                            const errorData = await response.json();
+                            this.errorMessage = errorData.detail || 'Erreur création commande';
+                        }
+                    } catch (error) {
+                        this.errorMessage = 'Erreur de connexion';
+                    }
+                },
+                
+                async toggleProductActive(product) {
+                    const action = product.is_active ? 'désactiver' : 'activer';
+                    if (!confirm(`${action} le produit "${product.name}" ?`)) return;
+                    
+                    try {
+                        const token = localStorage.getItem('token');
+                        const response = await fetch(`/shop/products/${product.id}`, {
+                            method: 'PUT',
+                            headers: {
+                                'Content-Type': 'application/json',
+                                'Authorization': `Bearer ${token}`
+                            },
+                            body: JSON.stringify({
+                                is_active: !product.is_active
+                            })
+                        });
+                        
+                        if (response.ok) {
+                            await this.loadShopProducts();
+                            this.successMessage = `Produit ${product.is_active ? 'désactivé' : 'activé'}`;
+                        } else {
+                            this.errorMessage = 'Erreur modification produit';
+                        }
+                    } catch (error) {
+                        this.errorMessage = 'Erreur de connexion';
+                    }
+                },
+                
+                async createProduct() {
+                    this.isLoading = true;
+                    
+                    try {
+                        const token = localStorage.getItem('token');
+                        const response = await fetch('/shop/products', {
+                            method: 'POST',
+                            headers: {
+                                'Content-Type': 'application/json',
+                                'Authorization': `Bearer ${token}`
+                            },
+                            body: JSON.stringify(this.newProduct)
+                        });
+                        
+                        if (response.ok) {
+                            await this.loadShopProducts();
+                            this.showProductForm = false;
+                            this.resetProductForm();
+                            this.successMessage = 'Produit créé avec succès !';
+                        } else {
+                            const errorData = await response.json();
+                            this.errorMessage = errorData.detail || 'Erreur création produit';
+                        }
+                    } catch (error) {
+                        this.errorMessage = 'Erreur de connexion';
+                    } finally {
+                        this.isLoading = false;
+                    }
+                },
+                
+                resetProductForm() {
+                    this.newProduct = {
+                        name: '',
+                        description: '',
+                        category: '',
+                        base_price: 0,
+                        min_quantity: 10
+                    };
                 },
                 
                 logout() {

@@ -26,7 +26,7 @@ from .models_stage3 import ShopProduct, ShopInterest, ShopOrder, ShopOrderItem, 
 from .schemas_stage1 import *
 from .sel_service import SELBusinessLogic
 from .websocket_manager import websocket_manager
-from .shop_service import ShopCollaborativeService, get_shop_service
+from .shop_service import ShopCollaborativeService
 from .mollie_service import mollie_service
 from .minio_service import minio_service
 
@@ -95,6 +95,9 @@ def get_db():
 
 def get_sel_service(db: Session = Depends(get_db)):
     return SELBusinessLogic(db)
+
+def get_shop_service(db: Session = Depends(get_db)):
+    return ShopCollaborativeService(db)
 
 def get_redis():
     return redis_client
@@ -294,13 +297,219 @@ def get_sel_categories(sel_service: SELBusinessLogic = Depends(get_sel_service))
 def get_sel_balance(current_user: User = Depends(get_current_user), sel_service: SELBusinessLogic = Depends(get_sel_service)):
     return sel_service.get_or_create_balance(current_user.id)
 
+@app.get("/sel/services", response_model=List[SELServiceWithOwner])
+def get_sel_services(
+    category: Optional[str] = Query(None),
+    limit: int = Query(50, le=100),
+    current_user: User = Depends(get_current_user),
+    sel_service: SELBusinessLogic = Depends(get_sel_service)
+):
+    services = sel_service.get_available_services(current_user.id, category, limit)
+    return [{"user": service.user, **service.__dict__} for service in services]
+
+@app.get("/sel/services/mine", response_model=List[SELServiceResponse])
+def get_my_sel_services(
+    current_user: User = Depends(get_current_user), 
+    db: Session = Depends(get_db)
+):
+    services = db.query(SELService).filter(SELService.user_id == current_user.id).all()
+    return services
+
 @app.post("/sel/services", response_model=SELServiceResponse)
 def create_sel_service(service: SELServiceCreate, current_user: User = Depends(get_current_user), sel_service: SELBusinessLogic = Depends(get_sel_service)):
     return sel_service.create_service(current_user.id, service)
 
+@app.get("/sel/transactions", response_model=List[SELTransactionWithDetails])
+def get_sel_transactions(
+    status: Optional[TransactionStatus] = Query(None),
+    limit: int = Query(50, le=100),
+    current_user: User = Depends(get_current_user),
+    db: Session = Depends(get_db)
+):
+    query = db.query(SELTransaction).filter(
+        (SELTransaction.from_user_id == current_user.id) | 
+        (SELTransaction.to_user_id == current_user.id)
+    )
+    
+    if status:
+        query = query.filter(SELTransaction.status == status.value)
+    
+    transactions = query.order_by(SELTransaction.created_at.desc()).limit(limit).all()
+    
+    result = []
+    for transaction in transactions:
+        result.append({
+            **transaction.__dict__,
+            "from_user": transaction.from_user,
+            "to_user": transaction.to_user,
+            "service": transaction.service
+        })
+    
+    return result
+
+@app.post("/sel/transactions", response_model=SELTransactionResponse)
+def create_sel_transaction(
+    transaction: SELTransactionCreate,
+    current_user: User = Depends(get_current_user),
+    sel_service: SELBusinessLogic = Depends(get_sel_service)
+):
+    return sel_service.create_transaction(current_user.id, transaction)
+
+@app.put("/sel/transactions/{transaction_id}/approve", response_model=SELTransactionResponse)
+def approve_sel_transaction(
+    transaction_id: UUID,
+    current_user: User = Depends(get_current_user),
+    sel_service: SELBusinessLogic = Depends(get_sel_service)
+):
+    return sel_service.approve_transaction(transaction_id, current_user.id)
+
+@app.put("/sel/transactions/{transaction_id}/cancel", response_model=SELTransactionResponse)
+def cancel_sel_transaction(
+    transaction_id: UUID,
+    current_user: User = Depends(get_current_user),
+    sel_service: SELBusinessLogic = Depends(get_sel_service)
+):
+    return sel_service.cancel_transaction(transaction_id, current_user.id)
+
 # ==========================================
 # MESSAGING SYSTEM (inherited from Stage 2)
 # ==========================================
+
+@app.post("/conversations/direct")
+def create_direct_conversation(
+    other_user_id: str = Form(...),
+    current_user: User = Depends(get_current_user),
+    db: Session = Depends(get_db)
+):
+    """Create or get existing direct conversation between two users."""
+    try:
+        other_user_uuid = UUID(other_user_id)
+    except ValueError:
+        raise HTTPException(status_code=400, detail="ID utilisateur invalide")
+    
+    # Check if conversation already exists
+    existing = db.query(Conversation).join(ConversationParticipant).filter(
+        and_(
+            Conversation.type == 'direct',
+            ConversationParticipant.user_id.in_([current_user.id, other_user_uuid])
+        )
+    ).group_by(Conversation.id).having(
+        func.count(ConversationParticipant.user_id) == 2
+    ).first()
+    
+    if existing:
+        return {"conversation_id": str(existing.id), "message": "Conversation existante"}
+    
+    # Get other user info
+    other_user = db.query(User).filter(User.id == other_user_uuid).first()
+    if not other_user:
+        raise HTTPException(status_code=404, detail="Utilisateur non trouvé")
+    
+    # Create new conversation
+    conversation = Conversation(
+        name=f"{current_user.first_name} & {other_user.first_name}",
+        type='direct',
+        created_by=current_user.id
+    )
+    db.add(conversation)
+    db.commit()
+    db.refresh(conversation)
+    
+    # Add participants
+    participants = [
+        ConversationParticipant(conversation_id=conversation.id, user_id=current_user.id),
+        ConversationParticipant(conversation_id=conversation.id, user_id=other_user_uuid)
+    ]
+    
+    for participant in participants:
+        db.add(participant)
+    
+    db.commit()
+    
+    return {"conversation_id": str(conversation.id), "message": "Conversation créée"}
+
+@app.get("/users/list")
+def get_users_list(
+    current_user: User = Depends(get_current_user),
+    db: Session = Depends(get_db)
+):
+    """Get list of users for direct messaging (excluding current user)."""
+    users = db.query(User).filter(
+        and_(User.id != current_user.id, User.is_active == True)
+    ).all()
+    
+    return [{
+        "id": str(user.id),
+        "name": f"{user.first_name} {user.last_name}",
+        "first_name": user.first_name,
+        "last_name": user.last_name
+    } for user in users]
+
+@app.get("/conversations/{conversation_id}/messages")
+def get_conversation_messages(
+    conversation_id: UUID,
+    limit: int = Query(50, le=100),
+    current_user: User = Depends(get_current_user),
+    db: Session = Depends(get_db)
+):
+    """Get messages from a conversation."""
+    participant = db.query(ConversationParticipant).filter(
+        ConversationParticipant.conversation_id == conversation_id,
+        ConversationParticipant.user_id == current_user.id
+    ).first()
+    
+    if not participant:
+        raise HTTPException(status_code=403, detail="Accès interdit à cette conversation")
+    
+    messages = db.query(Message).filter(
+        Message.conversation_id == conversation_id
+    ).order_by(desc(Message.created_at)).limit(limit).all()
+    
+    messages.reverse()  # Oldest first
+    
+    return [{
+        "id": str(msg.id),
+        "conversation_id": str(msg.conversation_id),
+        "user_id": str(msg.user_id),
+        "user_name": f"{msg.user.first_name} {msg.user.last_name}",
+        "content": msg.content,
+        "message_type": msg.message_type,
+        "created_at": msg.created_at.isoformat(),
+        "edited_at": msg.edited_at.isoformat() if msg.edited_at else None
+    } for msg in messages]
+
+@app.post("/conversations/{conversation_id}/messages")
+def send_message_to_conversation(
+    conversation_id: UUID,
+    message_data: MessageCreate,
+    current_user: User = Depends(get_current_user),
+    db: Session = Depends(get_db)
+):
+    """Send a message to a conversation."""
+    participant = db.query(ConversationParticipant).filter(
+        ConversationParticipant.conversation_id == conversation_id,
+        ConversationParticipant.user_id == current_user.id
+    ).first()
+    
+    if not participant:
+        raise HTTPException(status_code=403, detail="Accès interdit à cette conversation")
+    
+    message = Message(
+        conversation_id=conversation_id,
+        user_id=current_user.id,
+        content=message_data.content.strip(),
+        message_type='text'
+    )
+    
+    db.add(message)
+    db.commit()
+    db.refresh(message)
+    
+    return {
+        "id": str(message.id),
+        "message": "Message envoyé",
+        "created_at": message.created_at.isoformat()
+    }
 
 @app.get("/conversations")
 def get_conversations(current_user: User = Depends(get_current_user), db: Session = Depends(get_db)):
@@ -425,6 +634,78 @@ def cancel_product_interest(
 ):
     """Cancel interest in a product."""
     return shop_service.cancel_interest(current_user.id, product_id)
+
+@app.post("/shop/products")
+def create_shop_product(
+    product_data: dict,
+    current_user: User = Depends(get_current_user),
+    db: Session = Depends(get_db)
+):
+    """Create new shop product (admin only)."""
+    # Simple admin check (can be improved)
+    if 'admin' not in current_user.email and 'direction' not in current_user.email:
+        raise HTTPException(status_code=403, detail="Accès admin requis")
+    
+    # Create product
+    new_product = ShopProduct(
+        name=product_data['name'],
+        description=product_data.get('description'),
+        base_price=product_data['base_price'],
+        category=product_data['category'],
+        min_quantity=product_data.get('min_quantity', 10),
+        created_by=current_user.id
+    )
+    
+    db.add(new_product)
+    db.commit()
+    db.refresh(new_product)
+    
+    return {
+        "id": str(new_product.id),
+        "message": "Produit créé avec succès",
+        "name": new_product.name,
+        "price": float(new_product.base_price)
+    }
+
+@app.put("/shop/products/{product_id}")
+def update_shop_product(
+    product_id: UUID,
+    update_data: dict,
+    current_user: User = Depends(get_current_user),
+    db: Session = Depends(get_db)
+):
+    """Update shop product (admin only)."""
+    # Simple admin check
+    if 'admin' not in current_user.email and 'direction' not in current_user.email:
+        raise HTTPException(status_code=403, detail="Accès admin requis")
+    
+    product = db.query(ShopProduct).filter(ShopProduct.id == product_id).first()
+    if not product:
+        raise HTTPException(status_code=404, detail="Produit non trouvé")
+    
+    # Update fields
+    if 'name' in update_data:
+        product.name = update_data['name']
+    if 'description' in update_data:
+        product.description = update_data['description']
+    if 'base_price' in update_data:
+        product.base_price = update_data['base_price']
+    if 'category' in update_data:
+        product.category = update_data['category']
+    if 'min_quantity' in update_data:
+        product.min_quantity = update_data['min_quantity']
+    if 'is_active' in update_data:
+        product.is_active = update_data['is_active']
+    
+    db.commit()
+    db.refresh(product)
+    
+    return {
+        "id": str(product.id),
+        "message": "Produit mis à jour",
+        "name": product.name,
+        "is_active": product.is_active
+    }
 
 @app.get("/shop/categories")
 def get_shop_categories(shop_service: ShopCollaborativeService = Depends(get_shop_service)):

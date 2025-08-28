@@ -5,6 +5,62 @@ All notable changes to EcoleHub will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [3.0.0] - 2024-08-28
+
+### Added - Stage 3 Collaborative Shop + Education + Admin
+
+#### 🛒 Collaborative Shopping System
+- **Group Buying Platform**: Parents express interest, orders triggered when threshold met
+- **Product Catalog**: School supplies, branded items, uniforms with Belgian pricing (21% TVA)
+- **Interest Management**: Track parent interest with quantities and special notes (size, color)
+- **Progress Tracking**: Visual progress bars toward group order minimums
+- **Belgian Payment Integration**: Mollie API with Bancontact, SEPA, PayPal, credit cards
+- **Order Workflow**: Interest → Threshold → Group Order → Payment → Delivery coordination
+
+#### 📚 Educational Resources System
+- **Resource Library**: Upload and share educational documents, forms, calendars
+- **Class-specific Content**: Resources organized by Belgian classes (M1-M3, P1-P6)
+- **File Storage**: MinIO integration for secure file management with size and type validation
+- **Access Control**: Public resources and parent-only restricted content
+- **Categories**: Homework, calendars, forms, announcements, general resources
+
+#### ⚙️ Administrative Interface
+- **Admin Authentication**: Role-based access for users with 'admin' or 'direction' in email
+- **Product Management**: Create, edit, activate/deactivate products in catalog
+- **Order Management**: Launch group orders when interest thresholds are reached
+- **Interest Dashboard**: View all parent interests and participation levels
+- **Statistics Overview**: Platform usage and shop performance metrics (framework ready)
+
+#### 🏗️ Enhanced Infrastructure
+- **MinIO S3 Storage**: Secure file storage for product images and educational content
+- **Celery Task Queue**: Background processing for order management and notifications
+- **Mollie Payment Gateway**: Complete Belgian payment processing with webhook support
+- **6-Service Architecture**: PostgreSQL + Redis + MinIO + Backend + Celery + Frontend
+
+#### 🇧🇪 Belgian Context Integration
+- **VAT Calculation**: Automatic 21% Belgian tax calculation for all products
+- **School Supply Lists**: Standard Belgian school supply lists by grade level
+- **Payment Methods**: Optimized for Belgian parents (Bancontact primary)
+- **Educational Calendar**: Belgian school year integration with holidays and events
+
+#### 🎨 Complete 9-Tab Interface
+- **Dashboard**: SEL balance and available services (Stages 0+1)
+- **Services SEL**: Marketplace with proposals (Stage 1)
+- **Transactions**: SEL workflow management (Stage 1)
+- **Messages**: Real-time parent communication (Stage 2)
+- **Events**: School events with traditional celebrations (Stage 2)
+- **Shop**: Collaborative buying interface with group orders ✨ **NEW**
+- **Education**: Resource sharing and class materials ✨ **NEW**
+- **Profile**: User and children management (All stages)
+- **Admin**: Platform administration for authorized users ✨ **NEW**
+
+#### 🔧 Technical Improvements
+- **Complete API Inheritance**: All previous stage endpoints maintained in Stage 3
+- **Error Resolution**: Fixed FastAPI dependency injection and route configuration
+- **Nginx Routing**: Complete proxy configuration for all Stage 3 endpoints
+- **Generic Branding**: Removed specific school references for open-source reusability
+- **Admin Security**: Simple role-based authentication for administrative functions
+
 ## [2.0.0] - 2024-08-27
 
 ### Added - Stage 2 Real-time Messaging + Events
