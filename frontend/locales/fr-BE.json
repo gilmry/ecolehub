@@ -1,0 +1,165 @@
+{
+  "app": {
+    "title": "EcoleHub Stage 4",
+    "subtitle": "Plateforme collaborative multilingue",
+    "loading": "Chargement...",
+    "error": "Erreur",
+    "success": "Succès",
+    "confirm": "Confirmer",
+    "cancel": "Annuler",
+    "save": "Sauvegarder",
+    "delete": "Supprimer",
+    "edit": "Modifier",
+    "create": "Créer",
+    "close": "Fermer"
+  },
+  "auth": {
+    "login": "Connexion",
+    "register": "Inscription",
+    "logout": "Déconnexion",
+    "email": "Email",
+    "password": "Mot de passe",
+    "firstName": "Prénom",
+    "lastName": "Nom",
+    "loginSuccess": "Connexion réussie !",
+    "registerSuccess": "Inscription réussie ! Bienvenue sur EcoleHub.",
+    "invalidCredentials": "Email ou mot de passe incorrect",
+    "emailPlaceholder": "votre.email@ecolehub.be"
+  },
+  "navigation": {
+    "dashboard": "Tableau de bord",
+    "services": "Services SEL",
+    "transactions": "Transactions", 
+    "messages": "Messages",
+    "events": "Événements",
+    "shop": "Boutique",
+    "education": "Éducation",
+    "profile": "Profil",
+    "admin": "Administration"
+  },
+  "sel": {
+    "title": "Système d'Échange Local",
+    "balance": "Solde",
+    "units": "unités",
+    "services": "Services",
+    "transactions": "Transactions",
+    "categories": {
+      "garde": "Garde d'enfants",
+      "devoirs": "Aide aux devoirs",
+      "transport": "Transport",
+      "cuisine": "Cuisine",
+      "bricolage": "Bricolage",
+      "jardinage": "Jardinage",
+      "menage": "Ménage",
+      "courses": "Courses",
+      "proposition": "Propositions",
+      "autre": "Autre"
+    },
+    "limits": "Limites belges : -300 à +600 unités • 60 unités = 1 heure",
+    "createService": "Créer un service",
+    "serviceCreated": "Service créé avec succès !",
+    "transactionApproved": "Transaction approuvée ! Soldes mis à jour."
+  },
+  "shop": {
+    "title": "Boutique Collaborative",
+    "products": "Produits",
+    "categories": {
+      "fournitures": "Fournitures",
+      "vetements": "Vêtements", 
+      "accessoires": "Accessoires"
+    },
+    "interested": "Je suis intéressé(e)",
+    "cancelInterest": "Annuler intérêt",
+    "interestExpressed": "Intérêt exprimé",
+    "groupOrderReady": "Prêt à commander !",
+    "participants": "parent(s) intéressé(s)",
+    "howItWorks": "Comment ça marche ?",
+    "workflow": [
+      "Les parents expriment leur intérêt pour un produit",
+      "Quand le seuil minimum est atteint → commande groupée possible", 
+      "Paiement via Mollie (Bancontact, carte, virement)",
+      "Livraison groupée = prix avantageux pour tous !"
+    ],
+    "vatIncluded": "TVA incluse",
+    "minimumQuantity": "Quantité minimum",
+    "price": "Prix",
+    "description": "Description"
+  },
+  "admin": {
+    "title": "Administration EcoleHub",
+    "products": "Produits",
+    "interests": "Intérêts", 
+    "orders": "Commandes",
+    "statistics": "Statistiques",
+    "newProduct": "Nouveau Produit",
+    "productName": "Nom du produit",
+    "category": "Catégorie",
+    "launchGroupOrder": "Lancer Commande Groupée",
+    "activate": "Activer",
+    "deactivate": "Désactiver",
+    "productCreated": "Produit créé avec succès !",
+    "productUpdated": "Produit mis à jour",
+    "adminRequired": "Accès administrateur requis"
+  },
+  "messages": {
+    "title": "Messages",
+    "newMessage": "Nouveau message",
+    "sendDirectMessage": "Envoyer un message direct",
+    "recipient": "Destinataire",
+    "chooseParent": "Choisir un parent",
+    "typeMessage": "Tapez votre message...",
+    "send": "Envoyer",
+    "refresh": "Actualiser",
+    "noConversations": "Aucune conversation pour le moment",
+    "noMessages": "Aucun message dans cette conversation"
+  },
+  "events": {
+    "title": "Événements École",
+    "filters": {
+      "all": "Tous",
+      "school": "École", 
+      "class": "Classes",
+      "celebration": "Fêtes"
+    },
+    "register": "S'inscrire",
+    "registered": "Inscrit",
+    "full": "Complet",
+    "date": "Date",
+    "location": "Lieu",
+    "participants": "Participants",
+    "registrationConfirmed": "Inscription à l'événement confirmée !"
+  },
+  "education": {
+    "title": "Éducation EcoleHub", 
+    "resources": "Ressources",
+    "categories": {
+      "homework": "Devoirs",
+      "calendar": "Calendrier",
+      "forms": "Formulaires",
+      "announcements": "Annonces"
+    },
+    "classResources": "Ressources Classe",
+    "schoolCommunications": "Communications École"
+  },
+  "profile": {
+    "title": "Mon Profil",
+    "children": "Mes Enfants",
+    "addChild": "Ajouter l'enfant",
+    "childName": "Prénom de l'enfant",
+    "class": "Classe",
+    "chooseClass": "Choisir une classe",
+    "childAdded": "Enfant ajouté !",
+    "childDeleted": "Enfant supprimé"
+  },
+  "classes": {
+    "M1": "M1 (1ère maternelle)",
+    "M2": "M2 (2ème maternelle)", 
+    "M3": "M3 (3ème maternelle)",
+    "P1": "P1 (1ère primaire)",
+    "P2": "P2 (2ème primaire)",
+    "P3": "P3 (3ème primaire)",
+    "P4": "P4 (4ème primaire)",
+    "P5": "P5 (5ème primaire)",
+    "P6": "P6 (6ème primaire)"
+  }
+}

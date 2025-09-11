@@ -1,0 +1,165 @@
+{
+  "app": {
+    "title": "EcoleHub Stage 4",
+    "subtitle": "Meertalig collaboratief platform",
+    "loading": "Laden...",
+    "error": "Fout",
+    "success": "Succes",
+    "confirm": "Bevestigen",
+    "cancel": "Annuleren", 
+    "save": "Opslaan",
+    "delete": "Verwijderen",
+    "edit": "Bewerken",
+    "create": "Aanmaken",
+    "close": "Sluiten"
+  },
+  "auth": {
+    "login": "Aanmelden",
+    "register": "Registreren",
+    "logout": "Afmelden",
+    "email": "E-mail",
+    "password": "Wachtwoord",
+    "firstName": "Voornaam",
+    "lastName": "Achternaam",
+    "loginSuccess": "Succesvol aangemeld!",
+    "registerSuccess": "Registratie gelukt! Welkom bij EcoleHub.",
+    "invalidCredentials": "E-mail of wachtwoord onjuist",
+    "emailPlaceholder": "uw.email@ecolehub.be"
+  },
+  "navigation": {
+    "dashboard": "Dashboard",
+    "services": "SEL Services",
+    "transactions": "Transacties",
+    "messages": "Berichten", 
+    "events": "Evenementen",
+    "shop": "Winkel",
+    "education": "Onderwijs",
+    "profile": "Profiel",
+    "admin": "Beheer"
+  },
+  "sel": {
+    "title": "Lokaal Uitwisselingssysteem",
+    "balance": "Saldo",
+    "units": "eenheden",
+    "services": "Diensten",
+    "transactions": "Transacties",
+    "categories": {
+      "garde": "Kinderopvang",
+      "devoirs": "Huiswerkbegeleiding",
+      "transport": "Transport",
+      "cuisine": "Koken",
+      "bricolage": "Knutselen",
+      "jardinage": "Tuinieren", 
+      "menage": "Huishouden",
+      "courses": "Boodschappen",
+      "proposition": "Voorstellen",
+      "autre": "Andere"
+    },
+    "limits": "Belgische limieten: -300 tot +600 eenheden • 60 eenheden = 1 uur",
+    "createService": "Dienst aanmaken",
+    "serviceCreated": "Dienst succesvol aangemaakt!",
+    "transactionApproved": "Transactie goedgekeurd! Saldi bijgewerkt."
+  },
+  "shop": {
+    "title": "Gezamenlijke Winkel",
+    "products": "Producten",
+    "categories": {
+      "fournitures": "Schoolspullen",
+      "vetements": "Kleding",
+      "accessoires": "Accessoires"
+    },
+    "interested": "Ik ben geïnteresseerd",
+    "cancelInterest": "Interesse annuleren",
+    "interestExpressed": "Interesse getoond",
+    "groupOrderReady": "Klaar om te bestellen!",
+    "participants": "geïnteresseerde ouder(s)",
+    "howItWorks": "Hoe werkt het?",
+    "workflow": [
+      "Ouders tonen interesse voor een product",
+      "Wanneer het minimum bereikt is → groepsbestelling mogelijk",
+      "Betaling via Mollie (Bancontact, kaart, overschrijving)",
+      "Groepslevering = voordelige prijzen voor iedereen!"
+    ],
+    "vatIncluded": "BTW inbegrepen",
+    "minimumQuantity": "Minimum aantal",
+    "price": "Prijs", 
+    "description": "Beschrijving"
+  },
+  "admin": {
+    "title": "EcoleHub Beheer",
+    "products": "Producten",
+    "interests": "Interesses",
+    "orders": "Bestellingen", 
+    "statistics": "Statistieken",
+    "newProduct": "Nieuw Product",
+    "productName": "Productnaam",
+    "category": "Categorie",
+    "launchGroupOrder": "Groepsbestelling Starten",
+    "activate": "Activeren",
+    "deactivate": "Deactiveren",
+    "productCreated": "Product succesvol aangemaakt!",
+    "productUpdated": "Product bijgewerkt",
+    "adminRequired": "Beheerder toegang vereist"
+  },
+  "messages": {
+    "title": "Berichten",
+    "newMessage": "Nieuw bericht",
+    "sendDirectMessage": "Direct bericht sturen",
+    "recipient": "Ontvanger",
+    "chooseParent": "Kies een ouder",
+    "typeMessage": "Typ uw bericht...",
+    "send": "Versturen",
+    "refresh": "Vernieuwen",
+    "noConversations": "Geen gesprekken op dit moment",
+    "noMessages": "Geen berichten in dit gesprek"
+  },
+  "events": {
+    "title": "School Evenementen",
+    "filters": {
+      "all": "Alle",
+      "school": "School",
+      "class": "Klassen", 
+      "celebration": "Feesten"
+    },
+    "register": "Inschrijven",
+    "registered": "Ingeschreven",
+    "full": "Vol",
+    "date": "Datum",
+    "location": "Locatie",
+    "participants": "Deelnemers",
+    "registrationConfirmed": "Inschrijving voor evenement bevestigd!"
+  },
+  "education": {
+    "title": "EcoleHub Onderwijs",
+    "resources": "Bronnen",
+    "categories": {
+      "homework": "Huiswerk",
+      "calendar": "Kalender",
+      "forms": "Formulieren", 
+      "announcements": "Mededelingen"
+    },
+    "classResources": "Klas Bronnen",
+    "schoolCommunications": "School Communicatie"
+  },
+  "profile": {
+    "title": "Mijn Profiel",
+    "children": "Mijn Kinderen", 
+    "addChild": "Kind toevoegen",
+    "childName": "Naam van het kind",
+    "class": "Klas",
+    "chooseClass": "Kies een klas",
+    "childAdded": "Kind toegevoegd!",
+    "childDeleted": "Kind verwijderd"
+  },
+  "classes": {
+    "M1": "M1 (1e kleuterklas)",
+    "M2": "M2 (2e kleuterklas)",
+    "M3": "M3 (3e kleuterklas)", 
+    "P1": "P1 (1e leerjaar)",
+    "P2": "P2 (2e leerjaar)",
+    "P3": "P3 (3e leerjaar)",
+    "P4": "P4 (4e leerjaar)",
+    "P5": "P5 (5e leerjaar)",
+    "P6": "P6 (6e leerjaar)"
+  }
+}

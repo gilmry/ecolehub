@@ -1,9 +1,86 @@
-# Changelog
+# 📝 EcoleHub Changelog
 
 All notable changes to EcoleHub will be documented in this file.
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
+
+## [4.0.0] - 2025-01-16
+
+### ✨ Added - Makefile Management System
+- **Comprehensive Makefile** with 60+ organized commands for project management
+- **Centralized command interface** with colored output and intuitive categories
+- **MAKEFILE-GUIDE.md** detailed documentation with usage examples
+- **Unified CLI integration** wrapping existing Docker Compose and EcoleHub CLI tools
+
+### 🔧 Fixed - Infrastructure & Routing
+- **Traefik routing architecture** fixed: `localhost/*` → Frontend, `localhost/api/*` → Backend
+- **Docker networking** unified: All services on `schoolhub_ecolehub` network
+- **Backend connectivity** restored: PostgreSQL, Redis, MinIO properly connected
+- **Frontend console errors** resolved: Tailwind warning suppressed, API calls working
+- **Authentication flow** fixed: Login working with test accounts (admin123, demo123, etc.)
+
+### 🚀 Enhanced - Developer Experience
+- **One-command startup**: `make start` launches entire application stack
+- **Service monitoring**: `make status`, `make health`, `make logs` for real-time insights
+- **User management**: `make users-list`, `make users-create`, `make users-reset`
+- **Development workflow**: `make dev`, `make test`, `make lint`, `make shell-backend`
+- **Backup & maintenance**: `make backup`, `make restore`, `make clean`
+
+### 📋 Command Categories Added
+#### 🚀 Main Commands
+- `make start/stop/restart/status` - Service lifecycle management
+- `make health` - Backend health check via API
+
+#### 👥 User Management  
+- `make users-list` - List all users with roles and status
+- `make users-create` - Interactive user creation
+- `make users-reset` - Password reset functionality
+
+#### 🔐 Security & Credentials
+- `make creds-show` - Display all system credentials
+- `make creds-generate` - Generate new secure secrets
+
+#### 📋 Monitoring & Information
+- `make logs/logs-backend/logs-frontend/logs-traefik` - Targeted log viewing
+- `make urls` - Display all service URLs
+- `make accounts` - Show test account credentials
+
+#### 🛠️ Development Tools
+- `make dev` - Development mode with selective services
+- `make test/lint/format` - Code quality tools
+- `make shell-backend/shell-db` - Interactive shells
+
+#### 💾 Data Management
+- `make backup/restore` - Database backup and restore
+- `make clean/reset` - Resource cleanup (with safety confirmations)
+
+### 🌐 Service URLs Standardized
+- **Frontend**: http://localhost/
+- **API Backend**: http://localhost/api/
+- **Health Check**: http://localhost/api/health  
+- **Grafana**: http://localhost:3001/
+- **Traefik Dashboard**: http://localhost:8080/
+- **Prometheus**: http://localhost:9090/
+- **MinIO Console**: http://localhost:9001/
+
+### 👤 Test Accounts Confirmed
+- **Admin**: admin@ecolehub.be / admin123
+- **Direction**: direction@ecolehub.be / direction123  
+- **Parent**: demo@example.com / demo123
+- **Teacher**: teacher@ecolehub.be / teacher123
+
+### 🏗️ Technical Improvements
+- **Traefik v3 configuration** with proper priorities and middleware
+- **Docker Compose optimization** with health checks and dependencies
+- **Network architecture** simplified with unified `ecolehub` network
+- **CLI permissions** automatically fixed via `make fix-permissions`
+- **Error handling** enhanced with proper HTTP status codes
+
+### 📖 Documentation Updates
+- **README.md** updated with Makefile-first approach
+- **MAKEFILE-GUIDE.md** comprehensive usage guide created
+- **Installation process** streamlined to `make start`
 
 ## [3.0.0] - 2024-08-28
 

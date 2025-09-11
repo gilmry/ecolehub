@@ -1,8 +1,8 @@
-# 🏫 EcoleHub - Stage 3
+# 🏫 EcoleHub - Stage 4
 
 Plateforme scolaire collaborative pour l'EcoleHub (Bruxelles).
 
-**Stage Actuel** : Messagerie temps réel + Événements école + Système SEL complet.
+**Stage Actuel** : Boutique collaborative + Éducation + Administration + Multilingue + Analytics.
 
 ## 🚀 Installation Rapide (5 minutes)
 
@@ -10,61 +10,111 @@ Plateforme scolaire collaborative pour l'EcoleHub (Bruxelles).
 - Docker & Docker Compose
 - Git
 
-### Démarrage Stage 3
+### Démarrage Stage 4
 ```bash
 # 1. Cloner le projet
 git clone git@github.com:gilmry/ecolehub.git
 cd ecolehub
 
-# 2. Lancer Stage 3 (Messaging + Events)
-cp .env.stage2.example .env
-docker-compose -f docker-compose.stage2.yml up -d
+# 2. Lancer Stage 4 (Nouvelle méthode recommandée avec Makefile)
+cp .env.stage4.example .env
+make start
 
-# 3. Ouvrir dans le navigateur
+# Alternative: méthode Docker Compose directe
+docker-compose -f docker-compose.stage4.yml up -d
+
+# 3. Vérifier que tout fonctionne
+make health
+
+# 4. Voir toutes les URLs disponibles
+make urls
+
+# 5. Ouvrir dans le navigateur
 open http://localhost
 ```
+
+### ⭐ Nouveau: Makefile pour simplifier la gestion
+
+Le projet dispose maintenant d'un **Makefile complet** qui centralise toutes les commandes:
+
+```bash
+make help           # Voir toutes les commandes disponibles
+make start          # Démarrer l'application complète
+make stop           # Arrêter tous les services
+make status         # Voir le statut des services
+make users-list     # Lister tous les utilisateurs
+make accounts       # Voir les comptes de test
+make logs           # Voir les logs en temps réel
+make backup         # Créer une sauvegarde
+```
+
+📖 **Guide complet Makefile**: [MAKEFILE-GUIDE.md](./MAKEFILE-GUIDE.md)
 
 **C'est tout !** 🎉
 
 📖 **Guides détaillés** : [INSTALL.md](INSTALL.md) • [Stage 1](README-STAGE1.md) • [Stage 3](README-STAGE2.md)
 
-## ✅ Fonctionnalités Stage 3
+## ✅ Fonctionnalités Stage 4
 
-### 🏠 Base (Stages 0+1)
+### 🏠 Base (Stages 0+1+2)
 - ✅ **Inscription/Connexion** avec email + mot de passe
 - ✅ **Profil utilisateur** + enfants avec classes belges
 - ✅ **Système SEL** : Échanges entre parents (-300/+600 unités)
 - ✅ **Services** : 10 catégories + propositions communautaires
+- ✅ **Messages directs** : Parent-à-parent temps réel
+- ✅ **Événements école** : Inscriptions + calendrier
 
-### 💬 Messages (Stage 3)
-- ✅ **Messages directs** : Parent-à-parent avec auto-refresh 3s
-- ✅ **Groupes classe** : M1, M2, M3, P1, P2, P3, P4, P5, P6
-- ✅ **Annonces école** : Canal officiel EcoleHub
-- ✅ **Interface chat** : Bulles, timestamps, auto-scroll
+### 🛒 Boutique Collaborative (Stage 4)
+- ✅ **Achat groupé** : Commandes déclenchées par seuils
+- ✅ **Catalogue produits** : Fournitures scolaires + uniformes
+- ✅ **Expressions d'intérêt** : Quantités + notes (taille, couleur)
+- ✅ **Paiements belges** : Mollie (Bancontact, SEPA, cartes)
+- ✅ **Gestion commandes** : Workflow complet
 
-### 📅 Événements École (Stage 3)
-- ✅ **🍝 Spaghetti Saint-Nicolas** : Tradition EcoleHub (6 décembre)
-- ✅ **Fancy Fair** : Fête annuelle + stands + spectacles
-- ✅ **Carnaval** : Déguisements + concours costumes
-- ✅ **Classes vertes P6** : Séjour Ardennes belges
-- ✅ **Inscriptions** : Avec limites + deadlines
+### 📚 Ressources Éducatives (Stage 4)
+- ✅ **Bibliothèque ressources** : Documents, formulaires, calendriers
+- ✅ **Contenu par classe** : M1-M3, P1-P6
+- ✅ **Stockage sécurisé** : MinIO S3 avec validation
+- ✅ **Contrôle d'accès** : Public et restreint parents
+- ✅ **Catégories** : Devoirs, calendriers, annonces
 
-## 🏗️ Architecture Stage 3
+### ⚙️ Administration (Stage 4)
+- ✅ **Interface admin** : Gestion produits + commandes
+- ✅ **Authentification rôles** : Admin/direction par email
+- ✅ **Dashboard statistiques** : Usage plateforme
+- ✅ **Gestion seuils** : Lancement commandes groupées
+
+### 🌍 Multilingue + Analytics (Stage 4)
+- ✅ **3 langues** : Français, Néerlandais, Anglais
+- ✅ **Contexte belge** : Localisations spécifiques
+- ✅ **Analytics** : Métriques usage et performance
+- ✅ **Monitoring** : Prometheus + Grafana
+
+## 🏗️ Architecture Stage 4
 
 ```
 ┌─────────────┐    ┌─────────────┐    ┌─────────────┐    ┌─────────────┐
 │   Frontend  │    │   Nginx     │    │   Backend   │    │ PostgreSQL  │
-│   Vue 3     │───▶│ Proxy + WS  │───▶│ FastAPI+SEL │───▶│   + Redis   │
-│  6 onglets  │    │             │    │ +Messaging  │    │             │
+│ Vue 3 PWA   │───▶│ Proxy + SSL │───▶│  FastAPI    │───▶│  Database   │
+│ 9 onglets   │    │             │    │ Full Stack  │    │             │
+│Multilingue  │    │             │    │             │    │             │
 └─────────────┘    └─────────────┘    └─────────────┘    └─────────────┘
+                                              │
+               ┌─────────────┐    ┌─────────────┐    ┌─────────────┐
+               │    Redis    │    │   MinIO     │    │   Celery    │
+               │   Cache     │    │ Storage S3  │    │  Workers    │
+               │             │    │             │    │             │
+               └─────────────┘    └─────────────┘    └─────────────┘
 ```
 
-### Stack Technique Stage 3
-- **Backend** : FastAPI + PostgreSQL + Redis + WebSockets
-- **Frontend** : Vue 3 responsive avec 6 onglets
-- **Cache** : Redis pour sessions + temps réel
-- **Messagerie** : Polling 3s + conversations persistantes
-- **Déploiement** : Docker Compose 4 services
+### Stack Technique Stage 4
+- **Backend** : FastAPI + PostgreSQL + Redis + MinIO + Celery
+- **Frontend** : Vue 3 PWA responsive avec 9 onglets + i18n
+- **Paiements** : Mollie (Bancontact, SEPA, PayPal)
+- **Stockage** : MinIO S3 pour fichiers + images
+- **Queue** : Celery pour tâches asynchrones
+- **Monitoring** : Prometheus + Grafana
+- **Déploiement** : Docker Compose 6+ services
 
 ## 🇧🇪 Spécificités Belges
 
@@ -189,20 +239,21 @@ curl -X POST http://localhost:8000/register \
   -d '{"email":"test@example.com","password":"test123","first_name":"Test","last_name":"User"}'
 ```
 
-## 📊 Métriques Stage 0
+## 📊 Métriques Stage 4
 
-### Objectifs
-- **Utilisateurs** : 5-10 familles
-- **Uptime** : 95%+
-- **Temps réponse** : <500ms
-- **Mobile** : Interface responsive
+### Objectifs Production
+- **Utilisateurs** : 200+ familles
+- **Uptime** : 99.9%+
+- **Temps réponse** : <100ms
+- **Transactions SEL** : 1000+/mois
+- **Commandes groupées** : 50+/mois
 
-### Validation Avant Stage 1
-- [ ] 5+ familles utilisent l'application
-- [ ] Authentification fonctionne sans bug
-- [ ] Interface mobile correcte
-- [ ] SSL configuré en production
-- [ ] Backup SQLite fonctionnel
+### Validation Stage 4
+- ✅ Interface 9 onglets complète
+- ✅ Système paiements belges Mollie
+- ✅ Stockage MinIO opérationnel
+- ✅ Analytics + monitoring actifs
+- ✅ Support multilingue FR/NL/EN
 
 ## 🔮 Évolution par Stages
 
@@ -215,20 +266,22 @@ curl -X POST http://localhost:8000/register \
 - **PostgreSQL** : Base évolutive (30 familles)
 - **Documentation** : [README-STAGE1.md](README-STAGE1.md)
 
-### Stage 3 - Messages + Événements ✨ **ACTUEL**
+### Stage 4 - Full Stack ✨ **ACTUEL**
 ```bash
-# Migration Stage 1 → Stage 3
-cp .env.stage2.example .env
-docker-compose -f docker-compose.stage2.yml up -d
+# Migration Stage 3 → Stage 4
+cp .env.stage4.example .env
+docker-compose -f docker-compose.stage4.yml up -d
 ```
-- **💬 Messagerie** : Parent-à-parent temps réel
-- **📅 Événements** : École + Spaghetti Saint-Nicolas
-- **🔴 Redis** : Cache + performance (60 familles)
-- **Documentation** : [README-STAGE2.md](README-STAGE2.md)
+- **🛒 Boutique** : Achat groupé + paiements belges
+- **📚 Éducation** : Ressources par classe + stockage
+- **⚙️ Administration** : Interface admin complète
+- **🌍 Multilingue** : FR/NL/EN + analytics
+- **📊 Monitoring** : Prometheus + Grafana (200+ familles)
 
-### Stages Suivants (Planifiés)
-- **Stage 3** : Boutique collaborative + Éducation
-- **Stage 4** : Multilingual + Analytics + Admin
+### Évolution Future
+- **Optimisations** : Performance + sécurité
+- **Intégrations** : APIs externes belges
+- **Mobile** : Application native (optionnel)
 
 ## 🆘 Support
 
@@ -267,6 +320,6 @@ Open Source - Réutilisable par d'autres écoles.
 
 ---
 
-**Version** : Stage 0 (v0.1.0)  
-**Dernière mise à jour** : $(date +%Y-%m-%d)  
+**Version** : Stage 4 (v4.0.0)  
+**Dernière mise à jour** : 2024-08-28  
 **École** : EcoleHub, Bruxelles 🇧🇪

@@ -1,0 +1,165 @@
+{
+  "app": {
+    "title": "EcoleHub Stage 4",
+    "subtitle": "Multilingual collaborative platform",
+    "loading": "Loading...",
+    "error": "Error",
+    "success": "Success",
+    "confirm": "Confirm",
+    "cancel": "Cancel",
+    "save": "Save",
+    "delete": "Delete",
+    "edit": "Edit", 
+    "create": "Create",
+    "close": "Close"
+  },
+  "auth": {
+    "login": "Login",
+    "register": "Register",
+    "logout": "Logout", 
+    "email": "Email",
+    "password": "Password",
+    "firstName": "First Name",
+    "lastName": "Last Name",
+    "loginSuccess": "Login successful!",
+    "registerSuccess": "Registration successful! Welcome to EcoleHub.",
+    "invalidCredentials": "Invalid email or password",
+    "emailPlaceholder": "your.email@ecolehub.be"
+  },
+  "navigation": {
+    "dashboard": "Dashboard",
+    "services": "SEL Services",
+    "transactions": "Transactions",
+    "messages": "Messages",
+    "events": "Events", 
+    "shop": "Shop",
+    "education": "Education",
+    "profile": "Profile",
+    "admin": "Administration"
+  },
+  "sel": {
+    "title": "Local Exchange System",
+    "balance": "Balance",
+    "units": "units",
+    "services": "Services", 
+    "transactions": "Transactions",
+    "categories": {
+      "garde": "Childcare",
+      "devoirs": "Homework help",
+      "transport": "Transport",
+      "cuisine": "Cooking",
+      "bricolage": "DIY/Crafts",
+      "jardinage": "Gardening",
+      "menage": "Housework",
+      "courses": "Shopping", 
+      "proposition": "Proposals",
+      "autre": "Other"
+    },
+    "limits": "Belgian limits: -300 to +600 units • 60 units = 1 hour",
+    "createService": "Create service",
+    "serviceCreated": "Service created successfully!",
+    "transactionApproved": "Transaction approved! Balances updated."
+  },
+  "shop": {
+    "title": "Collaborative Shop",
+    "products": "Products",
+    "categories": {
+      "fournitures": "School supplies",
+      "vetements": "Clothing",
+      "accessoires": "Accessories"
+    },
+    "interested": "I'm interested",
+    "cancelInterest": "Cancel interest",
+    "interestExpressed": "Interest expressed", 
+    "groupOrderReady": "Ready to order!",
+    "participants": "interested parent(s)",
+    "howItWorks": "How it works?",
+    "workflow": [
+      "Parents express interest in a product",
+      "When minimum threshold is reached → group order possible",
+      "Payment via Mollie (Bancontact, card, transfer)", 
+      "Group delivery = better prices for everyone!"
+    ],
+    "vatIncluded": "VAT included",
+    "minimumQuantity": "Minimum quantity",
+    "price": "Price",
+    "description": "Description"
+  },
+  "admin": {
+    "title": "EcoleHub Administration",
+    "products": "Products",
+    "interests": "Interests",
+    "orders": "Orders",
+    "statistics": "Statistics",
+    "newProduct": "New Product",
+    "productName": "Product name",
+    "category": "Category",
+    "launchGroupOrder": "Launch Group Order",
+    "activate": "Activate",
+    "deactivate": "Deactivate",
+    "productCreated": "Product created successfully!",
+    "productUpdated": "Product updated",
+    "adminRequired": "Administrator access required"
+  },
+  "messages": {
+    "title": "Messages",
+    "newMessage": "New message",
+    "sendDirectMessage": "Send direct message",
+    "recipient": "Recipient",
+    "chooseParent": "Choose a parent",
+    "typeMessage": "Type your message...",
+    "send": "Send", 
+    "refresh": "Refresh",
+    "noConversations": "No conversations yet",
+    "noMessages": "No messages in this conversation"
+  },
+  "events": {
+    "title": "School Events",
+    "filters": {
+      "all": "All",
+      "school": "School",
+      "class": "Classes",
+      "celebration": "Celebrations"
+    },
+    "register": "Register",
+    "registered": "Registered",
+    "full": "Full",
+    "date": "Date",
+    "location": "Location", 
+    "participants": "Participants",
+    "registrationConfirmed": "Event registration confirmed!"
+  },
+  "education": {
+    "title": "EcoleHub Education",
+    "resources": "Resources",
+    "categories": {
+      "homework": "Homework",
+      "calendar": "Calendar", 
+      "forms": "Forms",
+      "announcements": "Announcements"
+    },
+    "classResources": "Class Resources",
+    "schoolCommunications": "School Communications"
+  },
+  "profile": {
+    "title": "My Profile",
+    "children": "My Children",
+    "addChild": "Add child",
+    "childName": "Child's name",
+    "class": "Class",
+    "chooseClass": "Choose a class",
+    "childAdded": "Child added!",
+    "childDeleted": "Child deleted"
+  },
+  "classes": {
+    "M1": "M1 (1st kindergarten)",
+    "M2": "M2 (2nd kindergarten)",
+    "M3": "M3 (3rd kindergarten)",
+    "P1": "P1 (1st grade)", 
+    "P2": "P2 (2nd grade)",
+    "P3": "P3 (3rd grade)",
+    "P4": "P4 (4th grade)",
+    "P5": "P5 (5th grade)",
+    "P6": "P6 (6th grade)"
+  }
+}

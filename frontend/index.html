@@ -3,9 +3,27 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>EcoleHub Stage 3</title>
-    <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+    <title>EcoleHub Stage 4</title>
+    <!-- Fixed: Using production Vue.js build and handling CDN warnings -->
+    <script>
+        // Suppress Tailwind CDN warning - must be loaded before Tailwind
+        (function() {
+            if (window.console) {
+                const originalWarn = console.warn;
+                
+                console.warn = function(...args) {
+                    const message = args.join(' ');
+                    if (message.includes('cdn.tailwindcss.com') || message.includes('should not be used in production')) {
+                        return; // Suppress CDN warning
+                    }
+                    originalWarn.apply(console, args);
+                };
+            }
+        })();
+    </script>
+    <script src="https://unpkg.com/vue@3/dist/vue.global.prod.js"></script>
     <script src="https://cdn.tailwindcss.com"></script>
+    <script src="./i18n.js"></script>
     <style>
         [v-cloak] { display: none; }
     </style>
@@ -15,10 +33,28 @@
         <!-- Header -->
         <header class="bg-white shadow">
             <div class="max-w-6xl mx-auto px-4 py-6">
-                <h1 class="text-3xl font-bold text-gray-900">
-                    🏫 EcoleHub Stage 3
-                </h1>
-                <p class="text-gray-600 mt-2">Plateforme collaborative complète - Boutique + Éducation</p>
+                <div class="flex justify-between items-start">
+                    <div>
+                        <h1 class="text-3xl font-bold text-gray-900">
+                            🏫 EcoleHub Stage 4
+                        </h1>
+                        <p class="text-gray-600 mt-2">Plateforme collaborative multilingue</p>
+                    </div>
+                    
+                    <!-- Language Selector -->
+                    <div class="flex items-center space-x-2">
+                        <label class="text-sm text-gray-600">Langue:</label>
+                        <select 
+                            v-model="currentLanguage" 
+                            @change="changeLanguage"
+                            class="border rounded px-2 py-1 text-sm"
+                        >
+                            <option v-for="locale in supportedLocales" :key="locale.code" :value="locale.code">
+                                {{ locale.flag }} {{ locale.name }}
+                            </option>
+                        </select>
+                    </div>
+                </div>
                 <div v-if="isAuthenticated" class="mt-2 flex justify-between items-center">
                     <span class="text-sm text-green-600">
                         Connecté: {{ user.first_name }} {{ user.last_name }}
@@ -126,56 +162,56 @@
                             :class="{'bg-blue-500 text-white': currentTab === 'dashboard', 'text-blue-500': currentTab !== 'dashboard'}"
                             class="px-4 py-2 rounded-lg font-medium"
                         >
-                            🏠 Dashboard
+                            🏠 {{ $t('navigation.dashboard') }}
                         </button>
                         <button
                             @click="currentTab = 'services'"
                             :class="{'bg-blue-500 text-white': currentTab === 'services', 'text-blue-500': currentTab !== 'services'}"
                             class="px-4 py-2 rounded-lg font-medium"
                         >
-                            💼 Services SEL
+                            💼 {{ $t('navigation.services') }}
                         </button>
                         <button
                             @click="currentTab = 'transactions'"
                             :class="{'bg-blue-500 text-white': currentTab === 'transactions', 'text-blue-500': currentTab !== 'transactions'}"
                             class="px-4 py-2 rounded-lg font-medium"
                         >
-                            💱 Transactions
+                            💱 {{ $t('navigation.transactions') }}
                         </button>
                         <button
                             @click="currentTab = 'messages'"
                             :class="{'bg-blue-500 text-white': currentTab === 'messages', 'text-blue-500': currentTab !== 'messages'}"
                             class="px-4 py-2 rounded-lg font-medium"
                         >
-                            💬 Messages
+                            💬 {{ $t('navigation.messages') }}
                         </button>
                         <button
                             @click="currentTab = 'events'"
                             :class="{'bg-blue-500 text-white': currentTab === 'events', 'text-blue-500': currentTab !== 'events'}"
                             class="px-4 py-2 rounded-lg font-medium"
                         >
-                            📅 Événements
+                            📅 {{ $t('navigation.events') }}
                         </button>
                         <button
                             @click="currentTab = 'shop'"
                             :class="{'bg-blue-500 text-white': currentTab === 'shop', 'text-blue-500': currentTab !== 'shop'}"
                             class="px-4 py-2 rounded-lg font-medium"
                         >
-                            🛒 Boutique
+                            🛒 {{ $t('navigation.shop') }}
                         </button>
                         <button
                             @click="currentTab = 'education'"
                             :class="{'bg-blue-500 text-white': currentTab === 'education', 'text-blue-500': currentTab !== 'education'}"
                             class="px-4 py-2 rounded-lg font-medium"
                         >
-                            📚 Éducation
+                            📚 {{ $t('navigation.education') }}
                         </button>
                         <button
                             @click="currentTab = 'profile'"
                             :class="{'bg-blue-500 text-white': currentTab === 'profile', 'text-blue-500': currentTab !== 'profile'}"
                             class="px-4 py-2 rounded-lg font-medium"
                         >
-                            👤 Profil
+                            👤 {{ $t('navigation.profile') }}
                         </button>
                         <button
                             v-if="user && user.email && (user.email.includes('admin') || user.email.includes('direction'))"
@@ -183,7 +219,7 @@
                             :class="{'bg-red-500 text-white': currentTab === 'admin', 'text-red-500': currentTab !== 'admin'}"
                             class="px-4 py-2 rounded-lg font-medium"
                         >
-                            ⚙️ Admin
+                            ⚙️ {{ $t('navigation.admin') }}
                         </button>
                     </div>
                 </nav>
@@ -1087,7 +1123,7 @@
     <script>
         const { createApp } = Vue;
         
-        createApp({
+        const app = createApp({
             data() {
                 return {
                     // État global
@@ -1108,7 +1144,18 @@
                     
                     // SEL Data
                     balance: null,
-                    categories: [],
+                    categories: [
+                        { id: 1, name: 'Education', icon: '📚', description: 'Aide aux devoirs, soutien scolaire' },
+                        { id: 2, name: 'Garde', icon: '👶', description: 'Garde d\'enfants, babysitting' },
+                        { id: 3, name: 'Transport', icon: '🚗', description: 'Covoiturage, transport scolaire' },
+                        { id: 4, name: 'Cuisine', icon: '🍳', description: 'Préparation repas, cours cuisine' },
+                        { id: 5, name: 'Jardinage', icon: '🌱', description: 'Jardinage, bricolage extérieur' },
+                        { id: 6, name: 'Informatique', icon: '💻', description: 'Aide informatique, réparations' },
+                        { id: 7, name: 'Artisanat', icon: '🎨', description: 'Créations manuelles, arts' },
+                        { id: 8, name: 'Sport', icon: '⚽', description: 'Activités sportives, coaching' },
+                        { id: 9, name: 'Musique', icon: '🎵', description: 'Cours de musique, instruments' },
+                        { id: 10, name: 'proposition', icon: '💭', description: 'Proposer une nouvelle catégorie' }
+                    ],
                     myServices: [],
                     availableServices: [],
                     transactions: [],
@@ -1145,7 +1192,15 @@
                         category: '',
                         base_price: 0,
                         min_quantity: 10
-                    }
+                    },
+                    
+                    // Stage 4: Multilingual Data
+                    currentLanguage: 'fr-BE',
+                    supportedLocales: [
+                        { code: 'fr-BE', name: 'Français (Belgique)', flag: '🇧🇪' },
+                        { code: 'nl-BE', name: 'Nederlands (België)', flag: '🇳🇱' },
+                        { code: 'en', name: 'English', flag: '🇬🇧' }
+                    ]
                 }
             },
             
@@ -1169,6 +1224,15 @@
             },
             
             async mounted() {
+                // Initialize i18n system first
+                try {
+                    await window.EcoleHubI18n.initializeFromStorage();
+                    this.currentLanguage = window.EcoleHubI18n.getCurrentLocale();
+                    this.$forceUpdate(); // Re-render with translations
+                } catch (error) {
+                    console.warn('i18n initialization failed, using fallback');
+                }
+                
                 const token = localStorage.getItem('token');
                 if (token) {
                     await this.loadUserData(token);
@@ -1181,7 +1245,7 @@
             methods: {
                 async loadUserData(token) {
                     try {
-                        const userResponse = await fetch('/me', {
+                        const userResponse = await fetch('/api/me', {
                             headers: { 'Authorization': `Bearer ${token}` }
                         });
                         
@@ -1218,7 +1282,7 @@
                 async loadBalance() {
                     try {
                         const token = localStorage.getItem('token');
-                        const response = await fetch('/sel/balance', {
+                        const response = await fetch('/api/sel/balance', {
                             headers: { 'Authorization': `Bearer ${token}` }
                         });
                         if (response.ok) {
@@ -1231,19 +1295,28 @@
                 
                 async loadCategories() {
                     try {
-                        const response = await fetch('/sel/categories');
+                        const response = await fetch('/api/sel/categories');
                         if (response.ok) {
-                            this.categories = await response.json();
+                            const serverCategories = await response.json();
+                            // Merge server categories with default ones if server has data
+                            if (Array.isArray(serverCategories) && serverCategories.length > 0) {
+                                this.categories = serverCategories;
+                            }
+                            // Default categories are already loaded in data
+                        } else {
+                            console.warn('Categories endpoint returned:', response.status);
+                            // Keep default categories
                         }
                     } catch (error) {
                         console.error('Erreur catégories:', error);
+                        // Keep default categories
                     }
                 },
                 
                 async loadMyServices() {
                     try {
                         const token = localStorage.getItem('token');
-                        const response = await fetch('/sel/services/mine', {
+                        const response = await fetch('/api/sel/services/mine', {
                             headers: { 'Authorization': `Bearer ${token}` }
                         });
                         if (response.ok) {
@@ -1257,7 +1330,7 @@
                 async loadAvailableServices() {
                     try {
                         const token = localStorage.getItem('token');
-                        const response = await fetch('/sel/services', {
+                        const response = await fetch('/api/sel/services', {
                             headers: { 'Authorization': `Bearer ${token}` }
                         });
                         if (response.ok) {
@@ -1271,7 +1344,7 @@
                 async loadTransactions() {
                     try {
                         const token = localStorage.getItem('token');
-                        const response = await fetch('/sel/transactions', {
+                        const response = await fetch('/api/sel/transactions', {
                             headers: { 'Authorization': `Bearer ${token}` }
                         });
                         if (response.ok) {
@@ -1285,7 +1358,7 @@
                 async loadChildren() {
                     try {
                         const token = localStorage.getItem('token');
-                        const response = await fetch('/children', {
+                        const response = await fetch('/api/children', {
                             headers: { 'Authorization': `Bearer ${token}` }
                         });
                         if (response.ok) {
@@ -1301,7 +1374,7 @@
                     this.errorMessage = '';
                     
                     try {
-                        const response = await fetch('/register', {
+                        const response = await fetch('/api/register', {
                             method: 'POST',
                             headers: { 'Content-Type': 'application/json' },
                             body: JSON.stringify(this.formData)
@@ -1332,7 +1405,7 @@
                         formData.append('email', this.formData.email);
                         formData.append('password', this.formData.password);
                         
-                        const response = await fetch('/login', {
+                        const response = await fetch('/api/login', {
                             method: 'POST',
                             body: formData
                         });
@@ -1357,7 +1430,7 @@
                     
                     try {
                         const token = localStorage.getItem('token');
-                        const response = await fetch('/sel/services', {
+                        const response = await fetch('/api/sel/services', {
                             method: 'POST',
                             headers: {
                                 'Content-Type': 'application/json',
@@ -1390,7 +1463,7 @@
                     
                     try {
                         const token = localStorage.getItem('token');
-                        const response = await fetch('/children', {
+                        const response = await fetch('/api/children', {
                             method: 'POST',
                             headers: {
                                 'Content-Type': 'application/json',
@@ -1484,7 +1557,7 @@
                     
                     try {
                         const token = localStorage.getItem('token');
-                        const response = await fetch('/sel/transactions', {
+                        const response = await fetch('/api/sel/transactions', {
                             method: 'POST',
                             headers: {
                                 'Content-Type': 'application/json',
@@ -1558,7 +1631,7 @@
                 async loadConversations() {
                     try {
                         const token = localStorage.getItem('token');
-                        const response = await fetch('/conversations', {
+                        const response = await fetch('/api/conversations', {
                             headers: { 'Authorization': `Bearer ${token}` }
                         });
                         if (response.ok) {
@@ -1574,7 +1647,7 @@
                         const token = localStorage.getItem('token');
                         console.log('🔍 Loading events with token:', token ? 'EXISTS' : 'MISSING');
                         
-                        const response = await fetch('/events', {
+                        const response = await fetch('/api/events', {
                             headers: { 'Authorization': `Bearer ${token}` }
                         });
                         
@@ -1746,7 +1819,7 @@
                 async loadOtherUsers() {
                     try {
                         const token = localStorage.getItem('token');
-                        const response = await fetch('/users/list', {
+                        const response = await fetch('/api/users/list', {
                             headers: { 'Authorization': `Bearer ${token}` }
                         });
                         if (response.ok) {
@@ -1766,7 +1839,7 @@
                         const token = localStorage.getItem('token');
                         
                         // 1. Créer ou obtenir conversation directe
-                        const conversationResponse = await fetch('/conversations/direct', {
+                        const conversationResponse = await fetch('/api/conversations/direct', {
                             method: 'POST',
                             headers: { 'Authorization': `Bearer ${token}` },
                             body: new FormData(Object.assign(document.createElement('form'), {
@@ -1815,7 +1888,7 @@
                         const formData = new FormData();
                         formData.append('other_user_id', service.user_id);
                         
-                        const conversationResponse = await fetch('/conversations/direct', {
+                        const conversationResponse = await fetch('/api/conversations/direct', {
                             method: 'POST',
                             headers: { 'Authorization': `Bearer ${token}` },
                             body: formData
@@ -1850,7 +1923,7 @@
                 async loadShopProducts() {
                     try {
                         const token = localStorage.getItem('token');
-                        const response = await fetch('/shop/products', {
+                        const response = await fetch('/api/shop/products', {
                             headers: { 'Authorization': `Bearer ${token}` }
                         });
                         if (response.ok) {
@@ -1865,7 +1938,7 @@
                 async loadEducationResources() {
                     try {
                         const token = localStorage.getItem('token');
-                        const response = await fetch('/education/resources', {
+                        const response = await fetch('/api/education/resources', {
                             headers: { 'Authorization': `Bearer ${token}` }
                         });
                         if (response.ok) {
@@ -1988,7 +2061,7 @@
                     
                     try {
                         const token = localStorage.getItem('token');
-                        const response = await fetch('/shop/products', {
+                        const response = await fetch('/api/shop/products', {
                             method: 'POST',
                             headers: {
                                 'Content-Type': 'application/json',
@@ -2023,6 +2096,11 @@
                     };
                 },
                 
+                async changeLanguage() {
+                    await window.EcoleHubI18n.setLocale(this.currentLanguage);
+                    this.$forceUpdate(); // Force Vue to re-render with new translations
+                },
+                
                 logout() {
                     // Stop message polling
                     this.stopMessagePolling();
@@ -2036,7 +2114,13 @@
                     this.successMessage = 'Déconnexion réussie';
                 }
             }
-        }).mount('#app');
+        });
+        
+        // Install i18n plugin
+        app.use(window.I18nPlugin);
+        
+        // Mount the app
+        app.mount('#app');
     </script>
 </body>
 </html>

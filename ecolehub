@@ -1,0 +1,16 @@
+#!/bin/bash
+# EcoleHub CLI Wrapper
+# Simplified access to credential and account management
+
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+SHELL_CLI="$SCRIPT_DIR/scripts/ecolehub-manager.sh"
+
+# Check if shell CLI exists
+if [[ ! -f "$SHELL_CLI" ]]; then
+    echo "❌ CLI script not found at $SHELL_CLI"
+    exit 1
+fi
+
+# Change to the project directory and execute the shell CLI
+cd "$SCRIPT_DIR"
+exec "$SHELL_CLI" "$@"

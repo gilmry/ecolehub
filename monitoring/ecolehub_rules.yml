@@ -1,0 +1,115 @@
+# EcoleHub Stage 4 - Prometheus Alerting Rules
+# Specific alerts for Belgian school collaborative platform
+
+groups:
+  - name: ecolehub_platform
+    rules:
+      # High-level platform health
+      - alert: EcoleHubBackendDown
+        expr: up{job="ecolehub-backend"} == 0
+        for: 1m
+        labels:
+          severity: critical
+          platform: ecolehub
+        annotations:
+          summary: "EcoleHub backend is down"
+          description: "EcoleHub backend has been down for more than 1 minute. Belgian school families cannot access the platform."
+
+      - alert: EcoleHubHighResponseTime
+        expr: http_request_duration_seconds{quantile="0.95"} > 1
+        for: 5m
+        labels:
+          severity: warning
+          platform: ecolehub
+        annotations:
+          summary: "EcoleHub high response time"
+          description: "95% of requests are taking more than 1 second. Belgian families may experience slow platform access."
+
+  - name: ecolehub_database
+    rules:
+      # Database performance for school data
+      - alert: EcoleHubDatabaseDown
+        expr: up{job="postgres"} == 0
+        for: 1m
+        labels:
+          severity: critical
+          platform: ecolehub
+        annotations:
+          summary: "EcoleHub database is down"
+          description: "PostgreSQL database is down. All school data and parent communications are unavailable."
+
+      - alert: EcoleHubHighDatabaseConnections
+        expr: pg_stat_database_numbackends{datname="ecolehub"} > 80
+        for: 5m
+        labels:
+          severity: warning
+          platform: ecolehub
+        annotations:
+          summary: "High database connections"
+          description: "EcoleHub database has {{ $value }} active connections (>80). May indicate high platform usage."
+
+  - name: ecolehub_business_metrics
+    rules:
+      # Business metrics specific to Belgian schools
+      - alert: EcoleHubLowParentEngagement
+        expr: rate(ecolehub_user_logins_total[24h]) < 0.1
+        for: 6h
+        labels:
+          severity: warning
+          platform: ecolehub
+        annotations:
+          summary: "Low parent engagement"
+          description: "Daily parent login rate is below 10%. School community engagement may be declining."
+
+      - alert: EcoleHubFailedSELTransactions
+        expr: rate(ecolehub_sel_transactions_failed_total[1h]) > 0.1
+        for: 30m
+        labels:
+          severity: warning
+          platform: ecolehub
+        annotations:
+          summary: "High SEL transaction failure rate"
+          description: "SEL transactions are failing at {{ $value }}% rate. Parent exchange system may have issues."
+
+      - alert: EcoleHubFailedGroupOrders
+        expr: rate(ecolehub_shop_orders_failed_total[1h]) > 0.05
+        for: 30m
+        labels:
+          severity: warning
+          platform: ecolehub
+        annotations:
+          summary: "Group order failures detected"
+          description: "Group orders are failing. Collaborative shopping system needs attention."
+
+  - name: ecolehub_infrastructure
+    rules:
+      # Infrastructure monitoring for Belgian school platform
+      - alert: EcoleHubRedisDown
+        expr: up{job="redis"} == 0
+        for: 2m
+        labels:
+          severity: warning
+          platform: ecolehub
+        annotations:
+          summary: "EcoleHub Redis cache is down"
+          description: "Redis cache is down. Real-time messaging and session management affected."
+
+      - alert: EcoleHubMinIODown
+        expr: up{job="minio"} == 0
+        for: 2m
+        labels:
+          severity: warning
+          platform: ecolehub
+        annotations:
+          summary: "EcoleHub file storage is down"
+          description: "MinIO storage is down. Educational resources and product images unavailable."
+
+      - alert: EcoleHubHighMemoryUsage
+        expr: (node_memory_MemTotal_bytes - node_memory_MemAvailable_bytes) / node_memory_MemTotal_bytes > 0.9
+        for: 5m
+        labels:
+          severity: critical
+          platform: ecolehub
+        annotations:
+          summary: "High memory usage"
+          description: "System memory usage is above 90%. Platform performance for Belgian families may be impacted."

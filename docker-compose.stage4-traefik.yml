@@ -1,0 +1,133 @@
+version: '3.8'
+
+services:
+  # Traefik reverse proxy (simple configuration)
+  traefik:
+    image: traefik:v3.0
+    command:
+      - "--api.dashboard=true"
+      - "--providers.docker=true"
+      - "--providers.docker.exposedbydefault=false"
+      - "--entrypoints.web.address=:80"
+      - "--log.level=DEBUG"
+    ports:
+      - "80:80"
+      - "8080:8080"
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock:ro
+    networks:
+      - ecolehub
+    labels:
+      - "traefik.enable=true"
+      # CORS middleware for ngrok
+      - "traefik.http.middlewares.cors.headers.accesscontrolalloworiginlist=*"
+      - "traefik.http.middlewares.cors.headers.accesscontrolallowmethods=GET,POST,PUT,DELETE,OPTIONS"
+      - "traefik.http.middlewares.cors.headers.accesscontrolallowheaders=*"
+      - "traefik.http.middlewares.cors.headers.accesscontrolallowcredentials=true"
+
+  postgres:
+    image: postgres:15-alpine
+    environment:
+      POSTGRES_USER: ecolehub
+      POSTGRES_PASSWORD: ${DB_PASSWORD:-ecolehub_secure_password}
+      POSTGRES_DB: ecolehub
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+      - ./scripts/init_stage4.sql:/docker-entrypoint-initdb.d/init.sql
+    networks:
+      - ecolehub
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ecolehub"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  redis:
+    image: redis:7-alpine
+    command: redis-server --appendonly yes --requirepass ${REDIS_PASSWORD:-redis_secure_password}
+    volumes:
+      - redis_data:/data
+    networks:
+      - ecolehub
+    healthcheck:
+      test: ["CMD", "redis-cli", "-a", "${REDIS_PASSWORD:-redis_secure_password}", "ping"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  minio:
+    image: minio/minio:latest
+    command: server /data --console-address ":9001"
+    environment:
+      MINIO_ROOT_USER: ${MINIO_ACCESS_KEY:-ecolehub_minio}
+      MINIO_ROOT_PASSWORD: ${MINIO_SECRET_KEY:-minio_secure_password}
+    volumes:
+      - minio_data:/data
+    networks:
+      - ecolehub
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:9000/minio/health/live"]
+      interval: 30s
+      timeout: 20s
+      retries: 3
+
+  backend:
+    build:
+      context: ./backend
+      args:
+        STAGE: 4
+    environment:
+      - DATABASE_URL=postgresql://ecolehub:${DB_PASSWORD:-ecolehub_secure_password}@postgres:5432/ecolehub
+      - REDIS_URL=redis://:${REDIS_PASSWORD:-redis_secure_password}@redis:6379/0
+      - MINIO_ENDPOINT=minio:9000
+      - MINIO_ACCESS_KEY=${MINIO_ACCESS_KEY:-ecolehub_minio}
+      - MINIO_SECRET_KEY=${MINIO_SECRET_KEY:-minio_secure_password}
+      - SECRET_KEY=${SECRET_KEY:-change-this-in-production-very-important}
+      - MOLLIE_API_KEY=${MOLLIE_API_KEY:-test_mollie_key}
+      - PRINTFUL_API_KEY=${PRINTFUL_API_KEY:-test_printful_key}
+      - PROMETHEUS_ENABLED=true
+      - STAGE=4
+    volumes:
+      - ./backend/app:/app/app
+      - ./frontend/locales:/app/frontend/locales:ro
+    depends_on:
+      postgres:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+      minio:
+        condition: service_healthy
+    networks:
+      - ecolehub
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.api.rule=PathPrefix(`/api`) || PathPrefix(`/sel`) || PathPrefix(`/shop`) || PathPrefix(`/education`) || PathPrefix(`/conversations`) || PathPrefix(`/events`) || PathPrefix(`/users`) || PathPrefix(`/children`) || PathPrefix(`/register`) || PathPrefix(`/login`) || PathPrefix(`/me`) || PathPrefix(`/health`) || PathPrefix(`/metrics`) || PathPrefix(`/analytics`) || PathPrefix(`/i18n`) || PathPrefix(`/payments`) || PathPrefix(`/ws`)"
+      - "traefik.http.routers.api.priority=10"
+      - "traefik.http.routers.api.middlewares=cors"
+      - "traefik.http.services.api.loadbalancer.server.port=8000"
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8000/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+
+  frontend:
+    image: nginx:alpine
+    volumes:
+      - ./frontend:/usr/share/nginx/html:ro
+    networks:
+      - ecolehub
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.frontend.rule=PathPrefix(`/`)"
+      - "traefik.http.routers.frontend.priority=1"
+      - "traefik.http.services.frontend.loadbalancer.server.port=80"
+
+networks:
+  ecolehub:
+    driver: bridge
+
+volumes:
+  postgres_data:
+  redis_data:
+  minio_data:

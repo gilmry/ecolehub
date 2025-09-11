@@ -16,9 +16,12 @@ class MolliePaymentService:
     """
     
     def __init__(self):
-        api_key = os.getenv("MOLLIE_API_KEY")
-        if not api_key:
-            logging.warning("⚠️ MOLLIE_API_KEY not configured - using test mode")
+        # Import secrets manager
+        from .secrets_manager import get_external_api_key
+        
+        api_key = get_external_api_key('mollie')
+        if not api_key or api_key.startswith('test_mollie_key'):
+            logging.warning("⚠️ MOLLIE_API_KEY not configured or placeholder - using test mode")
             api_key = "test_dHar4XY7LxsDOtmnkVtjNVWXLSlXsM"  # Test key
         
         self.client = Client()

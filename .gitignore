@@ -46,3 +46,14 @@ node_modules/
 
 # Windows
 Thumbs.db
+
+# Secrets - NEVER COMMIT THESE!
+secrets/
+*.key
+*.pem
+.env.secrets
+secrets-backup-*
+*.tar.gz.gpg
+*secret*.txt
+*password*.txt
+*api_key*.txt

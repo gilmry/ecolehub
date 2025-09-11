@@ -12,7 +12,9 @@ WORKDIR /app
 # Install Python dependencies based on stage
 ARG STAGE=0
 COPY requirements*.txt ./
-RUN if [ "$STAGE" = "3" ]; then \
+RUN if [ "$STAGE" = "4" ]; then \
+        pip install --no-cache-dir -r requirements.stage4.txt; \
+    elif [ "$STAGE" = "3" ]; then \
         pip install --no-cache-dir -r requirements.stage3.txt; \
     elif [ "$STAGE" = "2" ]; then \
         pip install --no-cache-dir -r requirements.stage2.txt; \
@@ -27,7 +29,9 @@ COPY app/ ./app/
 EXPOSE 8000
 
 # Run appropriate main file based on stage
-CMD if [ "${STAGE:-0}" = "3" ]; then \
+CMD if [ "${STAGE:-0}" = "4" ]; then \
+        uvicorn app.main_stage4:app --host 0.0.0.0 --port 8000 --ws-ping-interval 20 --ws-ping-timeout 10; \
+    elif [ "${STAGE:-0}" = "3" ]; then \
         uvicorn app.main_stage3:app --host 0.0.0.0 --port 8000 --ws-ping-interval 20 --ws-ping-timeout 10; \
     elif [ "${STAGE:-0}" = "2" ]; then \
         uvicorn app.main_stage2:app --host 0.0.0.0 --port 8000 --ws-ping-interval 20 --ws-ping-timeout 10; \
