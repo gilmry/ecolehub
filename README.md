@@ -33,22 +33,35 @@ make urls
 open http://localhost
 ```
 
-### ⭐ Nouveau: Makefile pour simplifier la gestion
+### ⭐ Nouveau: Makefile + Tests Automatisés
 
-Le projet dispose maintenant d'un **Makefile complet** qui centralise toutes les commandes:
+Le projet dispose maintenant d'un **Makefile complet** et d'une **suite de tests automatisés**:
 
 ```bash
+# Gestion de l'application
 make help           # Voir toutes les commandes disponibles
 make start          # Démarrer l'application complète
 make stop           # Arrêter tous les services
 make status         # Voir le statut des services
+
+# Gestion des utilisateurs
 make users-list     # Lister tous les utilisateurs
 make accounts       # Voir les comptes de test
+
+# Tests automatisés (nouveau!)
+make test           # Lancer tous les tests
+make test-unit      # Tests unitaires rapides
+make test-coverage  # Rapport de couverture
+
+# Monitoring
 make logs           # Voir les logs en temps réel
+make health         # Vérifier la santé du backend
 make backup         # Créer une sauvegarde
 ```
 
-📖 **Guide complet Makefile**: [MAKEFILE-GUIDE.md](./MAKEFILE-GUIDE.md)
+📖 **Guides disponibles**:
+- [MAKEFILE-GUIDE.md](./MAKEFILE-GUIDE.md) - Commandes centralisées
+- [TESTING-GUIDE.md](./TESTING-GUIDE.md) - Tests automatisés
 
 **C'est tout !** 🎉
 

@@ -16,6 +16,8 @@ __pycache__/
 *.egg-info/
 dist/
 build/
+venv/
+env/
 
 # IDE
 .vscode/
@@ -57,3 +59,4 @@ secrets-backup-*
 *secret*.txt
 *password*.txt
 *api_key*.txt
+letsencrypt/

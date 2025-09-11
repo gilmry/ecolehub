@@ -1,0 +1,251 @@
+name: 🧪 EcoleHub CI/CD Pipeline
+
+on:
+  push:
+    branches: [ master, develop ]
+  pull_request:
+    branches: [ master ]
+
+env:
+  STAGE: 4
+  TESTING: 1
+  DATABASE_URL: sqlite:///test.db
+  REDIS_URL: redis://localhost:6379/15
+  SECRET_KEY: test-secret-key-for-ci-only
+
+jobs:
+  test-backend:
+    name: 🐍 Backend Tests
+    runs-on: ubuntu-latest
+    
+    services:
+      redis:
+        image: redis:7-alpine
+        ports:
+          - 6379:6379
+        options: >-
+          --health-cmd "redis-cli ping"
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+
+    steps:
+    - name: 📥 Checkout code
+      uses: actions/checkout@v4
+
+    - name: 🐍 Set up Python 3.11
+      uses: actions/setup-python@v4
+      with:
+        python-version: '3.11'
+        cache: 'pip'
+
+    - name: 📦 Install dependencies
+      run: |
+        cd backend
+        python -m pip install --upgrade pip
+        pip install -r requirements.stage4.txt
+        pip install -r requirements.test.txt
+
+    - name: 🔍 Lint with flake8
+      run: |
+        cd backend
+        python -m flake8 app/ --count --select=E9,F63,F7,F82 --show-source --statistics
+        python -m flake8 app/ --count --exit-zero --max-complexity=10 --max-line-length=127 --statistics
+
+    - name: 🧪 Run unit tests
+      run: |
+        cd backend
+        pytest tests/unit/ -v --tb=short -m unit
+
+    - name: 🔗 Run integration tests
+      run: |
+        cd backend
+        pytest tests/integration/ -v --tb=short -m integration
+
+    - name: 🔐 Run authentication tests
+      run: |
+        cd backend
+        pytest tests/ -v --tb=short -m auth
+
+    - name: 🇧🇪 Run Belgian context tests
+      run: |
+        cd backend
+        pytest tests/unit/test_belgian_context.py -v --tb=short
+
+    - name: 💱 Run SEL system tests
+      run: |
+        cd backend
+        pytest tests/ -v --tb=short -m sel
+
+    - name: 📊 Generate coverage report
+      run: |
+        cd backend
+        pytest tests/ --cov=app --cov-report=xml --cov-report=term
+
+    - name: 📈 Upload coverage to Codecov
+      uses: codecov/codecov-action@v3
+      with:
+        file: backend/coverage.xml
+        flags: backend
+        name: ecolehub-backend
+        fail_ci_if_error: false
+
+  test-makefile-integration:
+    name: 🔨 Makefile Integration
+    runs-on: ubuntu-latest
+    needs: test-backend
+
+    steps:
+    - name: 📥 Checkout code
+      uses: actions/checkout@v4
+
+    - name: 🐍 Set up Python 3.11
+      uses: actions/setup-python@v4
+      with:
+        python-version: '3.11'
+
+    - name: 📦 Install test dependencies
+      run: |
+        cd backend
+        pip install pytest
+
+    - name: 🔨 Test Makefile integration
+      run: |
+        cd backend
+        python -m pytest tests/test_makefile_integration.py -v
+
+    - name: ✅ Verify test structure
+      run: |
+        # Verify test directory structure
+        ls -la backend/tests/
+        ls -la backend/tests/unit/
+        ls -la backend/tests/integration/
+        
+        # Verify configuration files
+        ls -la backend/pytest.ini
+        ls -la backend/requirements.test.txt
+
+  security-scan:
+    name: 🔒 Security Scan
+    runs-on: ubuntu-latest
+    
+    steps:
+    - name: 📥 Checkout code
+      uses: actions/checkout@v4
+
+    - name: 🐍 Set up Python 3.11
+      uses: actions/setup-python@v4
+      with:
+        python-version: '3.11'
+
+    - name: 📦 Install security tools
+      run: |
+        pip install bandit safety
+
+    - name: 🛡️ Run Bandit security scan
+      run: |
+        cd backend
+        bandit -r app/ -f json -o bandit-report.json || true
+        bandit -r app/ -ll
+
+    - name: 🔐 Check dependencies for vulnerabilities
+      run: |
+        cd backend
+        safety check -r requirements.stage4.txt --json --output safety-report.json || true
+        safety check -r requirements.stage4.txt
+
+  docker-build-test:
+    name: 🐳 Docker Build Test
+    runs-on: ubuntu-latest
+    needs: test-backend
+
+    steps:
+    - name: 📥 Checkout code
+      uses: actions/checkout@v4
+
+    - name: 🐳 Set up Docker Buildx
+      uses: docker/setup-buildx-action@v3
+
+    - name: 🔨 Build backend image
+      run: |
+        cd backend
+        docker build -t ecolehub-backend:test --build-arg STAGE=4 .
+
+    - name: 🔍 Test Docker image
+      run: |
+        # Test that the image runs
+        docker run --rm -d --name test-backend \
+          -e DATABASE_URL=sqlite:///test.db \
+          -e STAGE=4 \
+          -p 8000:8000 \
+          ecolehub-backend:test
+        
+        # Wait for container to be ready
+        sleep 10
+        
+        # Test health endpoint (if available)
+        # curl -f http://localhost:8000/health || echo "Health check not available"
+        
+        # Clean up
+        docker stop test-backend || true
+
+  documentation:
+    name: 📖 Documentation Check
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: 📥 Checkout code
+      uses: actions/checkout@v4
+
+    - name: ✅ Check documentation files
+      run: |
+        # Verify key documentation exists
+        ls -la README.md
+        ls -la CHANGELOG.md
+        ls -la MAKEFILE-GUIDE.md
+        ls -la CLI-REFERENCE.md
+        
+        # Check for placeholder content
+        if grep -q "TODO\|FIXME\|XXX" README.md; then
+          echo "⚠️ Found TODO items in README.md"
+        fi
+
+    - name: 🔍 Verify Makefile help
+      run: |
+        make help | grep -E "(test|build|start|stop)" || echo "❌ Key Makefile commands missing from help"
+
+  notify-success:
+    name: 🎉 Notify Success
+    runs-on: ubuntu-latest
+    needs: [test-backend, test-makefile-integration, security-scan, docker-build-test, documentation]
+    if: success()
+
+    steps:
+    - name: 🎉 Success notification
+      run: |
+        echo "🎉 All EcoleHub CI checks passed successfully!"
+        echo "✅ Backend tests: PASSED"
+        echo "✅ Makefile integration: PASSED" 
+        echo "✅ Security scan: PASSED"
+        echo "✅ Docker build: PASSED"
+        echo "✅ Documentation: PASSED"
+        echo ""
+        echo "🚀 Ready for deployment to Stage 4!"
+
+  notify-failure:
+    name: ❌ Notify Failure
+    runs-on: ubuntu-latest
+    needs: [test-backend, test-makefile-integration, security-scan, docker-build-test, documentation]
+    if: failure()
+
+    steps:
+    - name: ❌ Failure notification
+      run: |
+        echo "❌ EcoleHub CI pipeline failed!"
+        echo "Check the failed jobs above for details."
+        echo ""
+        echo "Common fixes:"
+        echo "- Run 'make test' locally to check tests"
+        echo "- Run 'make lint' to fix code style issues" 
+        echo "- Check requirements.test.txt dependencies"
+        echo "- Verify Docker build works locally"

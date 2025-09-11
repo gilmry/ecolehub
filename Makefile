@@ -138,7 +138,38 @@ dev: ## Start in development mode with live reload
 
 test: ## Run backend tests
 	@echo "🧪 $(BLUE)Running tests...$(NC)"
-	$(COMPOSE) exec backend pytest tests/ -v || echo "❌ Tests failed"
+	$(COMPOSE) exec backend pip install -r requirements.test.txt -q
+	$(COMPOSE) exec backend pytest tests/ -v
+
+test-unit: ## Run unit tests only
+	@echo "🧪 $(BLUE)Running unit tests...$(NC)"
+	$(COMPOSE) exec backend pip install -r requirements.test.txt -q
+	$(COMPOSE) exec backend pytest tests/unit/ -v -m unit
+
+test-integration: ## Run integration tests only
+	@echo "🧪 $(BLUE)Running integration tests...$(NC)"
+	$(COMPOSE) exec backend pip install -r requirements.test.txt -q
+	$(COMPOSE) exec backend pytest tests/integration/ -v -m integration
+
+test-auth: ## Run authentication tests only
+	@echo "🧪 $(BLUE)Running authentication tests...$(NC)"
+	$(COMPOSE) exec backend pip install -r requirements.test.txt -q
+	$(COMPOSE) exec backend pytest tests/ -v -m auth
+
+test-sel: ## Run SEL system tests only
+	@echo "🧪 $(BLUE)Running SEL system tests...$(NC)"
+	$(COMPOSE) exec backend pip install -r requirements.test.txt -q
+	$(COMPOSE) exec backend pytest tests/ -v -m sel
+
+test-coverage: ## Run tests with coverage report
+	@echo "🧪 $(BLUE)Running tests with coverage...$(NC)"
+	$(COMPOSE) exec backend pip install -r requirements.test.txt -q
+	$(COMPOSE) exec backend pytest tests/ --cov=app --cov-report=html --cov-report=term
+
+test-install: ## Install test dependencies
+	@echo "📦 $(BLUE)Installing test dependencies...$(NC)"
+	$(COMPOSE) exec backend pip install -r requirements.test.txt
+	@echo "✅ $(GREEN)Test dependencies installed$(NC)"
 
 lint: ## Run code linting
 	@echo "🔍 $(BLUE)Running linters...$(NC)"
