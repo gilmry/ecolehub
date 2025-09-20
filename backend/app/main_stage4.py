@@ -856,9 +856,52 @@ def compat_register(
     sel_service: SELBusinessLogic = Depends(get_sel_service),
     redis_conn=Depends(get_redis),
 ):
-    token = register(user=user, db=db, sel_service=sel_service, redis_conn=redis_conn)
-    created = db.query(User).filter(User.email == user.email).first()
-    return {"id": str(created.id), "access_token": token.access_token}
+    # Inline implementation to ensure we can safely return the created user id
+    # without relying on nested calls/queries that may race in certain test setups.
+    existing = db.query(User).filter(User.email == user.email).first()
+    if existing:
+        raise HTTPException(status_code=400, detail="Email déjà enregistré")
+
+    hashed_password = get_password_hash(user.password)
+    db_user = User(
+        email=user.email,
+        first_name=user.first_name,
+        last_name=user.last_name,
+        hashed_password=hashed_password,
+    )
+    db.add(db_user)
+    db.commit()
+    db.refresh(db_user)
+    user_id = db_user.id
+
+    # Best-effort consent snapshot
+    try:
+        db_user.consent_version = PRIVACY_POLICY_VERSION
+        db_user.consented_at = func.now()
+        db_user.privacy_locale = "fr-BE"
+        db.add(db_user)
+        db.commit()
+    except Exception:
+        db.rollback()
+
+    # Initialize SEL status
+    sel_service.get_or_create_balance(user_id)
+    db.add(UserStatus(user_id=user_id))
+
+    # Auto-subscribe to announcements if present
+    conv = db.query(Conversation).filter(Conversation.type == "announcement").first()
+    if conv:
+        db.add(ConversationParticipant(conversation_id=conv.id, user_id=user_id))
+
+    db.commit()
+
+    # Track registration (consent-gated is not necessary here; analytics may ignore if disabled)
+    analytics = get_analytics_service(db, redis_conn)
+    analytics.track_user_action(str(user_id), "register", {"user_type": "parent"})
+
+    # Issue token
+    access_token = create_access_token({"sub": user.email})
+    return {"id": str(user_id), "access_token": access_token}
 
 
 @app.post("/login", response_model=Token)
