@@ -10,7 +10,17 @@ from typing import List, Optional
 from uuid import UUID
 
 import redis
-from fastapi import APIRouter, Depends, FastAPI, Form, HTTPException, Query, Request
+from fastapi import (
+    APIRouter,
+    Depends,
+    FastAPI,
+    Form,
+    HTTPException,
+    Query,
+    Request,
+    UploadFile,
+    File,
+)
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import Response
 from fastapi.security import HTTPAuthorizationCredentials, HTTPBearer
@@ -41,12 +51,13 @@ from .models_stage1 import (
 from .models_stage2 import (
     Conversation,
     ConversationParticipant,
+    Message,
     Event,
     EventParticipant,
     PrivacyEvent,
     UserStatus,
 )
-from .models_stage3 import ShopInterest, ShopProduct
+from .models_stage3 import EducationResource, ShopInterest, ShopProduct
 
 # Import schemas and services
 from .schemas_stage1 import (
@@ -89,6 +100,14 @@ class AnalyticsRequest(BaseModel):
     metric_type: Optional[str] = None
 
 
+class EducationResourceCreate(BaseModel):
+    title: str
+    description: Optional[str] = None
+    category: str
+    class_name: Optional[str] = None
+    is_public: bool = False
+
+
 # Import secrets manager
 
 # Configuration sécurisée
@@ -113,13 +132,70 @@ ALGORITHM = "HS256"
 ACCESS_TOKEN_EXPIRE_DAYS = 7
 
 # Database
-engine = create_engine(DATABASE_URL)
+engine = create_engine(
+    DATABASE_URL,
+    connect_args={"check_same_thread": False} if DATABASE_URL.startswith("sqlite") else {},
+)
 SessionLocal = sessionmaker(
     autocommit=False, autoflush=False, expire_on_commit=False, bind=engine
 )
 
 # Create tables
 Base.metadata.create_all(bind=engine)
+
+# Lightweight SQLite migration shim for backward compatibility
+def _ensure_sqlite_schema() -> None:
+    if not DATABASE_URL.startswith("sqlite"):
+        return
+    try:
+        with engine.begin() as conn:
+            cols = {
+                row[1] for row in conn.exec_driver_sql("PRAGMA table_info(users)").fetchall()
+            }
+            # Add missing user columns progressively
+            def add(col_def: str):
+                try:
+                    conn.exec_driver_sql(f"ALTER TABLE users ADD COLUMN {col_def}")
+                except Exception:
+                    pass
+
+            if "is_verified" not in cols:
+                add("is_verified BOOLEAN DEFAULT 0")
+            if "role" not in cols:
+                add("role VARCHAR(20) DEFAULT 'parent'")
+            if "consent_version" not in cols:
+                add("consent_version VARCHAR(20)")
+            if "consented_at" not in cols:
+                add("consented_at DATETIME")
+            if "privacy_locale" not in cols:
+                add("privacy_locale VARCHAR(10)")
+            if "consent_withdrawn_at" not in cols:
+                add("consent_withdrawn_at DATETIME")
+            if "deleted_at" not in cols:
+                add("deleted_at DATETIME")
+            if "created_at" not in cols:
+                add("created_at DATETIME")
+            if "updated_at" not in cols:
+                add("updated_at DATETIME")
+            if "consent_analytics_platform" not in cols:
+                add("consent_analytics_platform BOOLEAN DEFAULT 0")
+            if "consent_comms_operational" not in cols:
+                add("consent_comms_operational BOOLEAN DEFAULT 1")
+            if "consent_comms_newsletter" not in cols:
+                add("consent_comms_newsletter BOOLEAN DEFAULT 0")
+            if "consent_comms_shop_marketing" not in cols:
+                add("consent_comms_shop_marketing BOOLEAN DEFAULT 0")
+            if "consent_cookies_preference" not in cols:
+                add("consent_cookies_preference BOOLEAN DEFAULT 0")
+            if "consent_photos_publication" not in cols:
+                add("consent_photos_publication BOOLEAN DEFAULT 0")
+            if "consent_data_share_thirdparties" not in cols:
+                add("consent_data_share_thirdparties BOOLEAN DEFAULT 0")
+    except Exception:
+        # Best-effort; don't block the app startup
+        pass
+
+_ensure_sqlite_schema()
 
 # Seed default SEL categories for compatibility/tests
 
@@ -1431,8 +1507,8 @@ def compat_get_prefs(current_user: User = Depends(get_current_user)):
 
 # Now include the API router and expose Prometheus metrics at the very end,
 # so routes defined after the earlier section are included as well.
-app.include_router(api_router)
-instrumentator.expose(app)
+# Note: include router and expose metrics are moved to the very end of the file
+_ROUTER_INCLUDED = False
 
 
 @app.post("/consent/preferences")
@@ -1464,3 +1540,321 @@ def compat_update_prefs(
         except Exception:
             db.rollback()
     return {k: bool(getattr(current_user, k, False)) for k in PREFERENCE_KEYS}
+
+# ------------------------------------------
+# Lightweight stubs for Stage 2/3 endpoints (demo/dev on base compose)
+# These avoid 404s in the frontend when messaging/education aren't enabled.
+# In full deployments, use Stage 2/3 implementations.
+# ------------------------------------------
+
+@api_router.get("/conversations")
+def get_conversations(
+    current_user: User = Depends(get_current_user), db: Session = Depends(get_db)
+):
+    participations = (
+        db.query(ConversationParticipant)
+        .filter(ConversationParticipant.user_id == current_user.id)
+        .all()
+    )
+
+    conversations = []
+    for participation in participations:
+        conversation = participation.conversation
+        last_message = (
+            db.query(Message)
+            .filter(Message.conversation_id == conversation.id)
+            .order_by(desc(Message.created_at))
+            .first()
+        )
+
+        conversations.append(
+            {
+                "id": str(conversation.id),
+                "name": conversation.name,
+                "type": conversation.type,
+                "class_name": conversation.class_name,
+                "last_message": (
+                    {
+                        "content": last_message.content if last_message else None,
+                        "created_at": (
+                            last_message.created_at.isoformat() if last_message else None
+                        ),
+                        "user_name": (
+                            f"{last_message.user.first_name} {last_message.user.last_name}"
+                            if last_message
+                            else None
+                        ),
+                    }
+                    if last_message
+                    else None
+                ),
+                "updated_at": conversation.updated_at.isoformat()
+                if conversation.updated_at
+                else None,
+            }
+        )
+
+    return conversations
+
+
+@api_router.post("/conversations/direct")
+def create_direct_conversation(
+    other_user_id: str = Form(...),
+    current_user: User = Depends(get_current_user),
+    db: Session = Depends(get_db),
+):
+    try:
+        other_user_uuid = UUID(other_user_id)
+    except ValueError:
+        raise HTTPException(status_code=400, detail="ID utilisateur invalide")
+
+    # Check if conversation already exists between the two users
+    existing = (
+        db.query(Conversation)
+        .join(ConversationParticipant)
+        .filter(
+            and_(
+                Conversation.type == "direct",
+                ConversationParticipant.user_id.in_([current_user.id, other_user_uuid]),
+            )
+        )
+        .group_by(Conversation.id)
+        .having(func.count(ConversationParticipant.user_id) == 2)
+        .first()
+    )
+
+    if existing:
+        return {"conversation_id": str(existing.id), "message": "Conversation existante"}
+
+    other_user = db.query(User).filter(User.id == other_user_uuid).first()
+    if not other_user:
+        raise HTTPException(status_code=404, detail="Utilisateur non trouvé")
+
+    conversation = Conversation(
+        name=f"{current_user.first_name} & {other_user.first_name}",
+        type="direct",
+        created_by=current_user.id,
+    )
+    db.add(conversation)
+    db.commit()
+    db.refresh(conversation)
+
+    db.add(
+        ConversationParticipant(conversation_id=conversation.id, user_id=current_user.id)
+    )
+    db.add(
+        ConversationParticipant(conversation_id=conversation.id, user_id=other_user_uuid)
+    )
+    db.commit()
+
+    return {"conversation_id": str(conversation.id), "message": "Conversation créée"}
+
+
+# Messages for a conversation (compat paths without /api)
+@app.get("/conversations/{conversation_id}/messages")
+def get_conversation_messages(
+    conversation_id: UUID,
+    limit: int = Query(50, le=100),
+    current_user: User = Depends(get_current_user),
+    db: Session = Depends(get_db),
+):
+    participant = (
+        db.query(ConversationParticipant)
+        .filter(
+            ConversationParticipant.conversation_id == conversation_id,
+            ConversationParticipant.user_id == current_user.id,
+        )
+        .first()
+    )
+    if not participant:
+        raise HTTPException(status_code=403, detail="Accès interdit à cette conversation")
+
+    messages = (
+        db.query(Message)
+        .filter(Message.conversation_id == conversation_id)
+        .order_by(desc(Message.created_at))
+        .limit(limit)
+        .all()
+    )
+    messages.reverse()
+    return [
+        {
+            "id": str(msg.id),
+            "conversation_id": str(msg.conversation_id),
+            "user_id": str(msg.user_id),
+            "user_name": f"{msg.user.first_name} {msg.user.last_name}",
+            "content": msg.content,
+            "message_type": msg.message_type,
+            "created_at": msg.created_at.isoformat() if msg.created_at else None,
+            "edited_at": msg.edited_at.isoformat() if msg.edited_at else None,
+        }
+        for msg in messages
+    ]
+
+
+@app.post("/conversations/{conversation_id}/messages")
+def post_conversation_message(
+    conversation_id: UUID,
+    message_data: MessageCreate,
+    current_user: User = Depends(get_current_user),
+    db: Session = Depends(get_db),
+):
+    participant = (
+        db.query(ConversationParticipant)
+        .filter(
+            ConversationParticipant.conversation_id == conversation_id,
+            ConversationParticipant.user_id == current_user.id,
+        )
+        .first()
+    )
+    if not participant:
+        raise HTTPException(status_code=403, detail="Accès interdit à cette conversation")
+
+    message = Message(
+        conversation_id=conversation_id,
+        user_id=current_user.id,
+        content=message_data.content.strip(),
+        message_type="text",
+    )
+    db.add(message)
+    db.commit()
+    db.refresh(message)
+    return {
+        "id": str(message.id),
+        "message": "Message envoyé",
+        "created_at": message.created_at.isoformat() if message.created_at else None,
+    }
+
+
+@api_router.get("/users/list")
+def get_users_list(
+    current_user: User = Depends(get_current_user), db: Session = Depends(get_db)
+):
+    users = db.query(User).filter(and_(User.id != current_user.id, User.is_active)).all()
+    return [
+        {
+            "id": str(user.id),
+            "name": f"{user.first_name} {user.last_name}",
+            "first_name": user.first_name,
+            "last_name": user.last_name,
+        }
+        for user in users
+    ]
+
+
+@api_router.get("/education/resources")
+def get_education_resources(
+    category: Optional[str] = Query(None),
+    class_name: Optional[str] = Query(None),
+    current_user: User = Depends(get_current_user),
+    db: Session = Depends(get_db),
+):
+    query = db.query(EducationResource).filter(
+        or_(EducationResource.is_public, EducationResource.created_by == current_user.id)
+    )
+    if category:
+        query = query.filter(EducationResource.category == category)
+    if class_name:
+        query = query.filter(EducationResource.class_name == class_name)
+    resources = query.order_by(desc(EducationResource.created_at)).all()
+    result = []
+    for resource in resources:
+        result.append(
+            {
+                "id": str(resource.id),
+                "title": resource.title,
+                "description": resource.description,
+                "category": resource.category,
+                "class_name": resource.class_name,
+                "file_url": resource.file_url,
+                "file_type": resource.file_type,
+                "file_size": resource.file_size,
+                "is_public": resource.is_public,
+                "created_at": resource.created_at.isoformat()
+                if resource.created_at
+                else None,
+                "creator_name": (
+                    f"{resource.creator.first_name} {resource.creator.last_name}"
+                    if resource.creator
+                    else "École"
+                ),
+            }
+        )
+    return result
+
+
+@api_router.post("/education/resources")
+def create_education_resource(
+    resource: EducationResourceCreate,
+    file: Optional[UploadFile] = File(None),
+    current_user: User = Depends(get_current_user),
+    db: Session = Depends(get_db),
+):
+    file_url = None
+    file_type = None
+    file_size = None
+    if file:
+        upload_result = minio_service.upload_file(
+            file.file, file.filename, bucket_type="education", content_type=file.content_type
+        )
+        if not upload_result["success"]:
+            raise HTTPException(status_code=400, detail=upload_result["error"])
+        file_url = upload_result["file_url"]
+        file_type = upload_result["content_type"]
+        file_size = upload_result["size"]
+
+    db_resource = EducationResource(
+        title=resource.title,
+        description=resource.description,
+        category=resource.category,
+        class_name=resource.class_name,
+        file_url=file_url,
+        file_type=file_type,
+        file_size=file_size,
+        is_public=resource.is_public,
+        created_by=current_user.id,
+    )
+    db.add(db_resource)
+    db.commit()
+    db.refresh(db_resource)
+    return {
+        "id": str(db_resource.id),
+        "message": "Ressource éducative créée",
+        "file_uploaded": file is not None,
+    }
+
+# API-prefixed variants for conversation messages
+@api_router.get("/conversations/{conversation_id}/messages")
+def api_get_conversation_messages(
+    conversation_id: UUID,
+    limit: int = Query(50, le=100),
+    current_user: User = Depends(get_current_user),
+    db: Session = Depends(get_db),
+):
+    return get_conversation_messages(
+        conversation_id=conversation_id,
+        limit=limit,
+        current_user=current_user,
+        db=db,
+    )
+
+
+@api_router.post("/conversations/{conversation_id}/messages")
+def api_post_conversation_message(
+    conversation_id: UUID,
+    message_data: MessageCreate,
+    current_user: User = Depends(get_current_user),
+    db: Session = Depends(get_db),
+):
+    return post_conversation_message(
+        conversation_id=conversation_id,
+        message_data=message_data,
+        current_user=current_user,
+        db=db,
+    )
+
+# Finally include the API router and expose metrics
+if not globals().get("_ROUTER_INCLUDED"):
+    app.include_router(api_router)
+    instrumentator.expose(app)
+    _ROUTER_INCLUDED = True

@@ -1512,8 +1512,8 @@
                     
                     // Stage 4: Multilingual Data
                     currentLanguage: 'fr-BE',
-                    supportedLocales: window.EcoleHubI18n.getSupportedLocales()
-                    
+                    supportedLocales: window.EcoleHubI18n.getSupportedLocales(),
+
                     // Consent
                     showConsentBanner: false,
                     consentPrefs: {
@@ -1629,6 +1629,35 @@
                   await this.updateConsentServer();
                   this.showConsentBanner = false;
                 },
+                // Data export (GDPR portability)
+                async exportMyData(includeEvents) {
+                  try {
+                    const token = localStorage.getItem('token');
+                    if (!token) {
+                      this.errorMessage = this.$t ? this.$t('privacy.loginRequired') : 'Veuillez vous connecter';
+                      return;
+                    }
+                    const url = includeEvents ? '/api/me/data_export?include_events=true' : '/api/me/data_export';
+                    const resp = await fetch(url, { headers: { 'Authorization': `Bearer ${token}` } });
+                    if (!resp.ok) {
+                      this.errorMessage = 'Export échoué';
+                      return;
+                    }
+                    const data = await resp.json();
+                    const blob = new Blob([JSON.stringify(data, null, 2)], { type: 'application/json' });
+                    const a = document.createElement('a');
+                    const ts = new Date().toISOString().replace(/[:.]/g, '-');
+                    a.href = URL.createObjectURL(blob);
+                    a.download = includeEvents ? `ecolehub-export-${ts}-with-events.json` : `ecolehub-export-${ts}.json`;
+                    document.body.appendChild(a);
+                    a.click();
+                    setTimeout(() => { URL.revokeObjectURL(a.href); a.remove(); }, 0);
+                    this.successMessage = this.$t ? this.$t('privacy.exportReady') : '';
+                  } catch (e) {
+                    console.error('Export error', e);
+                    this.errorMessage = 'Export échoué';
+                  }
+                },
                 openConsentSettings() { this.showConsentBanner = true; },
                 focusConsentDialog() {
                   try {
@@ -1712,23 +1741,32 @@
                 },
                 
                 async loadCategories() {
-                    try {
-                        const response = await fetch('/api/sel/categories');
-                        if (response.ok) {
-                            const serverCategories = await response.json();
-                            // Merge server categories with default ones if server has data
-                            if (Array.isArray(serverCategories) && serverCategories.length > 0) {
-                                this.categories = serverCategories;
+                    const maxAttempts = 4;
+                    let delay = 300; // ms
+                    for (let attempt = 1; attempt <= maxAttempts; attempt++) {
+                        try {
+                            const response = await fetch('/api/sel/categories');
+                            if (response.ok) {
+                                const serverCategories = await response.json();
+                                if (Array.isArray(serverCategories) && serverCategories.length > 0) {
+                                    this.categories = serverCategories;
+                                }
+                                return; // Success
+                            } else {
+                                console.warn('Categories endpoint returned:', response.status);
                             }
-                            // Default categories are already loaded in data
-                        } else {
-                            console.warn('Categories endpoint returned:', response.status);
-                            // Keep default categories
+                        } catch (error) {
+                            // Likely startup race (e.g., proxy/uvicorn not ready yet)
+                            if (attempt === maxAttempts) {
+                                console.error('Erreur catégories (final):', error);
+                            }
                         }
-                    } catch (error) {
-                        console.error('Erreur catégories:', error);
-                        // Keep default categories
+                        if (attempt < maxAttempts) {
+                            await new Promise(r => setTimeout(r, delay));
+                            delay *= 2; // exponential backoff
+                        }
                     }
+                    // Keep default categories on failure
                 },
                 
                 async loadMyServices() {
@@ -2542,32 +2580,3 @@
     </script>
 </body>
 </html>
-                // Data export methods
-                async exportMyData(includeEvents) {
-                  try {
-                    const token = localStorage.getItem('token');
-                    if (!token) {
-                      this.errorMessage = this.$t ? this.$t('privacy.loginRequired') : 'Veuillez vous connecter';
-                      return;
-                    }
-                    const url = includeEvents ? '/api/me/data_export?include_events=true' : '/api/me/data_export';
-                    const resp = await fetch(url, { headers: { 'Authorization': `Bearer ${token}` } });
-                    if (!resp.ok) {
-                      this.errorMessage = 'Export échoué';
-                      return;
-                    }
-                    const data = await resp.json();
-                    const blob = new Blob([JSON.stringify(data, null, 2)], { type: 'application/json' });
-                    const a = document.createElement('a');
-                    const ts = new Date().toISOString().replace(/[:.]/g, '-');
-                    a.href = URL.createObjectURL(blob);
-                    a.download = includeEvents ? `ecolehub-export-${ts}-with-events.json` : `ecolehub-export-${ts}.json`;
-                    document.body.appendChild(a);
-                    a.click();
-                    a.remove();
-                    URL.revokeObjectURL(a.href);
-                  } catch (e) {
-                    console.error('Export error', e);
-                    this.errorMessage = 'Export échoué';
-                  }
-                },
