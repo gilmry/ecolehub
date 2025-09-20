@@ -63,6 +63,15 @@ class User(Base):
         "SELBalance", uselist=False, back_populates="user", cascade="all, delete-orphan"
     )
 
+    # GDPR granular consents
+    consent_analytics_platform = Column(Boolean, default=False)
+    consent_comms_operational = Column(Boolean, default=True)
+    consent_comms_newsletter = Column(Boolean, default=False)
+    consent_comms_shop_marketing = Column(Boolean, default=False)
+    consent_cookies_preference = Column(Boolean, default=False)
+    consent_photos_publication = Column(Boolean, default=False)
+    consent_data_share_thirdparties = Column(Boolean, default=False)
+
 
 class Child(Base):
     __tablename__ = "children"

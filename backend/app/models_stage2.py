@@ -195,6 +195,18 @@ class UserStatus(Base):
     user = relationship("User")
 
 
+class PrivacyEvent(Base):
+    __tablename__ = "privacy_events"
+
+    id = Column(UUIDType(), primary_key=True, default=uuid.uuid4)
+    user_id = Column(UUIDType(), ForeignKey("users.id", ondelete="CASCADE"), nullable=False)
+    action = Column(String(50), nullable=False)
+    created_at = Column(DateTime(timezone=True), server_default=func.now())
+    details = Column(Text)
+
+    user = relationship("User")
+
+
 # Extend User model with Stage 2 relationships
 User.conversations_created = relationship(
     "Conversation", foreign_keys="Conversation.created_by", back_populates="creator"

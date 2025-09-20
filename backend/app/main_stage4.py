@@ -533,11 +533,14 @@ def login(
     if not user.is_active:
         raise HTTPException(status_code=401, detail="Compte inactif")
 
-    # Track login in analytics
-    analytics = get_analytics_service(db, redis_conn)
-    analytics.track_user_action(
-        str(user.id), "login", {"user_type": "admin" if "admin" in email else "parent"}
-    )
+    # Track login in analytics only if consent given
+    if getattr(user, "consent_analytics_platform", False):
+        analytics = get_analytics_service(db, redis_conn)
+        analytics.track_user_action(
+            str(user.id),
+            "login",
+            {"user_type": "admin" if "admin" in email else "parent"},
+        )
 
     access_token = create_access_token(data={"sub": user.email})
     return Token(access_token=access_token)
@@ -1197,3 +1200,12 @@ def delete_me(current_user: User = Depends(get_current_user), db: Session = Depe
     db.add(current_user)
     db.commit()
     return {"status": "deleted"}
+# Consent preferences
+@app.get("/consent/preferences")
+def compat_get_prefs(current_user: User = Depends(get_current_user)):
+    return get_consent_preferences(current_user)
+
+
+@app.post("/consent/preferences")
+def compat_update_prefs(data: dict, current_user: User = Depends(get_current_user), db: Session = Depends(get_db)):
+    return update_consent_preferences(data=data, current_user=current_user, db=db)
