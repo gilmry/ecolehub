@@ -182,13 +182,13 @@ jobs:
 
     # Coverage report will be created by the backend CI script
     - name: 📈 Upload coverage to Codecov
-      
-      uses: codecov/codecov-action@v3
+      uses: codecov/codecov-action@v4
       with:
-        file: backend/coverage.xml
+        files: backend/coverage.xml
         flags: backend
-        name: ecolehub-backend
+        name: backend
         fail_ci_if_error: false
+        verbose: true
 
   test-configuration:
     name: 🔧 Configuration Tests

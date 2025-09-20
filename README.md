@@ -1,7 +1,7 @@
 # 🏫 EcoleHub
 
 [![CI](https://github.com/gilmry/ecolehub/actions/workflows/ci.yml/badge.svg?branch=master)](https://github.com/gilmry/ecolehub/actions/workflows/ci.yml)
-[![Coverage](https://codecov.io/gh/gilmry/ecolehub/branch/master/graph/badge.svg)](https://app.codecov.io/gh/gilmry/ecolehub)
+[![Coverage](https://codecov.io/gh/gilmry/ecolehub/branch/master/graph/badge.svg)](https://codecov.io/gh/gilmry/ecolehub)
 [![A11Y](https://img.shields.io/badge/a11y-STRICT-green)](#-accessibilite)
 
 Plateforme scolaire collaborative open-source pour écoles primaires.
