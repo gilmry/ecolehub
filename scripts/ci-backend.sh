@@ -40,6 +40,15 @@ else
   echo "ℹ️ flake8 not available; skipping"
 fi
 
+# Ensure runtime and test dependencies (CI environment)
+echo "📦 Installing backend dependencies (runtime + test)"
+if [ -f backend/requirements.txt ]; then
+  (cd backend && $PYBIN_ABS -m pip install -q -r requirements.txt) || true
+fi
+if [ -f backend/requirements.test.txt ]; then
+  (cd backend && $PYBIN_ABS -m pip install -q -r requirements.test.txt) || true
+fi
+
 if $PYBIN_ABS - <<<'import pytest' >/dev/null 2>&1; then
   echo "🧪 Pytest: unit"
   (cd backend && $PYBIN_ABS -m pytest tests/unit/ -v --tb=short -m unit)
