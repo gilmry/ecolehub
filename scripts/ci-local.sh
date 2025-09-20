@@ -13,7 +13,7 @@ cd "$ROOT_DIR"
 
 echo "🌐 i18n-lint (STRICT)"
 if command -v rg >/dev/null 2>&1; then
-  STRICT=1 ./scripts/i18n-lint.sh
+  ./scripts/ci-i18n.sh
 else
   echo "⚠️ ripgrep (rg) not found; skipping i18n-lint" >&2
 fi
@@ -31,21 +31,7 @@ if [ -f backend/requirements.test.txt ]; then
   $PYBIN -m pip install -q -r backend/requirements.test.txt || true
 fi
 
-echo "🔍 flake8 (non-blocking strict then relaxed)"
-$PYBIN -m pip install -q flake8 || true
-(cd backend && $PYBIN -m flake8 app/ --count --select=E9,F63,F7,F82 --show-source --statistics) || echo "Linting issues found"
-(cd backend && $PYBIN -m flake8 app/ --count --exit-zero --max-complexity=10 --max-line-length=127 --statistics) || echo "Style issues found"
-
-echo "🧪 Pytest: unit"
-(cd backend && $PYBIN -m pytest tests/unit/ -v --tb=short -m unit)
-echo "🧪 Pytest: integration"
-(cd backend && $PYBIN -m pytest tests/integration/ -v --tb=short -m integration)
-echo "🧪 Pytest: auth"
-(cd backend && $PYBIN -m pytest tests/ -v --tb=short -m auth)
-echo "🧪 Pytest: sel"
-(cd backend && $PYBIN -m pytest tests/ -v --tb=short -m sel)
-echo "📊 Coverage"
-(cd backend && $PYBIN -m pytest tests/ --cov=app --cov-report=xml:coverage.xml --cov-report=term)
+./scripts/ci-backend.sh
 
 echo "🛡️ Security scans (optional)"
 if $PYBIN -m pip show bandit >/dev/null 2>&1 || $PYBIN -m pip install -q bandit; then
@@ -68,4 +54,3 @@ echo "📖 Docs checks"
 [ -f backend/pytest.ini ] || echo "⚠️ backend/pytest.ini missing"
 
 echo "✅ CI-local checks completed"
-
