@@ -108,6 +108,11 @@ class EducationResourceCreate(BaseModel):
     is_public: bool = False
 
 
+class ShopInterestCreate(BaseModel):
+    quantity: int
+    notes: Optional[str] = None
+
+
 # Import secrets manager
 
 # Configuration sécurisée
@@ -196,6 +201,116 @@ def _ensure_sqlite_schema() -> None:
         pass
 
 _ensure_sqlite_schema()
+
+
+def _ensure_postgres_schema() -> None:
+    if not DATABASE_URL.startswith("postgres"):
+        return
+    try:
+        with engine.begin() as conn:
+            def add(col_def: str) -> None:
+                try:
+                    conn.exec_driver_sql(
+                        f"ALTER TABLE users ADD COLUMN IF NOT EXISTS {col_def}"
+                    )
+                except Exception:
+                    pass
+
+            add("consent_version VARCHAR(20)")
+            add("consented_at TIMESTAMPTZ")
+            add("privacy_locale VARCHAR(10)")
+            add("consent_withdrawn_at TIMESTAMPTZ")
+            add("deleted_at TIMESTAMPTZ")
+            add("consent_analytics_platform BOOLEAN DEFAULT false")
+            add("consent_comms_operational BOOLEAN DEFAULT true")
+            add("consent_comms_newsletter BOOLEAN DEFAULT false")
+            add("consent_comms_shop_marketing BOOLEAN DEFAULT false")
+            add("consent_cookies_preference BOOLEAN DEFAULT false")
+            add("consent_photos_publication BOOLEAN DEFAULT false")
+            add("consent_data_share_thirdparties BOOLEAN DEFAULT false")
+    except Exception:
+        # Best-effort; don't block the app startup
+        pass
+
+
+_ensure_postgres_schema()
+
+
+def _migrate_sel_balances_schema() -> None:
+    if not DATABASE_URL.startswith("postgres"):
+        return
+    try:
+        with engine.begin() as conn:
+            # Add missing id column (runtime PK used by ORM)
+            conn.exec_driver_sql(
+                "ALTER TABLE sel_balances ADD COLUMN IF NOT EXISTS id UUID"
+            )
+            # Ensure uuid extension exists
+            try:
+                conn.exec_driver_sql('CREATE EXTENSION IF NOT EXISTS "uuid-ossp"')
+            except Exception:
+                pass
+            # Backfill null ids
+            conn.exec_driver_sql(
+                "UPDATE sel_balances SET id = uuid_generate_v4() WHERE id IS NULL"
+            )
+            # Enforce NOT NULL and uniqueness at least via index
+            try:
+                conn.exec_driver_sql("ALTER TABLE sel_balances ALTER COLUMN id SET NOT NULL")
+            except Exception:
+                pass
+            conn.exec_driver_sql(
+                "CREATE UNIQUE INDEX IF NOT EXISTS idx_sel_balances_id_unique ON sel_balances(id)"
+            )
+            # Ensure user_id has a uniqueness guarantee as business logic expects 1 row per user
+            conn.exec_driver_sql(
+                "CREATE UNIQUE INDEX IF NOT EXISTS idx_sel_balances_user_unique ON sel_balances(user_id)"
+            )
+    except Exception:
+        # Best-effort; don't block the app startup
+        pass
+
+
+__try_migrated = _migrate_sel_balances_schema()
+
+
+def _migrate_children_parent_fk() -> None:
+    if not DATABASE_URL.startswith("postgres"):
+        return
+    try:
+        with engine.begin() as conn:
+            # Add parent_id column if missing
+            conn.exec_driver_sql(
+                "ALTER TABLE children ADD COLUMN IF NOT EXISTS parent_id UUID"
+            )
+            # Backfill from legacy user_children table if present
+            try:
+                conn.exec_driver_sql(
+                    """
+                    UPDATE children c
+                    SET parent_id = uc.user_id
+                    FROM user_children uc
+                    WHERE uc.child_id = c.id AND c.parent_id IS NULL
+                    """
+                )
+            except Exception:
+                pass
+            # Add FK constraint if not exists via index check; fallback to using constraint name
+            try:
+                conn.exec_driver_sql(
+                    "ALTER TABLE children ADD CONSTRAINT fk_children_parent FOREIGN KEY (parent_id) REFERENCES users(id) ON DELETE CASCADE"
+                )
+            except Exception:
+                pass
+            # Create index to speed lookups
+            conn.exec_driver_sql(
+                "CREATE INDEX IF NOT EXISTS idx_children_parent ON children(parent_id)"
+            )
+    except Exception:
+        pass
+
+
+_migrate_children_parent_fk()
 
 # Seed default SEL categories for compatibility/tests
 
@@ -870,6 +985,30 @@ def get_shop_products(
     return items
 
 
+@api_router.post("/shop/products/{product_id}/interest")
+def express_product_interest(
+    product_id: UUID,
+    interest: ShopInterestCreate,
+    current_user: User = Depends(get_current_user),
+    shop_service: ShopCollaborativeService = Depends(get_shop_service),
+):
+    return shop_service.express_interest(
+        user_id=current_user.id,
+        product_id=product_id,
+        quantity=interest.quantity,
+        notes=interest.notes,
+    )
+
+
+@api_router.delete("/shop/products/{product_id}/interest")
+def cancel_product_interest(
+    product_id: UUID,
+    current_user: User = Depends(get_current_user),
+    shop_service: ShopCollaborativeService = Depends(get_shop_service),
+):
+    return shop_service.cancel_interest(current_user.id, product_id)
+
+
 @api_router.post("/shop/products")
 def create_shop_product(
     product_data: dict,
@@ -899,6 +1038,53 @@ def create_shop_product(
         "name": new_product.name,
         "price": float(new_product.base_price),
     }
+
+
+@api_router.put("/shop/products/{product_id}")
+def update_shop_product(
+    product_id: UUID,
+    update_data: dict,
+    current_user: User = Depends(get_current_user),
+    db: Session = Depends(get_db),
+):
+    if "admin" not in current_user.email and "direction" not in current_user.email:
+        raise HTTPException(status_code=403, detail="Accès admin requis")
+
+    product = db.query(ShopProduct).filter(ShopProduct.id == product_id).first()
+    if not product:
+        raise HTTPException(status_code=404, detail="Produit non trouvé")
+
+    if "name" in update_data:
+        product.name = update_data["name"]
+    if "description" in update_data:
+        product.description = update_data["description"]
+    if "base_price" in update_data:
+        product.base_price = update_data["base_price"]
+    if "category" in update_data:
+        product.category = update_data["category"]
+    if "min_quantity" in update_data:
+        product.min_quantity = update_data["min_quantity"]
+    if "is_active" in update_data:
+        product.is_active = update_data["is_active"]
+
+    db.commit()
+    db.refresh(product)
+
+    return {
+        "id": str(product.id),
+        "message": "Produit mis à jour",
+        "name": product.name,
+        "is_active": product.is_active,
+    }
+
+
+@api_router.post("/shop/products/{product_id}/order")
+def create_group_order(
+    product_id: UUID,
+    current_user: User = Depends(get_current_user),
+    shop_service: ShopCollaborativeService = Depends(get_shop_service),
+):
+    return shop_service.create_group_order(product_id, current_user.id)
 
 
 # Events (Stage 2)

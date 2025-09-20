@@ -54,6 +54,7 @@ playwright-report/
 .playwright-artifacts*/
 coverage/
 .pytest_cache/
+.codex_tmp/
 
 # MacOS
 .DS_Store

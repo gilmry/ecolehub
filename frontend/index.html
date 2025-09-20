@@ -21,8 +21,39 @@
             }
         })();
     </script>
+    <!-- Prefer local vendor assets if available; fallback to CDN -->
+    <script src="/vendor/vue.global.prod.js"></script>
     <script src="https://unpkg.com/vue@3/dist/vue.global.prod.js"></script>
+    <link rel="stylesheet" href="/vendor/tailwind.min.css" />
     <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+      // Production fallback: if CDNs are blocked, show a helpful message instead of a blank page (v-cloak)
+      window.addEventListener('load', function () {
+        setTimeout(function () {
+          var vueOk = !!(window.Vue && window.Vue.createApp);
+          var i18nOk = !!(window.I18nPlugin);
+          if (!vueOk || !i18nOk) {
+            var app = document.getElementById('app');
+            if (app) {
+              app.removeAttribute('v-cloak');
+              app.innerHTML = (
+                '<div class="max-w-3xl mx-auto mt-12 bg-yellow-50 border border-yellow-200 rounded p-6">' +
+                '<h2 class="text-xl font-semibold text-yellow-800 mb-2">Ressources front indisponibles</h2>' +
+                '<p class="text-yellow-800">Impossible de charger les librairies depuis les CDN (Vue/Tailwind). ' +
+                'En production, servez des assets locaux ou autorisez l\'accès sortant aux CDN.</p>' +
+                '<ul class="list-disc ml-6 mt-3 text-yellow-900 text-sm">' +
+                '<li>Option 1: intégrer des copies locales de <code>vue.global.prod.js</code> et du CSS Tailwind compilé.</li>' +
+                '<li>Option 2: utiliser l\'image frontend avec build d\'assets (npm build) et sans CDN.</li>' +
+                '<li>Option 3: autoriser le trafic sortant vers <code>unpkg.com</code> et <code>cdn.tailwindcss.com</code>.</li>' +
+                '</ul>' +
+                '</div>'
+              );
+            }
+            console.error('[EcoleHub] Vue/Tailwind non chargés (CDN bloqué).');
+          }
+        }, 1200);
+      });
+    </script>
     <script src="./i18n.js"></script>
     <style>
         [v-cloak] { display: none; }
@@ -2375,7 +2406,31 @@
                             headers: { 'Authorization': `Bearer ${token}` }
                         });
                         if (response.ok) {
-                            this.shopProducts = await response.json();
+                            const raw = await response.json();
+                            // Normalize API response to legacy shape used by templates
+                            this.shopProducts = Array.isArray(raw)
+                                ? raw.map(item => {
+                                    if (item && item.product) return item; // already legacy shape
+                                    const p = item || {};
+                                    return {
+                                        product: {
+                                            id: p.id,
+                                            name: p.name,
+                                            description: p.description,
+                                            category: p.category,
+                                            min_quantity: p.min_quantity,
+                                            is_active: p.is_active ?? true,
+                                        },
+                                        total_interest: p.total_interest ?? 0,
+                                        interested_users_count: p.interested_users_count ?? 0,
+                                        min_quantity: p.min_quantity ?? 0,
+                                        progress_percentage: p.progress_percentage ?? 0,
+                                        can_order: p.can_order ?? false,
+                                        price_breakdown: p.price_breakdown ?? { total_amount: p.base_price ?? 0 },
+                                        user_interest: p.user_interest ?? { has_interest: false, quantity: 0, notes: null },
+                                    };
+                                })
+                                : [];
                             console.log('🛒 Produits boutique chargés:', this.shopProducts.length);
                         }
                     } catch (error) {
@@ -2406,7 +2461,7 @@
                     
                     try {
                         const token = localStorage.getItem('token');
-                        const response = await fetch(`/shop/products/${product.id}/interest`, {
+                        const response = await fetch(`/api/shop/products/${product.id}/interest`, {
                             method: 'POST',
                             headers: {
                                 'Content-Type': 'application/json',
@@ -2436,7 +2491,7 @@
                     
                     try {
                         const token = localStorage.getItem('token');
-                        const response = await fetch(`/shop/products/${productId}/interest`, {
+                        const response = await fetch(`/api/shop/products/${productId}/interest`, {
                             method: 'DELETE',
                             headers: { 'Authorization': `Bearer ${token}` }
                         });
@@ -2458,7 +2513,7 @@
                     
                     try {
                         const token = localStorage.getItem('token');
-                        const response = await fetch(`/shop/products/${productId}/order`, {
+                        const response = await fetch(`/api/shop/products/${productId}/order`, {
                             method: 'POST',
                             headers: { 'Authorization': `Bearer ${token}` }
                         });
@@ -2482,7 +2537,7 @@
                     
                     try {
                         const token = localStorage.getItem('token');
-                        const response = await fetch(`/shop/products/${product.id}`, {
+                        const response = await fetch(`/api/shop/products/${product.id}`, {
                             method: 'PUT',
                             headers: {
                                 'Content-Type': 'application/json',

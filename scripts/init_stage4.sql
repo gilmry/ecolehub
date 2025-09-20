@@ -16,6 +16,19 @@ CREATE TABLE users (
     is_verified BOOLEAN DEFAULT false,
     role VARCHAR(50) DEFAULT 'parent',
     preferred_language VARCHAR(5) DEFAULT 'fr-BE',
+    -- Stage 4 privacy/consents
+    consent_version VARCHAR(20),
+    consented_at TIMESTAMPTZ,
+    privacy_locale VARCHAR(10),
+    consent_withdrawn_at TIMESTAMPTZ,
+    deleted_at TIMESTAMPTZ,
+    consent_analytics_platform BOOLEAN DEFAULT false,
+    consent_comms_operational BOOLEAN DEFAULT true,
+    consent_comms_newsletter BOOLEAN DEFAULT false,
+    consent_comms_shop_marketing BOOLEAN DEFAULT false,
+    consent_cookies_preference BOOLEAN DEFAULT false,
+    consent_photos_publication BOOLEAN DEFAULT false,
+    consent_data_share_thirdparties BOOLEAN DEFAULT false,
     created_at TIMESTAMPTZ DEFAULT NOW(),
     updated_at TIMESTAMPTZ DEFAULT NOW()
 );
@@ -67,7 +80,8 @@ CREATE TABLE sel_transactions (
 
 -- SEL Balances with Belgian constraints
 CREATE TABLE sel_balances (
-    user_id UUID PRIMARY KEY REFERENCES users(id),
+    id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
+    user_id UUID UNIQUE REFERENCES users(id),
     balance INTEGER DEFAULT 120,
     total_given INTEGER DEFAULT 0,
     total_received INTEGER DEFAULT 0,
