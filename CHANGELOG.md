@@ -30,6 +30,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - `scripts/ci-local.sh`: robust venv detection; runs Bandit/Safety from the active venv; uses Safety `scan`.
 - `backend/requirements.test.txt`: added Bandit and Safety; upgraded to non‑vulnerable versions (black 24.8.0, bandit 1.7.9; safety 3.x).
 - MinIO client guarded under `TESTING=1` to avoid network calls during tests.
+ - Security dependency updates (runtime): bumped FastAPI to 0.116.2, python-jose to 3.5.0, and python-multipart to 0.0.20 as per Safety recommendations.
 
 ### 🔐 Secure Defaults
 - Uvicorn bind host is now controlled via `BIND_HOST` (default `127.0.0.1`); Docker compose sets `BIND_HOST=0.0.0.0` for containers. Removes Bandit B104 finding.
