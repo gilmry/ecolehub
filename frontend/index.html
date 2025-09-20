@@ -55,6 +55,15 @@
                                 {{ locale.flag }} {{ locale.name }}
                             </option>
                         </select>
+                        <button
+                          type="button"
+                          @click="openConsentSettings"
+                          class="ml-2 px-2 py-1 rounded text-sm bg-gray-100 hover:bg-gray-200 text-gray-800"
+                          aria-label="Paramètres de confidentialité"
+                          title="Paramètres de confidentialité"
+                        >
+                          🔒 Confidentialité
+                        </button>
                     </div>
                 </div>
                 <div v-if="isAuthenticated" class="mt-2 flex justify-between items-center">
@@ -1323,6 +1332,7 @@
                             <li><a href="#" @click="currentTab = 'legal'" class="hover:text-blue-300">{{ $t('legal.mentions') }}</a></li>
                             <li><a href="#" @click="currentTab = 'privacy'" class="hover:text-blue-300">{{ $t('legal.privacy') }}</a></li>
                             <li><a href="#" @click="currentTab = 'rgpd'" class="hover:text-blue-300">{{ $t('legal.dataProtection') }}</a></li>
+                            <li><button type="button" @click="openConsentSettings" class="hover:text-blue-300 underline">Préférences de confidentialité</button></li>
                         </ul>
                     </div>
                 </div>
