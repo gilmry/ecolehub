@@ -8,29 +8,181 @@
     "confirm": "Bestätigen",
     "cancel": "Abbrechen",
     "save": "Speichern",
+    "close": "Schließen",
     "language": "Sprache"
   },
+  "auth": {
+    "login": "Anmeldung",
+    "register": "Registrierung",
+    "logout": "Abmelden",
+    "email": "E‑Mail",
+    "password": "Passwort",
+    "firstName": "Vorname",
+    "lastName": "Nachname",
+    "firstNamePlaceholder": "Vorname",
+    "lastNamePlaceholder": "Nachname"
+  },
+  "navigation": {
+    "dashboard": "Übersicht",
+    "services": "SEL‑Dienste",
+    "transactions": "Transaktionen",
+    "messages": "Nachrichten",
+    "events": "Veranstaltungen",
+    "shop": "Shop",
+    "education": "Bildung",
+    "profile": "Profil",
+    "admin": "Admin"
+  },
   "sel": {
+    "title": "Lokales Austauschsystem",
+    "balance": "Guthaben",
+    "units": "Einheiten",
+    "services": "Dienste",
+    "transactions": "Transaktionen",
+    "acronym": "SEL",
     "noServices": "Keine Dienste verfügbar.",
-    "units": "Einheiten"
+    "createService": "Dienst erstellen",
+    "serviceCreated": "Dienst erfolgreich erstellt!",
+    "transactionApproved": "Transaktion genehmigt! Salden aktualisiert.",
+    "myBalance": "Mein SEL‑Guthaben",
+    "availableServices": "Verfügbare Dienste",
+    "myServices": "Meine Dienste",
+    "proposeService": "Neuen Dienst vorschlagen",
+    "serviceTitle": "Diensttitel",
+    "category": "Kategorie",
+    "chooseCategory": "Kategorie wählen",
+    "description": "Beschreibung",
+    "unitsPerHour": "Einheiten pro Stunde",
+    "standardRate": "Standard: 60 Einheiten = 1 Stunde",
+    "request": "Anfragen"
   },
   "app.demo": {
     "stage2Title": "Stufe 2 - Nachrichten + Veranstaltungen",
-    "newFeatures": "Neue Funktionen: Echtzeit-Nachrichten + Schulveranstaltungen.",
+    "newFeatures": "Neue Funktionen: Echtzeit‑Nachrichten + Schulveranstaltungen.",
     "nextStepLabel": "Nächster Schritt:",
     "nextStepValue": "Gemeinschaftsladen (Stufe 3).",
     "footer": "Demoversion für Elternabend"
   },
+  "transactions": {
+    "title": "Meine Transaktionen",
+    "none": "Noch keine Transaktionen.",
+    "received": "Erhalten",
+    "given": "Gegeben"
+  },
+  "shop": {
+    "title": "Gemeinschafts‑Shop",
+    "products": "Produkte",
+    "categories": {
+      "fournitures": "Schulmaterial",
+      "vetements": "Kleidung",
+      "accessoires": "Zubehör"
+    },
+    "interested": "Ich bin interessiert",
+    "cancelInterest": "Interesse zurückziehen",
+    "interestExpressed": "Interesse geäußert",
+    "groupOrderReady": "Bestellbereit!",
+    "participants": "interessierte Eltern",
+    "howItWorks": "Wie funktioniert es?",
+    "workflow": [
+      "Eltern äußern Interesse an einem Produkt",
+      "Bei Erreichen der Mindestmenge → Sammelbestellung möglich",
+      "Zahlung über Mollie (Bancontact, Karte, Überweisung)",
+      "Sammellieferung = bessere Preise für alle"
+    ],
+    "vatIncluded": "inkl. MwSt.",
+    "minimumQuantity": "Mindestmenge",
+    "price": "Preis",
+    "description": "Beschreibung",
+    "noProducts": "Zurzeit keine Produkte verfügbar."
+  },
   "admin": {
     "title": "EcoleHub Verwaltung",
+    "products": "Produkte",
+    "interests": "Interessen",
+    "orders": "Bestellungen",
+    "statistics": "Statistiken",
+    "newProduct": "Neues Produkt",
+    "productName": "Produktname",
+    "category": "Kategorie",
     "productManagement": "Produktverwaltung",
     "chooseCategory": "Kategorie wählen",
     "priceEUR": "Preis (€)",
-    "parentsInterestsView": "Übersicht Elterninteressen"
+    "parentsInterestsView": "Übersicht Elterninteressen",
+    "launchGroupOrder": "Sammelbestellung starten",
+    "activate": "Aktivieren",
+    "deactivate": "Deaktivieren",
+    "productCreated": "Produkt erfolgreich erstellt!",
+    "productUpdated": "Produkt aktualisiert",
+    "adminRequired": "Admin‑Zugriff erforderlich",
     "productNamePlaceholder": "z. B. EcoleHub T‑Shirt",
     "productDescriptionPlaceholder": "Produktbeschreibung..."
   },
+  "messages": {
+    "title": "Nachrichten",
+    "newMessage": "Neue Nachricht",
+    "sendDirectMessage": "Direktnachricht senden",
+    "recipient": "Empfänger",
+    "chooseParent": "Elternteil wählen",
+    "messageLabel": "Nachricht",
+    "typeMessage": "Nachricht eingeben...",
+    "send": "Senden",
+    "refresh": "Aktualisieren",
+    "noConversations": "Keine Konversationen",
+    "noMessages": "Keine Nachrichten in dieser Konversation"
+  },
+  "events": {
+    "title": "Schulveranstaltungen",
+    "filters": {
+      "all": "Alle",
+      "school": "Schule",
+      "class": "Klassen",
+      "celebration": "Feiern"
+    },
+    "register": "Anmelden",
+    "registered": "Angemeldet",
+    "full": "Voll",
+    "date": "Datum",
+    "location": "Ort",
+    "participants": "Teilnehmer",
+    "registrationConfirmed": "Anmeldung bestätigt!"
+  },
+  "education": {
+    "title": "EcoleHub Bildung",
+    "resources": "Ressourcen",
+    "categories": {
+      "homework": "Hausaufgaben",
+      "calendar": "Kalender",
+      "forms": "Formulare",
+      "announcements": "Ankündigungen"
+    },
+    "classResources": "Klassen‑Ressourcen",
+    "schoolCommunications": "Schulkommunikation"
+  },
+  "profile": {
+    "title": "Mein Profil",
+    "children": "Meine Kinder",
+    "addChild": "Kind hinzufügen",
+    "childName": "Name des Kindes",
+    "class": "Klasse",
+    "chooseClass": "Klasse wählen",
+    "childAdded": "Kind hinzugefügt!",
+    "childDeleted": "Kind gelöscht"
+  },
+  "classes": {
+    "M1": "M1 (1. Kindergarten)",
+    "M2": "M2 (2. Kindergarten)",
+    "M3": "M3 (3. Kindergarten)",
+    "P1": "P1 (1. Grundschule)",
+    "P2": "P2 (2. Grundschule)",
+    "P3": "P3 (3. Grundschule)",
+    "P4": "P4 (4. Grundschule)",
+    "P5": "P5 (5. Grundschule)",
+    "P6": "P6 (6. Grundschule)"
+  },
   "legal": {
+    "mentions": "Rechtliche Hinweise",
+    "privacy": "Datenschutzrichtlinie",
+    "dataProtection": "Datenschutz",
     "sitePublisherTitle": "Seitenherausgeber",
     "publisherName": "EcoleHub Plattform",
     "publisherAddress": "1000 Brüssel, Belgien",
@@ -41,15 +193,10 @@
     "serversInEurope": "Server in Europa",
     "complianceNote": "Gemäß belgischem und europäischem Recht",
     "intellectualPropertyTitle": "Geistiges Eigentum",
-    "ipParagraph1": "EcoleHub ist Open-Source-Software unter der MIT-Lizenz.",
+    "ipParagraph1": "EcoleHub ist Open‑Source‑Software unter der MIT‑Lizenz.",
     "ipParagraph2": "Von Nutzern veröffentlichte Inhalte bleiben ihr Eigentum.",
-    "ipParagraph3": "Schullogos und -grafiken bleiben Eigentum der Schulen."
-  }
-  "transactions": {
-    "none": "Noch keine Transaktionen.",
-    "received": "Erhalten",
-    "given": "Gegeben"
-    "emailLabel": "E-Mail:",
+    "ipParagraph3": "Schullogos und ‑grafiken bleiben Eigentum der Schulen.",
+    "emailLabel": "E‑Mail:",
     "contactEmailText": "Kontakt",
     "techManager": "Technischer Verantwortlicher EcoleHub",
     "responsibilityTitle": "Haftung",
@@ -68,22 +215,7 @@
     "copyright": "© 2024 EcoleHub – Open‑Source‑Plattform für belgische Schulen",
     "gdprCompliant": "Konform mit DSGVO und belgischem Datenschutzrecht"
   }
-  "legal": {
-    "mentions": "Rechtliche Hinweise",
-    "privacy": "Datenschutzrichtlinie",
-    "dataProtection": "Datenschutz"
-  }
-  "auth": {
-    "login": "Anmeldung",
-    "register": "Registrierung",
-    "logout": "Abmelden",
-    "email": "E-Mail",
-    "password": "Passwort",
-    "firstName": "Vorname",
-    "lastName": "Nachname",
-    "firstNamePlaceholder": "Vorname",
-    "lastNamePlaceholder": "Nachname"
-  },
+}
   "messages": {
     "messageLabel": "Nachricht"
   },

@@ -92,12 +92,12 @@
             <!-- Messages -->
             <div v-if="errorMessage" class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded mb-4">
                 {{ errorMessage }}
-                <button @click="errorMessage = ''" class="float-right text-red-700 hover:text-red-900">×</button>
+                <button @click="errorMessage = ''" class="float-right text-red-700 hover:text-red-900" :aria-label="$t('app.close')">×</button>
             </div>
 
             <div v-if="successMessage" class="bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded mb-4">
                 {{ successMessage }}
-                <button @click="successMessage = ''" class="float-right text-green-700 hover:text-green-900">×</button>
+                <button @click="successMessage = ''" class="float-right text-green-700 hover:text-green-900" :aria-label="$t('app.close')">×</button>
             </div>
 
             <!-- Login/Register -->

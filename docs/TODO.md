@@ -8,6 +8,7 @@
 - Gestion des fallback: `de-BE` → `fr-BE` → `en`.
 - Exposer la langue via API (`/api/i18n/locales`, `/api/i18n/translations/{locale}`) avec support `de-BE`.
 - Tests: vérifier présence des clés dans les 4 langues et fallback correct.
+  - Exceptions linter documentées: `<title>` (marque) et bouton de fermeture "×" (symbolique). Justification: éviter FOUC/SSR inutile et privilégier `aria-label` i18n pour l’accessibilité.
 
 ## Qualité & DX
 - Lint i18n: script qui détecte clés manquantes/inutilisées.
