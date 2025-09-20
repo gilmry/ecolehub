@@ -28,6 +28,42 @@ jobs:
       - name: 🔎 Run i18n lint (STRICT)
         run: ./scripts/ci-i18n.sh
 
+  a11y-audit:
+    name: ♿ Accessibility Audit
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: 📥 Checkout code
+        uses: actions/checkout@v4
+
+      - name: 🐍 Set up Python 3.x
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.x'
+
+      - name: 📡 Serve frontend (background)
+        run: |
+          cd frontend
+          nohup python -m http.server 8089 >/dev/null 2>&1 &
+          echo $! > ../server.pid
+          sleep 2
+
+      - name: 🟢 Install Node (for npx pa11y)
+        uses: actions/setup-node@v4
+        with:
+          node-version: '18'
+
+      - name: ♿ Run pa11y against local frontend (STRICT)
+        env:
+          BASE_URL: http://localhost:8089
+          STRICT: '1'
+        run: ./scripts/a11y-audit.sh
+
+      - name: 🧹 Stop server
+        if: always()
+        run: |
+          kill $(cat server.pid) || true
+
   test-backend:
     name: 🐍 Backend Tests
     runs-on: ubuntu-latest
@@ -225,7 +261,7 @@ jobs:
   notify-success:
     name: 🎉 Notify Success
     runs-on: ubuntu-latest
-    needs: [test-backend, test-configuration, security-scan, docker-build-test, documentation, frontend-i18n]
+    needs: [test-backend, test-configuration, security-scan, docker-build-test, documentation, frontend-i18n, a11y-audit]
     if: success()
 
     steps:
@@ -243,7 +279,7 @@ jobs:
   notify-failure:
     name: ❌ Notify Failure
     runs-on: ubuntu-latest
-    needs: [test-backend, test-configuration, security-scan, docker-build-test, documentation, frontend-i18n]
+    needs: [test-backend, test-configuration, security-scan, docker-build-test, documentation, frontend-i18n, a11y-audit]
     if: failure()
 
     steps:
