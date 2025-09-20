@@ -18,6 +18,22 @@
     "create": "Aanmaken",
     "close": "Sluiten"
   },
+  "common": {
+    "save": "Opslaan"
+  },
+  "privacy": {
+    "settings": "Privacy-instellingen",
+    "bannerTitle": "Privacyvoorkeuren",
+    "bannerDescription": "U kunt kiezen hoe we uw gegevens gebruiken. Operationele communicatie die nodig is voor de dienst blijft actief.",
+    "analytics": "Platformanalyse toestaan",
+    "newsletter": "Schoolnieuwsbrief ontvangen",
+    "shopMarketing": "Informatie over de winkel ontvangen",
+    "cookiesPreference": "Voorkeurscookies inschakelen (niet-essentieel)",
+    "photosPublication": "Publicatie van foto's toestaan",
+    "dataShareThirdparties": "Gegevens delen met derden toestaan (excl. verwerkers)",
+    "rejectNonEssential": "Alles weigeren (behalve noodzakelijk)",
+    "acceptAll": "Alles accepteren"
+  },
   "auth": {
     "login": "Aanmelden",
     "register": "Registreren",

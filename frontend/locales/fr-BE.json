@@ -18,6 +18,22 @@
     "create": "Créer",
     "close": "Fermer"
   },
+  "common": {
+    "save": "Enregistrer"
+  },
+  "privacy": {
+    "settings": "Préférences de confidentialité",
+    "bannerTitle": "Préférences de confidentialité",
+    "bannerDescription": "Vous pouvez choisir comment nous utilisons vos données. Les communications opérationnelles nécessaires au service restent actives.",
+    "analytics": "Autoriser l'analytics de plateforme",
+    "newsletter": "Recevoir la newsletter de l'école",
+    "shopMarketing": "Recevoir des informations liées à la boutique",
+    "cookiesPreference": "Activer les cookies de préférence (non essentiels)",
+    "photosPublication": "Autoriser la publication de photos d'activités",
+    "dataShareThirdparties": "Autoriser le partage de données à des tiers (hors prestataires nécessaires)",
+    "rejectNonEssential": "Tout refuser (hors nécessaire)",
+    "acceptAll": "Tout accepter"
+  },
   "auth": {
     "login": "Connexion",
     "register": "Inscription",

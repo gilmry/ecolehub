@@ -59,10 +59,10 @@
                           type="button"
                           @click="openConsentSettings"
                           class="ml-2 px-2 py-1 rounded text-sm bg-gray-100 hover:bg-gray-200 text-gray-800"
-                          aria-label="Paramètres de confidentialité"
-                          title="Paramètres de confidentialité"
+                          :aria-label="$t('privacy.settings')"
+                          :title="$t('privacy.settings')"
                         >
-                          🔒 Confidentialité
+                          🔒 {{ $t('privacy.settings') }}
                         </button>
                     </div>
                 </div>
@@ -1352,38 +1352,38 @@
         <!-- Consent Banner -->
         <div v-if="showConsentBanner" class="fixed inset-x-0 bottom-0 bg-white border-t shadow-md" role="dialog" aria-labelledby="consent-title">
           <div class="max-w-6xl mx-auto p-4">
-            <h2 id="consent-title" class="text-lg font-semibold mb-2">Préférences de confidentialité</h2>
-            <p class="text-sm text-gray-700 mb-3">Vous pouvez choisir comment nous utilisons vos données. Les communications opérationnelles nécessaires au service restent actives.</p>
+            <h2 id="consent-title" class="text-lg font-semibold mb-2">{{ $t('privacy.bannerTitle') }}</h2>
+            <p class="text-sm text-gray-700 mb-3">{{ $t('privacy.bannerDescription') }}</p>
             <div class="grid grid-cols-1 md:grid-cols-2 gap-3 mb-3">
               <label class="flex items-start space-x-2">
-                <input type="checkbox" v-model="consentPrefs.consent_analytics_platform" aria-label="Analytics plateforme" class="mt-1" />
-                <span>Autoriser l'analytics de plateforme</span>
+                <input type="checkbox" v-model="consentPrefs.consent_analytics_platform" :aria-label="$t('privacy.analytics')" class="mt-1" />
+                <span>{{ $t('privacy.analytics') }}</span>
               </label>
               <label class="flex items-start space-x-2">
-                <input type="checkbox" v-model="consentPrefs.consent_comms_newsletter" aria-label="Newsletter école" class="mt-1" />
-                <span>Recevoir la newsletter de l'école</span>
+                <input type="checkbox" v-model="consentPrefs.consent_comms_newsletter" :aria-label="$t('privacy.newsletter')" class="mt-1" />
+                <span>{{ $t('privacy.newsletter') }}</span>
               </label>
               <label class="flex items-start space-x-2">
-                <input type="checkbox" v-model="consentPrefs.consent_comms_shop_marketing" aria-label="Infos boutique" class="mt-1" />
-                <span>Recevoir des informations liées à la boutique</span>
+                <input type="checkbox" v-model="consentPrefs.consent_comms_shop_marketing" :aria-label="$t('privacy.shopMarketing')" class="mt-1" />
+                <span>{{ $t('privacy.shopMarketing') }}</span>
               </label>
               <label class="flex items-start space-x-2">
-                <input type="checkbox" v-model="consentPrefs.consent_cookies_preference" aria-label="Cookies de préférence" class="mt-1" />
-                <span>Activer les cookies de préférence (non essentiels)</span>
+                <input type="checkbox" v-model="consentPrefs.consent_cookies_preference" :aria-label="$t('privacy.cookiesPreference')" class="mt-1" />
+                <span>{{ $t('privacy.cookiesPreference') }}</span>
               </label>
               <label class="flex items-start space-x-2">
-                <input type="checkbox" v-model="consentPrefs.consent_photos_publication" aria-label="Publication photos" class="mt-1" />
-                <span>Autoriser la publication de photos d'activités</span>
+                <input type="checkbox" v-model="consentPrefs.consent_photos_publication" :aria-label="$t('privacy.photosPublication')" class="mt-1" />
+                <span>{{ $t('privacy.photosPublication') }}</span>
               </label>
               <label class="flex items-start space-x-2">
-                <input type="checkbox" v-model="consentPrefs.consent_data_share_thirdparties" aria-label="Partage tiers" class="mt-1" />
-                <span>Autoriser le partage de données à des tiers (hors prestataires nécessaires)</span>
+                <input type="checkbox" v-model="consentPrefs.consent_data_share_thirdparties" :aria-label="$t('privacy.dataShareThirdparties')" class="mt-1" />
+                <span>{{ $t('privacy.dataShareThirdparties') }}</span>
               </label>
             </div>
             <div class="flex flex-wrap gap-2 justify-end">
-              <button @click="rejectNonEssential" class="px-4 py-2 rounded bg-gray-200 hover:bg-gray-300">Tout refuser (hors nécessaire)</button>
-              <button @click="saveConsentPrefs" class="px-4 py-2 rounded bg-blue-600 text-white hover:bg-blue-700">Enregistrer</button>
-              <button @click="acceptAll" class="px-4 py-2 rounded bg-green-600 text-white hover:bg-green-700">Tout accepter</button>
+              <button @click="rejectNonEssential" class="px-4 py-2 rounded bg-gray-200 hover:bg-gray-300">{{ $t('privacy.rejectNonEssential') }}</button>
+              <button @click="saveConsentPrefs" class="px-4 py-2 rounded bg-blue-600 text-white hover:bg-blue-700">{{ $t('common.save') }}</button>
+              <button @click="acceptAll" class="px-4 py-2 rounded bg-green-600 text-white hover:bg-green-700">{{ $t('privacy.acceptAll') }}</button>
             </div>
           </div>
         </div>

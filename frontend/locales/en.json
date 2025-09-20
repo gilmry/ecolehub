@@ -18,6 +18,22 @@
     "create": "Create",
     "close": "Close"
   },
+  "common": {
+    "save": "Save"
+  },
+  "privacy": {
+    "settings": "Privacy settings",
+    "bannerTitle": "Privacy preferences",
+    "bannerDescription": "You can choose how we use your data. Operational communications required for the service remain active.",
+    "analytics": "Allow platform analytics",
+    "newsletter": "Receive school newsletter",
+    "shopMarketing": "Receive information related to the shop",
+    "cookiesPreference": "Enable preference cookies (non-essential)",
+    "photosPublication": "Allow publication of activity photos",
+    "dataShareThirdparties": "Allow sharing data with third parties (excluding necessary processors)",
+    "rejectNonEssential": "Reject all (except necessary)",
+    "acceptAll": "Accept all"
+  },
   "auth": {
     "login": "Login",
     "register": "Register",

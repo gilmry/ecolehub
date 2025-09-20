@@ -11,6 +11,22 @@
     "close": "Schließen",
     "language": "Sprache"
   },
+  "common": {
+    "save": "Speichern"
+  },
+  "privacy": {
+    "settings": "Datenschutzeinstellungen",
+    "bannerTitle": "Datenschutzpräferenzen",
+    "bannerDescription": "Sie können wählen, wie wir Ihre Daten verwenden. Für den Dienst erforderliche betriebliche Mitteilungen bleiben aktiv.",
+    "analytics": "Plattform-Analytics erlauben",
+    "newsletter": "Schulnewsletter erhalten",
+    "shopMarketing": "Informationen zum Shop erhalten",
+    "cookiesPreference": "Präferenz-Cookies aktivieren (nicht essenziell)",
+    "photosPublication": "Veröffentlichung von Fotos erlauben",
+    "dataShareThirdparties": "Weitergabe von Daten an Dritte erlauben (außer notwendigen Auftragsverarbeitern)",
+    "rejectNonEssential": "Alles ablehnen (außer notwendig)",
+    "acceptAll": "Alles akzeptieren"
+  },
   "auth": {
     "login": "Anmeldung",
     "register": "Registrierung",
