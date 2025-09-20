@@ -78,11 +78,12 @@ else
 fi
 
 echo "♿ Accessibility (frontend)"
-# Serve frontend with Python and run pa11y audit (non-strict by default)
-bash -c 'set -euo pipefail; \
+# Serve frontend with Python and run pa11y audit (STRICT by default)
+bash -c 'set -eo pipefail; \
   PORT=${A11Y_FRONTEND_PORT:-8089}; \
-  (cd frontend && python3 -m http.server $PORT >/dev/null 2>&1 &) ; \
-  PID=$!; trap "kill $PID >/dev/null 2>&1 || true" EXIT; \
+  (cd frontend && python3 -m http.server "$PORT" >/dev/null 2>&1 &) ; \
+  PID=$!; \
+  if [ -n "${PID:-}" ]; then trap "kill $PID >/dev/null 2>&1 || true" EXIT; fi; \
   sleep 2; \
   BASE_URL=http://localhost:$PORT STRICT=${A11Y_STRICT:-1} ./scripts/a11y-audit.sh'
 

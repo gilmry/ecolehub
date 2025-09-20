@@ -21,3 +21,7 @@ bandit==1.7.9
 # Safety v2 conflicts with modern packaging used by pytest/black.
 # Use v3 series compatible with packaging>=22.
 safety>=3.0.0,<4.0.0
+typer>=0.12.3
+rich>=13
+# Ensure safety-schemas compatible with pydantic >=2.6
+safety-schemas>=0.0.14
