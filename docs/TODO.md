@@ -33,3 +33,14 @@
 
 ## Contenu
 - Glossaire des termes belges (classes M1–M3, P1–P6, SEL) pour cohérence des traductions.
+
+## Accessibilité (prioritaire)
+- Objectif: conformité WCAG 2.1 AA pour malvoyants.
+- Navigation clavier complète (Tab/Shift+Tab), ordre logique, pièges évités.
+- Landmarks et sémantique: `header/nav/main/aside/footer`, rôles ARIA et `aria-label` pertinents.
+- Contrastes couleurs ≥ 4.5:1 (texte standard), focus visible et accessible.
+- Alternatives: `alt` descriptifs, libellés de formulaires, `aria-describedby` pour aides.
+- Mécanismes: lien "aller au contenu", tailles de police relatives, zoom ≥ 200% sans perte.
+- Préférences: thème fort contraste, `prefers-reduced-motion`, éviter dépendance couleur seule.
+- Multimédia: sous-titres/transcriptions si médias ajoutés.
+- Tests: Lighthouse/axe, lecteurs d’écran (NVDA/VoiceOver), vérif. tab order et piégeages focus.

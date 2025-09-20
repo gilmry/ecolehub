@@ -318,6 +318,12 @@ i18n-lint: ## Scan frontend for hardcoded strings (STRICT=1 to fail on findings)
 	@echo "🔎 Scanning for non-i18n strings..."
 	@./scripts/i18n-lint.sh
 
+##@ ♿ Accessibility
+
+a11y-audit: ## Run accessibility audit (pa11y; set BASE_URL if needed)
+	@echo "♿ Running a11y audit against: $${BASE_URL:-http://localhost}"
+	@./scripts/a11y-audit.sh
+
 ##@ ✅ Tests & QA
 
 test-all: ## Run i18n lint (STRICT) then tests
