@@ -68,6 +68,13 @@
     "serviceCreated": "Dienst succesvol aangemaakt!",
     "transactionApproved": "Transactie goedgekeurd! Saldi bijgewerkt."
   },
+  "app.demo": {
+    "stage2Title": "Stage 2 - Berichten + Evenementen",
+    "newFeatures": "Nieuwe functies: Berichten in (quasi) realtime + School evenementen.",
+    "nextStepLabel": "Volgende stap:",
+    "nextStepValue": "Gezamenlijke winkel (Stage 3).",
+    "footer": "Demoversie voor ouderavond"
+  },
   "shop": {
     "title": "Gezamenlijke Winkel",
     "products": "Producten",
@@ -113,6 +120,8 @@
     "productCreated": "Product succesvol aangemaakt!",
     "productUpdated": "Product bijgewerkt",
     "adminRequired": "Beheerder toegang vereist"
+    "productNamePlaceholder": "bv. EcoleHub T‑shirt",
+    "productDescriptionPlaceholder": "Productbeschrijving..."
   },
   "messages": {
     "title": "Berichten",
@@ -174,7 +183,25 @@
     "chooseClass": "Kies een klas",
     "childAdded": "Kind toegevoegd!",
     "childDeleted": "Kind verwijderd"
+    "emailLabel": "E-mail:",
+    "contactEmailText": "Contact",
+    "techManager": "Technische verantwoordelijke EcoleHub",
+    "responsibilityTitle": "Verantwoordelijkheid",
+    "responsibilityP1": "EcoleHub streeft naar correcte informatie maar kan volledigheid en absolute juistheid niet garanderen.",
+    "responsibilityP2": "Gebruikers gebruiken het platform op eigen verantwoordelijkheid."
   },
+  "footer": {
+    "brand": "EcoleHub",
+    "aboutP1": "Collaboratief platform voor Belgische scholen.",
+    "aboutP2": "Samen maken we het schoolleven makkelijker.",
+    "contactTitle": "Contact",
+    "companyName": "EcoleHub Platform",
+    "companyAddress": "1000 Brussel, België",
+    "emailLinkText": "Contact per e-mail",
+    "legalTitle": "Wettelijke informatie",
+    "copyright": "© 2024 EcoleHub - Open‑source platform voor Belgische scholen",
+    "gdprCompliant": "Conform AVG en Belgische wetgeving gegevensbescherming"
+  }
   "classes": {
     "M1": "M1 (1e kleuterklas)",
     "M2": "M2 (2e kleuterklas)",
@@ -198,3 +225,4 @@
     "unitsPerHour": "Eenheden per uur",
     "standardRate": "Standaard: 60 eenheden = 1 uur",
     "request": "Aanvragen",
+    "acronym": "SEL",

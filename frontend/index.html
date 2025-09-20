@@ -63,7 +63,7 @@
                         <span class="font-semibold" :class="balanceColor">
                             💰 {{ balance.balance }} unités
                         </span>
-                        <span class="text-gray-500 ml-2">SEL</span>
+                                        <span class="text-gray-500 ml-2">{{ $t('sel.acronym') }}</span>
                     </div>
                 </div>
             </div>
@@ -902,7 +902,7 @@
                                 </div>
                             </div>
                             <button type="submit" class="bg-green-500 text-white px-4 py-2 rounded hover:bg-green-600">
-                                Ajouter l'enfant
+                                {{ $t('profile.addChild') }}
                             </button>
                         </form>
                     </div>
@@ -910,11 +910,11 @@
 
                 <!-- Info Stage 2 -->
                 <div class="bg-blue-50 border border-blue-200 rounded-lg p-4 mb-6">
-                    <h3 class="text-lg font-semibold text-blue-800 mb-2">🚀 Stage 2 - Messages + Événements</h3>
+                    <h3 class="text-lg font-semibold text-blue-800 mb-2">🚀 {{ $t('app.demo.stage2Title') }}</h3>
                     <p class="text-blue-700">
-                        Nouvelles fonctionnalités : Messagerie temps réel + Événements école.
+                        {{ $t('app.demo.newFeatures') }}
                         <br>
-                        <strong>Prochaine étape :</strong> Boutique collaborative (Stage 3).
+                        <strong>{{ $t('app.demo.nextStepLabel') }}</strong> {{ $t('app.demo.nextStepValue') }}
                     </p>
                 </div>
 
@@ -930,28 +930,28 @@
                                 :class="adminSection === 'products' ? 'bg-red-500 text-white' : 'bg-gray-200'"
                                 class="px-4 py-2 rounded font-medium"
                             >
-                                📦 Produits
+                                📦 {{ $t('admin.products') }}
                             </button>
                             <button
                                 @click="adminSection = 'interests'"
                                 :class="adminSection === 'interests' ? 'bg-red-500 text-white' : 'bg-gray-200'"
                                 class="px-4 py-2 rounded font-medium"
                             >
-                                👥 Intérêts
+                                👥 {{ $t('admin.interests') }}
                             </button>
                             <button
                                 @click="adminSection = 'orders'"
                                 :class="adminSection === 'orders' ? 'bg-red-500 text-white' : 'bg-gray-200'"
                                 class="px-4 py-2 rounded font-medium"
                             >
-                                🚀 Commandes
+                                🚀 {{ $t('admin.orders') }}
                             </button>
                             <button
                                 @click="adminSection = 'stats'"
                                 :class="adminSection === 'stats' ? 'bg-red-500 text-white' : 'bg-gray-200'"
                                 class="px-4 py-2 rounded font-medium"
                             >
-                                📊 Statistiques
+                                📊 {{ $t('admin.statistics') }}
                             </button>
                         </div>
 
@@ -963,7 +963,7 @@
                                     @click="showProductForm = !showProductForm"
                                     class="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600"
                                 >
-                                    ➕ Nouveau Produit
+                                    ➕ {{ $t('admin.newProduct') }}
                                 </button>
                             </div>
                             
@@ -979,11 +979,11 @@
                                                 type="text"
                                                 class="w-full p-2 border rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
                                                 required
-                                                placeholder="ex: T-shirt EcoleHub"
+                                                :placeholder="$t('admin.productNamePlaceholder')"
                                             >
                                         </div>
                                         <div>
-                                            <label class="block text-gray-700 text-sm font-bold mb-2">Catégorie</label>
+                                            <label class="block text-gray-700 text-sm font-bold mb-2">{{ $t('admin.category') }}</label>
                                             <select
                                                 v-model="newProduct.category"
                                                 class="w-full p-2 border rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
@@ -997,12 +997,12 @@
                                         </div>
                                     </div>
                                     <div>
-                                        <label class="block text-gray-700 text-sm font-bold mb-2">Description</label>
+                                        <label class="block text-gray-700 text-sm font-bold mb-2">{{ $t('shop.description') }}</label>
                                         <textarea
                                             v-model="newProduct.description"
                                             class="w-full p-2 border rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
                                             rows="3"
-                                            placeholder="Description du produit..."
+                                            :placeholder="$t('admin.productDescriptionPlaceholder')"
                                         ></textarea>
                                     </div>
                                     <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
@@ -1139,13 +1139,13 @@
                             <div class="mb-6 text-gray-700">
                                 <p><strong>{{ $t('legal.publisherName') }}</strong></p>
                                 <p>{{ $t('legal.publisherAddress') }}</p>
-                                <p>Email : <a href="mailto:gilmry+ecolehub@gmail.com" class="text-blue-600">gilmry+ecolehub@gmail.com</a></p>
+                                <p>{{ $t('legal.emailLabel') }} <a href="mailto:gilmry+ecolehub@gmail.com" class="text-blue-600">{{ $t('legal.contactEmailText') }}</a></p>
                             </div>
 
                             <h3 class="text-lg font-semibold mb-3">{{ $t('legal.publicationManagerTitle') }}</h3>
                             <div class="mb-6 text-gray-700">
-                                <p>Responsable technique EcoleHub</p>
-                                <p>Email : <a href="mailto:gilmry+ecolehub@gmail.com" class="text-blue-600">gilmry+ecolehub@gmail.com</a></p>
+                                <p>{{ $t('legal.techManager') }}</p>
+                                <p>{{ $t('legal.emailLabel') }} <a href="mailto:gilmry+ecolehub@gmail.com" class="text-blue-600">{{ $t('legal.contactEmailText') }}</a></p>
                             </div>
 
                             <h3 class="text-lg font-semibold mb-3">{{ $t('legal.hostingTitle') }}</h3>
@@ -1163,10 +1163,10 @@
                                 <p>{{ $t('legal.ipParagraph3') }}</p>
                             </div>
 
-                            <h3 class="text-lg font-semibold mb-3">Responsabilité</h3>
+                            <h3 class="text-lg font-semibold mb-3">{{ $t('legal.responsibilityTitle') }}</h3>
                             <div class="text-gray-700">
-                                <p>EcoleHub s'efforce de maintenir des informations exactes mais ne peut garantir l'exhaustivité ou l'exactitude de toutes les informations.</p>
-                                <p>Les utilisateurs utilisent la plateforme sous leur propre responsabilité.</p>
+                                <p>{{ $t('legal.responsibilityP1') }}</p>
+                                <p>{{ $t('legal.responsibilityP2') }}</p>
                             </div>
                         </div>
                     </div>
@@ -1291,26 +1291,26 @@
                 <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
                     <!-- À propos -->
                     <div>
-                        <h3 class="text-lg font-semibold mb-4">🏫 EcoleHub</h3>
+                        <h3 class="text-lg font-semibold mb-4">🏫 {{ $t('footer.brand') }}</h3>
                         <p class="text-gray-300 text-sm">
-                            Plateforme collaborative pour les écoles belges.
-                            Facilitons ensemble la vie scolaire de nos enfants.
+                            {{ $t('footer.aboutP1') }}
+                            {{ $t('footer.aboutP2') }}
                         </p>
                     </div>
 
                     <!-- Contact -->
                     <div>
-                        <h3 class="text-lg font-semibold mb-4">Contact</h3>
+                        <h3 class="text-lg font-semibold mb-4">{{ $t('footer.contactTitle') }}</h3>
                         <p class="text-gray-300 text-sm">
-                            EcoleHub Platform<br>
-                            1000 Bruxelles, Belgique<br>
-                            <a href="mailto:gilmry+ecolehub@gmail.com" class="text-blue-400 hover:text-blue-300">gilmry+ecolehub@gmail.com</a>
+                            {{ $t('footer.companyName') }}<br>
+                            {{ $t('footer.companyAddress') }}<br>
+                            <a href="mailto:gilmry+ecolehub@gmail.com" class="text-blue-400 hover:text-blue-300">{{ $t('footer.emailLinkText') }}</a>
                         </p>
                     </div>
 
                     <!-- Mentions légales -->
                     <div>
-                        <h3 class="text-lg font-semibold mb-4">Informations légales</h3>
+                        <h3 class="text-lg font-semibold mb-4">{{ $t('footer.legalTitle') }}</h3>
                         <ul class="text-gray-300 text-sm space-y-2">
                             <li><a href="#" @click="currentTab = 'legal'" class="hover:text-blue-300">{{ $t('legal.mentions') }}</a></li>
                             <li><a href="#" @click="currentTab = 'privacy'" class="hover:text-blue-300">{{ $t('legal.privacy') }}</a></li>
@@ -1321,11 +1321,11 @@
 
                 <div class="border-t border-gray-700 mt-8 pt-8 text-center">
                     <p class="text-gray-400 text-sm">
-                        © 2024 EcoleHub - Plateforme open source pour écoles belges -
-                        <span class="text-xs">Version démo pour réunion de parents</span>
+                        {{ $t('footer.copyright') }} -
+                        <span class="text-xs">{{ $t('app.demo.footer') }}</span>
                     </p>
                     <p class="text-gray-500 text-xs mt-2">
-                        Conforme au RGPD et à la législation belge sur la protection des données
+                        {{ $t('footer.gdprCompliant') }}
                     </p>
                 </div>
             </div>

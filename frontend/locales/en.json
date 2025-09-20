@@ -50,6 +50,7 @@
     "units": "units",
     "services": "Services",
     "transactions": "Transactions",
+    "acronym": "SEL",
     "categories": {
       "garde": "Childcare",
       "devoirs": "Homework help",
@@ -78,6 +79,13 @@
     "unitsPerHour": "Units per hour",
     "standardRate": "Standard: 60 units = 1 hour",
     "request": "Request"
+  },
+  "app.demo": {
+    "stage2Title": "Stage 2 - Messages + Events",
+    "newFeatures": "New features: Real-time messaging + School events.",
+    "nextStepLabel": "Next step:",
+    "nextStepValue": "Collaborative shop (Stage 3).",
+    "footer": "Demo version for parent meeting"
   },
   "transactions": {
     "title": "My Transactions",
@@ -129,7 +137,9 @@
     "deactivate": "Deactivate",
     "productCreated": "Product created successfully!",
     "productUpdated": "Product updated",
-    "adminRequired": "Administrator access required"
+    "adminRequired": "Administrator access required",
+    "productNamePlaceholder": "e.g., EcoleHub T-shirt",
+    "productDescriptionPlaceholder": "Product description..."
   },
   "messages": {
     "title": "Messages",
@@ -222,8 +232,23 @@
     "ipParagraph1": "EcoleHub is open source software under the MIT license.",
     "ipParagraph2": "Content published by users remains their property.",
     "ipParagraph3": "School logos and visuals remain the property of the schools.",
+    "emailLabel": "Email:",
+    "contactEmailText": "Contact",
+    "techManager": "EcoleHub Technical Manager",
     "responsibilityTitle": "Responsibility",
     "responsibilityP1": "EcoleHub strives to keep information accurate but cannot guarantee completeness or absolute accuracy.",
     "responsibilityP2": "Users use the platform at their own responsibility."
+  },
+  "footer": {
+    "brand": "EcoleHub",
+    "aboutP1": "Collaborative platform for Belgian schools.",
+    "aboutP2": "Let's make school life easier together.",
+    "contactTitle": "Contact",
+    "companyName": "EcoleHub Platform",
+    "companyAddress": "1000 Brussels, Belgium",
+    "emailLinkText": "Contact by email",
+    "legalTitle": "Legal information",
+    "copyright": "© 2024 EcoleHub - Open source platform for Belgian schools",
+    "gdprCompliant": "Compliant with GDPR and Belgian data protection law"
   }
 }

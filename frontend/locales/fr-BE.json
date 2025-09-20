@@ -79,6 +79,16 @@
     "standardRate": "Standard: 60 unités = 1 heure",
     "request": "Demander"
   },
+  "app": {
+    
+  },
+  "app.demo": {
+    "stage2Title": "Stage 2 - Messages + Événements",
+    "newFeatures": "Nouvelles fonctionnalités : Messagerie temps réel + Événements école.",
+    "nextStepLabel": "Prochaine étape :",
+    "nextStepValue": "Boutique collaborative (Stage 3).",
+    "footer": "Version démo pour réunion de parents"
+  },
   "transactions": {
     "title": "Mes Transactions",
     "none": "Aucune transaction pour le moment.",
@@ -130,6 +140,8 @@
     "productCreated": "Produit créé avec succès !",
     "productUpdated": "Produit mis à jour",
     "adminRequired": "Accès administrateur requis"
+    "productNamePlaceholder": "ex: T-shirt EcoleHub",
+    "productDescriptionPlaceholder": "Description du produit..."
   },
   "messages": {
     "title": "Messages",
@@ -225,7 +237,25 @@
     "responsibilityTitle": "Responsabilité",
     "responsibilityP1": "EcoleHub s'efforce de maintenir des informations exactes mais ne peut garantir l'exhaustivité ou l'exactitude de toutes les informations.",
     "responsibilityP2": "Les utilisateurs utilisent la plateforme sous leur propre responsabilité."
+    "emailLabel": "Email :",
+    "contactEmailText": "Contact",
+    "techManager": "Responsable technique EcoleHub",
+    "responsibilityTitle": "Responsabilité",
+    "responsibilityP1": "EcoleHub s'efforce de maintenir des informations exactes mais ne peut garantir l'exhaustivité ou l'exactitude de toutes les informations.",
+    "responsibilityP2": "Les utilisateurs utilisent la plateforme sous leur propre responsabilité."
   },
+  "footer": {
+    "brand": "EcoleHub",
+    "aboutP1": "Plateforme collaborative pour les écoles belges.",
+    "aboutP2": "Facilitons ensemble la vie scolaire de nos enfants.",
+    "contactTitle": "Contact",
+    "companyName": "EcoleHub Platform",
+    "companyAddress": "1000 Bruxelles, Belgique",
+    "emailLinkText": "Contacter par email",
+    "legalTitle": "Informations légales",
+    "copyright": "© 2024 EcoleHub - Plateforme open source pour écoles belges",
+    "gdprCompliant": "Conforme au RGPD et à la législation belge sur la protection des données"
+  }
   "privacy": {
     "title": "Politique de confidentialité",
     "collectionTitle": "Collecte des données",
@@ -302,3 +332,4 @@
     "websiteLabel": "Site web :"
   }
 }
+    "acronym": "SEL",

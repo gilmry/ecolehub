@@ -26,7 +26,7 @@ jobs:
         run: sudo apt-get update && sudo apt-get install -y ripgrep
 
       - name: 🔎 Run i18n lint (STRICT)
-        run: STRICT=1 ./scripts/i18n-lint.sh
+        run: ./scripts/ci-i18n.sh
 
   test-backend:
     name: 🐍 Backend Tests
@@ -76,37 +76,11 @@ jobs:
         python -m flake8 app/ --count --exit-zero --max-complexity=10 --max-line-length=127 --statistics || echo "Style issues found"
 
     - name: 🧪 Run unit tests
-      run: |
-        cd backend
-        pytest tests/unit/ -v --tb=short -m unit
+      run: ./scripts/ci-backend.sh
 
-    - name: 🔗 Run integration tests
-      run: |
-        cd backend
-        pytest tests/integration/ -v --tb=short -m integration
-
-    - name: 🔐 Run authentication tests
-      run: |
-        cd backend
-        pytest tests/ -v --tb=short -m auth
-
-    - name: 🌍 Run context tests
-      run: |
-        cd backend
-        # Run context-specific tests if they exist
-        pytest tests/unit/test_*context*.py -v --tb=short || echo "No context tests found"
-
-    - name: 💱 Run SEL system tests
-      run: |
-        cd backend
-        pytest tests/ -v --tb=short -m sel
-
-    - name: 📊 Generate coverage report
-      run: |
-        cd backend
-        pytest tests/ --cov=app --cov-report=xml --cov-report=term
-
+    # Coverage report will be created by the backend CI script
     - name: 📈 Upload coverage to Codecov
+      
       uses: codecov/codecov-action@v3
       with:
         file: backend/coverage.xml

@@ -14,12 +14,21 @@
     "noServices": "Keine Dienste verfügbar.",
     "units": "Einheiten"
   },
+  "app.demo": {
+    "stage2Title": "Stufe 2 - Nachrichten + Veranstaltungen",
+    "newFeatures": "Neue Funktionen: Echtzeit-Nachrichten + Schulveranstaltungen.",
+    "nextStepLabel": "Nächster Schritt:",
+    "nextStepValue": "Gemeinschaftsladen (Stufe 3).",
+    "footer": "Demoversion für Elternabend"
+  },
   "admin": {
     "title": "EcoleHub Verwaltung",
     "productManagement": "Produktverwaltung",
     "chooseCategory": "Kategorie wählen",
     "priceEUR": "Preis (€)",
     "parentsInterestsView": "Übersicht Elterninteressen"
+    "productNamePlaceholder": "z. B. EcoleHub T‑Shirt",
+    "productDescriptionPlaceholder": "Produktbeschreibung..."
   },
   "legal": {
     "sitePublisherTitle": "Seitenherausgeber",
@@ -40,7 +49,25 @@
     "none": "Noch keine Transaktionen.",
     "received": "Erhalten",
     "given": "Gegeben"
+    "emailLabel": "E-Mail:",
+    "contactEmailText": "Kontakt",
+    "techManager": "Technischer Verantwortlicher EcoleHub",
+    "responsibilityTitle": "Haftung",
+    "responsibilityP1": "EcoleHub bemüht sich um korrekte Informationen, kann jedoch Vollständigkeit und absolute Richtigkeit nicht garantieren.",
+    "responsibilityP2": "Die Nutzer verwenden die Plattform auf eigene Verantwortung."
   },
+  "footer": {
+    "brand": "EcoleHub",
+    "aboutP1": "Kollaborative Plattform für belgische Schulen.",
+    "aboutP2": "Gemeinsam erleichtern wir den Schulalltag.",
+    "contactTitle": "Kontakt",
+    "companyName": "EcoleHub Plattform",
+    "companyAddress": "1000 Brüssel, Belgien",
+    "emailLinkText": "Per E‑Mail kontaktieren",
+    "legalTitle": "Rechtliche Hinweise",
+    "copyright": "© 2024 EcoleHub – Open‑Source‑Plattform für belgische Schulen",
+    "gdprCompliant": "Konform mit DSGVO und belgischem Datenschutzrecht"
+  }
   "legal": {
     "mentions": "Rechtliche Hinweise",
     "privacy": "Datenschutzrichtlinie",
@@ -99,3 +126,4 @@
     "P6": "P6 (6. Grundschule)"
   }
 }
+    "acronym": "SEL",

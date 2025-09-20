@@ -12,7 +12,11 @@ if ! command -v rg >/dev/null 2>&1; then
 fi
 
 # Find text nodes with letters between > and <, exclude those containing $t( or {{
-MATCHES=$(rg -n "\>[^<\{\}]*[A-Za-zÀ-ÿ][^<\{\}]*\<" --pcre2 "$FILE" | grep -vF -e '$t(' -e '{{' ) || true
+# Find matches with visible letters, then exclude known acceptable cases
+MATCHES=$(rg -n "\>[^<\{\}]*[A-Za-zÀ-ÿ][^<\{\}]*\<" --pcre2 "$FILE" \
+  | grep -vF -e '$t(' -e '{{' \
+  | rg -v '<title' \
+  | rg -v '×</button>' || true)
 
 COUNT=$(printf "%s\n" "$MATCHES" | sed '/^$/d' | wc -l | tr -d ' ')
 
