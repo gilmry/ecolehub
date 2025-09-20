@@ -28,6 +28,7 @@ env/
 
 # Logs
 *.log
+output.txt
 
 # Test coverage artifacts
 .coverage
@@ -86,6 +87,7 @@ finalize-server.sh
 data/
 db/
 uploads/
+reports/
 
 # Archive directory
 archive/

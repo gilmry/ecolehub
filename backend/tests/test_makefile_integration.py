@@ -18,7 +18,9 @@ class TestMakefileTestIntegration:
         """Test that make test command is defined."""
         # Check if make test is defined in Makefile
         repo_root = Path(__file__).resolve().parents[3]
-        result = subprocess.run(["make", "help"], capture_output=True, text=True, cwd=str(repo_root))
+        result = subprocess.run(
+            ["make", "help"], capture_output=True, text=True, cwd=str(repo_root)
+        )
 
         assert result.returncode == 0
         assert "test" in result.stdout
@@ -146,7 +148,9 @@ class TestTestCoverage:
     def test_belgian_context_tests_comprehensive(self):
         """Test that Belgian context tests are comprehensive."""
         repo_root = Path(__file__).resolve().parents[3]
-        belgian_test_file = str(repo_root / "backend/tests/unit/test_belgian_context.py")
+        belgian_test_file = str(
+            repo_root / "backend/tests/unit/test_belgian_context.py"
+        )
 
         with open(belgian_test_file, "r") as f:
             content = f.read()

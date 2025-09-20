@@ -59,6 +59,21 @@ jobs:
           STRICT: '1'
         run: ./scripts/a11y-audit.sh
 
+      - name: 🧾 Generate pa11y JSON report
+        if: always()
+        env:
+          BASE_URL: http://localhost:8089
+        run: |
+          npm init -y >/dev/null 2>&1 || true
+          npx --yes pa11y "$BASE_URL" --standard WCAG2AA --reporter json > pa11y-report.json || true
+
+      - name: 📤 Upload pa11y report
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: pa11y-report
+          path: pa11y-report.json
+
       - name: 🧹 Stop server
         if: always()
         run: |
@@ -80,7 +95,7 @@ jobs:
       - name: 📦 Install Python deps (playwright + pytest)
         run: |
           python -m pip install --upgrade pip
-          pip install pytest playwright
+          pip install pytest pytest-html playwright
           python -m playwright install --with-deps
 
       - name: 📡 Serve frontend (background)
@@ -94,7 +109,15 @@ jobs:
         env:
           BASE_URL: http://localhost:8089
         run: |
-          pytest -q tests/a11y/test_axe_playwright.py -m a11y
+          mkdir -p reports
+          pytest tests/a11y/test_axe_playwright.py -m a11y --maxfail=1 --disable-warnings --html=reports/playwright-a11y.html --self-contained-html
+
+      - name: 📤 Upload Playwright a11y report
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: playwright-a11y-report
+          path: reports/playwright-a11y.html
 
       - name: 🧹 Stop server
         if: always()

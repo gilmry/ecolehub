@@ -43,10 +43,12 @@
                     
                     <!-- Language Selector -->
                     <div class="flex items-center space-x-2">
-                        <label class="text-sm text-gray-600">{{ $t('app.language') }}</label>
+                        <label for="language-select" class="text-sm text-gray-700">{{ $t('app.language') }}</label>
                         <select 
                             v-model="currentLanguage" 
                             @change="changeLanguage"
+                            id="language-select"
+                            aria-label="{{ $t('app.language') }}"
                             class="border rounded px-2 py-1 text-sm"
                         >
                             <option v-for="locale in supportedLocales" :key="locale.code" :value="locale.code">
@@ -63,7 +65,7 @@
                         <span class="font-semibold" :class="balanceColor">
                             💰 {{ balance.balance }} unités
                         </span>
-                                        <span class="text-gray-500 ml-2">{{ $t('sel.acronym') }}</span>
+                        <span class="text-gray-700 ml-2">{{ $t('sel.acronym') }}</span>
                     </div>
                 </div>
             </div>
@@ -109,10 +111,13 @@
                     
                     <form @submit.prevent="isLogin ? login() : register()">
                         <div class="mb-4">
-                            <label class="block text-gray-700 text-sm font-bold mb-2">{{ $t('auth.email') }}</label>
+                            <label for="email" class="block text-gray-700 text-sm font-bold mb-2">{{ $t('auth.email') }}</label>
                             <input
                                 v-model="formData.email"
                                 type="email"
+                                id="email"
+                                name="email"
+                                aria-label="{{ $t('auth.email') }}"
                                 class="w-full p-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
                                 required
                                 placeholder="votre.email@ecolehub.local"
@@ -142,10 +147,13 @@
                         </div>
                         
                         <div class="mb-6">
-                            <label class="block text-gray-700 text-sm font-bold mb-2">{{ $t('auth.password') }}</label>
+                            <label for="password" class="block text-gray-700 text-sm font-bold mb-2">{{ $t('auth.password') }}</label>
                             <input
                                 v-model="formData.password"
                                 type="password"
+                                id="password"
+                                name="password"
+                                aria-label="{{ $t('auth.password') }}"
                                 class="w-full p-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
                                 required
                                 placeholder="••••••••"
@@ -156,15 +164,15 @@
                         <button
                             type="submit"
                             :disabled="isLoading"
-                            class="w-full bg-blue-500 text-white p-3 rounded-lg hover:bg-blue-600 disabled:opacity-50"
+                            class="w-full bg-blue-600 text-white p-3 rounded-lg hover:bg-blue-700 disabled:opacity-50"
                         >
                             <span v-if="isLoading">⏳ {{ $t('app.loading') }}</span>
                             <span v-else>{{ isLogin ? 'Se connecter' : "S'inscrire" }}</span>
                         </button>
                     </form>
                     
-                    <p class="mt-6 text-center text-gray-600">
-                        <a href="#" @click.prevent="toggleForm" class="text-blue-500 hover:underline">
+                    <p class="mt-6 text-center text-gray-700">
+                        <a href="#" @click.prevent="toggleForm" class="text-blue-700 hover:underline">
                             {{ isLogin ? "Pas encore de compte ? S'inscrire" : "Déjà inscrit ? Se connecter" }}
                         </a>
                     </p>
@@ -178,56 +186,56 @@
                     <div class="flex space-x-4 p-4">
                         <button
                             @click="currentTab = 'dashboard'"
-                            :class="{'bg-blue-500 text-white': currentTab === 'dashboard', 'text-blue-500': currentTab !== 'dashboard'}"
+                            :class="{'bg-blue-500 text-white': currentTab === 'dashboard', 'text-blue-700': currentTab !== 'dashboard'}"
                             class="px-4 py-2 rounded-lg font-medium"
                         >
                             🏠 {{ $t('navigation.dashboard') }}
                         </button>
                         <button
                             @click="currentTab = 'services'"
-                            :class="{'bg-blue-500 text-white': currentTab === 'services', 'text-blue-500': currentTab !== 'services'}"
+                            :class="{'bg-blue-500 text-white': currentTab === 'services', 'text-blue-700': currentTab !== 'services'}"
                             class="px-4 py-2 rounded-lg font-medium"
                         >
                             💼 {{ $t('navigation.services') }}
                         </button>
                         <button
                             @click="currentTab = 'transactions'"
-                            :class="{'bg-blue-500 text-white': currentTab === 'transactions', 'text-blue-500': currentTab !== 'transactions'}"
+                            :class="{'bg-blue-500 text-white': currentTab === 'transactions', 'text-blue-700': currentTab !== 'transactions'}"
                             class="px-4 py-2 rounded-lg font-medium"
                         >
                             💱 {{ $t('navigation.transactions') }}
                         </button>
                         <button
                             @click="currentTab = 'messages'"
-                            :class="{'bg-blue-500 text-white': currentTab === 'messages', 'text-blue-500': currentTab !== 'messages'}"
+                            :class="{'bg-blue-500 text-white': currentTab === 'messages', 'text-blue-700': currentTab !== 'messages'}"
                             class="px-4 py-2 rounded-lg font-medium"
                         >
                             💬 {{ $t('navigation.messages') }}
                         </button>
                         <button
                             @click="currentTab = 'events'"
-                            :class="{'bg-blue-500 text-white': currentTab === 'events', 'text-blue-500': currentTab !== 'events'}"
+                            :class="{'bg-blue-500 text-white': currentTab === 'events', 'text-blue-700': currentTab !== 'events'}"
                             class="px-4 py-2 rounded-lg font-medium"
                         >
                             📅 {{ $t('navigation.events') }}
                         </button>
                         <button
                             @click="currentTab = 'shop'"
-                            :class="{'bg-blue-500 text-white': currentTab === 'shop', 'text-blue-500': currentTab !== 'shop'}"
+                            :class="{'bg-blue-500 text-white': currentTab === 'shop', 'text-blue-700': currentTab !== 'shop'}"
                             class="px-4 py-2 rounded-lg font-medium"
                         >
                             🛒 {{ $t('navigation.shop') }}
                         </button>
                         <button
                             @click="currentTab = 'education'"
-                            :class="{'bg-blue-500 text-white': currentTab === 'education', 'text-blue-500': currentTab !== 'education'}"
+                            :class="{'bg-blue-500 text-white': currentTab === 'education', 'text-blue-700': currentTab !== 'education'}"
                             class="px-4 py-2 rounded-lg font-medium"
                         >
                             📚 {{ $t('navigation.education') }}
                         </button>
                         <button
                             @click="currentTab = 'profile'"
-                            :class="{'bg-blue-500 text-white': currentTab === 'profile', 'text-blue-500': currentTab !== 'profile'}"
+                            :class="{'bg-blue-500 text-white': currentTab === 'profile', 'text-blue-700': currentTab !== 'profile'}"
                             class="px-4 py-2 rounded-lg font-medium"
                         >
                             👤 {{ $t('navigation.profile') }}
@@ -1324,7 +1332,7 @@
                         {{ $t('footer.copyright') }} -
                         <span class="text-xs">{{ $t('app.demo.footer') }}</span>
                     </p>
-                    <p class="text-gray-500 text-xs mt-2">
+                    <p class="text-gray-200 text-xs mt-2">
                         {{ $t('footer.gdprCompliant') }}
                     </p>
                 </div>
