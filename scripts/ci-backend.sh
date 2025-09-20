@@ -49,6 +49,13 @@ if [ -f backend/requirements.test.txt ]; then
   (cd backend && $PYBIN_ABS -m pip install -q -r requirements.test.txt) || true
 fi
 
+echo "🔎 Checking requirements alignment"
+if [ -x scripts/check-requirements-sync.sh ]; then
+  ./scripts/check-requirements-sync.sh
+else
+  echo "ℹ️ requirements sync script missing; skipping"
+fi
+
 if $PYBIN_ABS - <<<'import pytest' >/dev/null 2>&1; then
   echo "🧪 Pytest: unit"
   (cd backend && $PYBIN_ABS -m pytest tests/unit/ -v --tb=short -m unit)
