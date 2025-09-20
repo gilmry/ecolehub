@@ -132,6 +132,12 @@ users-reset: ## Reset user password (interactive)
 	@read -p "User email: " email; \
 	./ecolehub users reset-password "$$email"
 
+##@ 🔒 GDPR Utilities
+
+gdpr-purge: ## Purge old privacy events and finalize anonymization (local DB)
+	@echo "🧹 $(BLUE)Purging privacy events older than $(GDPR_DATA_RETENTION_DAYS) days...$(NC)"
+	python3 backend/scripts/gdpr_purge.py
+
 ##@ 🔐 Credentials & Security
 
 creds-show: ## Show all credentials

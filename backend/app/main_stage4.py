@@ -1117,6 +1117,20 @@ def get_privacy_policy():
     }
 
 
+@api_router.get("/privacy/doc")
+def get_privacy_doc():
+    """Return the privacy policy document content (markdown) if available."""
+    try:
+        base = os.path.dirname(os.path.dirname(os.path.dirname(__file__)))
+        path = os.path.join(base, "docs", "PRIVACY.md")
+        with open(path, "r", encoding="utf-8") as f:
+            return {"format": "markdown", "content": f.read()}
+    except FileNotFoundError:
+        raise HTTPException(status_code=404, detail="Privacy policy document not found")
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=str(e))
+
+
 @api_router.post("/consent")
 def record_consent(request: Request, current_user: User = Depends(get_current_user), db: Session = Depends(get_db)):
     """Record user consent version and timestamp."""
