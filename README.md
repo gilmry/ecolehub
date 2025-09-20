@@ -1,5 +1,9 @@
 # 🏫 EcoleHub
 
+[![CI](https://github.com/gilmry/ecolehub/actions/workflows/ci.yml/badge.svg?branch=master)](https://github.com/gilmry/ecolehub/actions/workflows/ci.yml)
+[![Coverage](https://codecov.io/gh/gilmry/ecolehub/branch/master/graph/badge.svg)](https://app.codecov.io/gh/gilmry/ecolehub)
+[![A11Y](https://img.shields.io/badge/a11y-STRICT-green)](#-accessibilite)
+
 Plateforme scolaire collaborative open-source pour écoles primaires.
 
 **Version complète** : Système SEL + Messagerie + Boutique + Éducation + Analytics + Multilingue.
@@ -50,6 +54,17 @@ docker compose -f docker-compose.traefik.yml down
 # Tests (si configuré)
 make test           # Tests d'intégration
 make test-unit      # Tests unitaires
+
+## ♿ Accessibilité
+
+La CI exécute des audits d’accessibilité stricts:
+- Pa11y (WCAG2AA) sur le frontend servi localement (rapport JSON en artefact)
+- Playwright + axe-core pour un test a11y de bout en bout (rapport HTML en artefact)
+
+En local:
+```bash
+make ci-local  # lance un audit Pa11y STRICT après les tests
+```
 
 # Sauvegarde base de données
 docker compose exec postgres pg_dump -U ecolehub ecolehub > backup.sql
