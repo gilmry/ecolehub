@@ -6,6 +6,7 @@ These tests ensure the new testing infrastructure integrates well with the exist
 
 import os
 import subprocess
+from pathlib import Path
 
 import pytest
 
@@ -16,16 +17,16 @@ class TestMakefileTestIntegration:
     def test_makefile_test_command_exists(self):
         """Test that make test command is defined."""
         # Check if make test is defined in Makefile
-        result = subprocess.run(
-            ["make", "help"], capture_output=True, text=True, cwd="/home/user/schoolhub"
-        )
+        repo_root = Path(__file__).resolve().parents[3]
+        result = subprocess.run(["make", "help"], capture_output=True, text=True, cwd=str(repo_root))
 
         assert result.returncode == 0
         assert "test" in result.stdout
 
     def test_pytest_dependencies_installable(self):
         """Test that test dependencies can be installed."""
-        requirements_file = "/home/user/schoolhub/backend/requirements.test.txt"
+        repo_root = Path(__file__).resolve().parents[3]
+        requirements_file = str(repo_root / "backend/requirements.test.txt")
         assert os.path.exists(requirements_file)
 
         # Verify file has pytest dependencies
@@ -37,7 +38,8 @@ class TestMakefileTestIntegration:
 
     def test_pytest_configuration(self):
         """Test pytest.ini configuration is valid."""
-        pytest_ini = "/home/user/schoolhub/backend/pytest.ini"
+        repo_root = Path(__file__).resolve().parents[3]
+        pytest_ini = str(repo_root / "backend/pytest.ini")
         assert os.path.exists(pytest_ini)
 
         with open(pytest_ini, "r") as f:
@@ -48,7 +50,8 @@ class TestMakefileTestIntegration:
 
     def test_test_directory_structure(self):
         """Test that test directory structure is correct."""
-        base_dir = "/home/user/schoolhub/backend/tests"
+        repo_root = Path(__file__).resolve().parents[3]
+        base_dir = str(repo_root / "backend/tests")
 
         # Main directories should exist
         assert os.path.exists(f"{base_dir}")
@@ -62,7 +65,8 @@ class TestMakefileTestIntegration:
 
     def test_conftest_fixture_availability(self):
         """Test that conftest.py provides necessary fixtures."""
-        conftest_file = "/home/user/schoolhub/backend/tests/conftest.py"
+        repo_root = Path(__file__).resolve().parents[3]
+        conftest_file = str(repo_root / "backend/tests/conftest.py")
         assert os.path.exists(conftest_file)
 
         with open(conftest_file, "r") as f:
@@ -76,12 +80,13 @@ class TestMakefileTestIntegration:
 
     def test_test_files_exist_and_valid(self):
         """Test that test files exist and have valid Python syntax."""
+        repo_root = Path(__file__).resolve().parents[3]
         test_files = [
-            "/home/user/schoolhub/backend/tests/unit/test_auth.py",
-            "/home/user/schoolhub/backend/tests/unit/test_sel_system.py",
-            "/home/user/schoolhub/backend/tests/unit/test_belgian_context.py",
-            "/home/user/schoolhub/backend/tests/integration/test_api_complete_flows.py",
-            "/home/user/schoolhub/backend/tests/integration/test_database_operations.py",
+            str(repo_root / "backend/tests/unit/test_auth.py"),
+            str(repo_root / "backend/tests/unit/test_sel_system.py"),
+            str(repo_root / "backend/tests/unit/test_belgian_context.py"),
+            str(repo_root / "backend/tests/integration/test_api_complete_flows.py"),
+            str(repo_root / "backend/tests/integration/test_database_operations.py"),
         ]
 
         for test_file in test_files:
@@ -94,7 +99,8 @@ class TestMakefileTestIntegration:
 
     def test_markers_properly_defined(self):
         """Test that pytest markers are properly defined."""
-        pytest_ini = "/home/user/schoolhub/backend/pytest.ini"
+        repo_root = Path(__file__).resolve().parents[3]
+        pytest_ini = str(repo_root / "backend/pytest.ini")
 
         with open(pytest_ini, "r") as f:
             content = f.read()
@@ -111,7 +117,8 @@ class TestTestCoverage:
 
     def test_auth_tests_cover_main_scenarios(self):
         """Test that authentication tests cover main scenarios."""
-        auth_test_file = "/home/user/schoolhub/backend/tests/unit/test_auth.py"
+        repo_root = Path(__file__).resolve().parents[3]
+        auth_test_file = str(repo_root / "backend/tests/unit/test_auth.py")
 
         with open(auth_test_file, "r") as f:
             content = f.read()
@@ -124,7 +131,8 @@ class TestTestCoverage:
 
     def test_sel_tests_cover_belgian_context(self):
         """Test that SEL tests cover Belgian-specific requirements."""
-        sel_test_file = "/home/user/schoolhub/backend/tests/unit/test_sel_system.py"
+        repo_root = Path(__file__).resolve().parents[3]
+        sel_test_file = str(repo_root / "backend/tests/unit/test_sel_system.py")
 
         with open(sel_test_file, "r") as f:
             content = f.read()
@@ -137,9 +145,8 @@ class TestTestCoverage:
 
     def test_belgian_context_tests_comprehensive(self):
         """Test that Belgian context tests are comprehensive."""
-        belgian_test_file = (
-            "/home/user/schoolhub/backend/tests/unit/test_belgian_context.py"
-        )
+        repo_root = Path(__file__).resolve().parents[3]
+        belgian_test_file = str(repo_root / "backend/tests/unit/test_belgian_context.py")
 
         with open(belgian_test_file, "r") as f:
             content = f.read()
@@ -153,8 +160,9 @@ class TestTestCoverage:
 
     def test_integration_tests_cover_complete_flows(self):
         """Test that integration tests cover complete user flows."""
-        integration_test_file = (
-            "/home/user/schoolhub/backend/tests/integration/test_api_complete_flows.py"
+        repo_root = Path(__file__).resolve().parents[3]
+        integration_test_file = str(
+            repo_root / "backend/tests/integration/test_api_complete_flows.py"
         )
 
         with open(integration_test_file, "r") as f:
