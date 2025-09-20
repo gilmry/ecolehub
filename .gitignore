@@ -88,6 +88,9 @@ MIGRATION-SECURITE.md
 monitoring/*-secure.yml
 traefik/*-secure.conf
 finalize-server.sh
+ 
+# Host admin helper (not part of project)
+scripts/debian-repo-fix.sh
 
 # Local runtime data directories
 data/

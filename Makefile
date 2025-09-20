@@ -46,6 +46,28 @@ help: ## Show this help message
 	@echo "  COMPOSE_FILE=docker-compose.traefik.yml make start  # Override file"
 	@echo ""
 
+##@ 🧰 Setup Wizards
+
+setup-external-traefik: ## Interactive setup for external Traefik deployment
+	@chmod +x scripts/setup-external-traefik.sh
+	@scripts/setup-external-traefik.sh
+
+setup-traefik-autonomous: ## Interactive setup for autonomous Traefik deployment
+	@chmod +x scripts/setup-traefik-autonomous.sh
+	@scripts/setup-traefik-autonomous.sh
+
+deploy-external: ## Deploy stack using external Traefik (runs deploy script)
+	@./deploy-production-external-traefik.sh
+
+down-external: ## Stop external Traefik stack (runs shutdown script)
+	@./stop-production-external-traefik.sh
+
+deploy-traefik: ## Deploy stack with embedded Traefik
+	@docker compose -f docker-compose.traefik.yml up -d --build
+
+down-traefik: ## Stop stack with embedded Traefik
+	@docker compose -f docker-compose.traefik.yml down
+
 start: ## Start all services
 	@echo "🚀 $(GREEN)Starting EcoleHub Stage 4...$(NC)"
 	$(COMPOSE) up -d

@@ -3,7 +3,7 @@ services:
     image: postgres:15-alpine
     environment:
       POSTGRES_USER: ecolehub
-      POSTGRES_PASSWORD: ${DB_PASSWORD:-ecolehub_secure_password}
+      POSTGRES_PASSWORD: ${DB_PASSWORD}
       POSTGRES_DB: ecolehub
     volumes:
       - postgres_data:/var/lib/postgresql/data
@@ -18,13 +18,13 @@ services:
 
   redis:
     image: redis:7-alpine
-    command: redis-server --appendonly yes --requirepass ${REDIS_PASSWORD:-ecolehub_redis_cache_password}
+    command: redis-server --appendonly yes --requirepass ${REDIS_PASSWORD}
     volumes:
       - redis_data:/data
     networks:
       - ecolehub
     healthcheck:
-      test: ["CMD", "redis-cli", "-a", "${REDIS_PASSWORD:-ecolehub_redis_cache_password}", "ping"]
+      test: ["CMD", "redis-cli", "-a", "${REDIS_PASSWORD}", "ping"]
       interval: 10s
       timeout: 5s
       retries: 5
@@ -33,8 +33,8 @@ services:
     image: minio/minio:latest
     command: server /data --console-address ":9001"
     environment:
-      MINIO_ROOT_USER: ${MINIO_ACCESS_KEY:-ecolehub_minio_admin}
-      MINIO_ROOT_PASSWORD: ${MINIO_SECRET_KEY:-ecolehub_minio_secure_password}
+      MINIO_ROOT_USER: ${MINIO_ACCESS_KEY}
+      MINIO_ROOT_PASSWORD: ${MINIO_SECRET_KEY}
     volumes:
       - minio_data:/data
     networks:
@@ -52,17 +52,17 @@ services:
         STAGE: ${STAGE:-4}
     environment:
       - BIND_HOST=0.0.0.0
-      - DATABASE_URL=postgresql://ecolehub:${DB_PASSWORD:-ecolehub_secure_password}@postgres:5432/ecolehub
-      - REDIS_URL=redis://:${REDIS_PASSWORD:-ecolehub_redis_cache_password}@redis:6379/0
+      - DATABASE_URL=postgresql://ecolehub:${DB_PASSWORD}@postgres:5432/ecolehub
+      - REDIS_URL=redis://:${REDIS_PASSWORD}@redis:6379/0
       - MINIO_ENDPOINT=minio:9000
-      - MINIO_ACCESS_KEY=${MINIO_ACCESS_KEY:-ecolehub_minio_admin}
-      - MINIO_SECRET_KEY=${MINIO_SECRET_KEY:-ecolehub_minio_secure_password}
-      - SECRET_KEY=${SECRET_KEY:-change-this-in-production-very-important-long-secret-key}
-      - MOLLIE_API_KEY=${MOLLIE_API_KEY:-test_mollie_demo_key}
-      - PRINTFUL_API_KEY=${PRINTFUL_API_KEY:-test_printful_demo_key}
+      - MINIO_ACCESS_KEY=${MINIO_ACCESS_KEY}
+      - MINIO_SECRET_KEY=${MINIO_SECRET_KEY}
+      - SECRET_KEY=${SECRET_KEY}
+      - MOLLIE_API_KEY=${MOLLIE_API_KEY}
+      - PRINTFUL_API_KEY=${PRINTFUL_API_KEY}
       - PROMETHEUS_ENABLED=${PROMETHEUS_ENABLED:-true}
       - STAGE=${STAGE:-4}
-      - CORS_ORIGINS=${CORS_ORIGINS:-http://localhost,https://localhost}
+      - CORS_ORIGINS=${CORS_ORIGINS}
     volumes:
       - ./backend/app:/app/app
       - ./data:/app/data
@@ -84,7 +84,7 @@ services:
       - "traefik.enable=true"
       - "traefik.docker.network=web"
       # Backend API - toutes les routes API et monitoring
-      - "traefik.http.routers.ecolehub-api.rule=Host(`${DOMAIN:-localhost}`) && (PathPrefix(`/api`) || PathPrefix(`/health`) || PathPrefix(`/metrics`))"
+      - "traefik.http.routers.ecolehub-api.rule=Host(`${DOMAIN}`) && (PathPrefix(`/api`) || PathPrefix(`/health`) || PathPrefix(`/metrics`))"
       - "traefik.http.routers.ecolehub-api.priority=200"
       - "traefik.http.routers.ecolehub-api.entrypoints=websecure"
       - "traefik.http.routers.ecolehub-api.tls=true"
@@ -92,7 +92,7 @@ services:
       - "traefik.http.routers.ecolehub-api.service=ecolehub-api"
       - "traefik.http.services.ecolehub-api.loadbalancer.server.port=8000"
       # WebSocket support
-      - "traefik.http.routers.ecolehub-ws.rule=Host(`${DOMAIN:-localhost}`) && PathPrefix(`/ws`)"
+      - "traefik.http.routers.ecolehub-ws.rule=Host(`${DOMAIN}`) && PathPrefix(`/ws`)"
       - "traefik.http.routers.ecolehub-ws.entrypoints=websecure"
       - "traefik.http.routers.ecolehub-ws.tls=true"
       - "traefik.http.routers.ecolehub-ws.tls.certresolver=letsencrypt"
@@ -140,7 +140,7 @@ services:
       - "traefik.enable=true"
       - "traefik.docker.network=web"
       # Frontend principal - capture tout sauf /api, /health, /metrics
-      - "traefik.http.routers.ecolehub-frontend.rule=Host(`${DOMAIN:-localhost}`) && !PathPrefix(`/api`) && !PathPrefix(`/health`) && !PathPrefix(`/metrics`)"
+      - "traefik.http.routers.ecolehub-frontend.rule=Host(`${DOMAIN}`) && !PathPrefix(`/api`) && !PathPrefix(`/health`) && !PathPrefix(`/metrics`)"
       - "traefik.http.routers.ecolehub-frontend.priority=50"
       - "traefik.http.routers.ecolehub-frontend.entrypoints=websecure"
       - "traefik.http.routers.ecolehub-frontend.tls=true"
@@ -150,7 +150,7 @@ services:
       # Redirection HTTP vers HTTPS
       - "traefik.http.middlewares.ecolehub-redirect.redirectscheme.scheme=https"
       - "traefik.http.middlewares.ecolehub-redirect.redirectscheme.permanent=true"
-      - "traefik.http.routers.ecolehub-http.rule=Host(`${DOMAIN:-localhost}`)"
+      - "traefik.http.routers.ecolehub-http.rule=Host(`${DOMAIN}`)"
       - "traefik.http.routers.ecolehub-http.entrypoints=web"
       - "traefik.http.routers.ecolehub-http.middlewares=ecolehub-redirect"
     healthcheck:
@@ -170,7 +170,7 @@ services:
       - "--entrypoints.web.address=:80"
       - "--entrypoints.websecure.address=:443"
       - "--certificatesresolvers.letsencrypt.acme.tlschallenge=true"
-      - "--certificatesresolvers.letsencrypt.acme.email=${LETSENCRYPT_EMAIL:-admin@example.com}"
+      - "--certificatesresolvers.letsencrypt.acme.email=${LETSENCRYPT_EMAIL}"
       - "--certificatesresolvers.letsencrypt.acme.storage=/letsencrypt/acme.json"
       - "--log.level=INFO"
       - "--accesslog=true"
@@ -189,14 +189,14 @@ services:
       - "traefik.enable=true"
       - "traefik.docker.network=web"
       # Dashboard Traefik (accès sécurisé)
-      - "traefik.http.routers.traefik-dashboard.rule=Host(`traefik.${DOMAIN:-localhost}`)"
+      - "traefik.http.routers.traefik-dashboard.rule=Host(`traefik.${DOMAIN}`)"
       - "traefik.http.routers.traefik-dashboard.entrypoints=websecure"
       - "traefik.http.routers.traefik-dashboard.tls=true"
       - "traefik.http.routers.traefik-dashboard.tls.certresolver=letsencrypt"
       - "traefik.http.routers.traefik-dashboard.service=api@internal"
       - "traefik.http.routers.traefik-dashboard.middlewares=traefik-auth"
       # Authentification basique pour le dashboard
-      - "traefik.http.middlewares.traefik-auth.basicauth.users=admin:$$2y$$10$$K5y8l5EZXv7jMQ4xY8h.8uV8ZGVBEh4xW7Q1rq3xY8h8uV8ZGVBEh"
+      - "traefik.http.middlewares.traefik-auth.basicauth.users=${TRAEFIK_DASHBOARD_USERS}"
     healthcheck:
       test: ["CMD", "traefik", "healthcheck"]
       interval: 30s
@@ -228,10 +228,10 @@ services:
     image: grafana/grafana:latest
     environment:
       - GF_SECURITY_ADMIN_USER=admin
-      - GF_SECURITY_ADMIN_PASSWORD=${GRAFANA_PASSWORD:-ecolehub_grafana_admin}
+      - GF_SECURITY_ADMIN_PASSWORD=${GRAFANA_PASSWORD}
       - GF_USERS_ALLOW_SIGN_UP=false
       - GF_DEFAULT_TIMEZONE=Europe/Brussels
-      - GF_SERVER_ROOT_URL=https://grafana.${DOMAIN:-localhost}
+      - GF_SERVER_ROOT_URL=https://grafana.${DOMAIN}
     volumes:
       - grafana_data:/var/lib/grafana
       - ./monitoring/grafana:/etc/grafana/provisioning
