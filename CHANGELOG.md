@@ -85,6 +85,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - User model additions: `deleted_at`, `consent_withdrawn_at`.
 - CI: New GDPR workflow (badge in README) running the GDPR tests.
 
+### 🌐 Frontend (Consent Banner)
+- Added an accessible consent banner with granular preferences (analytics, newsletter, shop marketing, cookies, photos, third-parties) and actions (accept all / save / reject non-essential).
+- Local storage of preferences; on login, preferences are fetched/synced with backend.
+
 
 ### 🌍 i18n Improvements
 - Added `de-BE` locale and language selector (FR‑BE/NL‑BE/DE‑BE/EN)
