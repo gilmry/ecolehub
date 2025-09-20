@@ -10,6 +10,7 @@ import asyncio
 from datetime import datetime
 from fastapi import WebSocket, WebSocketDisconnect
 from sqlalchemy.orm import Session
+from sqlalchemy.sql import func
 from .models_stage2 import User, Conversation, Message, ConversationParticipant, UserStatus
 
 class WebSocketManager:
