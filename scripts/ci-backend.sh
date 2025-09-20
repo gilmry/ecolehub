@@ -10,6 +10,20 @@ export DATABASE_URL=${DATABASE_URL:-sqlite:///test.db}
 export REDIS_URL=${REDIS_URL:-redis://localhost:6379/15}
 export SECRET_KEY=${SECRET_KEY:-test-secret-key-for-ci-only}
 
+# CI path shim: some external tests expect repo to be at /home/runner/work/<repo>
+# but Actions checks out at /home/runner/work/<repo>/<repo>. Expose symlinks for Makefile and backend.
+PARENT_DIR=$(dirname "$ROOT_DIR")
+if [ -d "$PARENT_DIR" ] && [ "$PARENT_DIR" != "$ROOT_DIR" ]; then
+  # Symlink Makefile
+  if [ ! -e "$PARENT_DIR/Makefile" ]; then
+    ln -s "$ROOT_DIR/Makefile" "$PARENT_DIR/Makefile" || true
+  fi
+  # Symlink backend directory
+  if [ ! -e "$PARENT_DIR/backend" ]; then
+    ln -s "$ROOT_DIR/backend" "$PARENT_DIR/backend" || true
+  fi
+fi
+
 PYBIN_ABS="python3"
 if [ -x backend/venv/bin/python ]; then
   # Verify venv python works; otherwise fallback
