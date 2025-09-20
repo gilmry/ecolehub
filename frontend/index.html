@@ -858,6 +858,19 @@
 
                 <!-- Profile Tab -->
                 <div v-if="currentTab === 'profile'">
+                    <!-- Privacy/Consent Card -->
+                    <div class="bg-white rounded-lg shadow-lg p-6 mb-6">
+                        <h2 class="text-2xl font-bold mb-4">🔒 {{ $t('privacy.settings') }}</h2>
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-3 mb-3 text-sm">
+                            <div><strong>{{ $t('privacy.analytics') }}:</strong> <span :class="consentPrefs.consent_analytics_platform ? 'text-green-700' : 'text-gray-700'">{{ consentPrefs.consent_analytics_platform ? 'Oui' : 'Non' }}</span></div>
+                            <div><strong>{{ $t('privacy.newsletter') }}:</strong> <span :class="consentPrefs.consent_comms_newsletter ? 'text-green-700' : 'text-gray-700'">{{ consentPrefs.consent_comms_newsletter ? 'Oui' : 'Non' }}</span></div>
+                            <div><strong>{{ $t('privacy.shopMarketing') }}:</strong> <span :class="consentPrefs.consent_comms_shop_marketing ? 'text-green-700' : 'text-gray-700'">{{ consentPrefs.consent_comms_shop_marketing ? 'Oui' : 'Non' }}</span></div>
+                            <div><strong>{{ $t('privacy.cookiesPreference') }}:</strong> <span :class="consentPrefs.consent_cookies_preference ? 'text-green-700' : 'text-gray-700'">{{ consentPrefs.consent_cookies_preference ? 'Oui' : 'Non' }}</span></div>
+                            <div><strong>{{ $t('privacy.photosPublication') }}:</strong> <span :class="consentPrefs.consent_photos_publication ? 'text-green-700' : 'text-gray-700'">{{ consentPrefs.consent_photos_publication ? 'Oui' : 'Non' }}</span></div>
+                            <div><strong>{{ $t('privacy.dataShareThirdparties') }}:</strong> <span :class="consentPrefs.consent_data_share_thirdparties ? 'text-green-700' : 'text-gray-700'">{{ consentPrefs.consent_data_share_thirdparties ? 'Oui' : 'Non' }}</span></div>
+                        </div>
+                        <button @click="openConsentSettings" class="px-4 py-2 rounded bg-blue-600 text-white hover:bg-blue-700">{{ $t('privacy.settings') }}</button>
+                    </div>
                     <!-- Profil Utilisateur -->
                     <div class="bg-white rounded-lg shadow-lg p-6 mb-6">
                         <h2 class="text-2xl font-bold mb-4">👤 {{ $t('profile.title') }}</h2>
@@ -1350,7 +1363,7 @@
         </footer>
 
         <!-- Consent Banner -->
-        <div v-if="showConsentBanner" class="fixed inset-x-0 bottom-0 bg-white border-t shadow-md" role="dialog" aria-labelledby="consent-title">
+        <div v-if="showConsentBanner" id="consent-dialog" class="fixed inset-x-0 bottom-0 bg-white border-t shadow-md" role="dialog" aria-modal="true" aria-labelledby="consent-title" tabindex="-1" @keydown="trapFocus">
           <div class="max-w-6xl mx-auto p-4">
             <h2 id="consent-title" class="text-lg font-semibold mb-2">{{ $t('privacy.bannerTitle') }}</h2>
             <p class="text-sm text-gray-700 mb-3">{{ $t('privacy.bannerDescription') }}</p>
@@ -1382,7 +1395,7 @@
             </div>
             <div class="flex flex-wrap gap-2 justify-end">
               <button @click="rejectNonEssential" class="px-4 py-2 rounded bg-gray-200 hover:bg-gray-300">{{ $t('privacy.rejectNonEssential') }}</button>
-              <button @click="saveConsentPrefs" class="px-4 py-2 rounded bg-blue-600 text-white hover:bg-blue-700">{{ $t('common.save') }}</button>
+              <button id="consent-save" @click="saveConsentPrefs" class="px-4 py-2 rounded bg-blue-600 text-white hover:bg-blue-700">{{ $t('common.save') }}</button>
               <button @click="acceptAll" class="px-4 py-2 rounded bg-green-600 text-white hover:bg-green-700">{{ $t('privacy.acceptAll') }}</button>
             </div>
           </div>
@@ -1520,6 +1533,7 @@
                 if (this.isAuthenticated) { await this.fetchConsentServer(); }
                 if (!localStorage.getItem('consent_prefs_set')) {
                   this.showConsentBanner = true;
+                  this.$nextTick ? this.$nextTick(() => this.focusConsentDialog()) : setTimeout(this.focusConsentDialog, 0);
                 }
                 
                 // Events will be loaded after authentication
@@ -1582,6 +1596,37 @@
                   this.showConsentBanner = false;
                 },
                 openConsentSettings() { this.showConsentBanner = true; },
+                focusConsentDialog() {
+                  try {
+                    const dlg = document.getElementById('consent-dialog');
+                    if (dlg) {
+                      dlg.focus();
+                      // focus first focusable element inside
+                      const first = dlg.querySelector('input,button,select,textarea,[tabindex]:not([tabindex="-1"])');
+                      if (first) first.focus();
+                    }
+                  } catch (e) {}
+                },
+                trapFocus(e) {
+                  if (e.key !== 'Tab') return;
+                  const dlg = document.getElementById('consent-dialog');
+                  if (!dlg) return;
+                  const focusable = dlg.querySelectorAll('a[href], button:not([disabled]), textarea, input, select, [tabindex]:not([tabindex="-1"])');
+                  if (!focusable.length) return;
+                  const first = focusable[0];
+                  const last = focusable[focusable.length - 1];
+                  if (e.shiftKey) {
+                    if (document.activeElement === first) {
+                      last.focus();
+                      e.preventDefault();
+                    }
+                  } else {
+                    if (document.activeElement === last) {
+                      first.focus();
+                      e.preventDefault();
+                    }
+                  }
+                },
                 async loadUserData(token) {
                     try {
                         const userResponse = await fetch('/api/me', {
