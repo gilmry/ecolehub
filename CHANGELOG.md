@@ -66,6 +66,25 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Local CI prints Pa11y JSON summary (total issues, top codes) when `jq` is available.
 - README: added CI, Coverage, and A11Y badges; documented local accessibility checks.
 
+## [4.1.4] - 2025-09-20
+
+### 🔒 GDPR Compliance (TDD)
+- Added GDPR test suite (pytest `gdpr` marker) verifying:
+  - Presence of consent metadata in User model
+  - Secrets not tracked and `.env.example` free of secrets
+  - Backend reads `SECRET_KEY` from env/secrets
+  - Frontend contains legal/privacy cues
+  - Privacy endpoints exist and function (`/api/privacy`, `/api/consent`, `/api/me/data_export`, `DELETE /api/me`)
+- Implemented endpoints:
+  - `GET /api/privacy`: policy version + locales
+  - `POST /api/consent`: record consent version/locale/timestamp
+  - `POST /api/consent/withdraw`: withdraw consent and deactivate account
+  - `GET /api/me/data_export`: data portability export
+  - `DELETE /api/me`: soft-delete + anonymization + invalidation
+  - `PATCH /api/me`: rectification of first/last name
+- User model additions: `deleted_at`, `consent_withdrawn_at`.
+- CI: New GDPR workflow (badge in README) running the GDPR tests.
+
 
 ### 🌍 i18n Improvements
 - Added `de-BE` locale and language selector (FR‑BE/NL‑BE/DE‑BE/EN)

@@ -554,6 +554,25 @@ def read_users_me(current_user: User = Depends(get_current_user)):
     return current_user
 
 
+@api_router.patch("/me", response_model=UserResponse)
+def update_me(
+    update: dict,
+    current_user: User = Depends(get_current_user),
+    db: Session = Depends(get_db),
+):
+    # Allow rectification of first_name/last_name only (email changes are sensitive)
+    allowed = {"first_name", "last_name"}
+    for k in list(update.keys()):
+        if k not in allowed:
+            update.pop(k, None)
+    for k, v in update.items():
+        setattr(current_user, k, v)
+    db.add(current_user)
+    db.commit()
+    db.refresh(current_user)
+    return current_user
+
+
 @api_router.get("/children", response_model=List[ChildResponse])
 def get_children(
     current_user: User = Depends(get_current_user), db: Session = Depends(get_db)
@@ -1104,6 +1123,16 @@ def record_consent(request: Request, current_user: User = Depends(get_current_us
     return {"status": "ok", "version": PRIVACY_POLICY_VERSION}
 
 
+@api_router.post("/consent/withdraw")
+def withdraw_consent(current_user: User = Depends(get_current_user), db: Session = Depends(get_db)):
+    """Allow user to withdraw consent (may deactivate account for purely consent-based processing)."""
+    current_user.consent_withdrawn_at = func.now()
+    current_user.is_active = False
+    db.add(current_user)
+    db.commit()
+    return {"status": "withdrawn"}
+
+
 @api_router.get("/me/data_export")
 def data_export(current_user: User = Depends(get_current_user), db: Session = Depends(get_db)):
     """Export user-related data (data portability)."""
@@ -1162,6 +1191,9 @@ def delete_me(current_user: User = Depends(get_current_user), db: Session = Depe
     current_user.email = f"deleted+{current_user.id}@example.invalid"
     # Invalidate credentials
     current_user.hashed_password = "!"
+    current_user.consent_version = None
+    current_user.consented_at = None
+    current_user.consent_withdrawn_at = func.now()
     db.add(current_user)
     db.commit()
     return {"status": "deleted"}
