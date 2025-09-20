@@ -64,6 +64,43 @@ jobs:
         run: |
           kill $(cat server.pid) || true
 
+  a11y-playwright:
+    name: 🎭 A11Y Playwright (Python)
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: 📥 Checkout code
+        uses: actions/checkout@v4
+
+      - name: 🐍 Set up Python 3.11
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.11'
+
+      - name: 📦 Install Python deps (playwright + pytest)
+        run: |
+          python -m pip install --upgrade pip
+          pip install pytest playwright
+          python -m playwright install --with-deps
+
+      - name: 📡 Serve frontend (background)
+        run: |
+          cd frontend
+          nohup python -m http.server 8089 >/dev/null 2>&1 &
+          echo $! > ../server.pid
+          sleep 2
+
+      - name: ♿ Run Playwright + axe-core test
+        env:
+          BASE_URL: http://localhost:8089
+        run: |
+          pytest -q tests/a11y/test_axe_playwright.py -m a11y
+
+      - name: 🧹 Stop server
+        if: always()
+        run: |
+          kill $(cat server.pid) || true
+
   test-backend:
     name: 🐍 Backend Tests
     runs-on: ubuntu-latest

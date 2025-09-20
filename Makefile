@@ -338,6 +338,15 @@ a11y-audit-frontend: ## Serve frontend temporarily and run a11y audit (no Docker
 	  sleep 2; \
 	  BASE_URL=http://localhost:$$PORT ./scripts/a11y-audit.sh'
 
+a11y-playwright: ## Run Python Playwright + axe-core test (serve frontend first)
+	@echo "🎭 Running Playwright a11y test..."
+	@bash -c 'set -euo pipefail; \
+	  PORT=$${A11Y_FRONTEND_PORT:-8089}; \
+	  (cd frontend && python3 -m http.server $$PORT >/dev/null 2>&1 &) ; \
+	  PID=$$!; trap "kill $$PID >/dev/null 2>&1 || true" EXIT; \
+	  sleep 2; \
+	  BASE_URL=http://localhost:$$PORT pytest -q tests/a11y/test_axe_playwright.py -m a11y'
+
 ##@ ✅ Tests & QA
 
 test-all: ## Run i18n lint (STRICT) then tests
