@@ -1,0 +1,33 @@
+name: 🔒 GDPR Compliance
+
+on:
+  push:
+    branches: [ master, develop ]
+  pull_request:
+    branches: [ master ]
+
+jobs:
+  gdpr-check:
+    name: 🔒 GDPR Checks
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: 📥 Checkout code
+        uses: actions/checkout@v4
+
+      - name: 🐍 Set up Python 3.11
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.11'
+
+      - name: 📦 Install test deps (backend)
+        run: |
+          cd backend
+          python -m pip install --upgrade pip
+          pip install -r requirements.test.txt
+
+      - name: 🔎 Run GDPR tests
+        run: |
+          cd backend
+          pytest -q tests/gdpr -m gdpr
+
