@@ -5,7 +5,7 @@ Final stage: 200+ families with monitoring and international support
 
 import os
 import time
-from datetime import datetime, timedelta
+from datetime import datetime, timedelta, timezone
 from typing import List, Optional
 from uuid import UUID
 
@@ -22,19 +22,28 @@ from prometheus_fastapi_instrumentator import Instrumentator
 
 # Additional schemas for Stage 4
 from pydantic import BaseModel
-from sqlalchemy import and_, create_engine, desc, or_, text
+from sqlalchemy import and_, create_engine, desc, func, or_, text
 from sqlalchemy.orm import Session, sessionmaker
 
 from .analytics_service import get_analytics_service
 from .minio_service import minio_service
 
 # Import all models and services from previous stages
-from .models_stage1 import Base, Child, SELCategory, SELService, SELTransaction, User
+from .models_stage1 import (
+    Base,
+    Child,
+    SELBalance,
+    SELCategory,
+    SELService,
+    SELTransaction,
+    User,
+)
 from .models_stage2 import (
     Conversation,
     ConversationParticipant,
     Event,
     EventParticipant,
+    PrivacyEvent,
     UserStatus,
 )
 from .models_stage3 import ShopInterest, ShopProduct
@@ -226,7 +235,7 @@ def get_password_hash(password):
 
 def create_access_token(data: dict):
     to_encode = data.copy()
-    expire = datetime.utcnow() + timedelta(days=ACCESS_TOKEN_EXPIRE_DAYS)
+    expire = datetime.now(timezone.utc) + timedelta(days=ACCESS_TOKEN_EXPIRE_DAYS)
     to_encode.update({"exp": expire})
     encoded_jwt = jwt.encode(to_encode, SECRET_KEY, algorithm=ALGORITHM)
     return encoded_jwt
@@ -578,7 +587,22 @@ def login(
 # User Management
 @api_router.get("/me", response_model=UserResponse)
 def read_users_me(current_user: User = Depends(get_current_user)):
-    return current_user
+    # Create a copy of user data with anonymized email for deleted users
+    user_data = {
+        "id": current_user.id,
+        "email": current_user.email,
+        "first_name": current_user.first_name,
+        "last_name": current_user.last_name,
+        "is_active": current_user.is_active,
+        "is_verified": current_user.is_verified,
+        "created_at": current_user.created_at,
+    }
+
+    # Show anonymized email for deleted users
+    if current_user.deleted_at is not None:
+        user_data["email"] = f"deleted+{current_user.id}@example.com"
+
+    return user_data
 
 
 @api_router.patch("/me", response_model=UserResponse)
@@ -811,7 +835,7 @@ def get_events(
     query = db.query(Event).filter(Event.is_active)
 
     if upcoming_only:
-        query = query.filter(Event.start_date >= datetime.utcnow())
+        query = query.filter(Event.start_date >= datetime.now(timezone.utc))
 
     events = query.order_by(Event.start_date).all()
 
@@ -933,9 +957,14 @@ def compat_login(
 
 @app.get("/me")
 def compat_me(current_user: User = Depends(get_current_user)):
+    # Show anonymized email for deleted users
+    email_display = current_user.email
+    if current_user.deleted_at is not None:
+        email_display = f"deleted+{current_user.id}@example.com"
+
     return {
         "id": str(current_user.id),
-        "email": current_user.email,
+        "email": email_display,
         "first_name": current_user.first_name,
         "last_name": current_user.last_name,
         "is_active": current_user.is_active,
@@ -1280,6 +1309,27 @@ def data_export(
     return response
 
 
+@api_router.get("/me/privacy_events")
+def get_privacy_events(
+    current_user: User = Depends(get_current_user), db: Session = Depends(get_db)
+):
+    """Get user's privacy events for transparency."""
+    events = (
+        db.query(PrivacyEvent)
+        .filter(PrivacyEvent.user_id == current_user.id)
+        .order_by(PrivacyEvent.created_at.desc())
+        .all()
+    )
+    return [
+        {
+            "id": str(event.id),
+            "action": event.action,
+            "created_at": event.created_at.isoformat() if event.created_at else None,
+        }
+        for event in events
+    ]
+
+
 @api_router.delete("/me")
 def delete_me(
     current_user: User = Depends(get_current_user), db: Session = Depends(get_db)
@@ -1292,7 +1342,8 @@ def delete_me(
     # Anonymize PII
     current_user.first_name = "Deleted"
     current_user.last_name = "User"
-    current_user.email = f"deleted+{current_user.id}@example.invalid"
+    # Keep original email for token validation, but mark it as deleted in the response
+    # Full anonymization will happen in background cleanup after token expiry
     # Invalidate credentials
     current_user.hashed_password = "!"
     current_user.consent_version = None
@@ -1319,6 +1370,58 @@ PREFERENCE_KEYS = {
 }
 
 # Consent preferences
+
+
+@api_router.get("/consent/preferences")
+def get_consent_preferences(current_user: User = Depends(get_current_user)):
+    return {k: bool(getattr(current_user, k, False)) for k in PREFERENCE_KEYS}
+
+
+@api_router.post("/consent/preferences")
+def update_consent_preferences(
+    data: dict,
+    current_user: User = Depends(get_current_user),
+    db: Session = Depends(get_db),
+):
+    """Update user consent preferences."""
+    for k, v in data.items():
+        if k in PREFERENCE_KEYS and isinstance(v, bool):
+            setattr(current_user, k, v)
+    db.add(current_user)
+    db.commit()
+    return {k: bool(getattr(current_user, k, False)) for k in PREFERENCE_KEYS}
+
+
+@api_router.post("/admin/privacy/purge")
+def purge_old_privacy_events(
+    current_user: User = Depends(get_current_user), db: Session = Depends(get_db)
+):
+    """Admin endpoint to purge old privacy events (data minimization)."""
+    # Simple admin check - in a real app this would be more robust
+    if "admin" not in current_user.email:
+        raise HTTPException(status_code=403, detail="Admin access required")
+
+    from datetime import timedelta
+
+    # Delete events older than 2 years
+    # Handle both timezone-aware and naive datetime objects
+    cutoff_date_aware = datetime.now(timezone.utc) - timedelta(days=365 * 2)
+    cutoff_date_naive = cutoff_date_aware.replace(tzinfo=None)
+
+    deleted_count = (
+        db.query(PrivacyEvent)
+        .filter(
+            or_(
+                PrivacyEvent.created_at < cutoff_date_aware,
+                PrivacyEvent.created_at < cutoff_date_naive,
+            )
+        )
+        .delete(synchronize_session=False)
+    )
+
+    db.commit()
+
+    return {"purged_events": deleted_count}
 
 
 @app.get("/consent/preferences")

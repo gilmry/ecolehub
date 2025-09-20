@@ -283,7 +283,7 @@ def test_analytics_respects_consent(client):
     assert login2.status_code == 200
     # With FakeRedis in tests, verify no analytics key was pushed
     # (keys starting with analytics:user_actions:)
-    from backend.tests.conftest import FakeRedis  # type: ignore
+    from tests.conftest import FakeRedis  # type: ignore
 
     # Access the app's overridden redis (FakeRedis) via a simple GET to metrics (noop) and ensure store empty
     # This is heuristic; the important part is that login didn't push an action

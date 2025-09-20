@@ -5,7 +5,7 @@ Analytics and monitoring for Belgian school collaborative platform
 
 import json
 import logging
-from datetime import datetime, timedelta
+from datetime import datetime, timedelta, timezone
 from typing import Any, Dict
 
 import redis
@@ -68,7 +68,9 @@ class EcoleHubAnalytics:
             total_users = self.db.query(func.count(User.id)).scalar()
             active_users_week = (
                 self.db.query(func.count(User.id))
-                .filter(User.created_at >= datetime.utcnow() - timedelta(days=7))
+                .filter(
+                    User.created_at >= datetime.now(timezone.utc) - timedelta(days=7)
+                )
                 .scalar()
             )
 
@@ -90,7 +92,7 @@ class EcoleHubAnalytics:
             total_messages = self.db.query(func.count(Message.id)).scalar()
             messages_today = (
                 self.db.query(func.count(Message.id))
-                .filter(Message.created_at >= datetime.utcnow().date())
+                .filter(Message.created_at >= datetime.now(timezone.utc).date())
                 .scalar()
             )
 
@@ -99,7 +101,10 @@ class EcoleHubAnalytics:
             upcoming_events = (
                 self.db.query(func.count(Event.id))
                 .filter(
-                    and_(Event.start_date >= datetime.utcnow(), Event.is_active is True)
+                    and_(
+                        Event.start_date >= datetime.now(timezone.utc),
+                        Event.is_active is True,
+                    )
                 )
                 .scalar()
             )
@@ -134,7 +139,7 @@ class EcoleHubAnalytics:
                     "total_events": total_events,
                     "upcoming_events": upcoming_events,
                 },
-                "timestamp": datetime.utcnow().isoformat(),
+                "timestamp": datetime.now(timezone.utc).isoformat(),
             }
 
         except Exception as e:
@@ -270,7 +275,7 @@ class EcoleHubAnalytics:
                     for cat in category_stats
                 ],
                 "revenue": {"total": float(total_revenue), "currency": "EUR"},
-                "timestamp": datetime.utcnow().isoformat(),
+                "timestamp": datetime.now(timezone.utc).isoformat(),
             }
 
         except Exception as e:
@@ -331,7 +336,7 @@ class EcoleHubAnalytics:
                     {"month": trend.month.isoformat(), "transactions": trend.count}
                     for trend in monthly_transactions
                 ],
-                "timestamp": datetime.utcnow().isoformat(),
+                "timestamp": datetime.now(timezone.utc).isoformat(),
             }
 
         except Exception as e:
@@ -347,12 +352,12 @@ class EcoleHubAnalytics:
                 "user_id": user_id,
                 "action": action,
                 "details": details or {},
-                "timestamp": datetime.utcnow().isoformat(),
+                "timestamp": datetime.now(timezone.utc).isoformat(),
                 "platform": "ecolehub",
             }
 
             # Store in Redis for real-time analytics
-            key = f"analytics:user_actions:{datetime.utcnow().date()}"
+            key = f"analytics:user_actions:{datetime.now(timezone.utc).date()}"
             self.redis.lpush(key, json.dumps(event))
             self.redis.expire(key, 86400 * 30)  # Keep for 30 days
 

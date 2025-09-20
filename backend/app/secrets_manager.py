@@ -42,43 +42,63 @@ class SecretsManager:
         if secret_name in self._cache:
             return self._cache[secret_name]
 
-        secret_value = None
+        secret_value = self._read_from_docker_secrets(secret_name)
+        if not secret_value:
+            secret_value = self._read_from_environment(secret_name)
+        if not secret_value:
+            secret_value = self._apply_default_value(secret_name, default)
 
-        # 1. Priorité: Docker secrets (/run/secrets/)
+        self._validate_critical_secret(secret_name, secret_value)
+        self._cache_secret(secret_name, secret_value)
+
+        return secret_value
+
+    def _read_from_docker_secrets(self, secret_name: str) -> Optional[str]:
+        """Lit un secret depuis Docker secrets"""
         secret_file = self.secrets_path / f"{secret_name}.txt"
         if secret_file.exists():
             try:
                 with open(secret_file, "r", encoding="utf-8") as f:
                     secret_value = f.read().strip()
                 logger.debug(f"Secret '{secret_name}' lu depuis Docker secrets")
+                return secret_value
             except Exception as e:
                 logger.error(f"Erreur lecture secret Docker '{secret_name}': {e}")
+        return None
 
-        # 2. Fallback: Variables d'environnement (développement)
-        if not secret_value and ENV_FALLBACK:
+    def _read_from_environment(self, secret_name: str) -> Optional[str]:
+        """Lit un secret depuis les variables d'environnement"""
+        if ENV_FALLBACK:
             env_name = secret_name.upper()
             secret_value = os.getenv(env_name)
             if secret_value:
                 logger.debug(f"Secret '{secret_name}' lu depuis variable d'env")
+                return secret_value
+        return None
 
-        # 3. Valeur par défaut
-        if not secret_value:
-            secret_value = default
-            if secret_value:
-                logger.warning(f"Secret '{secret_name}' utilise la valeur par défaut")
+    def _apply_default_value(
+        self, secret_name: str, default: Optional[str]
+    ) -> Optional[str]:
+        """Applique la valeur par défaut si fournie"""
+        if default:
+            logger.warning(f"Secret '{secret_name}' utilise la valeur par défaut")
+            return default
+        return None
 
-        # Validation des secrets critiques
+    def _validate_critical_secret(
+        self, secret_name: str, secret_value: Optional[str]
+    ) -> None:
+        """Valide qu'un secret critique n'est pas manquant"""
         if not secret_value and secret_name in self.get_critical_secrets():
             raise RuntimeError(
                 f"Secret critique '{secret_name}' manquant! "
                 f"Vérifiez Docker secrets ou variables d'environnement."
             )
 
-        # Mise en cache (éviter les lectures répétées)
+    def _cache_secret(self, secret_name: str, secret_value: Optional[str]) -> None:
+        """Met en cache un secret s'il n'est pas vide"""
         if secret_value:
             self._cache[secret_name] = secret_value
-
-        return secret_value
 
     def get_critical_secrets(self) -> list[str]:
         """Liste des secrets critiques qui ne peuvent pas être vides"""

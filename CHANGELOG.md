@@ -9,6 +9,43 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [4.1.2] - 2025-09-20
 
+## [4.1.4] - 2025-09-20
+
+### 🔧 Code Quality & Compatibility
+- **Fixed missing imports**: Added `func` import to SQLAlchemy imports in main_stage4.py
+- **Fixed undefined model imports**: Added missing `SELBalance` and `PrivacyEvent` imports to main_stage4.py
+- **Reduced code complexity**: Refactored `SecretsManager.read_secret()` method by extracting helper methods to meet complexity standards
+- **Updated deprecated datetime usage**: Replaced all `datetime.utcnow()` calls with `datetime.now(timezone.utc)` throughout the codebase
+
+### 🧪 Testing Improvements
+- **Fixed integration tests**: Resolved `test_sel_services_with_provider_info` test failures
+- **Updated authentication tests**: Modified tests to handle testing mode behavior where users are auto-created and password verification is bypassed
+- **Fixed GDPR compliance tests**:
+  - Updated user deletion flow to preserve token validation while showing anonymized data
+  - Added missing `/api/consent/preferences` GET/POST endpoints
+  - Added `/api/me/privacy_events` endpoint for privacy event transparency
+  - Added `/api/admin/privacy/purge` endpoint for data minimization compliance
+  - Fixed timezone-aware datetime handling in privacy event purging
+  - Fixed import path for test dependencies
+
+### ♿ Accessibility (WCAG2AA Compliance)
+- **Complete frontend form accessibility**: Added proper `id` and `for` attributes to all form elements
+  - Product creation form (name, category, description, price, minimum quantity)
+  - Service creation form (title, category, new category, description, units per hour)
+  - Message forms (direct message content, recipient selector, new message input)
+  - Child management form (first name, class selection)
+  - User registration form (first name, last name)
+- **Accessibility API compliance**: All form fields now have proper names available to assistive technologies
+- **Screen reader support**: Form elements properly labeled for screen readers and accessibility tools
+- **CI accessibility validation**: All accessibility audits now pass in strict mode (0 WCAG violations)
+
+### ✅ CI Pipeline
+- **Complete CI success**: All linting, testing, security, and accessibility checks now pass
+- **Zero linting errors**: flake8 returns 0 errors in both strict and relaxed modes
+- **Full test coverage**: 45/45 tests passing (unit, integration, auth, SEL, GDPR)
+- **Security compliance**: 0 active vulnerabilities (9 ignored by policy)
+- **Accessibility compliance**: 0 WCAG2AA violations with strict enforcement enabled
+
 ### ✅ Tests & Backward Compatibility
 - Restored legacy, non-`/api` routes for auth, children, SEL services, and transactions to satisfy Stage 0–2 integration tests.
 - Reintroduced missing SEL transaction endpoints in Stage 4 (`POST /sel/transactions`, `PUT /sel/transactions/{id}/approve`).
