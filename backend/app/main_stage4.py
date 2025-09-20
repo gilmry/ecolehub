@@ -105,7 +105,9 @@ ACCESS_TOKEN_EXPIRE_DAYS = 7
 
 # Database
 engine = create_engine(DATABASE_URL)
-SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
+SessionLocal = sessionmaker(
+    autocommit=False, autoflush=False, expire_on_commit=False, bind=engine
+)
 
 # Create tables
 Base.metadata.create_all(bind=engine)
@@ -1095,7 +1097,9 @@ if __name__ == "__main__":
     uvicorn.run(app, host=host, port=port)
 # GDPR / Privacy policy version
 PRIVACY_POLICY_VERSION = os.getenv("PRIVACY_POLICY_VERSION", "1.0.0")
-GDPR_PRIVACY_CONTACT_EMAIL = os.getenv("GDPR_PRIVACY_CONTACT_EMAIL", "privacy@example.org")
+GDPR_PRIVACY_CONTACT_EMAIL = os.getenv(
+    "GDPR_PRIVACY_CONTACT_EMAIL", "privacy@example.org"
+)
 GDPR_DATA_RETENTION_DAYS = int(os.getenv("GDPR_DATA_RETENTION_DAYS", "365"))
 # ==========================================
 # PRIVACY / GDPR ENDPOINTS
@@ -1132,7 +1136,11 @@ def get_privacy_doc():
 
 
 @api_router.post("/consent")
-def record_consent(request: Request, current_user: User = Depends(get_current_user), db: Session = Depends(get_db)):
+def record_consent(
+    request: Request,
+    current_user: User = Depends(get_current_user),
+    db: Session = Depends(get_db),
+):
     """Record user consent version and timestamp."""
     current_user.consent_version = PRIVACY_POLICY_VERSION
     current_user.consented_at = func.now()
@@ -1145,7 +1153,9 @@ def record_consent(request: Request, current_user: User = Depends(get_current_us
 
 
 @api_router.post("/consent/withdraw")
-def withdraw_consent(current_user: User = Depends(get_current_user), db: Session = Depends(get_db)):
+def withdraw_consent(
+    current_user: User = Depends(get_current_user), db: Session = Depends(get_db)
+):
     """Allow user to withdraw consent (may deactivate account for purely consent-based processing)."""
     current_user.consent_withdrawn_at = func.now()
     current_user.is_active = False
@@ -1155,11 +1165,11 @@ def withdraw_consent(current_user: User = Depends(get_current_user), db: Session
 
 
 @api_router.get("/me/data_export")
-def data_export(current_user: User = Depends(get_current_user), db: Session = Depends(get_db)):
+def data_export(
+    current_user: User = Depends(get_current_user), db: Session = Depends(get_db)
+):
     """Export user-related data (data portability)."""
-    children = (
-        db.query(Child).filter(Child.parent_id == current_user.id).all()
-    )
+    children = db.query(Child).filter(Child.parent_id == current_user.id).all()
     services = db.query(SELService).filter(SELService.user_id == current_user.id).all()
     balance = db.query(SELBalance).filter(SELBalance.user_id == current_user.id).first()
     response = {
@@ -1169,7 +1179,11 @@ def data_export(current_user: User = Depends(get_current_user), db: Session = De
             "first_name": current_user.first_name,
             "last_name": current_user.last_name,
             "consent_version": current_user.consent_version,
-            "consented_at": current_user.consented_at.isoformat() if current_user.consented_at else None,
+            "consented_at": (
+                current_user.consented_at.isoformat()
+                if current_user.consented_at
+                else None
+            ),
             "privacy_locale": current_user.privacy_locale,
         },
         "children": [
@@ -1205,9 +1219,10 @@ def data_export(current_user: User = Depends(get_current_user), db: Session = De
 
 
 @api_router.delete("/me")
-def delete_me(current_user: User = Depends(get_current_user), db: Session = Depends(get_db)):
+def delete_me(
+    current_user: User = Depends(get_current_user), db: Session = Depends(get_db)
+):
     """Erasure request: soft-delete and anonymize user while preserving integrity."""
-    from sqlalchemy import update
 
     # Soft delete marker
     current_user.is_active = False
@@ -1229,6 +1244,8 @@ def delete_me(current_user: User = Depends(get_current_user), db: Session = Depe
     except Exception:
         db.rollback()
     return {"status": "deleted"}
+
+
 PREFERENCE_KEYS = {
     "consent_analytics_platform",
     "consent_comms_operational",
@@ -1240,13 +1257,19 @@ PREFERENCE_KEYS = {
 }
 
 # Consent preferences
+
+
 @app.get("/consent/preferences")
 def compat_get_prefs(current_user: User = Depends(get_current_user)):
     return {k: bool(getattr(current_user, k, False)) for k in PREFERENCE_KEYS}
 
 
 @app.post("/consent/preferences")
-def compat_update_prefs(data: dict, current_user: User = Depends(get_current_user), db: Session = Depends(get_db)):
+def compat_update_prefs(
+    data: dict,
+    current_user: User = Depends(get_current_user),
+    db: Session = Depends(get_db),
+):
     changed = {}
     for k, v in data.items():
         if k in PREFERENCE_KEYS and isinstance(v, bool):
@@ -1259,7 +1282,13 @@ def compat_update_prefs(data: dict, current_user: User = Depends(get_current_use
     db.commit()
     if changed:
         try:
-            db.add(PrivacyEvent(user_id=current_user.id, action="privacy.preferences.update", details=str(changed)))
+            db.add(
+                PrivacyEvent(
+                    user_id=current_user.id,
+                    action="privacy.preferences.update",
+                    details=str(changed),
+                )
+            )
             db.commit()
         except Exception:
             db.rollback()

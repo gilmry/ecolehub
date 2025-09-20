@@ -105,6 +105,16 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - CI: added `frontend-i18n` job to run STRICT i18n linting on PRs
 - Docs: new `AGENTS.md` contributor guide and `docs/TODO.md` (i18n + tests roadmap)
 
+## [4.1.5] - 2025-09-20
+
+### ♿ Accessibility
+- Fix Pa11y CI invocation: remove unsupported `--chrome-arg=*` flags in `scripts/a11y-audit.sh`; Chromium flags are now read from `.pa11yci` via `chromeLaunchConfig`.
+- i18n-lint: replace hardcoded "Préférences de confidentialité" with localized `privacy.settings` in `frontend/index.html`.
+
+### 🧪 Tests & Stability
+- Avoid SQLAlchemy ObjectDeletedError by disabling attribute expiration on commit for app sessions and test sessions. Files: `backend/app/main_stage4.py`, `backend/tests/conftest.py`.
+- Ensure test environment variables (`TESTING`, `DATABASE_URL`, `REDIS_URL`) are set before importing the app in `backend/tests/conftest.py` to prevent unintended Postgres connections during test collection.
+
 ## [4.1.0] - 2025-09-20
 
 ### 🏗️ Repository Reorganization & Genericization

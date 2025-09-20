@@ -15,17 +15,10 @@ run_pa11y_ci() {
   local out_json="$REPORT_DIR/pa11y-ci.json"
   echo "🧾 Writing Pa11y CI JSON report to: $out_json"
   if [ "$STRICT" = "1" ]; then
-    pa11y-ci --reporter json \
-      --chrome-arg="--no-sandbox" \
-      --chrome-arg="--disable-setuid-sandbox" \
-      --chrome-arg="--disable-dev-shm-usage" \
-      | tee "$out_json"
+    # Note: Chrome launch args for pa11y-ci must be set via .pa11yci chromeLaunchConfig
+    pa11y-ci --reporter json | tee "$out_json"
   else
-    pa11y-ci --reporter json \
-      --chrome-arg="--no-sandbox" \
-      --chrome-arg="--disable-setuid-sandbox" \
-      --chrome-arg="--disable-dev-shm-usage" \
-      | tee "$out_json" || true
+    pa11y-ci --reporter json | tee "$out_json" || true
   fi
 }
 
@@ -71,17 +64,10 @@ if command -v npx >/dev/null 2>&1; then
   if [ "$USE_CONFIG" = "1" ]; then
     echo "ℹ️ Using npx pa11y-ci (network required)"
     if [ "$STRICT" = "1" ]; then
-      npx --yes pa11y-ci --reporter json \
-        --chrome-arg="--no-sandbox" \
-        --chrome-arg="--disable-setuid-sandbox" \
-        --chrome-arg="--disable-dev-shm-usage" \
-        | tee "$REPORT_DIR/pa11y-ci.json"
+      # Note: Chrome launch args are provided via .pa11yci chromeLaunchConfig
+      npx --yes pa11y-ci --reporter json | tee "$REPORT_DIR/pa11y-ci.json"
     else
-      npx --yes pa11y-ci --reporter json \
-        --chrome-arg="--no-sandbox" \
-        --chrome-arg="--disable-setuid-sandbox" \
-        --chrome-arg="--disable-dev-shm-usage" \
-        | tee "$REPORT_DIR/pa11y-ci.json" || true
+      npx --yes pa11y-ci --reporter json | tee "$REPORT_DIR/pa11y-ci.json" || true
     fi
     exit 0
   else

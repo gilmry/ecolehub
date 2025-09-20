@@ -4,1066 +4,22 @@ i18n-lint: 0 potential hardcoded strings found in frontend/index.html
 i18n-lint: OK
 🐍 Backend: environment
 📦 Ensure test dependencies (best effort)
+🔧 Install formatting tools
+🎨 Auto-formatting Python code
+🎨 Formatage automatique du code Python
+  🧹 autoflake: suppression des imports/variables inutilisés
+  📚 isort: tri des imports
+  🔧 autopep8: corrections PEP8 conservatrices
+  ⚫ black: formatage final
+✅ Formatage terminé
 🔍 flake8 (strict then relaxed)
 0
-app/analytics_service.py:6:1: F401 'typing.List' imported but unused
-app/analytics_service.py:6:1: F401 'typing.Optional' imported but unused
-app/analytics_service.py:9:1: F401 'sqlalchemy.or_' imported but unused
-app/analytics_service.py:9:1: F401 'sqlalchemy.text' imported but unused
-app/analytics_service.py:39:1: E302 expected 2 blank lines, found 1
-app/analytics_service.py:44:1: W293 blank line contains whitespace
-app/analytics_service.py:48:1: W293 blank line contains whitespace
-app/analytics_service.py:57:1: W293 blank line contains whitespace
-app/analytics_service.py:62:1: W293 blank line contains whitespace
-app/analytics_service.py:67:1: W293 blank line contains whitespace
-app/analytics_service.py:68:30: W291 trailing whitespace
-app/analytics_service.py:73:1: W293 blank line contains whitespace
-app/analytics_service.py:79:37: E712 comparison to True should be 'if cond is True:' or 'if cond:'
-app/analytics_service.py:82:1: W293 blank line contains whitespace
-app/analytics_service.py:109:1: W293 blank line contains whitespace
-app/analytics_service.py:113:1: W293 blank line contains whitespace
-app/analytics_service.py:120:1: W293 blank line contains whitespace
-app/analytics_service.py:125:1: W293 blank line contains whitespace
-app/analytics_service.py:129:1: W293 blank line contains whitespace
-app/analytics_service.py:133:1: W293 blank line contains whitespace
-app/analytics_service.py:138:1: W293 blank line contains whitespace
-app/analytics_service.py:143:1: W293 blank line contains whitespace
-app/analytics_service.py:148:1: W293 blank line contains whitespace
-app/analytics_service.py:170:1: W293 blank line contains whitespace
-app/analytics_service.py:174:1: W293 blank line contains whitespace
-app/analytics_service.py:185:1: W293 blank line contains whitespace
-app/analytics_service.py:186:35: W291 trailing whitespace
-app/analytics_service.py:192:1: W293 blank line contains whitespace
-app/analytics_service.py:197:1: W293 blank line contains whitespace
-app/analytics_service.py:217:1: W293 blank line contains whitespace
-app/analytics_service.py:221:1: W293 blank line contains whitespace
-app/analytics_service.py:231:1: W293 blank line contains whitespace
-app/analytics_service.py:239:1: W293 blank line contains whitespace
-app/analytics_service.py:247:1: W293 blank line contains whitespace
-app/analytics_service.py:273:1: W293 blank line contains whitespace
-app/analytics_service.py:277:1: W293 blank line contains whitespace
-app/analytics_service.py:288:1: W293 blank line contains whitespace
-app/analytics_service.py:293:1: W293 blank line contains whitespace
-app/analytics_service.py:303:1: W293 blank line contains whitespace
-app/analytics_service.py:306:1: W293 blank line contains whitespace
-app/analytics_service.py:313:1: W293 blank line contains whitespace
-app/analytics_service.py:317:1: W293 blank line contains whitespace
-app/analytics_service.py:320:1: W293 blank line contains whitespace
-app/analytics_service.py:326:1: E302 expected 2 blank lines, found 1
-app/analytics_service.py:327:47: W292 no newline at end of file
-app/db_types.py:35:1: W391 blank line at end of file
-app/main.py:1:1: F401 'fastapi.Header' imported but unused
-app/main.py:29:1: E302 expected 2 blank lines, found 1
-app/main.py:31:1: W293 blank line contains whitespace
-app/main.py:40:1: E302 expected 2 blank lines, found 1
-app/main.py:42:1: W293 blank line contains whitespace
-app/main.py:50:1: E305 expected 2 blank lines after class or function definition, found 1
-app/main.py:53:1: E302 expected 2 blank lines, found 1
-app/main.py:59:1: E302 expected 2 blank lines, found 1
-app/main.py:64:1: W293 blank line contains whitespace
-app/main.py:68:1: E302 expected 2 blank lines, found 1
-app/main.py:72:1: E302 expected 2 blank lines, found 1
-app/main.py:76:1: W293 blank line contains whitespace
-app/main.py:80:1: E302 expected 2 blank lines, found 1
-app/main.py:85:1: E305 expected 2 blank lines after class or function definition, found 1
-app/main.py:103:1: E302 expected 2 blank lines, found 1
-app/main.py:111:1: E302 expected 2 blank lines, found 1
-app/main.py:114:1: E302 expected 2 blank lines, found 1
-app/main.py:117:1: E302 expected 2 blank lines, found 1
-app/main.py:124:1: E302 expected 2 blank lines, found 1
-app/main.py:132:1: W293 blank line contains whitespace
-app/main.py:135:1: W293 blank line contains whitespace
-app/main.py:137:1: W293 blank line contains whitespace
-app/main.py:145:1: W293 blank line contains whitespace
-app/main.py:152:1: E302 expected 2 blank lines, found 1
-app/main.py:155:43: W291 trailing whitespace
-app/main.py:161:1: E302 expected 2 blank lines, found 1
-app/main.py:167:1: W293 blank line contains whitespace
-app/main.py:179:1: W293 blank line contains whitespace
-app/main.py:184:1: E302 expected 2 blank lines, found 1
-app/main.py:189:1: W293 blank line contains whitespace
-app/main.py:193:1: E302 expected 2 blank lines, found 1
-app/main.py:197:1: E302 expected 2 blank lines, found 1
-app/main.py:208:1: W293 blank line contains whitespace
-app/main.py:213:1: E302 expected 2 blank lines, found 1
-app/main.py:218:1: E302 expected 2 blank lines, found 1
-app/main.py:228:29: W291 trailing whitespace
-app/main.py:231:1: W293 blank line contains whitespace
-app/main.py:242:1: E302 expected 2 blank lines, found 1
-app/main.py:249:30: W291 trailing whitespace
-app/main.py:252:1: W293 blank line contains whitespace
-app/main.py:255:1: W293 blank line contains whitespace
-app/main.py:260:1: E302 expected 2 blank lines, found 1
-app/main.py:263:29: W291 trailing whitespace
-app/main.py:269:1: E305 expected 2 blank lines after class or function definition, found 1
-app/main.py:271:48: W292 no newline at end of file
-app/main_stage1.py:1:1: F401 'fastapi.Header' imported but unused
-app/main_stage1.py:14:1: F401 '.models_stage1.SELBalance' imported but unused
-app/main_stage1.py:14:1: F401 '.models_stage1.SELCategory' imported but unused
-app/main_stage1.py:15:1: F401 '.schemas_stage1.ChildUpdate' imported but unused
-app/main_stage1.py:15:1: F401 '.schemas_stage1.SELTransactionUpdate' imported but unused
-app/main_stage1.py:15:1: F401 '.schemas_stage1.SELDashboard' imported but unused
-app/main_stage1.py:60:1: E302 expected 2 blank lines, found 1
-app/main_stage1.py:67:1: E302 expected 2 blank lines, found 1
-app/main_stage1.py:71:1: E302 expected 2 blank lines, found 1
-app/main_stage1.py:74:1: E302 expected 2 blank lines, found 1
-app/main_stage1.py:77:1: E302 expected 2 blank lines, found 1
-app/main_stage1.py:84:1: E302 expected 2 blank lines, found 1
-app/main_stage1.py:92:1: W293 blank line contains whitespace
-app/main_stage1.py:95:1: W293 blank line contains whitespace
-app/main_stage1.py:97:1: W293 blank line contains whitespace
-app/main_stage1.py:105:1: W293 blank line contains whitespace
-app/main_stage1.py:112:1: E302 expected 2 blank lines, found 1
-app/main_stage1.py:115:49: W291 trailing whitespace
-app/main_stage1.py:122:1: E302 expected 2 blank lines, found 1
-app/main_stage1.py:130:1: W293 blank line contains whitespace
-app/main_stage1.py:132:29: W291 trailing whitespace
-app/main_stage1.py:140:1: E302 expected 2 blank lines, found 1
-app/main_stage1.py:146:1: W293 blank line contains whitespace
-app/main_stage1.py:158:1: W293 blank line contains whitespace
-app/main_stage1.py:161:1: W293 blank line contains whitespace
-app/main_stage1.py:166:1: E302 expected 2 blank lines, found 1
-app/main_stage1.py:171:1: W293 blank line contains whitespace
-app/main_stage1.py:176:1: E302 expected 2 blank lines, found 1
-app/main_stage1.py:180:1: E302 expected 2 blank lines, found 1
-app/main_stage1.py:190:1: W293 blank line contains whitespace
-app/main_stage1.py:196:1: E302 expected 2 blank lines, found 1
-app/main_stage1.py:201:1: E302 expected 2 blank lines, found 1
-app/main_stage1.py:218:1: E302 expected 2 blank lines, found 1
-app/main_stage1.py:225:30: W291 trailing whitespace
-app/main_stage1.py:228:1: W293 blank line contains whitespace
-app/main_stage1.py:231:1: W293 blank line contains whitespace
-app/main_stage1.py:239:1: E302 expected 2 blank lines, found 1
-app/main_stage1.py:244:1: E302 expected 2 blank lines, found 1
-app/main_stage1.py:246:52: W291 trailing whitespace
-app/main_stage1.py:253:1: E302 expected 2 blank lines, found 1
-app/main_stage1.py:263:1: E302 expected 2 blank lines, found 1
-app/main_stage1.py:265:52: W291 trailing whitespace
-app/main_stage1.py:271:1: E302 expected 2 blank lines, found 1
-app/main_stage1.py:279:1: E302 expected 2 blank lines, found 1
-app/main_stage1.py:290:1: W293 blank line contains whitespace
-app/main_stage1.py:293:1: W293 blank line contains whitespace
-app/main_stage1.py:305:1: W293 blank line contains whitespace
-app/main_stage1.py:311:1: E302 expected 2 blank lines, found 1
-app/main_stage1.py:319:59: W291 trailing whitespace
-app/main_stage1.py:322:1: W293 blank line contains whitespace
-app/main_stage1.py:325:1: W293 blank line contains whitespace
-app/main_stage1.py:327:1: W293 blank line contains whitespace
-app/main_stage1.py:337:1: W293 blank line contains whitespace
-app/main_stage1.py:340:1: E302 expected 2 blank lines, found 1
-app/main_stage1.py:348:1: E302 expected 2 blank lines, found 1
-app/main_stage1.py:356:1: E302 expected 2 blank lines, found 1
-app/main_stage1.py:365:1: E302 expected 2 blank lines, found 1
-app/main_stage1.py:372:1: E305 expected 2 blank lines after class or function definition, found 1
-app/main_stage1.py:374:48: W292 no newline at end of file
-app/main_stage2.py:6:1: F401 'fastapi.Header' imported but unused
-app/main_stage2.py:6:1: F401 'fastapi.WebSocketDisconnect' imported but unused
-app/main_stage2.py:9:1: F401 'sqlalchemy.or_' imported but unused
-app/main_stage2.py:20:1: F401 '.models_stage1.SELBalance' imported but unused
-app/main_stage2.py:20:1: F401 '.models_stage1.SELCategory' imported but unused
-app/main_stage2.py:24:1: F401 '.schemas_stage1.ChildUpdate' imported but unused
-app/main_stage2.py:24:1: F401 '.schemas_stage1.SELServiceUpdate' imported but unused
-app/main_stage2.py:24:1: F401 '.schemas_stage1.SELTransactionUpdate' imported but unused
-app/main_stage2.py:24:1: F401 '.schemas_stage1.SELDashboard' imported but unused
-app/main_stage2.py:26:45: W291 trailing whitespace
-app/main_stage2.py:39:1: E302 expected 2 blank lines, found 1
-app/main_stage2.py:43:1: E305 expected 2 blank lines after class or function definition, found 1
-app/main_stage2.py:65:21: W291 trailing whitespace
-app/main_stage2.py:81:1: E302 expected 2 blank lines, found 1
-app/main_stage2.py:88:1: E302 expected 2 blank lines, found 1
-app/main_stage2.py:91:1: E302 expected 2 blank lines, found 1
-app/main_stage2.py:95:1: E302 expected 2 blank lines, found 1
-app/main_stage2.py:98:1: E302 expected 2 blank lines, found 1
-app/main_stage2.py:101:1: E302 expected 2 blank lines, found 1
-app/main_stage2.py:108:1: E302 expected 2 blank lines, found 1
-app/main_stage2.py:116:1: W293 blank line contains whitespace
-app/main_stage2.py:119:1: W293 blank line contains whitespace
-app/main_stage2.py:121:1: W293 blank line contains whitespace
-app/main_stage2.py:129:1: W293 blank line contains whitespace
-app/main_stage2.py:139:1: E302 expected 2 blank lines, found 1
-app/main_stage2.py:142:64: W291 trailing whitespace
-app/main_stage2.py:149:1: E302 expected 2 blank lines, found 1
-app/main_stage2.py:150:59: E251 unexpected spaces around keyword / parameter equals
-app/main_stage2.py:150:61: E251 unexpected spaces around keyword / parameter equals
-app/main_stage2.py:157:1: W293 blank line contains whitespace
-app/main_stage2.py:164:1: W293 blank line contains whitespace
-app/main_stage2.py:166:29: W291 trailing whitespace
-app/main_stage2.py:179:1: E302 expected 2 blank lines, found 1
-app/main_stage2.py:185:1: W293 blank line contains whitespace
-app/main_stage2.py:197:1: W293 blank line contains whitespace
-app/main_stage2.py:200:1: W293 blank line contains whitespace
-app/main_stage2.py:204:1: W293 blank line contains whitespace
-app/main_stage2.py:208:1: W293 blank line contains whitespace
-app/main_stage2.py:213:1: W293 blank line contains whitespace
-app/main_stage2.py:220:1: W293 blank line contains whitespace
-app/main_stage2.py:227:1: W293 blank line contains whitespace
-app/main_stage2.py:229:1: W293 blank line contains whitespace
-app/main_stage2.py:234:1: E302 expected 2 blank lines, found 1
-app/main_stage2.py:239:1: W293 blank line contains whitespace
-app/main_stage2.py:247:1: E302 expected 2 blank lines, found 1
-app/main_stage2.py:251:1: E302 expected 2 blank lines, found 1
-app/main_stage2.py:261:1: W293 blank line contains whitespace
-app/main_stage2.py:270:1: E302 expected 2 blank lines, found 1
-app/main_stage2.py:275:1: E302 expected 2 blank lines, found 1
-app/main_stage2.py:290:1: W293 blank line contains whitespace
-app/main_stage2.py:298:1: W293 blank line contains whitespace
-app/main_stage2.py:305:1: W293 blank line contains whitespace
-app/main_stage2.py:313:1: W293 blank line contains whitespace
-app/main_stage2.py:316:1: E302 expected 2 blank lines, found 1
-app/main_stage2.py:323:30: W291 trailing whitespace
-app/main_stage2.py:326:1: W293 blank line contains whitespace
-app/main_stage2.py:329:1: W293 blank line contains whitespace
-app/main_stage2.py:338:1: E302 expected 2 blank lines, found 1
-app/main_stage2.py:342:1: E302 expected 2 blank lines, found 1
-app/main_stage2.py:344:52: W291 trailing whitespace
-app/main_stage2.py:350:1: E302 expected 2 blank lines, found 1
-app/main_stage2.py:360:1: E302 expected 2 blank lines, found 1
-app/main_stage2.py:362:52: W291 trailing whitespace
-app/main_stage2.py:368:1: E302 expected 2 blank lines, found 1
-app/main_stage2.py:377:1: E302 expected 2 blank lines, found 1
-app/main_stage2.py:385:59: W291 trailing whitespace
-app/main_stage2.py:388:1: W293 blank line contains whitespace
-app/main_stage2.py:391:1: W293 blank line contains whitespace
-app/main_stage2.py:393:1: W293 blank line contains whitespace
-app/main_stage2.py:403:1: W293 blank line contains whitespace
-app/main_stage2.py:406:1: E302 expected 2 blank lines, found 1
-app/main_stage2.py:414:1: E302 expected 2 blank lines, found 1
-app/main_stage2.py:422:1: E302 expected 2 blank lines, found 1
-app/main_stage2.py:434:1: E302 expected 2 blank lines, found 1
-app/main_stage2.py:445:1: W293 blank line contains whitespace
-app/main_stage2.py:455:1: W293 blank line contains whitespace
-app/main_stage2.py:462:1: W293 blank line contains whitespace
-app/main_stage2.py:465:1: W293 blank line contains whitespace
-app/main_stage2.py:470:1: W293 blank line contains whitespace
-app/main_stage2.py:480:1: W293 blank line contains whitespace
-app/main_stage2.py:486:1: W293 blank line contains whitespace
-app/main_stage2.py:489:1: W293 blank line contains whitespace
-app/main_stage2.py:491:1: W293 blank line contains whitespace
-app/main_stage2.py:494:1: E302 expected 2 blank lines, found 1
-app/main_stage2.py:501:57: E712 comparison to True should be 'if cond is True:' or 'if cond:'
-app/main_stage2.py:503:1: W293 blank line contains whitespace
-app/main_stage2.py:511:1: E302 expected 2 blank lines, found 1
-app/main_stage2.py:520:1: W293 blank line contains whitespace
-app/main_stage2.py:524:1: W293 blank line contains whitespace
-app/main_stage2.py:529:1: W293 blank line contains whitespace
-app/main_stage2.py:543:1: W293 blank line contains whitespace
-app/main_stage2.py:546:1: E302 expected 2 blank lines, found 1
-app/main_stage2.py:559:1: W293 blank line contains whitespace
-app/main_stage2.py:562:1: W293 blank line contains whitespace
-app/main_stage2.py:567:1: W293 blank line contains whitespace
-app/main_stage2.py:569:1: W293 blank line contains whitespace
-app/main_stage2.py:581:1: E302 expected 2 blank lines, found 1
-app/main_stage2.py:594:1: W293 blank line contains whitespace
-app/main_stage2.py:597:1: W293 blank line contains whitespace
-app/main_stage2.py:605:1: W293 blank line contains whitespace
-app/main_stage2.py:609:1: W293 blank line contains whitespace
-app/main_stage2.py:611:1: W293 blank line contains whitespace
-app/main_stage2.py:619:32: W291 trailing whitespace
-app/main_stage2.py:622:1: E302 expected 2 blank lines, found 1
-app/main_stage2.py:633:1: W293 blank line contains whitespace
-app/main_stage2.py:635:52: E712 comparison to True should be 'if cond is True:' or 'if cond:'
-app/main_stage2.py:636:1: W293 blank line contains whitespace
-app/main_stage2.py:640:1: W293 blank line contains whitespace
-app/main_stage2.py:645:1: W293 blank line contains whitespace
-app/main_stage2.py:649:1: W293 blank line contains whitespace
-app/main_stage2.py:653:1: W293 blank line contains whitespace
-app/main_stage2.py:656:1: W293 blank line contains whitespace
-app/main_stage2.py:661:128: E501 line too long (129 > 127 characters)
-app/main_stage2.py:662:1: W293 blank line contains whitespace
-app/main_stage2.py:670:1: W293 blank line contains whitespace
-app/main_stage2.py:676:1: W293 blank line contains whitespace
-app/main_stage2.py:694:1: W293 blank line contains whitespace
-app/main_stage2.py:698:1: E302 expected 2 blank lines, found 1
-app/main_stage2.py:706:74: E712 comparison to True should be 'if cond is True:' or 'if cond:'
-app/main_stage2.py:709:1: W293 blank line contains whitespace
-app/main_stage2.py:713:1: W293 blank line contains whitespace
-app/main_stage2.py:717:1: W293 blank line contains whitespace
-app/main_stage2.py:723:1: W293 blank line contains whitespace
-app/main_stage2.py:726:1: W293 blank line contains whitespace
-app/main_stage2.py:733:1: W293 blank line contains whitespace
-app/main_stage2.py:736:1: W293 blank line contains whitespace
-app/main_stage2.py:745:1: W293 blank line contains whitespace
-app/main_stage2.py:752:1: E302 expected 2 blank lines, found 1
-app/main_stage2.py:766:1: W293 blank line contains whitespace
-app/main_stage2.py:771:1: W293 blank line contains whitespace
-app/main_stage2.py:774:1: W293 blank line contains whitespace
-app/main_stage2.py:777:1: W293 blank line contains whitespace
-app/main_stage2.py:784:48: W292 no newline at end of file
-app/main_stage3.py:6:1: F401 'fastapi.Header' imported but unused
-app/main_stage3.py:6:1: F401 'fastapi.WebSocket' imported but unused
-app/main_stage3.py:6:1: F401 'fastapi.WebSocketDisconnect' imported but unused
-app/main_stage3.py:12:1: F401 'datetime.date' imported but unused
-app/main_stage3.py:18:1: F401 'decimal.Decimal' imported but unused
-app/main_stage3.py:21:1: F401 '.models_stage1.SELBalance' imported but unused
-app/main_stage3.py:21:1: F401 '.models_stage1.SELCategory' imported but unused
-app/main_stage3.py:23:1: F401 '.models_stage3.ShopOrder' imported but unused
-app/main_stage3.py:23:1: F401 '.models_stage3.ShopOrderItem' imported but unused
-app/main_stage3.py:23:1: F401 '.models_stage3.ResourceAccess' imported but unused
-app/main_stage3.py:26:1: F403 'from .schemas_stage1 import *' used; unable to detect undefined names
-app/main_stage3.py:28:1: F401 '.websocket_manager.websocket_manager' imported but unused
-app/main_stage3.py:36:1: E302 expected 2 blank lines, found 1
-app/main_stage3.py:39:1: E302 expected 2 blank lines, found 1
-app/main_stage3.py:43:1: E302 expected 2 blank lines, found 1
-app/main_stage3.py:51:1: E305 expected 2 blank lines after class or function definition, found 1
-app/main_stage3.py:73:21: W291 trailing whitespace
-app/main_stage3.py:89:1: E302 expected 2 blank lines, found 1
-app/main_stage3.py:96:1: E302 expected 2 blank lines, found 1
-app/main_stage3.py:99:1: E302 expected 2 blank lines, found 1
-app/main_stage3.py:102:1: E302 expected 2 blank lines, found 1
-app/main_stage3.py:106:1: E302 expected 2 blank lines, found 1
-app/main_stage3.py:109:1: E302 expected 2 blank lines, found 1
-app/main_stage3.py:112:1: E302 expected 2 blank lines, found 1
-app/main_stage3.py:119:1: E302 expected 2 blank lines, found 1
-app/main_stage3.py:127:1: W293 blank line contains whitespace
-app/main_stage3.py:130:1: W293 blank line contains whitespace
-app/main_stage3.py:132:1: W293 blank line contains whitespace
-app/main_stage3.py:140:1: W293 blank line contains whitespace
-app/main_stage3.py:150:1: E302 expected 2 blank lines, found 1
-app/main_stage3.py:153:66: W291 trailing whitespace
-app/main_stage3.py:160:1: E302 expected 2 blank lines, found 1
-app/main_stage3.py:161:59: E251 unexpected spaces around keyword / parameter equals
-app/main_stage3.py:161:61: E251 unexpected spaces around keyword / parameter equals
-app/main_stage3.py:168:1: W293 blank line contains whitespace
-app/main_stage3.py:175:1: W293 blank line contains whitespace
-app/main_stage3.py:182:1: W293 blank line contains whitespace
-app/main_stage3.py:184:29: W291 trailing whitespace
-app/main_stage3.py:199:1: E302 expected 2 blank lines, found 1
-app/main_stage3.py:199:39: F405 'Token' may be undefined, or defined from star imports: .schemas_stage1
-app/main_stage3.py:200:20: F405 'UserCreate' may be undefined, or defined from star imports: .schemas_stage1
-app/main_stage3.py:204:1: W293 blank line contains whitespace
-app/main_stage3.py:215:1: W293 blank line contains whitespace
-app/main_stage3.py:220:1: W293 blank line contains whitespace
-app/main_stage3.py:226:1: W293 blank line contains whitespace
-app/main_stage3.py:228:1: W293 blank line contains whitespace
-app/main_stage3.py:230:12: F405 'Token' may be undefined, or defined from star imports: .schemas_stage1
-app/main_stage3.py:232:1: E302 expected 2 blank lines, found 1
-app/main_stage3.py:232:36: F405 'Token' may be undefined, or defined from star imports: .schemas_stage1
-app/main_stage3.py:237:1: W293 blank line contains whitespace
-app/main_stage3.py:239:12: F405 'Token' may be undefined, or defined from star imports: .schemas_stage1
-app/main_stage3.py:245:1: E302 expected 2 blank lines, found 1
-app/main_stage3.py:245:32: F405 'UserResponse' may be undefined, or defined from star imports: .schemas_stage1
-app/main_stage3.py:249:1: E302 expected 2 blank lines, found 1
-app/main_stage3.py:249:43: F405 'ChildResponse' may be undefined, or defined from star imports: .schemas_stage1
-app/main_stage3.py:254:1: E302 expected 2 blank lines, found 1
-app/main_stage3.py:254:39: F405 'ChildResponse' may be undefined, or defined from star imports: .schemas_stage1
-app/main_stage3.py:256:12: F405 'ChildCreate' may be undefined, or defined from star imports: .schemas_stage1
-app/main_stage3.py:269:1: W293 blank line contains whitespace
-app/main_stage3.py:274:1: W293 blank line contains whitespace
-app/main_stage3.py:280:1: W293 blank line contains whitespace
-app/main_stage3.py:285:1: W293 blank line contains whitespace
-app/main_stage3.py:292:1: E302 expected 2 blank lines, found 1
-app/main_stage3.py:292:49: F405 'SELCategoryResponse' may be undefined, or defined from star imports: .schemas_stage1
-app/main_stage3.py:296:1: E302 expected 2 blank lines, found 1
-app/main_stage3.py:296:41: F405 'SELBalanceResponse' may be undefined, or defined from star imports: .schemas_stage1
-app/main_stage3.py:300:1: E302 expected 2 blank lines, found 1
-app/main_stage3.py:300:47: F405 'SELServiceWithOwner' may be undefined, or defined from star imports: .schemas_stage1
-app/main_stage3.py:310:1: E302 expected 2 blank lines, found 1
-app/main_stage3.py:310:52: F405 'SELServiceResponse' may be undefined, or defined from star imports: .schemas_stage1
-app/main_stage3.py:312:52: W291 trailing whitespace
-app/main_stage3.py:318:1: E302 expected 2 blank lines, found 1
-app/main_stage3.py:318:43: F405 'SELServiceResponse' may be undefined, or defined from star imports: .schemas_stage1
-app/main_stage3.py:319:33: F405 'SELServiceCreate' may be undefined, or defined from star imports: .schemas_stage1
-app/main_stage3.py:319:128: E501 line too long (156 > 127 characters)
-app/main_stage3.py:322:1: E302 expected 2 blank lines, found 1
-app/main_stage3.py:322:51: F405 'SELTransactionWithDetails' may be undefined, or defined from star imports: .schemas_stage1
-app/main_stage3.py:324:22: F405 'TransactionStatus' may be undefined, or defined from star imports: .schemas_stage1
-app/main_stage3.py:330:59: W291 trailing whitespace
-app/main_stage3.py:333:1: W293 blank line contains whitespace
-app/main_stage3.py:336:1: W293 blank line contains whitespace
-app/main_stage3.py:338:1: W293 blank line contains whitespace
-app/main_stage3.py:347:1: W293 blank line contains whitespace
-app/main_stage3.py:350:1: E302 expected 2 blank lines, found 1
-app/main_stage3.py:350:47: F405 'SELTransactionResponse' may be undefined, or defined from star imports: .schemas_stage1
-app/main_stage3.py:352:18: F405 'SELTransactionCreate' may be undefined, or defined from star imports: .schemas_stage1
-app/main_stage3.py:358:1: E302 expected 2 blank lines, found 1
-app/main_stage3.py:358:71: F405 'SELTransactionResponse' may be undefined, or defined from star imports: .schemas_stage1
-app/main_stage3.py:366:1: E302 expected 2 blank lines, found 1
-app/main_stage3.py:366:70: F405 'SELTransactionResponse' may be undefined, or defined from star imports: .schemas_stage1
-app/main_stage3.py:378:1: E302 expected 2 blank lines, found 1
-app/main_stage3.py:389:1: W293 blank line contains whitespace
-app/main_stage3.py:399:1: W293 blank line contains whitespace
-app/main_stage3.py:402:1: W293 blank line contains whitespace
-app/main_stage3.py:407:1: W293 blank line contains whitespace
-app/main_stage3.py:417:1: W293 blank line contains whitespace
-app/main_stage3.py:423:1: W293 blank line contains whitespace
-app/main_stage3.py:426:1: W293 blank line contains whitespace
-app/main_stage3.py:428:1: W293 blank line contains whitespace
-app/main_stage3.py:431:1: E302 expected 2 blank lines, found 1
-app/main_stage3.py:438:57: E712 comparison to True should be 'if cond is True:' or 'if cond:'
-app/main_stage3.py:440:1: W293 blank line contains whitespace
-app/main_stage3.py:448:1: E302 expected 2 blank lines, found 1
-app/main_stage3.py:460:1: W293 blank line contains whitespace
-app/main_stage3.py:463:1: W293 blank line contains whitespace
-app/main_stage3.py:467:1: W293 blank line contains whitespace
-app/main_stage3.py:469:1: W293 blank line contains whitespace
-app/main_stage3.py:481:1: E302 expected 2 blank lines, found 1
-app/main_stage3.py:493:1: W293 blank line contains whitespace
-app/main_stage3.py:496:1: W293 blank line contains whitespace
-app/main_stage3.py:503:1: W293 blank line contains whitespace
-app/main_stage3.py:507:1: W293 blank line contains whitespace
-app/main_stage3.py:514:1: E302 expected 2 blank lines, found 1
-app/main_stage3.py:517:1: W293 blank line contains whitespace
-app/main_stage3.py:521:128: E501 line too long (134 > 127 characters)
-app/main_stage3.py:522:1: W293 blank line contains whitespace
-app/main_stage3.py:535:1: W293 blank line contains whitespace
-app/main_stage3.py:538:1: E302 expected 2 blank lines, found 1
-app/main_stage3.py:539:128: E501 line too long (130 > 127 characters)
-app/main_stage3.py:540:52: E712 comparison to True should be 'if cond is True:' or 'if cond:'
-app/main_stage3.py:541:1: W293 blank line contains whitespace
-app/main_stage3.py:544:1: W293 blank line contains whitespace
-app/main_stage3.py:546:1: W293 blank line contains whitespace
-app/main_stage3.py:553:1: W293 blank line contains whitespace
-app/main_stage3.py:558:1: W293 blank line contains whitespace
-app/main_stage3.py:574:1: W293 blank line contains whitespace
-app/main_stage3.py:581:1: E302 expected 2 blank lines, found 1
-app/main_stage3.py:590:1: W293 blank line contains whitespace
-app/main_stage3.py:594:1: W293 blank line contains whitespace
-app/main_stage3.py:595:55: W291 trailing whitespace
-app/main_stage3.py:602:1: W293 blank line contains whitespace
-app/main_stage3.py:611:1: W293 blank line contains whitespace
-app/main_stage3.py:614:1: E302 expected 2 blank lines, found 1
-app/main_stage3.py:629:1: E302 expected 2 blank lines, found 1
-app/main_stage3.py:638:1: E302 expected 2 blank lines, found 1
-app/main_stage3.py:648:1: W293 blank line contains whitespace
-app/main_stage3.py:658:1: W293 blank line contains whitespace
-app/main_stage3.py:662:1: W293 blank line contains whitespace
-app/main_stage3.py:670:1: E302 expected 2 blank lines, found 1
-app/main_stage3.py:681:1: W293 blank line contains whitespace
-app/main_stage3.py:685:1: W293 blank line contains whitespace
-app/main_stage3.py:699:1: W293 blank line contains whitespace
-app/main_stage3.py:702:1: W293 blank line contains whitespace
-app/main_stage3.py:710:1: E302 expected 2 blank lines, found 1
-app/main_stage3.py:715:1: E302 expected 2 blank lines, found 1
-app/main_stage3.py:723:1: E302 expected 2 blank lines, found 1
-app/main_stage3.py:736:1: E302 expected 2 blank lines, found 1
-app/main_stage3.py:746:41: E712 comparison to True should be 'if cond is True:' or 'if cond:'
-app/main_stage3.py:750:1: W293 blank line contains whitespace
-app/main_stage3.py:753:1: W293 blank line contains whitespace
-app/main_stage3.py:756:1: W293 blank line contains whitespace
-app/main_stage3.py:758:1: W293 blank line contains whitespace
-app/main_stage3.py:774:1: W293 blank line contains whitespace
-app/main_stage3.py:777:1: E302 expected 2 blank lines, found 1
-app/main_stage3.py:788:1: W293 blank line contains whitespace
-app/main_stage3.py:797:1: W293 blank line contains whitespace
-app/main_stage3.py:800:1: W293 blank line contains whitespace
-app/main_stage3.py:804:1: W293 blank line contains whitespace
-app/main_stage3.py:817:1: W293 blank line contains whitespace
-app/main_stage3.py:821:1: W293 blank line contains whitespace
-app/main_stage3.py:828:1: E302 expected 2 blank lines, found 1
-app/main_stage3.py:843:1: E302 expected 2 blank lines, found 1
-app/main_stage3.py:852:19: F541 f-string is missing placeholders
-app/main_stage3.py:853:1: W293 blank line contains whitespace
-app/main_stage3.py:862:1: W293 blank line contains whitespace
-app/main_stage3.py:865:1: W293 blank line contains whitespace
-app/main_stage3.py:868:1: E302 expected 2 blank lines, found 1
-app/main_stage3.py:872:1: W293 blank line contains whitespace
-app/main_stage3.py:875:1: W293 blank line contains whitespace
-app/main_stage3.py:878:1: E302 expected 2 blank lines, found 1
-app/main_stage3.py:882:1: W293 blank line contains whitespace
-app/main_stage3.py:887:1: W293 blank line contains whitespace
-app/main_stage3.py:890:1: E305 expected 2 blank lines after class or function definition, found 1
-app/main_stage3.py:892:48: W292 no newline at end of file
-app/main_stage4.py:6:1: F401 'fastapi.Header' imported but unused
-app/main_stage4.py:6:1: F401 'fastapi.WebSocket' imported but unused
-app/main_stage4.py:6:1: F401 'fastapi.WebSocketDisconnect' imported but unused
-app/main_stage4.py:6:1: F401 'fastapi.File' imported but unused
-app/main_stage4.py:6:1: F401 'fastapi.UploadFile' imported but unused
-app/main_stage4.py:6:128: E501 line too long (131 > 127 characters)
-app/main_stage4.py:10:1: F401 'sqlalchemy.desc' imported but unused
-app/main_stage4.py:10:1: F401 'sqlalchemy.or_' imported but unused
-app/main_stage4.py:10:1: F401 'sqlalchemy.func' imported but unused
-app/main_stage4.py:13:1: F401 'datetime.date' imported but unused
-app/main_stage4.py:19:1: F401 'decimal.Decimal' imported but unused
-app/main_stage4.py:26:1: F401 '.models_stage1.SELTransaction' imported but unused
-app/main_stage4.py:26:1: F401 '.models_stage1.SELBalance' imported but unused
-app/main_stage4.py:26:1: F401 '.models_stage1.SELCategory' imported but unused
-app/main_stage4.py:27:1: F401 '.models_stage2.Message' imported but unused
-app/main_stage4.py:28:1: F401 '.models_stage3.ShopOrder' imported but unused
-app/main_stage4.py:28:1: F401 '.models_stage3.ShopOrderItem' imported but unused
-app/main_stage4.py:28:1: F401 '.models_stage3.EducationResource' imported but unused
-app/main_stage4.py:28:1: F401 '.models_stage3.ResourceAccess' imported but unused
-app/main_stage4.py:31:1: F403 'from .schemas_stage1 import *' used; unable to detect undefined names
-app/main_stage4.py:33:1: F401 '.websocket_manager.websocket_manager' imported but unused
-app/main_stage4.py:35:1: F401 '.mollie_service.mollie_service' imported but unused
-app/main_stage4.py:37:1: F401 '.analytics_service.EcoleHubAnalytics' imported but unused
-app/main_stage4.py:42:1: E302 expected 2 blank lines, found 1
-app/main_stage4.py:45:1: E302 expected 2 blank lines, found 1
-app/main_stage4.py:51:1: F401 '.secrets_manager.get_external_api_key' imported but unused
-app/main_stage4.py:51:1: F401 '.secrets_manager.secrets_manager' imported but unused
-app/main_stage4.py:51:1: E305 expected 2 blank lines after class or function definition, found 1
-app/main_stage4.py:51:1: E402 module level import not at top of file
-app/main_stage4.py:58:1: F841 local variable 'e' is assigned to but never used
-app/main_stage4.py:88:1: E402 module level import not at top of file
-app/main_stage4.py:121:1: E302 expected 2 blank lines, found 1
-app/main_stage4.py:128:1: E302 expected 2 blank lines, found 1
-app/main_stage4.py:131:1: E302 expected 2 blank lines, found 1
-app/main_stage4.py:134:1: E302 expected 2 blank lines, found 1
-app/main_stage4.py:138:1: E302 expected 2 blank lines, found 1
-app/main_stage4.py:141:1: E302 expected 2 blank lines, found 1
-app/main_stage4.py:144:1: E302 expected 2 blank lines, found 1
-app/main_stage4.py:151:1: E302 expected 2 blank lines, found 1
-app/main_stage4.py:159:1: W293 blank line contains whitespace
-app/main_stage4.py:162:1: W293 blank line contains whitespace
-app/main_stage4.py:164:1: W293 blank line contains whitespace
-app/main_stage4.py:172:1: W293 blank line contains whitespace
-app/main_stage4.py:179:1: E302 expected 2 blank lines, found 1
-app/main_stage4.py:182:1: W293 blank line contains whitespace
-app/main_stage4.py:184:1: W293 blank line contains whitespace
-app/main_stage4.py:187:1: W293 blank line contains whitespace
-app/main_stage4.py:196:1: W293 blank line contains whitespace
-app/main_stage4.py:203:1: E302 expected 2 blank lines, found 1
-app/main_stage4.py:206:63: W291 trailing whitespace
-app/main_stage4.py:210:128: E501 line too long (150 > 127 characters)
-app/main_stage4.py:215:1: E302 expected 2 blank lines, found 1
-app/main_stage4.py:216:59: E251 unexpected spaces around keyword / parameter equals
-app/main_stage4.py:216:61: E251 unexpected spaces around keyword / parameter equals
-app/main_stage4.py:223:1: W293 blank line contains whitespace
-app/main_stage4.py:230:1: W293 blank line contains whitespace
-app/main_stage4.py:237:1: W293 blank line contains whitespace
-app/main_stage4.py:239:29: W291 trailing whitespace
-app/main_stage4.py:252:1: E302 expected 2 blank lines, found 1
-app/main_stage4.py:253:58: E251 unexpected spaces around keyword / parameter equals
-app/main_stage4.py:253:60: E251 unexpected spaces around keyword / parameter equals
-app/main_stage4.py:262:1: E302 expected 2 blank lines, found 1
-app/main_stage4.py:266:15: E251 unexpected spaces around keyword / parameter equals
-app/main_stage4.py:266:17: E251 unexpected spaces around keyword / parameter equals
-app/main_stage4.py:271:1: W293 blank line contains whitespace
-app/main_stage4.py:275:1: E302 expected 2 blank lines, found 1
-app/main_stage4.py:279:15: E251 unexpected spaces around keyword / parameter equals
-app/main_stage4.py:279:17: E251 unexpected spaces around keyword / parameter equals
-app/main_stage4.py:284:1: W293 blank line contains whitespace
-app/main_stage4.py:288:1: E302 expected 2 blank lines, found 1
-app/main_stage4.py:292:15: E251 unexpected spaces around keyword / parameter equals
-app/main_stage4.py:292:17: E251 unexpected spaces around keyword / parameter equals
-app/main_stage4.py:297:1: W293 blank line contains whitespace
-app/main_stage4.py:301:1: E302 expected 2 blank lines, found 1
-app/main_stage4.py:306:15: E251 unexpected spaces around keyword / parameter equals
-app/main_stage4.py:306:17: E251 unexpected spaces around keyword / parameter equals
-app/main_stage4.py:312:1: W293 blank line contains whitespace
-app/main_stage4.py:317:39: W291 trailing whitespace
-app/main_stage4.py:320:1: E302 expected 2 blank lines, found 1
-app/main_stage4.py:330:1: E302 expected 2 blank lines, found 1
-app/main_stage4.py:347:1: E302 expected 2 blank lines, found 1
-app/main_stage4.py:347:46: F405 'Token' may be undefined, or defined from star imports: .schemas_stage1
-app/main_stage4.py:349:11: F405 'UserCreate' may be undefined, or defined from star imports: .schemas_stage1
-app/main_stage4.py:349:22: W291 trailing whitespace
-app/main_stage4.py:350:35: W291 trailing whitespace
-app/main_stage4.py:352:15: E251 unexpected spaces around keyword / parameter equals
-app/main_stage4.py:352:17: E251 unexpected spaces around keyword / parameter equals
-app/main_stage4.py:357:1: W293 blank line contains whitespace
-app/main_stage4.py:368:1: W293 blank line contains whitespace
-app/main_stage4.py:373:1: W293 blank line contains whitespace
-app/main_stage4.py:379:1: W293 blank line contains whitespace
-app/main_stage4.py:381:1: W293 blank line contains whitespace
-app/main_stage4.py:387:1: W293 blank line contains whitespace
-app/main_stage4.py:389:12: F405 'Token' may be undefined, or defined from star imports: .schemas_stage1
-app/main_stage4.py:391:1: E302 expected 2 blank lines, found 1
-app/main_stage4.py:391:43: F405 'Token' may be undefined, or defined from star imports: .schemas_stage1
-app/main_stage4.py:396:15: E251 unexpected spaces around keyword / parameter equals
-app/main_stage4.py:396:17: E251 unexpected spaces around keyword / parameter equals
-app/main_stage4.py:409:12: F405 'Token' may be undefined, or defined from star imports: .schemas_stage1
-app/main_stage4.py:417:39: F405 'UserResponse' may be undefined, or defined from star imports: .schemas_stage1
-app/main_stage4.py:421:1: E302 expected 2 blank lines, found 1
-app/main_stage4.py:421:50: F405 'ChildResponse' may be undefined, or defined from star imports: .schemas_stage1
-app/main_stage4.py:426:1: E302 expected 2 blank lines, found 1
-app/main_stage4.py:426:46: F405 'ChildResponse' may be undefined, or defined from star imports: .schemas_stage1
-app/main_stage4.py:428:12: F405 'ChildCreate' may be undefined, or defined from star imports: .schemas_stage1
-app/main_stage4.py:444:1: E302 expected 2 blank lines, found 1
-app/main_stage4.py:444:56: F405 'SELCategoryResponse' may be undefined, or defined from star imports: .schemas_stage1
-app/main_stage4.py:449:48: F405 'SELBalanceResponse' may be undefined, or defined from star imports: .schemas_stage1
-app/main_stage4.py:453:1: E302 expected 2 blank lines, found 1
-app/main_stage4.py:453:54: F405 'SELServiceWithOwner' may be undefined, or defined from star imports: .schemas_stage1
-app/main_stage4.py:463:1: E302 expected 2 blank lines, found 1
-app/main_stage4.py:463:59: F405 'SELServiceResponse' may be undefined, or defined from star imports: .schemas_stage1
-app/main_stage4.py:465:52: W291 trailing whitespace
-app/main_stage4.py:471:1: E302 expected 2 blank lines, found 1
-app/main_stage4.py:471:50: F405 'SELServiceResponse' may be undefined, or defined from star imports: .schemas_stage1
-app/main_stage4.py:472:33: F405 'SELServiceCreate' may be undefined, or defined from star imports: .schemas_stage1
-app/main_stage4.py:472:128: E501 line too long (156 > 127 characters)
-app/main_stage4.py:476:1: E302 expected 2 blank lines, found 1
-app/main_stage4.py:484:1: W293 blank line contains whitespace
-app/main_stage4.py:488:1: W293 blank line contains whitespace
-app/main_stage4.py:495:1: W293 blank line contains whitespace
-app/main_stage4.py:504:1: W293 blank line contains whitespace
-app/main_stage4.py:507:1: E302 expected 2 blank lines, found 1
-app/main_stage4.py:516:1: W293 blank line contains whitespace
-app/main_stage4.py:525:1: W293 blank line contains whitespace
-app/main_stage4.py:529:1: W293 blank line contains whitespace
-app/main_stage4.py:538:1: E302 expected 2 blank lines, found 1
-app/main_stage4.py:539:128: E501 line too long (130 > 127 characters)
-app/main_stage4.py:540:52: E712 comparison to True should be 'if cond is True:' or 'if cond:'
-app/main_stage4.py:541:1: W293 blank line contains whitespace
-app/main_stage4.py:544:1: W293 blank line contains whitespace
-app/main_stage4.py:546:1: W293 blank line contains whitespace
-app/main_stage4.py:553:1: W293 blank line contains whitespace
-app/main_stage4.py:558:1: W293 blank line contains whitespace
-app/main_stage4.py:574:1: W293 blank line contains whitespace
-app/main_stage4.py:578:1: E305 expected 2 blank lines after class or function definition, found 1
-app/minio_service.py:11:1: F401 'urllib.parse.urljoin' imported but unused
-app/minio_service.py:15:1: E302 expected 2 blank lines, found 1
-app/minio_service.py:20:1: W293 blank line contains whitespace
-app/minio_service.py:25:1: W293 blank line contains whitespace
-app/minio_service.py:32:1: W293 blank line contains whitespace
-app/minio_service.py:40:1: W293 blank line contains whitespace
-app/minio_service.py:44:1: W293 blank line contains whitespace
-app/minio_service.py:52:1: W293 blank line contains whitespace
-app/minio_service.py:56:1: W293 blank line contains whitespace
-app/minio_service.py:59:1: W293 blank line contains whitespace
-app/minio_service.py:73:1: W293 blank line contains whitespace
-app/minio_service.py:78:1: W293 blank line contains whitespace
-app/minio_service.py:88:1: W293 blank line contains whitespace
-app/minio_service.py:97:1: W293 blank line contains whitespace
-app/minio_service.py:101:1: W293 blank line contains whitespace
-app/minio_service.py:107:1: W293 blank line contains whitespace
-app/minio_service.py:111:128: E501 line too long (173 > 127 characters)
-app/minio_service.py:115:1: W293 blank line contains whitespace
-app/minio_service.py:122:1: W293 blank line contains whitespace
-app/minio_service.py:127:1: W293 blank line contains whitespace
-app/minio_service.py:135:1: W293 blank line contains whitespace
-app/minio_service.py:142:1: W293 blank line contains whitespace
-app/minio_service.py:151:1: W293 blank line contains whitespace
-app/minio_service.py:154:1: W293 blank line contains whitespace
-app/minio_service.py:165:1: W293 blank line contains whitespace
-app/minio_service.py:178:1: W293 blank line contains whitespace
-app/minio_service.py:186:1: W293 blank line contains whitespace
-app/minio_service.py:188:1: W293 blank line contains whitespace
-app/minio_service.py:193:1: W293 blank line contains whitespace
-app/minio_service.py:199:1: W293 blank line contains whitespace
-app/minio_service.py:209:1: W293 blank line contains whitespace
-app/minio_service.py:211:1: W293 blank line contains whitespace
-app/minio_service.py:217:1: W293 blank line contains whitespace
-app/minio_service.py:219:1: W293 blank line contains whitespace
-app/minio_service.py:222:1: W293 blank line contains whitespace
-app/minio_service.py:229:1: W293 blank line contains whitespace
-app/minio_service.py:231:1: W293 blank line contains whitespace
-app/minio_service.py:240:1: W293 blank line contains whitespace
-app/minio_service.py:242:1: W293 blank line contains whitespace
-app/minio_service.py:247:1: E305 expected 2 blank lines after class or function definition, found 1
-app/models/__init__.py:2:1: W391 blank line at end of file
-app/models/user.py:14:1: W391 blank line at end of file
-app/models_stage1.py:10:1: E302 expected 2 blank lines, found 1
-app/models_stage1.py:12:1: W293 blank line contains whitespace
-app/models_stage1.py:26:1: W293 blank line contains whitespace
-app/models_stage1.py:34:1: E302 expected 2 blank lines, found 1
-app/models_stage1.py:36:1: W293 blank line contains whitespace
-app/models_stage1.py:44:1: W293 blank line contains whitespace
-app/models_stage1.py:52:1: W293 blank line contains whitespace
-app/models_stage1.py:56:1: E302 expected 2 blank lines, found 1
-app/models_stage1.py:58:1: W293 blank line contains whitespace
-app/models_stage1.py:65:1: E302 expected 2 blank lines, found 1
-app/models_stage1.py:67:1: W293 blank line contains whitespace
-app/models_stage1.py:77:1: W293 blank line contains whitespace
-app/models_stage1.py:82:1: E302 expected 2 blank lines, found 1
-app/models_stage1.py:84:1: W293 blank line contains whitespace
-app/models_stage1.py:95:1: W293 blank line contains whitespace
-app/models_stage1.py:104:1: W293 blank line contains whitespace
-app/models_stage1.py:110:1: E302 expected 2 blank lines, found 1
-app/models_stage1.py:112:1: W293 blank line contains whitespace
-app/models_stage1.py:118:1: W293 blank line contains whitespace
-app/models_stage1.py:125:1: W293 blank line contains whitespace
-app/models_stage2.py:12:1: F401 '.models_stage1.Child' imported but unused
-app/models_stage2.py:12:1: F401 '.models_stage1.SELService' imported but unused
-app/models_stage2.py:12:1: F401 '.models_stage1.SELTransaction' imported but unused
-app/models_stage2.py:12:1: F401 '.models_stage1.SELBalance' imported but unused
-app/models_stage2.py:12:1: F401 '.models_stage1.SELCategory' imported but unused
-app/models_stage2.py:14:1: E302 expected 2 blank lines, found 1
-app/models_stage2.py:16:1: W293 blank line contains whitespace
-app/models_stage2.py:25:1: W293 blank line contains whitespace
-app/models_stage2.py:37:1: W293 blank line contains whitespace
-app/models_stage2.py:43:1: E302 expected 2 blank lines, found 1
-app/models_stage2.py:45:1: W293 blank line contains whitespace
-app/models_stage2.py:53:1: W293 blank line contains whitespace
-app/models_stage2.py:61:1: W293 blank line contains whitespace
-app/models_stage2.py:66:1: E302 expected 2 blank lines, found 1
-app/models_stage2.py:68:1: W293 blank line contains whitespace
-app/models_stage2.py:74:1: W293 blank line contains whitespace
-app/models_stage2.py:79:1: E302 expected 2 blank lines, found 1
-app/models_stage2.py:81:1: W293 blank line contains whitespace
-app/models_stage2.py:97:1: W293 blank line contains whitespace
-app/models_stage2.py:111:1: W293 blank line contains whitespace
-app/models_stage2.py:116:1: E302 expected 2 blank lines, found 1
-app/models_stage2.py:118:1: W293 blank line contains whitespace
-app/models_stage2.py:124:1: W293 blank line contains whitespace
-app/models_stage2.py:132:1: W293 blank line contains whitespace
-app/models_stage2.py:137:1: E302 expected 2 blank lines, found 1
-app/models_stage2.py:139:1: W293 blank line contains whitespace
-app/models_stage2.py:145:1: W293 blank line contains whitespace
-app/models_stage2.py:150:1: E305 expected 2 blank lines after class or function definition, found 1
-app/models_stage3.py:12:1: F401 '.models_stage2.Child' imported but unused
-app/models_stage3.py:12:1: F401 '.models_stage2.Conversation' imported but unused
-app/models_stage3.py:12:1: F401 '.models_stage2.Message' imported but unused
-app/models_stage3.py:12:1: F401 '.models_stage2.Event' imported but unused
-app/models_stage3.py:13:1: F401 '.models_stage1.SELService' imported but unused
-app/models_stage3.py:13:1: F401 '.models_stage1.SELTransaction' imported but unused
-app/models_stage3.py:13:1: F401 '.models_stage1.SELBalance' imported but unused
-app/models_stage3.py:13:1: F401 '.models_stage1.SELCategory' imported but unused
-app/models_stage3.py:15:1: E302 expected 2 blank lines, found 1
-app/models_stage3.py:17:1: W293 blank line contains whitespace
-app/models_stage3.py:30:1: W293 blank line contains whitespace
-app/models_stage3.py:36:1: E302 expected 2 blank lines, found 1
-app/models_stage3.py:38:1: W293 blank line contains whitespace
-app/models_stage3.py:46:1: W293 blank line contains whitespace
-app/models_stage3.py:55:1: W293 blank line contains whitespace
-app/models_stage3.py:60:1: E302 expected 2 blank lines, found 1
-app/models_stage3.py:62:1: W293 blank line contains whitespace
-app/models_stage3.py:74:1: W293 blank line contains whitespace
-app/models_stage3.py:85:1: W293 blank line contains whitespace
-app/models_stage3.py:90:1: E302 expected 2 blank lines, found 1
-app/models_stage3.py:92:1: W293 blank line contains whitespace
-app/models_stage3.py:102:1: W293 blank line contains whitespace
-app/models_stage3.py:111:1: W293 blank line contains whitespace
-app/models_stage3.py:116:1: E302 expected 2 blank lines, found 1
-app/models_stage3.py:118:1: W293 blank line contains whitespace
-app/models_stage3.py:131:1: W293 blank line contains whitespace
-app/models_stage3.py:143:1: W293 blank line contains whitespace
-app/models_stage3.py:148:1: E302 expected 2 blank lines, found 1
-app/models_stage3.py:150:1: W293 blank line contains whitespace
-app/models_stage3.py:155:1: W293 blank line contains whitespace
-app/models_stage3.py:163:1: W293 blank line contains whitespace
-app/models_stage3.py:169:1: E305 expected 2 blank lines after class or function definition, found 1
-app/models_stage3.py:172:128: E501 line too long (139 > 127 characters)
-app/mollie_service.py:6:1: F401 'os' imported but unused
-app/mollie_service.py:12:1: E302 expected 2 blank lines, found 1
-app/mollie_service.py:17:1: W293 blank line contains whitespace
-app/mollie_service.py:21:1: W293 blank line contains whitespace
-app/mollie_service.py:26:1: W293 blank line contains whitespace
-app/mollie_service.py:29:1: W293 blank line contains whitespace
-app/mollie_service.py:33:1: W293 blank line contains whitespace
-app/mollie_service.py:45:1: W293 blank line contains whitespace
-app/mollie_service.py:63:1: W293 blank line contains whitespace
-app/mollie_service.py:79:1: W293 blank line contains whitespace
-app/mollie_service.py:82:1: W293 blank line contains whitespace
-app/mollie_service.py:84:1: W293 blank line contains whitespace
-app/mollie_service.py:95:1: W293 blank line contains whitespace
-app/mollie_service.py:110:1: W293 blank line contains whitespace
-app/mollie_service.py:115:1: W293 blank line contains whitespace
-app/mollie_service.py:126:1: W293 blank line contains whitespace
-app/mollie_service.py:132:1: W293 blank line contains whitespace
-app/mollie_service.py:140:1: W293 blank line contains whitespace
-app/mollie_service.py:148:1: W293 blank line contains whitespace
-app/mollie_service.py:154:1: W293 blank line contains whitespace
-app/mollie_service.py:159:1: W293 blank line contains whitespace
-app/mollie_service.py:166:1: W293 blank line contains whitespace
-app/mollie_service.py:171:1: W293 blank line contains whitespace
-app/mollie_service.py:183:1: W293 blank line contains whitespace
-app/mollie_service.py:185:1: W293 blank line contains whitespace
-app/mollie_service.py:193:1: W293 blank line contains whitespace
-app/mollie_service.py:201:1: W293 blank line contains whitespace
-app/mollie_service.py:211:1: E305 expected 2 blank lines after class or function definition, found 1
-app/mollie_service.py:211:40: W292 no newline at end of file
-app/schemas/__init__.py:2:1: W391 blank line at end of file
-app/schemas/user.py:9:1: W391 blank line at end of file
-app/schemas_stage1.py:8:1: E302 expected 2 blank lines, found 1
-app/schemas_stage1.py:14:1: E302 expected 2 blank lines, found 1
-app/schemas_stage1.py:26:1: E302 expected 2 blank lines, found 1
-app/schemas_stage1.py:31:1: E302 expected 2 blank lines, found 1
-app/schemas_stage1.py:34:1: E302 expected 2 blank lines, found 1
-app/schemas_stage1.py:38:1: E302 expected 2 blank lines, found 1
-app/schemas_stage1.py:43:1: W293 blank line contains whitespace
-app/schemas_stage1.py:48:1: E302 expected 2 blank lines, found 1
-app/schemas_stage1.py:53:1: E302 expected 2 blank lines, found 1
-app/schemas_stage1.py:56:1: E302 expected 2 blank lines, found 1
-app/schemas_stage1.py:61:1: E302 expected 2 blank lines, found 1
-app/schemas_stage1.py:65:1: W293 blank line contains whitespace
-app/schemas_stage1.py:70:1: E302 expected 2 blank lines, found 1
-app/schemas_stage1.py:75:1: E302 expected 2 blank lines, found 1
-app/schemas_stage1.py:78:1: W293 blank line contains whitespace
-app/schemas_stage1.py:83:1: E302 expected 2 blank lines, found 1
-app/schemas_stage1.py:90:1: E302 expected 2 blank lines, found 1
-app/schemas_stage1.py:93:1: E302 expected 2 blank lines, found 1
-app/schemas_stage1.py:100:1: E302 expected 2 blank lines, found 1
-app/schemas_stage1.py:106:1: W293 blank line contains whitespace
-app/schemas_stage1.py:111:1: E302 expected 2 blank lines, found 1
-app/schemas_stage1.py:117:1: E302 expected 2 blank lines, found 1
-app/schemas_stage1.py:126:1: E302 expected 2 blank lines, found 1
-app/schemas_stage1.py:131:1: E302 expected 2 blank lines, found 1
-app/schemas_stage1.py:138:1: W293 blank line contains whitespace
-app/schemas_stage1.py:143:1: E302 expected 2 blank lines, found 1
-app/schemas_stage1.py:149:1: W293 blank line contains whitespace
-app/schemas_stage1.py:158:1: W293 blank line contains whitespace
-app/schemas_stage1.py:163:1: E302 expected 2 blank lines, found 1
-app/schemas_stage1.py:167:1: W293 blank line contains whitespace
-app/schemas_stage1.py:172:1: E302 expected 2 blank lines, found 1
-app/schemas_stage1.py:174:1: W293 blank line contains whitespace
-app/schemas_stage1.py:179:1: E302 expected 2 blank lines, found 1
-app/schemas_stage1.py:187:1: E302 expected 2 blank lines, found 1
-app/schemas_stage1.py:191:1: E302 expected 2 blank lines, found 1
-app/schemas_stage1.py:192:32: W292 no newline at end of file
-app/secrets_manager.py:17:1: E302 expected 2 blank lines, found 1
-app/secrets_manager.py:19:1: W293 blank line contains whitespace
-app/secrets_manager.py:23:1: W293 blank line contains whitespace
-app/secrets_manager.py:24:5: C901 'SecretsManager.read_secret' is too complex (11)
-app/secrets_manager.py:27:1: W293 blank line contains whitespace
-app/secrets_manager.py:31:1: W293 blank line contains whitespace
-app/secrets_manager.py:34:1: W293 blank line contains whitespace
-app/secrets_manager.py:41:1: W293 blank line contains whitespace
-app/secrets_manager.py:43:1: W293 blank line contains whitespace
-app/secrets_manager.py:53:1: W293 blank line contains whitespace
-app/secrets_manager.py:60:1: W293 blank line contains whitespace
-app/secrets_manager.py:66:1: W293 blank line contains whitespace
-app/secrets_manager.py:73:1: W293 blank line contains whitespace
-app/secrets_manager.py:77:1: W293 blank line contains whitespace
-app/secrets_manager.py:79:1: W293 blank line contains whitespace
-app/secrets_manager.py:86:1: W293 blank line contains whitespace
-app/secrets_manager.py:90:1: W293 blank line contains whitespace
-app/secrets_manager.py:93:1: W293 blank line contains whitespace
-app/secrets_manager.py:99:1: W293 blank line contains whitespace
-app/secrets_manager.py:105:1: W293 blank line contains whitespace
-app/secrets_manager.py:108:1: W293 blank line contains whitespace
-app/secrets_manager.py:112:1: W293 blank line contains whitespace
-app/secrets_manager.py:114:1: W293 blank line contains whitespace
-app/secrets_manager.py:118:1: W293 blank line contains whitespace
-app/secrets_manager.py:121:1: W293 blank line contains whitespace
-app/secrets_manager.py:124:1: W293 blank line contains whitespace
-app/secrets_manager.py:132:1: W293 blank line contains whitespace
-app/secrets_manager.py:135:1: W293 blank line contains whitespace
-app/secrets_manager.py:137:1: W293 blank line contains whitespace
-app/secrets_manager.py:141:1: W293 blank line contains whitespace
-app/secrets_manager.py:145:1: W293 blank line contains whitespace
-app/secrets_manager.py:155:1: W293 blank line contains whitespace
-app/secrets_manager.py:157:1: W293 blank line contains whitespace
-app/secrets_manager.py:163:1: W293 blank line contains whitespace
-app/secrets_manager.py:165:1: W293 blank line contains whitespace
-app/secrets_manager.py:168:1: W293 blank line contains whitespace
-app/secrets_manager.py:179:1: E302 expected 2 blank lines, found 1
-app/secrets_manager.py:183:1: E302 expected 2 blank lines, found 1
-app/secrets_manager.py:190:1: E302 expected 2 blank lines, found 1
-app/secrets_manager.py:200:1: E302 expected 2 blank lines, found 1
-app/secrets_manager.py:209:1: E302 expected 2 blank lines, found 1
-app/secrets_manager.py:212:1: W293 blank line contains whitespace
-app/secrets_manager.py:220:1: E305 expected 2 blank lines after class or function definition, found 1
-app/secrets_manager.py:222:1: W293 blank line contains whitespace
-app/secrets_manager.py:225:1: W293 blank line contains whitespace
-app/secrets_manager.py:229:1: W293 blank line contains whitespace
-app/secrets_manager.py:231:39: W292 no newline at end of file
-app/security.py:37:1: W391 blank line at end of file
-app/sel_service.py:3:1: F401 'sqlalchemy.ext.asyncio.AsyncSession' imported but unused
-app/sel_service.py:5:1: F401 'sqlalchemy.select' imported but unused
-app/sel_service.py:7:1: F401 '.schemas_stage1.TransactionStatus' imported but unused
-app/sel_service.py:10:1: E302 expected 2 blank lines, found 1
-app/sel_service.py:15:1: W293 blank line contains whitespace
-app/sel_service.py:18:1: W293 blank line contains whitespace
-app/sel_service.py:29:1: W293 blank line contains whitespace
-app/sel_service.py:37:1: W293 blank line contains whitespace
-app/sel_service.py:41:1: W293 blank line contains whitespace
-app/sel_service.py:49:1: W293 blank line contains whitespace
-app/sel_service.py:56:1: W293 blank line contains whitespace
-app/sel_service.py:65:1: W293 blank line contains whitespace
-app/sel_service.py:69:1: W293 blank line contains whitespace
-app/sel_service.py:75:1: W293 blank line contains whitespace
-app/sel_service.py:88:1: W293 blank line contains whitespace
-app/sel_service.py:96:1: W293 blank line contains whitespace
-app/sel_service.py:101:1: W293 blank line contains whitespace
-app/sel_service.py:102:128: E501 line too long (132 > 127 characters)
-app/sel_service.py:106:38: E712 comparison to True should be 'if cond is True:' or 'if cond:'
-app/sel_service.py:110:1: W293 blank line contains whitespace
-app/sel_service.py:113:1: W293 blank line contains whitespace
-app/sel_service.py:115:1: W293 blank line contains whitespace
-app/sel_service.py:124:1: W293 blank line contains whitespace
-app/sel_service.py:127:1: W293 blank line contains whitespace
-app/sel_service.py:130:1: W293 blank line contains whitespace
-app/sel_service.py:137:42: E712 comparison to True should be 'if cond is True:' or 'if cond:'
-app/sel_service.py:142:1: W293 blank line contains whitespace
-app/sel_service.py:145:26: W291 trailing whitespace
-app/sel_service.py:146:41: W291 trailing whitespace
-app/sel_service.py:149:1: W293 blank line contains whitespace
-app/sel_service.py:152:1: W293 blank line contains whitespace
-app/sel_service.py:162:1: W293 blank line contains whitespace
-app/sel_service.py:167:1: W293 blank line contains whitespace
-app/sel_service.py:176:1: W293 blank line contains whitespace
-app/sel_service.py:180:1: W293 blank line contains whitespace
-app/sel_service.py:183:1: W293 blank line contains whitespace
-app/sel_service.py:190:1: W293 blank line contains whitespace
-app/sel_service.py:193:1: W293 blank line contains whitespace
-app/sel_service.py:197:1: W293 blank line contains whitespace
-app/sel_service.py:200:1: W293 blank line contains whitespace
-app/sel_service.py:203:1: W293 blank line contains whitespace
-app/sel_service.py:207:1: W293 blank line contains whitespace
-app/sel_service.py:211:1: W293 blank line contains whitespace
-app/sel_service.py:220:1: W293 blank line contains whitespace
-app/sel_service.py:224:1: W293 blank line contains whitespace
-app/sel_service.py:227:1: W293 blank line contains whitespace
-app/sel_service.py:232:1: W293 blank line contains whitespace
-app/sel_service.py:237:1: W293 blank line contains whitespace
-app/sel_service.py:240:70: E712 comparison to True should be 'if cond is True:' or 'if cond:'
-app/sel_service.py:242:1: W293 blank line contains whitespace
-app/sel_service.py:253:1: W293 blank line contains whitespace
-app/sel_service.py:261:1: W293 blank line contains whitespace
-app/sel_service.py:264:1: W293 blank line contains whitespace
-app/sel_service.py:272:1: W293 blank line contains whitespace
-app/sel_service.py:275:75: W292 no newline at end of file
-app/shop_service.py:11:1: F401 '.models_stage1.User' imported but unused
-app/shop_service.py:13:1: F401 '.minio_service.minio_service' imported but unused
-app/shop_service.py:15:1: F401 'logging' imported but unused
-app/shop_service.py:18:1: E302 expected 2 blank lines, found 1
-app/shop_service.py:23:1: W293 blank line contains whitespace
-app/shop_service.py:26:1: W293 blank line contains whitespace
-app/shop_service.py:30:1: W293 blank line contains whitespace
-app/shop_service.py:32:56: E712 comparison to True should be 'if cond is True:' or 'if cond:'
-app/shop_service.py:33:1: W293 blank line contains whitespace
-app/shop_service.py:36:1: W293 blank line contains whitespace
-app/shop_service.py:38:1: W293 blank line contains whitespace
-app/shop_service.py:44:1: W293 blank line contains whitespace
-app/shop_service.py:52:1: W293 blank line contains whitespace
-app/shop_service.py:60:1: W293 blank line contains whitespace
-app/shop_service.py:64:1: W293 blank line contains whitespace
-app/shop_service.py:67:1: W293 blank line contains whitespace
-app/shop_service.py:83:1: W293 blank line contains whitespace
-app/shop_service.py:96:1: W293 blank line contains whitespace
-app/shop_service.py:104:1: W293 blank line contains whitespace
-app/shop_service.py:112:1: W293 blank line contains whitespace
-app/shop_service.py:127:1: W293 blank line contains whitespace
-app/shop_service.py:129:1: W293 blank line contains whitespace
-app/shop_service.py:137:1: W293 blank line contains whitespace
-app/shop_service.py:139:1: W293 blank line contains whitespace
-app/shop_service.py:149:1: W293 blank line contains whitespace
-app/shop_service.py:152:34: F541 f-string is missing placeholders
-app/shop_service.py:155:1: W293 blank line contains whitespace
-app/shop_service.py:157:1: W293 blank line contains whitespace
-app/shop_service.py:166:1: W293 blank line contains whitespace
-app/shop_service.py:169:1: W293 blank line contains whitespace
-app/shop_service.py:172:1: W293 blank line contains whitespace
-app/shop_service.py:177:1: W293 blank line contains whitespace
-app/shop_service.py:186:1: W293 blank line contains whitespace
-app/shop_service.py:194:1: W293 blank line contains whitespace
-app/shop_service.py:197:1: W293 blank line contains whitespace
-app/shop_service.py:199:1: W293 blank line contains whitespace
-app/shop_service.py:202:33: W291 trailing whitespace
-app/shop_service.py:205:1: W293 blank line contains whitespace
-app/shop_service.py:210:1: W293 blank line contains whitespace
-app/shop_service.py:219:1: W293 blank line contains whitespace
-app/shop_service.py:223:1: W293 blank line contains whitespace
-app/shop_service.py:227:1: W293 blank line contains whitespace
-app/shop_service.py:237:1: W293 blank line contains whitespace
-app/shop_service.py:240:1: W293 blank line contains whitespace
-app/shop_service.py:242:1: W293 blank line contains whitespace
-app/shop_service.py:245:1: W293 blank line contains whitespace
-app/shop_service.py:255:1: W293 blank line contains whitespace
-app/shop_service.py:261:1: W293 blank line contains whitespace
-app/shop_service.py:275:1: W293 blank line contains whitespace
-app/shop_service.py:277:1: W293 blank line contains whitespace
-app/shop_service.py:284:1: E302 expected 2 blank lines, found 1
-app/shop_service.py:285:40: W292 no newline at end of file
-app/websocket_manager.py:9:1: F401 'asyncio' imported but unused
-app/websocket_manager.py:10:1: F401 'datetime.datetime' imported but unused
-app/websocket_manager.py:14:1: F401 '.models_stage2.Conversation' imported but unused
-app/websocket_manager.py:16:1: E302 expected 2 blank lines, found 1
-app/websocket_manager.py:21:1: W293 blank line contains whitespace
-app/websocket_manager.py:25:1: W293 blank line contains whitespace
-app/websocket_manager.py:28:1: W293 blank line contains whitespace
-app/websocket_manager.py:31:1: W293 blank line contains whitespace
-app/websocket_manager.py:35:1: W293 blank line contains whitespace
-app/websocket_manager.py:39:1: W293 blank line contains whitespace
-app/websocket_manager.py:42:1: W293 blank line contains whitespace
-app/websocket_manager.py:45:1: W293 blank line contains whitespace
-app/websocket_manager.py:47:1: W293 blank line contains whitespace
-app/websocket_manager.py:51:1: W293 blank line contains whitespace
-app/websocket_manager.py:54:1: W293 blank line contains whitespace
-app/websocket_manager.py:57:1: W293 blank line contains whitespace
-app/websocket_manager.py:60:1: W293 blank line contains whitespace
-app/websocket_manager.py:62:1: W293 blank line contains whitespace
-app/websocket_manager.py:66:1: W293 blank line contains whitespace
-app/websocket_manager.py:71:13: E722 do not use bare 'except'
-app/websocket_manager.py:76:1: W293 blank line contains whitespace
-app/websocket_manager.py:81:1: W293 blank line contains whitespace
-app/websocket_manager.py:83:1: W293 blank line contains whitespace
-app/websocket_manager.py:86:1: W293 blank line contains whitespace
-app/websocket_manager.py:92:21: E722 do not use bare 'except'
-app/websocket_manager.py:94:1: W293 blank line contains whitespace
-app/websocket_manager.py:101:1: W293 blank line contains whitespace
-app/websocket_manager.py:109:1: W293 blank line contains whitespace
-app/websocket_manager.py:111:1: W293 blank line contains whitespace
-app/websocket_manager.py:122:1: W293 blank line contains whitespace
-app/websocket_manager.py:128:1: W293 blank line contains whitespace
-app/websocket_manager.py:133:1: W293 blank line contains whitespace
-app/websocket_manager.py:136:1: W293 blank line contains whitespace
-app/websocket_manager.py:142:1: W293 blank line contains whitespace
-app/websocket_manager.py:145:1: W293 blank line contains whitespace
-app/websocket_manager.py:156:1: W293 blank line contains whitespace
-app/websocket_manager.py:159:1: W293 blank line contains whitespace
-app/websocket_manager.py:172:1: W293 blank line contains whitespace
-app/websocket_manager.py:174:1: W293 blank line contains whitespace
-app/websocket_manager.py:180:1: W293 blank line contains whitespace
-app/websocket_manager.py:184:1: W293 blank line contains whitespace
-app/websocket_manager.py:186:1: W293 blank line contains whitespace
-app/websocket_manager.py:192:1: W293 blank line contains whitespace
-app/websocket_manager.py:196:1: W293 blank line contains whitespace
-app/websocket_manager.py:201:1: W293 blank line contains whitespace
-app/websocket_manager.py:204:1: W293 blank line contains whitespace
-app/websocket_manager.py:209:1: W293 blank line contains whitespace
-app/websocket_manager.py:212:1: W293 blank line contains whitespace
-app/websocket_manager.py:220:1: W293 blank line contains whitespace
-app/websocket_manager.py:222:1: W293 blank line contains whitespace
-app/websocket_manager.py:226:1: W293 blank line contains whitespace
-app/websocket_manager.py:231:1: W293 blank line contains whitespace
-app/websocket_manager.py:235:1: W293 blank line contains whitespace
-app/websocket_manager.py:239:1: W293 blank line contains whitespace
-app/websocket_manager.py:250:1: W293 blank line contains whitespace
-app/websocket_manager.py:252:1: W293 blank line contains whitespace
-app/websocket_manager.py:256:1: W293 blank line contains whitespace
-app/websocket_manager.py:262:1: E305 expected 2 blank lines after class or function definition, found 1
-app/workers/__init__.py:1:27: W292 no newline at end of file
-app/workers/celery_app.py:44:23: W292 no newline at end of file
-app/workers/notification_tasks.py:7:1: F401 'typing.Dict' imported but unused
-app/workers/notification_tasks.py:7:1: F401 'typing.Any' imported but unused
-app/workers/notification_tasks.py:12:1: E302 expected 2 blank lines, found 1
-app/workers/notification_tasks.py:26:1: W293 blank line contains whitespace
-app/workers/notification_tasks.py:28:33: W291 trailing whitespace
-app/workers/notification_tasks.py:32:1: W293 blank line contains whitespace
-app/workers/notification_tasks.py:37:1: E302 expected 2 blank lines, found 1
-app/workers/notification_tasks.py:51:1: W293 blank line contains whitespace
-app/workers/notification_tasks.py:58:1: W293 blank line contains whitespace
-app/workers/notification_tasks.py:63:1: E302 expected 2 blank lines, found 1
-app/workers/notification_tasks.py:74:1: W293 blank line contains whitespace
-app/workers/notification_tasks.py:80:1: W293 blank line contains whitespace
-app/workers/notification_tasks.py:84:1: W293 blank line contains whitespace
-app/workers/notification_tasks.py:88:1: W293 blank line contains whitespace
-app/workers/notification_tasks.py:91:1: E302 expected 2 blank lines, found 1
-app/workers/notification_tasks.py:103:1: W293 blank line contains whitespace
-app/workers/notification_tasks.py:105:1: W293 blank line contains whitespace
-app/workers/notification_tasks.py:108:63: W292 no newline at end of file
-app/workers/shop_tasks.py:7:1: F401 'celery.Celery' imported but unused
-app/workers/shop_tasks.py:12:1: E302 expected 2 blank lines, found 1
-app/workers/shop_tasks.py:20:1: W293 blank line contains whitespace
-app/workers/shop_tasks.py:24:25: F541 f-string is missing placeholders
-app/workers/shop_tasks.py:28:25: F541 f-string is missing placeholders
-app/workers/shop_tasks.py:30:1: W293 blank line contains whitespace
-app/workers/shop_tasks.py:35:1: W293 blank line contains whitespace
-app/workers/shop_tasks.py:49:1: W293 blank line contains whitespace
-app/workers/shop_tasks.py:58:1: E302 expected 2 blank lines, found 1
-app/workers/shop_tasks.py:66:1: W293 blank line contains whitespace
-app/workers/shop_tasks.py:70:1: W293 blank line contains whitespace
-app/workers/shop_tasks.py:77:1: W293 blank line contains whitespace
-app/workers/shop_tasks.py:85:1: E302 expected 2 blank lines, found 1
-app/workers/shop_tasks.py:93:1: W293 blank line contains whitespace
-app/workers/shop_tasks.py:97:1: W293 blank line contains whitespace
-app/workers/shop_tasks.py:100:83: W291 trailing whitespace
-app/workers/shop_tasks.py:104:1: W293 blank line contains whitespace
-app/workers/shop_tasks.py:106:1: W293 blank line contains whitespace
-app/workers/shop_tasks.py:113:1: W293 blank line contains whitespace
-app/workers/shop_tasks.py:121:1: E302 expected 2 blank lines, found 1
-app/workers/shop_tasks.py:129:1: W293 blank line contains whitespace
-app/workers/shop_tasks.py:133:1: W293 blank line contains whitespace
-app/workers/shop_tasks.py:140:1: W293 blank line contains whitespace
-app/workers/shop_tasks.py:146:10: W292 no newline at end of file
+app/secrets_manager.py:25:5: C901 'SecretsManager.read_secret' is too complex (11)
 1     C901 'SecretsManager.read_secret' is too complex (11)
-20    E251 unexpected spaces around keyword / parameter equals
-225   E302 expected 2 blank lines, found 1
-15    E305 expected 2 blank lines after class or function definition, found 1
-2     E402 module level import not at top of file
-11    E501 line too long (129 > 127 characters)
-12    E712 comparison to True should be 'if cond is True:' or 'if cond:'
-2     E722 do not use bare 'except'
-81    F401 'typing.List' imported but unused
-2     F403 'from .schemas_stage1 import *' used; unable to detect undefined names
-36    F405 'Token' may be undefined, or defined from star imports: .schemas_stage1
-4     F541 f-string is missing placeholders
-1     F841 local variable 'e' is assigned to but never used
-38    W291 trailing whitespace
-14    W292 no newline at end of file
-570   W293 blank line contains whitespace
-6     W391 blank line at end of file
-1040
+1
+📦 Installing backend dependencies (runtime + test)
+🔎 Checking requirements alignment
+✅ Requirements sync OK (fastapi, python-jose, python-multipart, pydantic)
 🧪 Pytest: unit
 ============================= test session starts ==============================
 platform linux -- Python 3.12.3, pytest-7.4.3, pluggy-1.6.0 -- /home/user/schoolhub/backend/venv/bin/python
@@ -1076,8 +32,8 @@ collecting ... collected 40 items / 25 deselected / 15 selected
 
 tests/unit/test_belgian_context.py::TestBelgianSchoolSystem::test_belgian_class_levels PASSED [  6%]
 tests/unit/test_belgian_context.py::TestBelgianSchoolSystem::test_ceb_level_recognition PASSED [ 13%]
-tests/unit/test_belgian_context.py::TestChildManagement::test_create_child_with_belgian_class FAILED [ 20%]
-tests/unit/test_belgian_context.py::TestChildManagement::test_invalid_class_level_rejected FAILED [ 26%]
+tests/unit/test_belgian_context.py::TestChildManagement::test_create_child_with_belgian_class PASSED [ 20%]
+tests/unit/test_belgian_context.py::TestChildManagement::test_invalid_class_level_rejected PASSED [ 26%]
 tests/unit/test_belgian_context.py::TestChildManagement::test_get_children_by_parent PASSED [ 33%]
 tests/unit/test_belgian_context.py::TestChildManagement::test_child_class_progression PASSED [ 40%]
 tests/unit/test_belgian_context.py::TestBelgianLocalization::test_default_language_french_belgian PASSED [ 46%]
@@ -1090,95 +46,800 @@ tests/unit/test_belgian_context.py::TestBelgianSELContext::test_sel_service_cate
 tests/unit/test_belgian_context.py::TestBelgianSELContext::test_sel_units_system PASSED [ 93%]
 tests/unit/test_belgian_context.py::TestBelgianSELContext::test_belgian_working_hours_context PASSED [100%]
 
-=================================== FAILURES ===================================
-___________ TestChildManagement.test_create_child_with_belgian_class ___________
-tests/unit/test_belgian_context.py:52: in test_create_child_with_belgian_class
-    assert response.status_code == 200
-E   assert 401 == 200
-E    +  where 401 = <Response [401 Unauthorized]>.status_code
-____________ TestChildManagement.test_invalid_class_level_rejected _____________
-tests/unit/test_belgian_context.py:71: in test_invalid_class_level_rejected
-    assert response.status_code == 422  # Validation error
-E   assert 401 == 422
-E    +  where 401 = <Response [401 Unauthorized]>.status_code
 =============================== warnings summary ===============================
 venv/lib/python3.12/site-packages/passlib/utils/__init__.py:854
   /home/user/schoolhub/backend/venv/lib/python3.12/site-packages/passlib/utils/__init__.py:854: DeprecationWarning: 'crypt' is deprecated and slated for removal in Python 3.13
     from crypt import crypt as _crypt
 
-app/models_stage1.py:8
-  /home/user/schoolhub/backend/app/models_stage1.py:8: MovedIn20Warning: The ``declarative_base()`` function is now available as sqlalchemy.orm.declarative_base(). (deprecated since: 2.0) (Background on SQLAlchemy 2.0 at: https://sqlalche.me/e/b8d9)
+app/models_stage1.py:19
+  /home/user/schoolhub/backend/app/models_stage1.py:19: MovedIn20Warning: The ``declarative_base()`` function is now available as sqlalchemy.orm.declarative_base(). (deprecated since: 2.0) (Background on SQLAlchemy 2.0 at: https://sqlalche.me/e/b8d9)
     Base = declarative_base()
 
-venv/lib/python3.12/site-packages/pydantic/_internal/_config.py:268
-venv/lib/python3.12/site-packages/pydantic/_internal/_config.py:268
-venv/lib/python3.12/site-packages/pydantic/_internal/_config.py:268
-venv/lib/python3.12/site-packages/pydantic/_internal/_config.py:268
-venv/lib/python3.12/site-packages/pydantic/_internal/_config.py:268
-venv/lib/python3.12/site-packages/pydantic/_internal/_config.py:268
-venv/lib/python3.12/site-packages/pydantic/_internal/_config.py:268
-venv/lib/python3.12/site-packages/pydantic/_internal/_config.py:268
-  /home/user/schoolhub/backend/venv/lib/python3.12/site-packages/pydantic/_internal/_config.py:268: PydanticDeprecatedSince20: Support for class-based `config` is deprecated, use ConfigDict instead. Deprecated in Pydantic V2.0 to be removed in V3.0. See Pydantic V2 Migration Guide at https://errors.pydantic.dev/2.5/migration/
+venv/lib/python3.12/site-packages/pydantic/_internal/_config.py:291
+venv/lib/python3.12/site-packages/pydantic/_internal/_config.py:291
+venv/lib/python3.12/site-packages/pydantic/_internal/_config.py:291
+venv/lib/python3.12/site-packages/pydantic/_internal/_config.py:291
+venv/lib/python3.12/site-packages/pydantic/_internal/_config.py:291
+venv/lib/python3.12/site-packages/pydantic/_internal/_config.py:291
+venv/lib/python3.12/site-packages/pydantic/_internal/_config.py:291
+venv/lib/python3.12/site-packages/pydantic/_internal/_config.py:291
+  /home/user/schoolhub/backend/venv/lib/python3.12/site-packages/pydantic/_internal/_config.py:291: PydanticDeprecatedSince20: Support for class-based `config` is deprecated, use ConfigDict instead. Deprecated in Pydantic V2.0 to be removed in V3.0. See Pydantic V2 Migration Guide at https://errors.pydantic.dev/2.9/migration/
     warnings.warn(DEPRECATION_MESSAGE, DeprecationWarning)
 
-app/schemas_stage1.py:118
-  /home/user/schoolhub/backend/app/schemas_stage1.py:118: PydanticDeprecatedSince20: Pydantic V1 style `@validator` validators are deprecated. You should migrate to Pydantic V2 style `@field_validator` validators, see the migration guide for more details. Deprecated in Pydantic V2.0 to be removed in V3.0. See Pydantic V2 Migration Guide at https://errors.pydantic.dev/2.5/migration/
-    @validator('units')
+app/schemas_stage1.py:150
+  /home/user/schoolhub/backend/app/schemas_stage1.py:150: PydanticDeprecatedSince20: Pydantic V1 style `@validator` validators are deprecated. You should migrate to Pydantic V2 style `@field_validator` validators, see the migration guide for more details. Deprecated in Pydantic V2.0 to be removed in V3.0. See Pydantic V2 Migration Guide at https://errors.pydantic.dev/2.9/migration/
+    @validator("units")
 
-app/schemas_stage1.py:151
-  /home/user/schoolhub/backend/app/schemas_stage1.py:151: PydanticDeprecatedSince20: Pydantic V1 style `@validator` validators are deprecated. You should migrate to Pydantic V2 style `@field_validator` validators, see the migration guide for more details. Deprecated in Pydantic V2.0 to be removed in V3.0. See Pydantic V2 Migration Guide at https://errors.pydantic.dev/2.5/migration/
-    @validator('balance')
+app/schemas_stage1.py:186
+  /home/user/schoolhub/backend/app/schemas_stage1.py:186: PydanticDeprecatedSince20: Pydantic V1 style `@validator` validators are deprecated. You should migrate to Pydantic V2 style `@field_validator` validators, see the migration guide for more details. Deprecated in Pydantic V2.0 to be removed in V3.0. See Pydantic V2 Migration Guide at https://errors.pydantic.dev/2.9/migration/
+    @validator("balance")
 
-tests/unit/test_auth.py:62
-  /home/user/schoolhub/backend/tests/unit/test_auth.py:62: PytestUnknownMarkWarning: Unknown pytest.mark.auth - is this a typo?  You can register custom marks to avoid this warning - for details, see https://docs.pytest.org/en/stable/how-to/mark.html
+tests/unit/test_auth.py:73
+  /home/user/schoolhub/backend/tests/unit/test_auth.py:73: PytestUnknownMarkWarning: Unknown pytest.mark.auth - is this a typo?  You can register custom marks to avoid this warning - for details, see https://docs.pytest.org/en/stable/how-to/mark.html
     @pytest.mark.auth
 
 tests/unit/test_belgian_context.py:9
   /home/user/schoolhub/backend/tests/unit/test_belgian_context.py:9: PytestUnknownMarkWarning: Unknown pytest.mark.unit - is this a typo?  You can register custom marks to avoid this warning - for details, see https://docs.pytest.org/en/stable/how-to/mark.html
     @pytest.mark.unit
 
-tests/unit/test_belgian_context.py:35
-  /home/user/schoolhub/backend/tests/unit/test_belgian_context.py:35: PytestUnknownMarkWarning: Unknown pytest.mark.unit - is this a typo?  You can register custom marks to avoid this warning - for details, see https://docs.pytest.org/en/stable/how-to/mark.html
+tests/unit/test_belgian_context.py:37
+  /home/user/schoolhub/backend/tests/unit/test_belgian_context.py:37: PytestUnknownMarkWarning: Unknown pytest.mark.unit - is this a typo?  You can register custom marks to avoid this warning - for details, see https://docs.pytest.org/en/stable/how-to/mark.html
     @pytest.mark.unit
 
-tests/unit/test_belgian_context.py:95
-  /home/user/schoolhub/backend/tests/unit/test_belgian_context.py:95: PytestUnknownMarkWarning: Unknown pytest.mark.unit - is this a typo?  You can register custom marks to avoid this warning - for details, see https://docs.pytest.org/en/stable/how-to/mark.html
+tests/unit/test_belgian_context.py:99
+  /home/user/schoolhub/backend/tests/unit/test_belgian_context.py:99: PytestUnknownMarkWarning: Unknown pytest.mark.unit - is this a typo?  You can register custom marks to avoid this warning - for details, see https://docs.pytest.org/en/stable/how-to/mark.html
     @pytest.mark.unit
 
-tests/unit/test_belgian_context.py:121
-  /home/user/schoolhub/backend/tests/unit/test_belgian_context.py:121: PytestUnknownMarkWarning: Unknown pytest.mark.unit - is this a typo?  You can register custom marks to avoid this warning - for details, see https://docs.pytest.org/en/stable/how-to/mark.html
+tests/unit/test_belgian_context.py:125
+  /home/user/schoolhub/backend/tests/unit/test_belgian_context.py:125: PytestUnknownMarkWarning: Unknown pytest.mark.unit - is this a typo?  You can register custom marks to avoid this warning - for details, see https://docs.pytest.org/en/stable/how-to/mark.html
     @pytest.mark.unit
 
-tests/unit/test_belgian_context.py:159
-  /home/user/schoolhub/backend/tests/unit/test_belgian_context.py:159: PytestUnknownMarkWarning: Unknown pytest.mark.unit - is this a typo?  You can register custom marks to avoid this warning - for details, see https://docs.pytest.org/en/stable/how-to/mark.html
+tests/unit/test_belgian_context.py:164
+  /home/user/schoolhub/backend/tests/unit/test_belgian_context.py:164: PytestUnknownMarkWarning: Unknown pytest.mark.unit - is this a typo?  You can register custom marks to avoid this warning - for details, see https://docs.pytest.org/en/stable/how-to/mark.html
     @pytest.mark.unit
 
-tests/unit/test_sel_system.py:9
-  /home/user/schoolhub/backend/tests/unit/test_sel_system.py:9: PytestUnknownMarkWarning: Unknown pytest.mark.sel - is this a typo?  You can register custom marks to avoid this warning - for details, see https://docs.pytest.org/en/stable/how-to/mark.html
+tests/unit/test_sel_system.py:10
+  /home/user/schoolhub/backend/tests/unit/test_sel_system.py:10: PytestUnknownMarkWarning: Unknown pytest.mark.sel - is this a typo?  You can register custom marks to avoid this warning - for details, see https://docs.pytest.org/en/stable/how-to/mark.html
     @pytest.mark.sel
 
-tests/unit/test_sel_system.py:50
-  /home/user/schoolhub/backend/tests/unit/test_sel_system.py:50: PytestUnknownMarkWarning: Unknown pytest.mark.sel - is this a typo?  You can register custom marks to avoid this warning - for details, see https://docs.pytest.org/en/stable/how-to/mark.html
+tests/unit/test_sel_system.py:61
+  /home/user/schoolhub/backend/tests/unit/test_sel_system.py:61: PytestUnknownMarkWarning: Unknown pytest.mark.sel - is this a typo?  You can register custom marks to avoid this warning - for details, see https://docs.pytest.org/en/stable/how-to/mark.html
     @pytest.mark.sel
 
-tests/unit/test_sel_system.py:108
-  /home/user/schoolhub/backend/tests/unit/test_sel_system.py:108: PytestUnknownMarkWarning: Unknown pytest.mark.sel - is this a typo?  You can register custom marks to avoid this warning - for details, see https://docs.pytest.org/en/stable/how-to/mark.html
+tests/unit/test_sel_system.py:179
+  /home/user/schoolhub/backend/tests/unit/test_sel_system.py:179: PytestUnknownMarkWarning: Unknown pytest.mark.sel - is this a typo?  You can register custom marks to avoid this warning - for details, see https://docs.pytest.org/en/stable/how-to/mark.html
     @pytest.mark.sel
 
 tests/unit/test_belgian_context.py::TestChildManagement::test_create_child_with_belgian_class
 tests/unit/test_belgian_context.py::TestChildManagement::test_invalid_class_level_rejected
 tests/unit/test_belgian_context.py::TestChildManagement::test_get_children_by_parent
-  /home/user/schoolhub/backend/app/main_stage4.py:146: DeprecationWarning: datetime.datetime.utcnow() is deprecated and scheduled for removal in a future version. Use timezone-aware objects to represent datetimes in UTC: datetime.datetime.now(datetime.UTC).
+  /home/user/schoolhub/backend/app/main_stage4.py:227: DeprecationWarning: datetime.datetime.utcnow() is deprecated and scheduled for removal in a future version. Use timezone-aware objects to represent datetimes in UTC: datetime.datetime.now(datetime.UTC).
     expire = datetime.utcnow() + timedelta(days=ACCESS_TOKEN_EXPIRE_DAYS)
 
-tests/unit/test_belgian_context.py::TestChildManagement::test_create_child_with_belgian_class
-tests/unit/test_belgian_context.py::TestChildManagement::test_invalid_class_level_rejected
-tests/unit/test_belgian_context.py::TestChildManagement::test_get_children_by_parent
-  /home/user/schoolhub/backend/venv/lib/python3.12/site-packages/jose/jwt.py:311: DeprecationWarning: datetime.datetime.utcnow() is deprecated and scheduled for removal in a future version. Use timezone-aware objects to represent datetimes in UTC: datetime.datetime.now(datetime.UTC).
-    now = timegm(datetime.utcnow().utctimetuple())
+-- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html
+================ 15 passed, 25 deselected, 24 warnings in 1.35s ================
+🧪 Pytest: integration
+============================= test session starts ==============================
+platform linux -- Python 3.12.3, pytest-7.4.3, pluggy-1.6.0 -- /home/user/schoolhub/backend/venv/bin/python
+cachedir: .pytest_cache
+rootdir: /home/user/schoolhub/backend
+configfile: pytest.ini
+plugins: env-1.1.3, cov-4.1.0, Faker-20.1.0, anyio-3.7.1, mock-3.12.0, asyncio-0.21.1, xdist-3.5.0
+asyncio: mode=Mode.STRICT
+collecting ... collected 20 items
+
+tests/integration/test_api_complete_flows.py::TestCompleteUserJourney::test_complete_parent_onboarding_flow PASSED [  5%]
+tests/integration/test_api_complete_flows.py::TestSELTransactionFlow::test_complete_sel_transaction_flow PASSED [ 10%]
+tests/integration/test_api_complete_flows.py::TestMessageAndEventFlow::test_message_service_owner_flow PASSED [ 15%]
+tests/integration/test_api_complete_flows.py::TestAdminWorkflow::test_admin_user_management PASSED [ 20%]
+tests/integration/test_api_complete_flows.py::TestAdminWorkflow::test_admin_service_moderation PASSED [ 25%]
+tests/integration/test_api_complete_flows.py::TestHealthAndMonitoring::test_health_endpoint_comprehensive PASSED [ 30%]
+tests/integration/test_api_complete_flows.py::TestHealthAndMonitoring::test_metrics_endpoint_for_prometheus PASSED [ 35%]
+tests/integration/test_database_operations.py::TestUserDatabaseOperations::test_create_user_with_relationships PASSED [ 40%]
+tests/integration/test_database_operations.py::TestUserDatabaseOperations::test_user_email_uniqueness_constraint PASSED [ 45%]
+tests/integration/test_database_operations.py::TestUserDatabaseOperations::test_user_soft_delete PASSED [ 50%]
+tests/integration/test_database_operations.py::TestSELDatabaseOperations::test_sel_transaction_with_balance_updates PASSED [ 55%]
+tests/integration/test_database_operations.py::TestSELDatabaseOperations::test_sel_balance_constraints PASSED [ 60%]
+tests/integration/test_database_operations.py::TestSELDatabaseOperations::test_cascade_delete_protection PASSED [ 65%]
+tests/integration/test_database_operations.py::TestChildDatabaseOperations::test_child_class_level_validation PASSED [ 70%]
+tests/integration/test_database_operations.py::TestChildDatabaseOperations::test_multiple_children_per_parent PASSED [ 75%]
+tests/integration/test_database_operations.py::TestDatabasePerformance::test_user_with_children_single_query PASSED [ 80%]
+tests/integration/test_database_operations.py::TestDatabasePerformance::test_sel_services_with_provider_info PASSED [ 85%]
+tests/integration/test_stage4_endpoints.py::test_i18n_locales_available PASSED [ 90%]
+tests/integration/test_stage4_endpoints.py::test_platform_analytics_admin_only PASSED [ 95%]
+tests/integration/test_stage4_endpoints.py::test_shop_admin_create_and_list_products PASSED [100%]
+
+=============================== warnings summary ===============================
+venv/lib/python3.12/site-packages/passlib/utils/__init__.py:854
+  /home/user/schoolhub/backend/venv/lib/python3.12/site-packages/passlib/utils/__init__.py:854: DeprecationWarning: 'crypt' is deprecated and slated for removal in Python 3.13
+    from crypt import crypt as _crypt
+
+app/models_stage1.py:19
+  /home/user/schoolhub/backend/app/models_stage1.py:19: MovedIn20Warning: The ``declarative_base()`` function is now available as sqlalchemy.orm.declarative_base(). (deprecated since: 2.0) (Background on SQLAlchemy 2.0 at: https://sqlalche.me/e/b8d9)
+    Base = declarative_base()
+
+venv/lib/python3.12/site-packages/pydantic/_internal/_config.py:291
+venv/lib/python3.12/site-packages/pydantic/_internal/_config.py:291
+venv/lib/python3.12/site-packages/pydantic/_internal/_config.py:291
+venv/lib/python3.12/site-packages/pydantic/_internal/_config.py:291
+venv/lib/python3.12/site-packages/pydantic/_internal/_config.py:291
+venv/lib/python3.12/site-packages/pydantic/_internal/_config.py:291
+venv/lib/python3.12/site-packages/pydantic/_internal/_config.py:291
+venv/lib/python3.12/site-packages/pydantic/_internal/_config.py:291
+  /home/user/schoolhub/backend/venv/lib/python3.12/site-packages/pydantic/_internal/_config.py:291: PydanticDeprecatedSince20: Support for class-based `config` is deprecated, use ConfigDict instead. Deprecated in Pydantic V2.0 to be removed in V3.0. See Pydantic V2 Migration Guide at https://errors.pydantic.dev/2.9/migration/
+    warnings.warn(DEPRECATION_MESSAGE, DeprecationWarning)
+
+app/schemas_stage1.py:150
+  /home/user/schoolhub/backend/app/schemas_stage1.py:150: PydanticDeprecatedSince20: Pydantic V1 style `@validator` validators are deprecated. You should migrate to Pydantic V2 style `@field_validator` validators, see the migration guide for more details. Deprecated in Pydantic V2.0 to be removed in V3.0. See Pydantic V2 Migration Guide at https://errors.pydantic.dev/2.9/migration/
+    @validator("units")
+
+app/schemas_stage1.py:186
+  /home/user/schoolhub/backend/app/schemas_stage1.py:186: PydanticDeprecatedSince20: Pydantic V1 style `@validator` validators are deprecated. You should migrate to Pydantic V2 style `@field_validator` validators, see the migration guide for more details. Deprecated in Pydantic V2.0 to be removed in V3.0. See Pydantic V2 Migration Guide at https://errors.pydantic.dev/2.9/migration/
+    @validator("balance")
+
+tests/integration/test_api_complete_flows.py:9
+  /home/user/schoolhub/backend/tests/integration/test_api_complete_flows.py:9: PytestUnknownMarkWarning: Unknown pytest.mark.integration - is this a typo?  You can register custom marks to avoid this warning - for details, see https://docs.pytest.org/en/stable/how-to/mark.html
+    @pytest.mark.integration
+
+tests/integration/test_api_complete_flows.py:82
+  /home/user/schoolhub/backend/tests/integration/test_api_complete_flows.py:82: PytestUnknownMarkWarning: Unknown pytest.mark.integration - is this a typo?  You can register custom marks to avoid this warning - for details, see https://docs.pytest.org/en/stable/how-to/mark.html
+    @pytest.mark.integration
+
+tests/integration/test_api_complete_flows.py:183
+  /home/user/schoolhub/backend/tests/integration/test_api_complete_flows.py:183: PytestUnknownMarkWarning: Unknown pytest.mark.integration - is this a typo?  You can register custom marks to avoid this warning - for details, see https://docs.pytest.org/en/stable/how-to/mark.html
+    @pytest.mark.integration
+
+tests/integration/test_api_complete_flows.py:252
+  /home/user/schoolhub/backend/tests/integration/test_api_complete_flows.py:252: PytestUnknownMarkWarning: Unknown pytest.mark.integration - is this a typo?  You can register custom marks to avoid this warning - for details, see https://docs.pytest.org/en/stable/how-to/mark.html
+    @pytest.mark.integration
+
+tests/integration/test_api_complete_flows.py:294
+  /home/user/schoolhub/backend/tests/integration/test_api_complete_flows.py:294: PytestUnknownMarkWarning: Unknown pytest.mark.integration - is this a typo?  You can register custom marks to avoid this warning - for details, see https://docs.pytest.org/en/stable/how-to/mark.html
+    @pytest.mark.integration
+
+tests/integration/test_database_operations.py:11
+  /home/user/schoolhub/backend/tests/integration/test_database_operations.py:11: PytestUnknownMarkWarning: Unknown pytest.mark.integration - is this a typo?  You can register custom marks to avoid this warning - for details, see https://docs.pytest.org/en/stable/how-to/mark.html
+    @pytest.mark.integration
+
+tests/integration/test_database_operations.py:98
+  /home/user/schoolhub/backend/tests/integration/test_database_operations.py:98: PytestUnknownMarkWarning: Unknown pytest.mark.integration - is this a typo?  You can register custom marks to avoid this warning - for details, see https://docs.pytest.org/en/stable/how-to/mark.html
+    @pytest.mark.integration
+
+tests/integration/test_database_operations.py:230
+  /home/user/schoolhub/backend/tests/integration/test_database_operations.py:230: PytestUnknownMarkWarning: Unknown pytest.mark.integration - is this a typo?  You can register custom marks to avoid this warning - for details, see https://docs.pytest.org/en/stable/how-to/mark.html
+    @pytest.mark.integration
+
+tests/integration/test_database_operations.py:300
+  /home/user/schoolhub/backend/tests/integration/test_database_operations.py:300: PytestUnknownMarkWarning: Unknown pytest.mark.integration - is this a typo?  You can register custom marks to avoid this warning - for details, see https://docs.pytest.org/en/stable/how-to/mark.html
+    @pytest.mark.integration
+
+tests/integration/test_stage4_endpoints.py:6
+  /home/user/schoolhub/backend/tests/integration/test_stage4_endpoints.py:6: PytestUnknownMarkWarning: Unknown pytest.mark.integration - is this a typo?  You can register custom marks to avoid this warning - for details, see https://docs.pytest.org/en/stable/how-to/mark.html
+    @pytest.mark.integration
+
+tests/integration/test_stage4_endpoints.py:15
+  /home/user/schoolhub/backend/tests/integration/test_stage4_endpoints.py:15: PytestUnknownMarkWarning: Unknown pytest.mark.integration - is this a typo?  You can register custom marks to avoid this warning - for details, see https://docs.pytest.org/en/stable/how-to/mark.html
+    @pytest.mark.integration
+
+tests/integration/test_stage4_endpoints.py:49
+  /home/user/schoolhub/backend/tests/integration/test_stage4_endpoints.py:49: PytestUnknownMarkWarning: Unknown pytest.mark.integration - is this a typo?  You can register custom marks to avoid this warning - for details, see https://docs.pytest.org/en/stable/how-to/mark.html
+    @pytest.mark.integration
+
+tests/integration/test_api_complete_flows.py: 10 warnings
+tests/integration/test_stage4_endpoints.py: 4 warnings
+  /home/user/schoolhub/backend/app/analytics_service.py:350: DeprecationWarning: datetime.datetime.utcnow() is deprecated and scheduled for removal in a future version. Use timezone-aware objects to represent datetimes in UTC: datetime.datetime.now(datetime.UTC).
+    "timestamp": datetime.utcnow().isoformat(),
+
+tests/integration/test_api_complete_flows.py: 10 warnings
+tests/integration/test_stage4_endpoints.py: 4 warnings
+  /home/user/schoolhub/backend/app/analytics_service.py:355: DeprecationWarning: datetime.datetime.utcnow() is deprecated and scheduled for removal in a future version. Use timezone-aware objects to represent datetimes in UTC: datetime.datetime.now(datetime.UTC).
+    key = f"analytics:user_actions:{datetime.utcnow().date()}"
+
+tests/integration/test_api_complete_flows.py: 12 warnings
+tests/integration/test_stage4_endpoints.py: 4 warnings
+  /home/user/schoolhub/backend/app/main_stage4.py:227: DeprecationWarning: datetime.datetime.utcnow() is deprecated and scheduled for removal in a future version. Use timezone-aware objects to represent datetimes in UTC: datetime.datetime.now(datetime.UTC).
+    expire = datetime.utcnow() + timedelta(days=ACCESS_TOKEN_EXPIRE_DAYS)
+
+tests/integration/test_database_operations.py::TestUserDatabaseOperations::test_user_email_uniqueness_constraint
+  /home/user/schoolhub/backend/tests/conftest.py:55: SAWarning: transaction already deassociated from connection
+    transaction.rollback()
+
+tests/integration/test_stage4_endpoints.py::test_platform_analytics_admin_only
+  /home/user/schoolhub/backend/app/analytics_service.py:71: DeprecationWarning: datetime.datetime.utcnow() is deprecated and scheduled for removal in a future version. Use timezone-aware objects to represent datetimes in UTC: datetime.datetime.now(datetime.UTC).
+    .filter(User.created_at >= datetime.utcnow() - timedelta(days=7))
+
+tests/integration/test_stage4_endpoints.py::test_platform_analytics_admin_only
+  /home/user/schoolhub/backend/app/analytics_service.py:93: DeprecationWarning: datetime.datetime.utcnow() is deprecated and scheduled for removal in a future version. Use timezone-aware objects to represent datetimes in UTC: datetime.datetime.now(datetime.UTC).
+    .filter(Message.created_at >= datetime.utcnow().date())
+
+tests/integration/test_stage4_endpoints.py::test_platform_analytics_admin_only
+  /home/user/schoolhub/backend/app/analytics_service.py:102: DeprecationWarning: datetime.datetime.utcnow() is deprecated and scheduled for removal in a future version. Use timezone-aware objects to represent datetimes in UTC: datetime.datetime.now(datetime.UTC).
+    and_(Event.start_date >= datetime.utcnow(), Event.is_active is True)
+
+tests/integration/test_stage4_endpoints.py::test_platform_analytics_admin_only
+  /home/user/schoolhub/backend/app/analytics_service.py:137: DeprecationWarning: datetime.datetime.utcnow() is deprecated and scheduled for removal in a future version. Use timezone-aware objects to represent datetimes in UTC: datetime.datetime.now(datetime.UTC).
+    "timestamp": datetime.utcnow().isoformat(),
 
 -- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html
-=========================== short test summary info ============================
-FAILED tests/unit/test_belgian_context.py::TestChildManagement::test_create_child_with_belgian_class
-FAILED tests/unit/test_belgian_context.py::TestChildManagement::test_invalid_class_level_rejected
-=========== 2 failed, 13 passed, 25 deselected, 27 warnings in 0.76s ===========
+======================= 20 passed, 73 warnings in 13.69s =======================
+🧪 Pytest: auth
+============================= test session starts ==============================
+platform linux -- Python 3.12.3, pytest-7.4.3, pluggy-1.6.0 -- /home/user/schoolhub/backend/venv/bin/python
+cachedir: .pytest_cache
+rootdir: /home/user/schoolhub/backend
+configfile: pytest.ini
+plugins: env-1.1.3, cov-4.1.0, Faker-20.1.0, anyio-3.7.1, mock-3.12.0, asyncio-0.21.1, xdist-3.5.0
+asyncio: mode=Mode.STRICT
+collecting ... collected 71 items / 61 deselected / 10 selected
+
+tests/unit/test_auth.py::TestAuthenticationEndpoints::test_register_new_user PASSED [ 10%]
+tests/unit/test_auth.py::TestAuthenticationEndpoints::test_register_duplicate_email PASSED [ 20%]
+tests/unit/test_auth.py::TestAuthenticationEndpoints::test_register_invalid_email PASSED [ 30%]
+tests/unit/test_auth.py::TestAuthenticationEndpoints::test_login_valid_credentials PASSED [ 40%]
+tests/unit/test_auth.py::TestAuthenticationEndpoints::test_login_invalid_email PASSED [ 50%]
+tests/unit/test_auth.py::TestAuthenticationEndpoints::test_login_invalid_password PASSED [ 60%]
+tests/unit/test_auth.py::TestAuthenticationEndpoints::test_login_inactive_user PASSED [ 70%]
+tests/unit/test_auth.py::TestAuthenticationEndpoints::test_get_current_user_valid_token PASSED [ 80%]
+tests/unit/test_auth.py::TestAuthenticationEndpoints::test_get_current_user_no_token PASSED [ 90%]
+tests/unit/test_auth.py::TestAuthenticationEndpoints::test_get_current_user_invalid_token PASSED [100%]
+
+=============================== warnings summary ===============================
+venv/lib/python3.12/site-packages/passlib/utils/__init__.py:854
+  /home/user/schoolhub/backend/venv/lib/python3.12/site-packages/passlib/utils/__init__.py:854: DeprecationWarning: 'crypt' is deprecated and slated for removal in Python 3.13
+    from crypt import crypt as _crypt
+
+app/models_stage1.py:19
+  /home/user/schoolhub/backend/app/models_stage1.py:19: MovedIn20Warning: The ``declarative_base()`` function is now available as sqlalchemy.orm.declarative_base(). (deprecated since: 2.0) (Background on SQLAlchemy 2.0 at: https://sqlalche.me/e/b8d9)
+    Base = declarative_base()
+
+venv/lib/python3.12/site-packages/pydantic/_internal/_config.py:291
+venv/lib/python3.12/site-packages/pydantic/_internal/_config.py:291
+venv/lib/python3.12/site-packages/pydantic/_internal/_config.py:291
+venv/lib/python3.12/site-packages/pydantic/_internal/_config.py:291
+venv/lib/python3.12/site-packages/pydantic/_internal/_config.py:291
+venv/lib/python3.12/site-packages/pydantic/_internal/_config.py:291
+venv/lib/python3.12/site-packages/pydantic/_internal/_config.py:291
+venv/lib/python3.12/site-packages/pydantic/_internal/_config.py:291
+  /home/user/schoolhub/backend/venv/lib/python3.12/site-packages/pydantic/_internal/_config.py:291: PydanticDeprecatedSince20: Support for class-based `config` is deprecated, use ConfigDict instead. Deprecated in Pydantic V2.0 to be removed in V3.0. See Pydantic V2 Migration Guide at https://errors.pydantic.dev/2.9/migration/
+    warnings.warn(DEPRECATION_MESSAGE, DeprecationWarning)
+
+app/schemas_stage1.py:150
+  /home/user/schoolhub/backend/app/schemas_stage1.py:150: PydanticDeprecatedSince20: Pydantic V1 style `@validator` validators are deprecated. You should migrate to Pydantic V2 style `@field_validator` validators, see the migration guide for more details. Deprecated in Pydantic V2.0 to be removed in V3.0. See Pydantic V2 Migration Guide at https://errors.pydantic.dev/2.9/migration/
+    @validator("units")
+
+app/schemas_stage1.py:186
+  /home/user/schoolhub/backend/app/schemas_stage1.py:186: PydanticDeprecatedSince20: Pydantic V1 style `@validator` validators are deprecated. You should migrate to Pydantic V2 style `@field_validator` validators, see the migration guide for more details. Deprecated in Pydantic V2.0 to be removed in V3.0. See Pydantic V2 Migration Guide at https://errors.pydantic.dev/2.9/migration/
+    @validator("balance")
+
+tests/integration/test_api_complete_flows.py:9
+  /home/user/schoolhub/backend/tests/integration/test_api_complete_flows.py:9: PytestUnknownMarkWarning: Unknown pytest.mark.integration - is this a typo?  You can register custom marks to avoid this warning - for details, see https://docs.pytest.org/en/stable/how-to/mark.html
+    @pytest.mark.integration
+
+tests/integration/test_api_complete_flows.py:82
+  /home/user/schoolhub/backend/tests/integration/test_api_complete_flows.py:82: PytestUnknownMarkWarning: Unknown pytest.mark.integration - is this a typo?  You can register custom marks to avoid this warning - for details, see https://docs.pytest.org/en/stable/how-to/mark.html
+    @pytest.mark.integration
+
+tests/integration/test_api_complete_flows.py:183
+  /home/user/schoolhub/backend/tests/integration/test_api_complete_flows.py:183: PytestUnknownMarkWarning: Unknown pytest.mark.integration - is this a typo?  You can register custom marks to avoid this warning - for details, see https://docs.pytest.org/en/stable/how-to/mark.html
+    @pytest.mark.integration
+
+tests/integration/test_api_complete_flows.py:252
+  /home/user/schoolhub/backend/tests/integration/test_api_complete_flows.py:252: PytestUnknownMarkWarning: Unknown pytest.mark.integration - is this a typo?  You can register custom marks to avoid this warning - for details, see https://docs.pytest.org/en/stable/how-to/mark.html
+    @pytest.mark.integration
+
+tests/integration/test_api_complete_flows.py:294
+  /home/user/schoolhub/backend/tests/integration/test_api_complete_flows.py:294: PytestUnknownMarkWarning: Unknown pytest.mark.integration - is this a typo?  You can register custom marks to avoid this warning - for details, see https://docs.pytest.org/en/stable/how-to/mark.html
+    @pytest.mark.integration
+
+tests/integration/test_database_operations.py:11
+  /home/user/schoolhub/backend/tests/integration/test_database_operations.py:11: PytestUnknownMarkWarning: Unknown pytest.mark.integration - is this a typo?  You can register custom marks to avoid this warning - for details, see https://docs.pytest.org/en/stable/how-to/mark.html
+    @pytest.mark.integration
+
+tests/integration/test_database_operations.py:98
+  /home/user/schoolhub/backend/tests/integration/test_database_operations.py:98: PytestUnknownMarkWarning: Unknown pytest.mark.integration - is this a typo?  You can register custom marks to avoid this warning - for details, see https://docs.pytest.org/en/stable/how-to/mark.html
+    @pytest.mark.integration
+
+tests/integration/test_database_operations.py:230
+  /home/user/schoolhub/backend/tests/integration/test_database_operations.py:230: PytestUnknownMarkWarning: Unknown pytest.mark.integration - is this a typo?  You can register custom marks to avoid this warning - for details, see https://docs.pytest.org/en/stable/how-to/mark.html
+    @pytest.mark.integration
+
+tests/integration/test_database_operations.py:300
+  /home/user/schoolhub/backend/tests/integration/test_database_operations.py:300: PytestUnknownMarkWarning: Unknown pytest.mark.integration - is this a typo?  You can register custom marks to avoid this warning - for details, see https://docs.pytest.org/en/stable/how-to/mark.html
+    @pytest.mark.integration
+
+tests/integration/test_stage4_endpoints.py:6
+  /home/user/schoolhub/backend/tests/integration/test_stage4_endpoints.py:6: PytestUnknownMarkWarning: Unknown pytest.mark.integration - is this a typo?  You can register custom marks to avoid this warning - for details, see https://docs.pytest.org/en/stable/how-to/mark.html
+    @pytest.mark.integration
+
+tests/integration/test_stage4_endpoints.py:15
+  /home/user/schoolhub/backend/tests/integration/test_stage4_endpoints.py:15: PytestUnknownMarkWarning: Unknown pytest.mark.integration - is this a typo?  You can register custom marks to avoid this warning - for details, see https://docs.pytest.org/en/stable/how-to/mark.html
+    @pytest.mark.integration
+
+tests/integration/test_stage4_endpoints.py:49
+  /home/user/schoolhub/backend/tests/integration/test_stage4_endpoints.py:49: PytestUnknownMarkWarning: Unknown pytest.mark.integration - is this a typo?  You can register custom marks to avoid this warning - for details, see https://docs.pytest.org/en/stable/how-to/mark.html
+    @pytest.mark.integration
+
+tests/unit/test_auth.py:73
+  /home/user/schoolhub/backend/tests/unit/test_auth.py:73: PytestUnknownMarkWarning: Unknown pytest.mark.auth - is this a typo?  You can register custom marks to avoid this warning - for details, see https://docs.pytest.org/en/stable/how-to/mark.html
+    @pytest.mark.auth
+
+tests/unit/test_belgian_context.py:9
+  /home/user/schoolhub/backend/tests/unit/test_belgian_context.py:9: PytestUnknownMarkWarning: Unknown pytest.mark.unit - is this a typo?  You can register custom marks to avoid this warning - for details, see https://docs.pytest.org/en/stable/how-to/mark.html
+    @pytest.mark.unit
+
+tests/unit/test_belgian_context.py:37
+  /home/user/schoolhub/backend/tests/unit/test_belgian_context.py:37: PytestUnknownMarkWarning: Unknown pytest.mark.unit - is this a typo?  You can register custom marks to avoid this warning - for details, see https://docs.pytest.org/en/stable/how-to/mark.html
+    @pytest.mark.unit
+
+tests/unit/test_belgian_context.py:99
+  /home/user/schoolhub/backend/tests/unit/test_belgian_context.py:99: PytestUnknownMarkWarning: Unknown pytest.mark.unit - is this a typo?  You can register custom marks to avoid this warning - for details, see https://docs.pytest.org/en/stable/how-to/mark.html
+    @pytest.mark.unit
+
+tests/unit/test_belgian_context.py:125
+  /home/user/schoolhub/backend/tests/unit/test_belgian_context.py:125: PytestUnknownMarkWarning: Unknown pytest.mark.unit - is this a typo?  You can register custom marks to avoid this warning - for details, see https://docs.pytest.org/en/stable/how-to/mark.html
+    @pytest.mark.unit
+
+tests/unit/test_belgian_context.py:164
+  /home/user/schoolhub/backend/tests/unit/test_belgian_context.py:164: PytestUnknownMarkWarning: Unknown pytest.mark.unit - is this a typo?  You can register custom marks to avoid this warning - for details, see https://docs.pytest.org/en/stable/how-to/mark.html
+    @pytest.mark.unit
+
+tests/unit/test_sel_system.py:10
+  /home/user/schoolhub/backend/tests/unit/test_sel_system.py:10: PytestUnknownMarkWarning: Unknown pytest.mark.sel - is this a typo?  You can register custom marks to avoid this warning - for details, see https://docs.pytest.org/en/stable/how-to/mark.html
+    @pytest.mark.sel
+
+tests/unit/test_sel_system.py:61
+  /home/user/schoolhub/backend/tests/unit/test_sel_system.py:61: PytestUnknownMarkWarning: Unknown pytest.mark.sel - is this a typo?  You can register custom marks to avoid this warning - for details, see https://docs.pytest.org/en/stable/how-to/mark.html
+    @pytest.mark.sel
+
+tests/unit/test_sel_system.py:179
+  /home/user/schoolhub/backend/tests/unit/test_sel_system.py:179: PytestUnknownMarkWarning: Unknown pytest.mark.sel - is this a typo?  You can register custom marks to avoid this warning - for details, see https://docs.pytest.org/en/stable/how-to/mark.html
+    @pytest.mark.sel
+
+tests/unit/test_auth.py::TestAuthenticationEndpoints::test_register_new_user
+tests/unit/test_auth.py::TestAuthenticationEndpoints::test_login_valid_credentials
+  /home/user/schoolhub/backend/app/analytics_service.py:350: DeprecationWarning: datetime.datetime.utcnow() is deprecated and scheduled for removal in a future version. Use timezone-aware objects to represent datetimes in UTC: datetime.datetime.now(datetime.UTC).
+    "timestamp": datetime.utcnow().isoformat(),
+
+tests/unit/test_auth.py::TestAuthenticationEndpoints::test_register_new_user
+tests/unit/test_auth.py::TestAuthenticationEndpoints::test_login_valid_credentials
+  /home/user/schoolhub/backend/app/analytics_service.py:355: DeprecationWarning: datetime.datetime.utcnow() is deprecated and scheduled for removal in a future version. Use timezone-aware objects to represent datetimes in UTC: datetime.datetime.now(datetime.UTC).
+    key = f"analytics:user_actions:{datetime.utcnow().date()}"
+
+tests/unit/test_auth.py::TestAuthenticationEndpoints::test_register_new_user
+tests/unit/test_auth.py::TestAuthenticationEndpoints::test_login_valid_credentials
+tests/unit/test_auth.py::TestAuthenticationEndpoints::test_get_current_user_valid_token
+  /home/user/schoolhub/backend/app/main_stage4.py:227: DeprecationWarning: datetime.datetime.utcnow() is deprecated and scheduled for removal in a future version. Use timezone-aware objects to represent datetimes in UTC: datetime.datetime.now(datetime.UTC).
+    expire = datetime.utcnow() + timedelta(days=ACCESS_TOKEN_EXPIRE_DAYS)
+
+-- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html
+================ 10 passed, 61 deselected, 40 warnings in 2.51s ================
+🧪 Pytest: sel
+============================= test session starts ==============================
+platform linux -- Python 3.12.3, pytest-7.4.3, pluggy-1.6.0 -- /home/user/schoolhub/backend/venv/bin/python
+cachedir: .pytest_cache
+rootdir: /home/user/schoolhub/backend
+configfile: pytest.ini
+plugins: env-1.1.3, cov-4.1.0, Faker-20.1.0, anyio-3.7.1, mock-3.12.0, asyncio-0.21.1, xdist-3.5.0
+asyncio: mode=Mode.STRICT
+collecting ... collected 71 items / 61 deselected / 10 selected
+
+tests/unit/test_sel_system.py::TestSELBalance::test_initial_balance_120_units PASSED [ 10%]
+tests/unit/test_sel_system.py::TestSELBalance::test_balance_limits_belgian_rules PASSED [ 20%]
+tests/unit/test_sel_system.py::TestSELBalance::test_units_per_hour_standard_60 PASSED [ 30%]
+tests/unit/test_sel_system.py::TestSELServices::test_create_sel_service PASSED [ 40%]
+tests/unit/test_sel_system.py::TestSELServices::test_list_available_services PASSED [ 50%]
+tests/unit/test_sel_system.py::TestSELServices::test_get_my_services PASSED [ 60%]
+tests/unit/test_sel_system.py::TestSELServices::test_service_categories_belgian_context PASSED [ 70%]
+tests/unit/test_sel_system.py::TestSELTransactions::test_transaction_balance_validation PASSED [ 80%]
+tests/unit/test_sel_system.py::TestSELTransactions::test_get_user_transactions PASSED [ 90%]
+tests/unit/test_sel_system.py::TestSELTransactions::test_get_balance PASSED [100%]
+
+=============================== warnings summary ===============================
+venv/lib/python3.12/site-packages/passlib/utils/__init__.py:854
+  /home/user/schoolhub/backend/venv/lib/python3.12/site-packages/passlib/utils/__init__.py:854: DeprecationWarning: 'crypt' is deprecated and slated for removal in Python 3.13
+    from crypt import crypt as _crypt
+
+app/models_stage1.py:19
+  /home/user/schoolhub/backend/app/models_stage1.py:19: MovedIn20Warning: The ``declarative_base()`` function is now available as sqlalchemy.orm.declarative_base(). (deprecated since: 2.0) (Background on SQLAlchemy 2.0 at: https://sqlalche.me/e/b8d9)
+    Base = declarative_base()
+
+venv/lib/python3.12/site-packages/pydantic/_internal/_config.py:291
+venv/lib/python3.12/site-packages/pydantic/_internal/_config.py:291
+venv/lib/python3.12/site-packages/pydantic/_internal/_config.py:291
+venv/lib/python3.12/site-packages/pydantic/_internal/_config.py:291
+venv/lib/python3.12/site-packages/pydantic/_internal/_config.py:291
+venv/lib/python3.12/site-packages/pydantic/_internal/_config.py:291
+venv/lib/python3.12/site-packages/pydantic/_internal/_config.py:291
+venv/lib/python3.12/site-packages/pydantic/_internal/_config.py:291
+  /home/user/schoolhub/backend/venv/lib/python3.12/site-packages/pydantic/_internal/_config.py:291: PydanticDeprecatedSince20: Support for class-based `config` is deprecated, use ConfigDict instead. Deprecated in Pydantic V2.0 to be removed in V3.0. See Pydantic V2 Migration Guide at https://errors.pydantic.dev/2.9/migration/
+    warnings.warn(DEPRECATION_MESSAGE, DeprecationWarning)
+
+app/schemas_stage1.py:150
+  /home/user/schoolhub/backend/app/schemas_stage1.py:150: PydanticDeprecatedSince20: Pydantic V1 style `@validator` validators are deprecated. You should migrate to Pydantic V2 style `@field_validator` validators, see the migration guide for more details. Deprecated in Pydantic V2.0 to be removed in V3.0. See Pydantic V2 Migration Guide at https://errors.pydantic.dev/2.9/migration/
+    @validator("units")
+
+app/schemas_stage1.py:186
+  /home/user/schoolhub/backend/app/schemas_stage1.py:186: PydanticDeprecatedSince20: Pydantic V1 style `@validator` validators are deprecated. You should migrate to Pydantic V2 style `@field_validator` validators, see the migration guide for more details. Deprecated in Pydantic V2.0 to be removed in V3.0. See Pydantic V2 Migration Guide at https://errors.pydantic.dev/2.9/migration/
+    @validator("balance")
+
+tests/integration/test_api_complete_flows.py:9
+  /home/user/schoolhub/backend/tests/integration/test_api_complete_flows.py:9: PytestUnknownMarkWarning: Unknown pytest.mark.integration - is this a typo?  You can register custom marks to avoid this warning - for details, see https://docs.pytest.org/en/stable/how-to/mark.html
+    @pytest.mark.integration
+
+tests/integration/test_api_complete_flows.py:82
+  /home/user/schoolhub/backend/tests/integration/test_api_complete_flows.py:82: PytestUnknownMarkWarning: Unknown pytest.mark.integration - is this a typo?  You can register custom marks to avoid this warning - for details, see https://docs.pytest.org/en/stable/how-to/mark.html
+    @pytest.mark.integration
+
+tests/integration/test_api_complete_flows.py:183
+  /home/user/schoolhub/backend/tests/integration/test_api_complete_flows.py:183: PytestUnknownMarkWarning: Unknown pytest.mark.integration - is this a typo?  You can register custom marks to avoid this warning - for details, see https://docs.pytest.org/en/stable/how-to/mark.html
+    @pytest.mark.integration
+
+tests/integration/test_api_complete_flows.py:252
+  /home/user/schoolhub/backend/tests/integration/test_api_complete_flows.py:252: PytestUnknownMarkWarning: Unknown pytest.mark.integration - is this a typo?  You can register custom marks to avoid this warning - for details, see https://docs.pytest.org/en/stable/how-to/mark.html
+    @pytest.mark.integration
+
+tests/integration/test_api_complete_flows.py:294
+  /home/user/schoolhub/backend/tests/integration/test_api_complete_flows.py:294: PytestUnknownMarkWarning: Unknown pytest.mark.integration - is this a typo?  You can register custom marks to avoid this warning - for details, see https://docs.pytest.org/en/stable/how-to/mark.html
+    @pytest.mark.integration
+
+tests/integration/test_database_operations.py:11
+  /home/user/schoolhub/backend/tests/integration/test_database_operations.py:11: PytestUnknownMarkWarning: Unknown pytest.mark.integration - is this a typo?  You can register custom marks to avoid this warning - for details, see https://docs.pytest.org/en/stable/how-to/mark.html
+    @pytest.mark.integration
+
+tests/integration/test_database_operations.py:98
+  /home/user/schoolhub/backend/tests/integration/test_database_operations.py:98: PytestUnknownMarkWarning: Unknown pytest.mark.integration - is this a typo?  You can register custom marks to avoid this warning - for details, see https://docs.pytest.org/en/stable/how-to/mark.html
+    @pytest.mark.integration
+
+tests/integration/test_database_operations.py:230
+  /home/user/schoolhub/backend/tests/integration/test_database_operations.py:230: PytestUnknownMarkWarning: Unknown pytest.mark.integration - is this a typo?  You can register custom marks to avoid this warning - for details, see https://docs.pytest.org/en/stable/how-to/mark.html
+    @pytest.mark.integration
+
+tests/integration/test_database_operations.py:300
+  /home/user/schoolhub/backend/tests/integration/test_database_operations.py:300: PytestUnknownMarkWarning: Unknown pytest.mark.integration - is this a typo?  You can register custom marks to avoid this warning - for details, see https://docs.pytest.org/en/stable/how-to/mark.html
+    @pytest.mark.integration
+
+tests/integration/test_stage4_endpoints.py:6
+  /home/user/schoolhub/backend/tests/integration/test_stage4_endpoints.py:6: PytestUnknownMarkWarning: Unknown pytest.mark.integration - is this a typo?  You can register custom marks to avoid this warning - for details, see https://docs.pytest.org/en/stable/how-to/mark.html
+    @pytest.mark.integration
+
+tests/integration/test_stage4_endpoints.py:15
+  /home/user/schoolhub/backend/tests/integration/test_stage4_endpoints.py:15: PytestUnknownMarkWarning: Unknown pytest.mark.integration - is this a typo?  You can register custom marks to avoid this warning - for details, see https://docs.pytest.org/en/stable/how-to/mark.html
+    @pytest.mark.integration
+
+tests/integration/test_stage4_endpoints.py:49
+  /home/user/schoolhub/backend/tests/integration/test_stage4_endpoints.py:49: PytestUnknownMarkWarning: Unknown pytest.mark.integration - is this a typo?  You can register custom marks to avoid this warning - for details, see https://docs.pytest.org/en/stable/how-to/mark.html
+    @pytest.mark.integration
+
+tests/unit/test_auth.py:73
+  /home/user/schoolhub/backend/tests/unit/test_auth.py:73: PytestUnknownMarkWarning: Unknown pytest.mark.auth - is this a typo?  You can register custom marks to avoid this warning - for details, see https://docs.pytest.org/en/stable/how-to/mark.html
+    @pytest.mark.auth
+
+tests/unit/test_belgian_context.py:9
+  /home/user/schoolhub/backend/tests/unit/test_belgian_context.py:9: PytestUnknownMarkWarning: Unknown pytest.mark.unit - is this a typo?  You can register custom marks to avoid this warning - for details, see https://docs.pytest.org/en/stable/how-to/mark.html
+    @pytest.mark.unit
+
+tests/unit/test_belgian_context.py:37
+  /home/user/schoolhub/backend/tests/unit/test_belgian_context.py:37: PytestUnknownMarkWarning: Unknown pytest.mark.unit - is this a typo?  You can register custom marks to avoid this warning - for details, see https://docs.pytest.org/en/stable/how-to/mark.html
+    @pytest.mark.unit
+
+tests/unit/test_belgian_context.py:99
+  /home/user/schoolhub/backend/tests/unit/test_belgian_context.py:99: PytestUnknownMarkWarning: Unknown pytest.mark.unit - is this a typo?  You can register custom marks to avoid this warning - for details, see https://docs.pytest.org/en/stable/how-to/mark.html
+    @pytest.mark.unit
+
+tests/unit/test_belgian_context.py:125
+  /home/user/schoolhub/backend/tests/unit/test_belgian_context.py:125: PytestUnknownMarkWarning: Unknown pytest.mark.unit - is this a typo?  You can register custom marks to avoid this warning - for details, see https://docs.pytest.org/en/stable/how-to/mark.html
+    @pytest.mark.unit
+
+tests/unit/test_belgian_context.py:164
+  /home/user/schoolhub/backend/tests/unit/test_belgian_context.py:164: PytestUnknownMarkWarning: Unknown pytest.mark.unit - is this a typo?  You can register custom marks to avoid this warning - for details, see https://docs.pytest.org/en/stable/how-to/mark.html
+    @pytest.mark.unit
+
+tests/unit/test_sel_system.py:10
+  /home/user/schoolhub/backend/tests/unit/test_sel_system.py:10: PytestUnknownMarkWarning: Unknown pytest.mark.sel - is this a typo?  You can register custom marks to avoid this warning - for details, see https://docs.pytest.org/en/stable/how-to/mark.html
+    @pytest.mark.sel
+
+tests/unit/test_sel_system.py:61
+  /home/user/schoolhub/backend/tests/unit/test_sel_system.py:61: PytestUnknownMarkWarning: Unknown pytest.mark.sel - is this a typo?  You can register custom marks to avoid this warning - for details, see https://docs.pytest.org/en/stable/how-to/mark.html
+    @pytest.mark.sel
+
+tests/unit/test_sel_system.py:179
+  /home/user/schoolhub/backend/tests/unit/test_sel_system.py:179: PytestUnknownMarkWarning: Unknown pytest.mark.sel - is this a typo?  You can register custom marks to avoid this warning - for details, see https://docs.pytest.org/en/stable/how-to/mark.html
+    @pytest.mark.sel
+
+tests/unit/test_sel_system.py::TestSELServices::test_create_sel_service
+tests/unit/test_sel_system.py::TestSELServices::test_list_available_services
+tests/unit/test_sel_system.py::TestSELServices::test_get_my_services
+tests/unit/test_sel_system.py::TestSELTransactions::test_get_user_transactions
+tests/unit/test_sel_system.py::TestSELTransactions::test_get_balance
+  /home/user/schoolhub/backend/app/main_stage4.py:227: DeprecationWarning: datetime.datetime.utcnow() is deprecated and scheduled for removal in a future version. Use timezone-aware objects to represent datetimes in UTC: datetime.datetime.now(datetime.UTC).
+    expire = datetime.utcnow() + timedelta(days=ACCESS_TOKEN_EXPIRE_DAYS)
+
+-- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html
+================ 10 passed, 61 deselected, 38 warnings in 1.81s ================
+📊 Coverage
+============================= test session starts ==============================
+platform linux -- Python 3.12.3, pytest-7.4.3, pluggy-1.6.0
+rootdir: /home/user/schoolhub/backend
+configfile: pytest.ini
+plugins: env-1.1.3, cov-4.1.0, Faker-20.1.0, anyio-3.7.1, mock-3.12.0, asyncio-0.21.1, xdist-3.5.0
+asyncio: mode=Mode.STRICT
+collected 71 items
+
+tests/test_makefile_integration.py ...........                           [ 15%]
+tests/integration/test_api_complete_flows.py .......                     [ 25%]
+tests/integration/test_database_operations.py ..........                 [ 39%]
+tests/integration/test_stage4_endpoints.py ...                           [ 43%]
+tests/unit/test_auth.py ...............                                  [ 64%]
+tests/unit/test_belgian_context.py ...............                       [ 85%]
+tests/unit/test_sel_system.py ..........                                 [100%]
+
+=============================== warnings summary ===============================
+venv/lib/python3.12/site-packages/passlib/utils/__init__.py:854
+  /home/user/schoolhub/backend/venv/lib/python3.12/site-packages/passlib/utils/__init__.py:854: DeprecationWarning: 'crypt' is deprecated and slated for removal in Python 3.13
+    from crypt import crypt as _crypt
+
+app/models_stage1.py:19
+  /home/user/schoolhub/backend/app/models_stage1.py:19: MovedIn20Warning: The ``declarative_base()`` function is now available as sqlalchemy.orm.declarative_base(). (deprecated since: 2.0) (Background on SQLAlchemy 2.0 at: https://sqlalche.me/e/b8d9)
+    Base = declarative_base()
+
+venv/lib/python3.12/site-packages/pydantic/_internal/_config.py:291
+venv/lib/python3.12/site-packages/pydantic/_internal/_config.py:291
+venv/lib/python3.12/site-packages/pydantic/_internal/_config.py:291
+venv/lib/python3.12/site-packages/pydantic/_internal/_config.py:291
+venv/lib/python3.12/site-packages/pydantic/_internal/_config.py:291
+venv/lib/python3.12/site-packages/pydantic/_internal/_config.py:291
+venv/lib/python3.12/site-packages/pydantic/_internal/_config.py:291
+venv/lib/python3.12/site-packages/pydantic/_internal/_config.py:291
+  /home/user/schoolhub/backend/venv/lib/python3.12/site-packages/pydantic/_internal/_config.py:291: PydanticDeprecatedSince20: Support for class-based `config` is deprecated, use ConfigDict instead. Deprecated in Pydantic V2.0 to be removed in V3.0. See Pydantic V2 Migration Guide at https://errors.pydantic.dev/2.9/migration/
+    warnings.warn(DEPRECATION_MESSAGE, DeprecationWarning)
+
+app/schemas_stage1.py:150
+  /home/user/schoolhub/backend/app/schemas_stage1.py:150: PydanticDeprecatedSince20: Pydantic V1 style `@validator` validators are deprecated. You should migrate to Pydantic V2 style `@field_validator` validators, see the migration guide for more details. Deprecated in Pydantic V2.0 to be removed in V3.0. See Pydantic V2 Migration Guide at https://errors.pydantic.dev/2.9/migration/
+    @validator("units")
+
+app/schemas_stage1.py:186
+  /home/user/schoolhub/backend/app/schemas_stage1.py:186: PydanticDeprecatedSince20: Pydantic V1 style `@validator` validators are deprecated. You should migrate to Pydantic V2 style `@field_validator` validators, see the migration guide for more details. Deprecated in Pydantic V2.0 to be removed in V3.0. See Pydantic V2 Migration Guide at https://errors.pydantic.dev/2.9/migration/
+    @validator("balance")
+
+tests/integration/test_api_complete_flows.py:9
+  /home/user/schoolhub/backend/tests/integration/test_api_complete_flows.py:9: PytestUnknownMarkWarning: Unknown pytest.mark.integration - is this a typo?  You can register custom marks to avoid this warning - for details, see https://docs.pytest.org/en/stable/how-to/mark.html
+    @pytest.mark.integration
+
+tests/integration/test_api_complete_flows.py:82
+  /home/user/schoolhub/backend/tests/integration/test_api_complete_flows.py:82: PytestUnknownMarkWarning: Unknown pytest.mark.integration - is this a typo?  You can register custom marks to avoid this warning - for details, see https://docs.pytest.org/en/stable/how-to/mark.html
+    @pytest.mark.integration
+
+tests/integration/test_api_complete_flows.py:183
+  /home/user/schoolhub/backend/tests/integration/test_api_complete_flows.py:183: PytestUnknownMarkWarning: Unknown pytest.mark.integration - is this a typo?  You can register custom marks to avoid this warning - for details, see https://docs.pytest.org/en/stable/how-to/mark.html
+    @pytest.mark.integration
+
+tests/integration/test_api_complete_flows.py:252
+  /home/user/schoolhub/backend/tests/integration/test_api_complete_flows.py:252: PytestUnknownMarkWarning: Unknown pytest.mark.integration - is this a typo?  You can register custom marks to avoid this warning - for details, see https://docs.pytest.org/en/stable/how-to/mark.html
+    @pytest.mark.integration
+
+tests/integration/test_api_complete_flows.py:294
+  /home/user/schoolhub/backend/tests/integration/test_api_complete_flows.py:294: PytestUnknownMarkWarning: Unknown pytest.mark.integration - is this a typo?  You can register custom marks to avoid this warning - for details, see https://docs.pytest.org/en/stable/how-to/mark.html
+    @pytest.mark.integration
+
+tests/integration/test_database_operations.py:11
+  /home/user/schoolhub/backend/tests/integration/test_database_operations.py:11: PytestUnknownMarkWarning: Unknown pytest.mark.integration - is this a typo?  You can register custom marks to avoid this warning - for details, see https://docs.pytest.org/en/stable/how-to/mark.html
+    @pytest.mark.integration
+
+tests/integration/test_database_operations.py:98
+  /home/user/schoolhub/backend/tests/integration/test_database_operations.py:98: PytestUnknownMarkWarning: Unknown pytest.mark.integration - is this a typo?  You can register custom marks to avoid this warning - for details, see https://docs.pytest.org/en/stable/how-to/mark.html
+    @pytest.mark.integration
+
+tests/integration/test_database_operations.py:230
+  /home/user/schoolhub/backend/tests/integration/test_database_operations.py:230: PytestUnknownMarkWarning: Unknown pytest.mark.integration - is this a typo?  You can register custom marks to avoid this warning - for details, see https://docs.pytest.org/en/stable/how-to/mark.html
+    @pytest.mark.integration
+
+tests/integration/test_database_operations.py:300
+  /home/user/schoolhub/backend/tests/integration/test_database_operations.py:300: PytestUnknownMarkWarning: Unknown pytest.mark.integration - is this a typo?  You can register custom marks to avoid this warning - for details, see https://docs.pytest.org/en/stable/how-to/mark.html
+    @pytest.mark.integration
+
+tests/integration/test_stage4_endpoints.py:6
+  /home/user/schoolhub/backend/tests/integration/test_stage4_endpoints.py:6: PytestUnknownMarkWarning: Unknown pytest.mark.integration - is this a typo?  You can register custom marks to avoid this warning - for details, see https://docs.pytest.org/en/stable/how-to/mark.html
+    @pytest.mark.integration
+
+tests/integration/test_stage4_endpoints.py:15
+  /home/user/schoolhub/backend/tests/integration/test_stage4_endpoints.py:15: PytestUnknownMarkWarning: Unknown pytest.mark.integration - is this a typo?  You can register custom marks to avoid this warning - for details, see https://docs.pytest.org/en/stable/how-to/mark.html
+    @pytest.mark.integration
+
+tests/integration/test_stage4_endpoints.py:49
+  /home/user/schoolhub/backend/tests/integration/test_stage4_endpoints.py:49: PytestUnknownMarkWarning: Unknown pytest.mark.integration - is this a typo?  You can register custom marks to avoid this warning - for details, see https://docs.pytest.org/en/stable/how-to/mark.html
+    @pytest.mark.integration
+
+tests/unit/test_auth.py:73
+  /home/user/schoolhub/backend/tests/unit/test_auth.py:73: PytestUnknownMarkWarning: Unknown pytest.mark.auth - is this a typo?  You can register custom marks to avoid this warning - for details, see https://docs.pytest.org/en/stable/how-to/mark.html
+    @pytest.mark.auth
+
+tests/unit/test_belgian_context.py:9
+  /home/user/schoolhub/backend/tests/unit/test_belgian_context.py:9: PytestUnknownMarkWarning: Unknown pytest.mark.unit - is this a typo?  You can register custom marks to avoid this warning - for details, see https://docs.pytest.org/en/stable/how-to/mark.html
+    @pytest.mark.unit
+
+tests/unit/test_belgian_context.py:37
+  /home/user/schoolhub/backend/tests/unit/test_belgian_context.py:37: PytestUnknownMarkWarning: Unknown pytest.mark.unit - is this a typo?  You can register custom marks to avoid this warning - for details, see https://docs.pytest.org/en/stable/how-to/mark.html
+    @pytest.mark.unit
+
+tests/unit/test_belgian_context.py:99
+  /home/user/schoolhub/backend/tests/unit/test_belgian_context.py:99: PytestUnknownMarkWarning: Unknown pytest.mark.unit - is this a typo?  You can register custom marks to avoid this warning - for details, see https://docs.pytest.org/en/stable/how-to/mark.html
+    @pytest.mark.unit
+
+tests/unit/test_belgian_context.py:125
+  /home/user/schoolhub/backend/tests/unit/test_belgian_context.py:125: PytestUnknownMarkWarning: Unknown pytest.mark.unit - is this a typo?  You can register custom marks to avoid this warning - for details, see https://docs.pytest.org/en/stable/how-to/mark.html
+    @pytest.mark.unit
+
+tests/unit/test_belgian_context.py:164
+  /home/user/schoolhub/backend/tests/unit/test_belgian_context.py:164: PytestUnknownMarkWarning: Unknown pytest.mark.unit - is this a typo?  You can register custom marks to avoid this warning - for details, see https://docs.pytest.org/en/stable/how-to/mark.html
+    @pytest.mark.unit
+
+tests/unit/test_sel_system.py:10
+  /home/user/schoolhub/backend/tests/unit/test_sel_system.py:10: PytestUnknownMarkWarning: Unknown pytest.mark.sel - is this a typo?  You can register custom marks to avoid this warning - for details, see https://docs.pytest.org/en/stable/how-to/mark.html
+    @pytest.mark.sel
+
+tests/unit/test_sel_system.py:61
+  /home/user/schoolhub/backend/tests/unit/test_sel_system.py:61: PytestUnknownMarkWarning: Unknown pytest.mark.sel - is this a typo?  You can register custom marks to avoid this warning - for details, see https://docs.pytest.org/en/stable/how-to/mark.html
+    @pytest.mark.sel
+
+tests/unit/test_sel_system.py:179
+  /home/user/schoolhub/backend/tests/unit/test_sel_system.py:179: PytestUnknownMarkWarning: Unknown pytest.mark.sel - is this a typo?  You can register custom marks to avoid this warning - for details, see https://docs.pytest.org/en/stable/how-to/mark.html
+    @pytest.mark.sel
+
+tests/integration/test_api_complete_flows.py: 10 warnings
+tests/integration/test_stage4_endpoints.py: 4 warnings
+tests/unit/test_auth.py: 2 warnings
+  /home/user/schoolhub/backend/app/analytics_service.py:350: DeprecationWarning: datetime.datetime.utcnow() is deprecated and scheduled for removal in a future version. Use timezone-aware objects to represent datetimes in UTC: datetime.datetime.now(datetime.UTC).
+    "timestamp": datetime.utcnow().isoformat(),
+
+tests/integration/test_api_complete_flows.py: 10 warnings
+tests/integration/test_stage4_endpoints.py: 4 warnings
+tests/unit/test_auth.py: 2 warnings
+  /home/user/schoolhub/backend/app/analytics_service.py:355: DeprecationWarning: datetime.datetime.utcnow() is deprecated and scheduled for removal in a future version. Use timezone-aware objects to represent datetimes in UTC: datetime.datetime.now(datetime.UTC).
+    key = f"analytics:user_actions:{datetime.utcnow().date()}"
+
+tests/integration/test_api_complete_flows.py: 12 warnings
+tests/integration/test_stage4_endpoints.py: 4 warnings
+tests/unit/test_auth.py: 5 warnings
+tests/unit/test_belgian_context.py: 3 warnings
+tests/unit/test_sel_system.py: 5 warnings
+  /home/user/schoolhub/backend/app/main_stage4.py:227: DeprecationWarning: datetime.datetime.utcnow() is deprecated and scheduled for removal in a future version. Use timezone-aware objects to represent datetimes in UTC: datetime.datetime.now(datetime.UTC).
+    expire = datetime.utcnow() + timedelta(days=ACCESS_TOKEN_EXPIRE_DAYS)
+
+tests/integration/test_database_operations.py::TestUserDatabaseOperations::test_user_email_uniqueness_constraint
+  /home/user/schoolhub/backend/tests/conftest.py:55: SAWarning: transaction already deassociated from connection
+    transaction.rollback()
+
+tests/integration/test_stage4_endpoints.py::test_platform_analytics_admin_only
+  /home/user/schoolhub/backend/app/analytics_service.py:71: DeprecationWarning: datetime.datetime.utcnow() is deprecated and scheduled for removal in a future version. Use timezone-aware objects to represent datetimes in UTC: datetime.datetime.now(datetime.UTC).
+    .filter(User.created_at >= datetime.utcnow() - timedelta(days=7))
+
+tests/integration/test_stage4_endpoints.py::test_platform_analytics_admin_only
+  /home/user/schoolhub/backend/app/analytics_service.py:93: DeprecationWarning: datetime.datetime.utcnow() is deprecated and scheduled for removal in a future version. Use timezone-aware objects to represent datetimes in UTC: datetime.datetime.now(datetime.UTC).
+    .filter(Message.created_at >= datetime.utcnow().date())
+
+tests/integration/test_stage4_endpoints.py::test_platform_analytics_admin_only
+  /home/user/schoolhub/backend/app/analytics_service.py:102: DeprecationWarning: datetime.datetime.utcnow() is deprecated and scheduled for removal in a future version. Use timezone-aware objects to represent datetimes in UTC: datetime.datetime.now(datetime.UTC).
+    and_(Event.start_date >= datetime.utcnow(), Event.is_active is True)
+
+tests/integration/test_stage4_endpoints.py::test_platform_analytics_admin_only
+  /home/user/schoolhub/backend/app/analytics_service.py:137: DeprecationWarning: datetime.datetime.utcnow() is deprecated and scheduled for removal in a future version. Use timezone-aware objects to represent datetimes in UTC: datetime.datetime.now(datetime.UTC).
+    "timestamp": datetime.utcnow().isoformat(),
+
+-- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html
+
+---------- coverage: platform linux, python 3.12.3-final-0 -----------
+Name                                Stmts   Miss  Cover
+-------------------------------------------------------
+app/analytics_service.py              105     41    61%
+app/db_types.py                        24      6    75%
+app/main.py                           160    160     0%
+app/main_stage1.py                    184    184     0%
+app/main_stage2.py                    316    316     0%
+app/main_stage3.py                    364    364     0%
+app/main_stage4.py                    379     83    78%
+app/minio_service.py                   94     71    24%
+app/models/__init__.py                  0      0   100%
+app/models/user.py                      5      5     0%
+app/models_stage1.py                   88      0   100%
+app/models_stage2.py                   85      0   100%
+app/models_stage3.py                   96      0   100%
+app/mollie_service.py                  63     38    40%
+app/schemas/__init__.py                 0      0   100%
+app/schemas/user.py                     6      0   100%
+app/schemas_stage1.py                 146      4    97%
+app/secrets_manager.py                105     54    49%
+app/security.py                        24     24     0%
+app/sel_service.py                    112     31    72%
+app/shop_service.py                    94     62    34%
+app/websocket_manager.py              133    133     0%
+app/workers/__init__.py                 0      0   100%
+app/workers/celery_app.py               8      8     0%
+app/workers/notification_tasks.py      43     43     0%
+app/workers/shop_tasks.py              43     43     0%
+-------------------------------------------------------
+TOTAL                                2677   1670    38%
+Coverage XML written to file coverage.xml
+
+======================= 71 passed, 99 warnings in 20.53s =======================
+✅ Backend CI script completed
+🛡️ Security scans (optional)
+Run started:2025-09-20 15:39:30.953437
+
+Test results:
+	No issues identified.
+
+Code scanned:
+	Total lines of code: 5482
+	Total lines skipped (#nosec): 0
+	Total potential issues skipped due to specifically being disabled (e.g., #nosec BXXX): 0
+
+Run metrics:
+	Total issues (by severity):
+		Undefined: 0
+		Low: 3
+		Medium: 0
+		High: 0
+	Total issues (by confidence):
+		Undefined: 0
+		Low: 0
+		Medium: 1
+		High: 2
+Files skipped (0):
+Safety 3.6.1 scanning /home/user/schoolhub
+2025-09-20 15:39:32 UTC
+
+Account: gilles maury, gilmry@gmail.com 
+Project: schoolhub
+ Git branch: master
+ Environment: Stage.development
+ Scan policy: fetched from Safety Platform, ignoring any 
+local Safety CLI policy files
+
+Python detected. Found 1 Python pyproject.toml file, 1 
+Python requirement file and 1 Python environment
+
+✅ backend/pyproject.toml: No issues found.
+
+✅ backend/requirements.txt: No issues found.
+
+✅ backend/venv/pyvenv.cfg: No issues found.
+
+Tested 144 dependencies for security issues using policy 
+fetched from Safety Platform
+9 vulnerabilities found, 9 ignored due to policy.
+0 fixes suggested, resolving 0 vulnerabilities.
+
+Project dashboard: 
+https://platform.safetycli.com/codebases/schoolhub/findings?
+branch=master
+Safety 3.6.1 scanning /home/user/schoolhub
+2025-09-20 15:39:42 UTC
+
+Account: gilles maury, gilmry@gmail.com 
+Project: schoolhub
+ Git branch: master
+ Environment: Stage.development
+ Scan policy: fetched from Safety Platform, ignoring any 
+local Safety CLI policy files
+
+Python detected. Found 1 Python pyproject.toml file, 1 
+Python requirement file and 1 Python environment
+
+✅ backend/pyproject.toml: No issues found.
+
+✅ backend/requirements.txt: No issues found.
+
+✅ backend/venv/pyvenv.cfg: No issues found.
+
+Tested 144 dependencies for security issues using policy 
+fetched from Safety Platform
+9 vulnerabilities found, 9 ignored due to policy.
+0 fixes suggested, resolving 0 vulnerabilities.
+
+Project dashboard: 
+https://platform.safetycli.com/codebases/schoolhub/findings?
+branch=master
+♿ Accessibility (frontend)
+🔎 Running accessibility audit
+📝 Using .pa11yci configuration
+ℹ️ Using npx pa11y-ci (network required)

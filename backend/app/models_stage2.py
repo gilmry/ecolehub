@@ -199,7 +199,9 @@ class PrivacyEvent(Base):
     __tablename__ = "privacy_events"
 
     id = Column(UUIDType(), primary_key=True, default=uuid.uuid4)
-    user_id = Column(UUIDType(), ForeignKey("users.id", ondelete="CASCADE"), nullable=False)
+    user_id = Column(
+        UUIDType(), ForeignKey("users.id", ondelete="CASCADE"), nullable=False
+    )
     action = Column(String(50), nullable=False)
     created_at = Column(DateTime(timezone=True), server_default=func.now())
     details = Column(Text)

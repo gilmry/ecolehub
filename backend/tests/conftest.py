@@ -8,7 +8,12 @@ from sqlalchemy import create_engine
 from sqlalchemy.orm import Session, sessionmaker
 from sqlalchemy.pool import StaticPool
 
-from app.main_stage4 import (
+# Set test environment BEFORE importing the app
+os.environ["TESTING"] = "1"
+os.environ["DATABASE_URL"] = "sqlite:///test.db"
+os.environ["REDIS_URL"] = "redis://localhost:6379/15"
+
+from app.main_stage4 import (  # noqa: E402
     Base,
     app,
     create_access_token,
@@ -16,12 +21,7 @@ from app.main_stage4 import (
     get_password_hash,
     get_redis,
 )
-from app.models_stage1 import Child, SELService, User
-
-# Set test environment
-os.environ["TESTING"] = "1"
-os.environ["DATABASE_URL"] = "sqlite:///test.db"
-os.environ["REDIS_URL"] = "redis://localhost:6379/15"
+from app.models_stage1 import Child, SELService, User  # noqa: E402
 
 
 # Test Database Setup
@@ -31,7 +31,9 @@ engine = create_engine(
     connect_args={"check_same_thread": False},
     poolclass=StaticPool,
 )
-TestingSessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
+TestingSessionLocal = sessionmaker(
+    autocommit=False, autoflush=False, expire_on_commit=False, bind=engine
+)
 
 
 @pytest.fixture(scope="session")

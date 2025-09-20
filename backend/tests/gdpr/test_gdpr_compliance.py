@@ -1,10 +1,8 @@
-import os
 import re
 import subprocess
 from pathlib import Path
 
 import pytest
-
 
 pytestmark = pytest.mark.gdpr
 
@@ -31,7 +29,10 @@ def test_secrets_are_not_committed():
         return
     # List tracked files under secrets
     result = subprocess.run(
-        ["git", "ls-files", str(secrets_dir)], capture_output=True, text=True, cwd=str(root)
+        ["git", "ls-files", str(secrets_dir)],
+        capture_output=True,
+        text=True,
+        cwd=str(root),
     )
     assert result.returncode == 0
     tracked = [line for line in result.stdout.splitlines() if line.strip()]
@@ -50,13 +51,17 @@ def test_env_example_has_no_secrets():
         r"secret",  # generic secret mentions
     ]
     for pat in forbidden_patterns:
-        assert re.search(pat, content, re.IGNORECASE) is None, f"Forbidden secret pattern found: {pat}"
+        assert (
+            re.search(pat, content, re.IGNORECASE) is None
+        ), f"Forbidden secret pattern found: {pat}"
 
 
 def test_backend_uses_env_for_secret_key():
     # Verify backend reads SECRET_KEY from env/secrets manager
     root = repo_root()
-    main_stage4 = (root / "backend/app/main_stage4.py").read_text(encoding="utf-8", errors="ignore")
+    main_stage4 = (root / "backend/app/main_stage4.py").read_text(
+        encoding="utf-8", errors="ignore"
+    )
     assert (
         "get_jwt_secret" in main_stage4 or 'os.getenv("SECRET_KEY"' in main_stage4
     ), "Backend must read SECRET_KEY from env/secrets"
@@ -78,9 +83,10 @@ def test_frontend_has_legal_privacy_links():
     assert index_html.exists(), "frontend/index.html missing"
     content = index_html.read_text(encoding="utf-8", errors="ignore").lower()
     # Look for common legal/privacy cues
-    assert any(k in content for k in ["rgpd", "privacy", "mentions", "données", "protection", "legal"]), (
-        "Frontend should include legal/privacy cues (RGPD/mentions/données)"
-    )
+    assert any(
+        k in content
+        for k in ["rgpd", "privacy", "mentions", "données", "protection", "legal"]
+    ), "Frontend should include legal/privacy cues (RGPD/mentions/données)"
 
 
 def test_privacy_policy_endpoint(client):
@@ -200,15 +206,20 @@ def test_privacy_events_export_and_purge(client, db_session):
     assert any(e.get("action", "").startswith("privacy.") for e in lst)
 
     # Simulate an old event and purge
-    from app.models_stage2 import PrivacyEvent
     from datetime import datetime, timedelta
+
     from sqlalchemy.orm import Session
 
+    from app.models_stage2 import PrivacyEvent
+
     sess: Session = db_session
-    old = PrivacyEvent(user_id=lst and lst[0] and lst[0].get("id") or None, action="privacy.test.old")
+    old = PrivacyEvent(
+        user_id=lst and lst[0] and lst[0].get("id") or None, action="privacy.test.old"
+    )
     # Guard: if user_id None because of the simplistic extraction, fallback to first event's id as user
     # Better: fetch real user id
     from app.models_stage1 import User
+
     user = sess.query(User).filter(User.email == "eventuser@test.be").first()
     old.user_id = user.id
     old.created_at = datetime.utcnow() - timedelta(days=9999)
