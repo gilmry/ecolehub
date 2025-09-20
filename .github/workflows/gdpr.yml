@@ -20,10 +20,11 @@ jobs:
         with:
           python-version: '3.11'
 
-      - name: 📦 Install test deps (backend)
+      - name: 📦 Install dependencies (backend)
         run: |
           cd backend
           python -m pip install --upgrade pip
+          pip install -r requirements.txt
           pip install -r requirements.test.txt
 
       - name: 🔎 Run GDPR tests

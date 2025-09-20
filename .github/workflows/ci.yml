@@ -155,6 +155,10 @@ jobs:
       run: |
         cd backend
         python -m pip install --upgrade pip
+        # Install runtime dependencies first
+        if [ -f requirements.txt ]; then
+          pip install -r requirements.txt
+        fi
         # Install test requirements (check which file exists)
         if [ -f requirements.test.txt ]; then
           pip install -r requirements.test.txt
@@ -244,20 +248,14 @@ jobs:
     - name: 🔐 Check dependencies for vulnerabilities
       run: |
         cd backend
-        # Check requirements file that exists
-        REQ_FILE=""
-        if [ -f requirements.test.txt ]; then
-          REQ_FILE="requirements.test.txt"
-        elif [ -f requirements.stage4.txt ]; then
-          REQ_FILE="requirements.stage4.txt"
-        fi
-
-        if [ -n "$REQ_FILE" ]; then
-          safety check -r "$REQ_FILE" --json --output safety-report.json || true
-          safety check -r "$REQ_FILE" || echo "Security issues found"
-        else
-          echo "No requirements file found for security check"
-        fi
+        # Check both runtime and test requirements files
+        for REQ_FILE in requirements.txt requirements.test.txt requirements.stage4.txt; do
+          if [ -f "$REQ_FILE" ]; then
+            echo "Checking $REQ_FILE for vulnerabilities..."
+            safety check -r "$REQ_FILE" --json --output "safety-report-$(basename $REQ_FILE .txt).json" || true
+            safety check -r "$REQ_FILE" || echo "Security issues found in $REQ_FILE"
+          fi
+        done
 
   docker-build-test:
     name: 🐳 Docker Build Test
