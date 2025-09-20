@@ -35,6 +35,37 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### 🔐 Secure Defaults
 - Uvicorn bind host is now controlled via `BIND_HOST` (default `127.0.0.1`); Docker compose sets `BIND_HOST=0.0.0.0` for containers. Removes Bandit B104 finding.
 
+## [4.1.3] - 2025-09-20
+
+### ♿ Accessibility
+- CI: enable STRICT accessibility audits
+  - Pa11y (WCAG2AA) strict; JSON report artifact (pa11y-report)
+  - Playwright + axe-core strict; HTML report artifact (playwright-a11y-report)
+- Local CI: runs Pa11y in STRICT mode by default; generates JSON reports in `reports/a11y/` and prints a summary (requires `jq`).
+- Frontend fixes to satisfy a11y audits:
+  - Language selector now has an explicit label (`for`/`id`) + `aria-label`.
+  - Login form inputs (email/password) now have associated labels and `id`/`name`/`aria-label`.
+  - Color contrast improvements (links and secondary text): use `text-blue-700`/`text-gray-700` or darker on light backgrounds; on dark footer background use lighter `text-gray-200`.
+  - Primary CTA button contrast increased (bg-blue-600/700).
+
+### 🧪 CI & Tests
+- Backend CI ensures runtime + test dependencies are installed prior to pytest.
+- Added requirements sync check for `fastapi`, `python-jose`, `python-multipart`, and `pydantic` across stage files.
+- Fixed GitHub Actions path expectations by exposing/copying `Makefile` and `backend/` to parent workspace path.
+- Makefile integration tests made path-agnostic (repo-relative discovery).
+- Added `a11y` pytest marker to backend `pytest.ini` to avoid marker warnings.
+
+### 🔒 Security & Dependencies
+- Updated MinIO client to `minio==7.2.16` (fixes Safety advisory for race condition).
+- Runtime deps aligned and bumped:
+  - FastAPI `0.116.2`, `python-jose 3.5.0`, `python-multipart 0.0.20`, `pydantic[email] >=2.6,<2.10`.
+  - Ensure runtime libs present for tests (redis, minio, mollie, prometheus, python-magic).
+- Test tooling stabilized for Safety locally: pinned `typer>=0.12.3`, `rich>=13`, `safety-schemas>=0.0.14`.
+
+### 🧰 Developer Experience
+- Local CI prints Pa11y JSON summary (total issues, top codes) when `jq` is available.
+- README: added CI, Coverage, and A11Y badges; documented local accessibility checks.
+
 
 ### 🌍 i18n Improvements
 - Added `de-BE` locale and language selector (FR‑BE/NL‑BE/DE‑BE/EN)
