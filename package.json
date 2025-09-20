@@ -1,0 +1,22 @@
+{
+  "name": "ecolehub-e2e-tests",
+  "version": "1.0.0",
+  "description": "E2E tests and video documentation for EcoleHub",
+  "scripts": {
+    "test": "playwright test",
+    "test:ui": "playwright test --ui",
+    "test:headed": "playwright test --headed",
+    "test:debug": "playwright test --debug",
+    "test:report": "playwright show-report",
+    "test:mobile": "playwright test --project=\"Mobile Chrome\" --project=\"Mobile Safari\"",
+    "test:video-docs": "playwright test --config=playwright-video-docs.config.ts e2e/documentation-flow.spec.ts",
+    "install-browsers": "playwright install",
+    "generate-docs": "./scripts/generate-video-docs.sh"
+  },
+  "devDependencies": {
+    "@playwright/test": "^1.40.0"
+  },
+  "engines": {
+    "node": ">=18"
+  }
+}

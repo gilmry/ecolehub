@@ -192,6 +192,63 @@ test-install: ## Install test dependencies
 	$(COMPOSE) exec backend pip install -r requirements.test.txt
 	@echo "✅ $(GREEN)Test dependencies installed$(NC)"
 
+##@ 🎭 E2E Tests
+
+test-e2e-install: ## Install E2E test dependencies
+	@echo "📦 $(BLUE)Installing E2E test dependencies...$(NC)"
+	npm ci
+	npx playwright install --with-deps
+	@echo "✅ $(GREEN)E2E test dependencies installed$(NC)"
+
+test-e2e: ## Run E2E tests
+	@echo "🎭 $(BLUE)Running E2E tests...$(NC)"
+	@echo "🚀 Starting application..."
+	$(COMPOSE) up -d
+	@sleep 15
+	@echo "🧪 Running Playwright tests..."
+	npm test || (echo "❌ E2E tests failed" && $(COMPOSE) down && exit 1)
+	@echo "✅ $(GREEN)E2E tests completed$(NC)"
+	$(COMPOSE) down
+
+test-e2e-ui: ## Run E2E tests with UI mode
+	@echo "🎭 $(BLUE)Running E2E tests in UI mode...$(NC)"
+	$(COMPOSE) up -d
+	@sleep 15
+	npm run test:ui
+
+test-e2e-mobile: ## Run mobile E2E tests
+	@echo "📱 $(BLUE)Running mobile E2E tests...$(NC)"
+	$(COMPOSE) up -d
+	@sleep 15
+	npm run test:mobile || (echo "❌ Mobile E2E tests failed" && $(COMPOSE) down && exit 1)
+	@echo "✅ $(GREEN)Mobile E2E tests completed$(NC)"
+	$(COMPOSE) down
+
+test-e2e-video-docs: ## Generate video documentation
+	@echo "📹 $(BLUE)Generating video documentation...$(NC)"
+	$(COMPOSE) up -d
+	@sleep 15
+	npm run test:video-docs || (echo "❌ Video documentation generation failed" && $(COMPOSE) down && exit 1)
+	@echo "✅ $(GREEN)Video documentation generated$(NC)"
+	@echo "📁 Check test-results/videos/ for video files"
+	$(COMPOSE) down
+
+test-e2e-headed: ## Run E2E tests in headed mode (visible browser)
+	@echo "🎭 $(BLUE)Running E2E tests in headed mode...$(NC)"
+	$(COMPOSE) up -d
+	@sleep 15
+	npm run test:headed
+
+test-e2e-debug: ## Run E2E tests in debug mode
+	@echo "🐛 $(BLUE)Running E2E tests in debug mode...$(NC)"
+	$(COMPOSE) up -d
+	@sleep 15
+	npm run test:debug
+
+generate-docs: ## Generate complete video documentation
+	@echo "🎬 $(BLUE)Generating complete video documentation...$(NC)"
+	./scripts/generate-video-docs.sh
+
 lint: ## Run code linting
 	@echo "🔍 $(BLUE)Running linters...$(NC)"
 	$(COMPOSE) exec backend python -m flake8 app/ tests/ || true

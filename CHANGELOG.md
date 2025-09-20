@@ -5,9 +5,69 @@ All notable changes to EcoleHub will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## [4.1.1] - 2025-09-20
+## [4.2.0] - 2025-09-20
 
-## [4.1.2] - 2025-09-20
+### 🎭 New Feature: E2E Testing & Video Documentation Infrastructure
+
+#### ✨ Major Features Added
+- **Complete Playwright E2E testing suite**: Comprehensive end-to-end tests covering all user workflows
+- **Automatic video documentation**: Tests generate video recordings that serve as living documentation
+- **Belgian school context testing**: Specialized tests for Belgian education system (M1-M3, P1-P6 classes, SEL rules)
+- **Multi-device testing**: Desktop, mobile, and responsive design validation
+- **Internationalization testing**: Language switching (fr-BE, nl-BE, en) validation
+
+#### 🧪 Test Coverage
+- **Authentication flows**: Login/logout for parents, admin, direction roles
+- **SEL system**: Service creation, requests, balance management, transactions
+- **Navigation**: Complete application navigation and user interface testing
+- **Mobile responsiveness**: Mobile-specific user flows and interface validation
+- **Belgian compliance**: School class validation, SEL rules, localization
+
+#### 📹 Video Documentation System
+- **Automated video generation**: Tests create videos showing complete user journeys
+- **Documentation quality**: 1280x720 resolution with optimized capture settings
+- **Multiple output formats**: Screenshots, videos, traces for debugging
+- **CI/CD integration**: Automatic video generation on releases
+
+#### 🔧 Development Tools
+- **Page Object Model**: Structured test architecture with reusable page components
+- **Test data fixtures**: Belgian school classes, test users, SEL system data
+- **Multiple test modes**: Headed, headless, debug, UI interactive modes
+- **Make commands**: Integrated with existing Makefile workflow
+
+#### 🚀 CI/CD Integration
+- **GitHub Actions workflow**: Automated E2E testing in CI pipeline
+- **Artifact management**: Test reports, videos, and screenshots automatically uploaded
+- **Mobile testing job**: Dedicated mobile device testing workflow
+- **Documentation generation**: Automatic video documentation on master branch
+
+#### 📦 Files Added
+```
+package.json                           # Node.js project configuration
+playwright.config.ts                  # Main Playwright configuration
+playwright-video-docs.config.ts       # Video documentation settings
+e2e/utils/base-page.ts                # Base page utilities
+e2e/fixtures/test-data.ts             # Test data and Belgian context
+e2e/pages/login-page.ts               # Login page object
+e2e/pages/dashboard-page.ts           # Dashboard page object
+e2e/pages/sel-services-page.ts        # SEL services page object
+e2e/auth.spec.ts                      # Authentication tests
+e2e/sel-system.spec.ts                # SEL system tests
+e2e/navigation.spec.ts                # Navigation tests
+e2e/belgian-context.spec.ts           # Belgian school context tests
+e2e/documentation-flow.spec.ts        # Video documentation tests
+scripts/generate-video-docs.sh        # Video documentation script
+.github/workflows/e2e-tests.yml       # GitHub Actions E2E workflow
+e2e/README.md                         # Comprehensive E2E documentation
+```
+
+#### 🛠️ Enhanced Makefile
+- `make test-e2e-install`: Install E2E dependencies
+- `make test-e2e`: Run complete E2E test suite
+- `make test-e2e-mobile`: Mobile-specific testing
+- `make test-e2e-video-docs`: Generate documentation videos
+- `make generate-docs`: Complete video documentation generation
+- `make test-e2e-ui`: Interactive test development mode
 
 ## [4.1.4] - 2025-09-20
 
