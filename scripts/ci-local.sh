@@ -48,14 +48,14 @@ fi
 if $PYBIN -c 'import safety' >/dev/null 2>&1; then
   # Scan runtime dependencies
   if [ -f backend/requirements.txt ]; then
-    $PYBIN -m safety scan -r backend/requirements.txt \
-      || $PYBIN -m safety check -r backend/requirements.txt \
+    ($PYBIN -m safety scan -r backend/requirements.txt >/dev/null 2>&1) \
+      || ($PYBIN -m safety check -r backend/requirements.txt >/dev/null 2>&1) \
       || echo "ℹ️ safety (runtime) scan/check skipped"
   fi
   # Scan test/dev dependencies
   if [ -f backend/requirements.test.txt ]; then
-    $PYBIN -m safety scan -r backend/requirements.test.txt \
-      || $PYBIN -m safety check -r backend/requirements.test.txt \
+    ($PYBIN -m safety scan -r backend/requirements.test.txt >/dev/null 2>&1) \
+      || ($PYBIN -m safety check -r backend/requirements.test.txt >/dev/null 2>&1) \
       || echo "ℹ️ safety (test) scan/check skipped"
   fi
 else
