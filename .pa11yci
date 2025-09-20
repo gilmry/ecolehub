@@ -4,7 +4,14 @@
     "timeout": 60000,
     "wait": 1000,
     "screenCapture": false,
-    "log": { "level": "error" }
+    "log": { "level": "error" },
+    "chromeLaunchConfig": {
+      "args": [
+        "--no-sandbox",
+        "--disable-setuid-sandbox",
+        "--disable-dev-shm-usage"
+      ]
+    }
   },
   "urls": [
     "http://localhost:8089/"
