@@ -134,8 +134,14 @@ class SELService(Base):
 
     # Relationships
     user = relationship("User", back_populates="sel_services")
-    # Compatibility alias for tests expecting 'provider'
-    provider = synonym("user")
+    # Compatibility alias for tests expecting 'provider' without creating a second
+    # ORM relationship (which can confuse automatic joins). Use a simple property
+    # that forwards to the actual relationship.
+
+    @property
+    def provider(self):  # noqa: D401 - simple alias
+        return self.user
+
     transactions = relationship("SELTransaction", back_populates="service")
 
 
