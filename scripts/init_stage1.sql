@@ -122,9 +122,9 @@ INSERT INTO sel_categories (name, description, icon) VALUES
     ('autre', 'Autres services', '💡');
 
 -- Create initial admin user (optional, for testing)
--- Password: admin123 (hashed with bcrypt)
+-- Password: jules20220902 (hashed with bcrypt)
 INSERT INTO users (email, first_name, last_name, hashed_password, is_verified) VALUES
-    ('admin@ecolehub.local', 'Admin', 'EcoleHub', '$2b$12$LQv3c1yqBWVHxkd0LHAkCOYz6TtxMQJqyc/Zo/.VjLaU0LYaOlOta', true);
+    ('admin@ecolehub.local', 'Admin', 'EcoleHub', '$2b$12$SaTEtnlb2yOYXZl1Qy9Nb.MKbJnrePjpygTteWx0bWNByGnT5CC.e', true);
 
 -- Create initial balance for admin
 INSERT INTO sel_balances (user_id, balance) 

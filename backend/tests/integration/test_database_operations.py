@@ -23,7 +23,7 @@ class TestUserDatabaseOperations:
             email="parent@dbtest.be",
             first_name="Database",
             last_name="Test",
-            hashed_password=get_password_hash("test123"),
+            hashed_password=get_password_hash("jules20220902"),
             role=UserRole.PARENT,
             is_active=True
         )
@@ -61,7 +61,7 @@ class TestUserDatabaseOperations:
             email="unique@test.be",
             first_name="First",
             last_name="User",
-            hashed_password=get_password_hash("test123"),
+            hashed_password=get_password_hash("jules20220902"),
             role=UserRole.PARENT
         )
         db_session.add(user1)
@@ -72,7 +72,7 @@ class TestUserDatabaseOperations:
             email="unique@test.be",  # Same email
             first_name="Second", 
             last_name="User",
-            hashed_password=get_password_hash("test123"),
+            hashed_password=get_password_hash("jules20220902"),
             role=UserRole.PARENT
         )
         db_session.add(user2)
@@ -86,7 +86,7 @@ class TestUserDatabaseOperations:
             email="deactivate@test.be",
             first_name="To",
             last_name="Deactivate",
-            hashed_password=get_password_hash("test123"),
+            hashed_password=get_password_hash("jules20220902"),
             role=UserRole.PARENT,
             is_active=True
         )
@@ -114,14 +114,14 @@ class TestSELDatabaseOperations:
             email="provider@seltest.be", 
             first_name="Provider", 
             last_name="User",
-            hashed_password=get_password_hash("test123"),
+            hashed_password=get_password_hash("jules20220902"),
             role=UserRole.PARENT
         )
         requester = User(
             email="requester@seltest.be",
             first_name="Requester",
             last_name="User", 
-            hashed_password=get_password_hash("test123"),
+            hashed_password=get_password_hash("jules20220902"),
             role=UserRole.PARENT
         )
         
@@ -175,7 +175,7 @@ class TestSELDatabaseOperations:
             email="balance@test.be",
             first_name="Balance",
             last_name="Test",
-            hashed_password=get_password_hash("test123"),
+            hashed_password=get_password_hash("jules20220902"),
             role=UserRole.PARENT
         )
         db_session.add(user)
@@ -201,7 +201,7 @@ class TestSELDatabaseOperations:
             email="cascade@test.be",
             first_name="Cascade",
             last_name="Test",
-            hashed_password=get_password_hash("test123"),
+            hashed_password=get_password_hash("jules20220902"),
             role=UserRole.PARENT
         )
         db_session.add(user)
@@ -245,7 +245,7 @@ class TestChildDatabaseOperations:
             email="childparent@test.be",
             first_name="Child",
             last_name="Parent",
-            hashed_password=get_password_hash("test123"), 
+            hashed_password=get_password_hash("jules20220902"), 
             role=UserRole.PARENT
         )
         db_session.add(user)
@@ -274,7 +274,7 @@ class TestChildDatabaseOperations:
             email="multiparent@test.be",
             first_name="Multi",
             last_name="Parent",
-            hashed_password=get_password_hash("test123"),
+            hashed_password=get_password_hash("jules20220902"),
             role=UserRole.PARENT
         )
         db_session.add(user)
@@ -310,7 +310,7 @@ class TestDatabasePerformance:
             email="efficient@test.be",
             first_name="Efficient",
             last_name="Query",
-            hashed_password=get_password_hash("test123"),
+            hashed_password=get_password_hash("jules20220902"),
             role=UserRole.PARENT
         )
         db_session.add(user)
@@ -343,7 +343,7 @@ class TestDatabasePerformance:
                 email=f"provider{i}@test.be",
                 first_name=f"Provider{i}",
                 last_name="Test",
-                hashed_password=get_password_hash("test123"),
+                hashed_password=get_password_hash("jules20220902"),
                 role=UserRole.PARENT
             )
             db_session.add(user)

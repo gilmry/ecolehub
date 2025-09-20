@@ -5,6 +5,34 @@ All notable changes to EcoleHub will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [4.1.0] - 2024-09-20
+
+### 🏗️ Repository Reorganization & Genericization
+- **Generic configuration**: Removed production-specific hardcoded values
+- **Environment-based deployment**: All configurations now use environment variables
+- **Documentation restructure**: Moved specialized docs to `docs/` directory
+- **Preserved valuable tools**: EcoleHub CLI, secrets management, and administrative scripts maintained
+- **Clean .gitignore**: Production-specific files and runtime directories properly excluded
+
+### ✨ Added - Generic Deployment
+- **Environment template**: Complete `.env.example` for any school deployment
+- **Generic Traefik config**: `docker-compose.traefik.yml` uses `${DOMAIN}` variable
+- **Comprehensive documentation**: Configuration guides, Traefik deployment, testing guides
+- **Administrative CLI**: Restored and generalized `ecolehub-manager.sh` for school IT teams
+- **Secrets management**: Generic password generation and rotation tools
+
+### 🔧 Improved - Code Quality
+- **Generic CORS configuration**: Backend now reads from `CORS_ORIGINS` environment variable
+- **Updated CI/CD**: GitHub Actions adapted for generic repository structure
+- **Documentation links**: All internal references updated for new structure
+- **Open source ready**: Repository suitable for deployment by any school
+
+### 📁 Changed - File Organization
+- **Root files**: `README.md`, `CHANGELOG.md`, `CLAUDE.md` (essentials only)
+- **docs/ directory**: Specialized documentation moved to organized location
+- **scripts/ tools**: Comprehensive CLI and management tools with documentation
+- **Runtime directories**: `data/`, `db/`, `uploads/`, `secrets/`, `letsencrypt/` properly ignored
+
 ## [4.0.0] - 2025-01-16
 
 ### ✨ Added - Makefile Management System

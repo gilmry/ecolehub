@@ -60,3 +60,28 @@ secrets-backup-*
 *password*.txt
 *api_key*.txt
 letsencrypt/
+
+# Production-specific configurations
+.env.production
+docker-compose.production*.yml
+docker-compose.*-external-traefik.yml
+deploy-*.sh
+setup-*.sh
+stop-*.sh
+test-*.sh
+finalize-*.sh
+security-scan.sh
+DEPLOY-GUIDE.md
+MIGRATION-SECURITE.md
+monitoring/*-secure.yml
+traefik/*-secure.conf
+finalize-server.sh
+
+# Local runtime data directories
+data/
+db/
+uploads/
+
+# Archive directory
+archive/
+ARCHIVE-LOG.md

@@ -70,7 +70,7 @@ def test_user_parent(db_session: Session) -> User:
         email="parent@test.be",
         first_name="Marie",
         last_name="Dupont",
-        hashed_password=get_password_hash("test123"),
+        hashed_password=get_password_hash("jules20220902"),
         is_active=True
     )
     db_session.add(user)
@@ -86,7 +86,7 @@ def test_user_admin(db_session: Session) -> User:
         email="admin@test.be",
         first_name="Admin",
         last_name="EcoleHub",
-        hashed_password=get_password_hash("admin123"),
+        hashed_password=get_password_hash("jules20220902"),
         is_active=True
     )
     db_session.add(user)
@@ -102,7 +102,7 @@ def test_user_direction(db_session: Session) -> User:
         email="direction@test.be",
         first_name="Direction",
         last_name="EcoleHub",
-        hashed_password=get_password_hash("direction123"),
+        hashed_password=get_password_hash("jules20220902"),
         is_active=True
     )
     db_session.add(user)
@@ -148,7 +148,7 @@ def auth_headers_parent(client: TestClient) -> dict:
     """Get authentication headers for parent user."""
     response = client.post(
         "/login",
-        data={"email": "parent@test.be", "password": "test123"}
+        data={"email": "parent@test.be", "password": "jules20220902"}
     )
     token = response.json()["access_token"]
     return {"Authorization": f"Bearer {token}"}
@@ -158,8 +158,8 @@ def auth_headers_parent(client: TestClient) -> dict:
 def auth_headers_admin(client: TestClient) -> dict:
     """Get authentication headers for admin user."""
     response = client.post(
-        "/login", 
-        data={"email": "admin@test.be", "password": "admin123"}
+        "/login",
+        data={"email": "admin@test.be", "password": "jules20220902"}
     )
     token = response.json()["access_token"]
     return {"Authorization": f"Bearer {token}"}
@@ -170,7 +170,7 @@ def auth_headers_direction(client: TestClient) -> dict:
     """Get authentication headers for direction user."""
     response = client.post(
         "/login",
-        data={"email": "direction@test.be", "password": "direction123"}
+        data={"email": "direction@test.be", "password": "jules20220902"}
     )
     token = response.json()["access_token"]
     return {"Authorization": f"Bearer {token}"}

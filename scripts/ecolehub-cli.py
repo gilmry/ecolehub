@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """
 EcoleHub CLI - Credential and Account Management Tool
-Belgian school collaborative platform administration
+Open-source school collaborative platform administration
 """
 
 import os

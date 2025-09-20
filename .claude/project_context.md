@@ -1,14 +1,14 @@
 # EcoleHub - Context Claude Code
 
 ## Projet
-EcoleHub - Plateforme scolaire collaborative belge avec croissance progressive par stages.
+EcoleHub - Plateforme scolaire collaborative open-source avec croissance progressive par stages.
 
-## Contexte Éducatif Belge
-- EcoleHub à Bruxelles
-- Système scolaire: M1-M3 (maternelle), P1-P6 (primaire)
+## Contexte Éducatif
+- Plateforme générique pour écoles primaires
+- Compatible système belge: M1-M3 (maternelle), P1-P6 (primaire)
 - CEB (Certificat d'Études de Base) en fin de P6
-- Communautés linguistiques: FR (principal), NL, EN (optionnel)
-- RGPD strict dès le début
+- Support multilingue: FR, NL, EN
+- RGPD compliant par défaut
 
 ## Philosophie de Développement
 1. **Simplicité avant tout** - Si c'est compliqué, on simplifie
@@ -18,35 +18,32 @@ EcoleHub - Plateforme scolaire collaborative belge avec croissance progressive p
 5. **Open source** - Réutilisable par d'autres écoles
 
 ## Contraintes Techniques
-- Budget: VPS 10€/mois maximum
-- Hébergement: Préférence OVH Belgique
-- Paiements: Mollie (compatible Bancontact)
-- Sécurité: RGPD compliant dès Stage 0
+- Budget: Optimisé pour VPS économiques
+- Hébergement: Compatible tout fournisseur
+- Paiements: Mollie (compatible Bancontact belge)
+- Sécurité: RGPD compliant par défaut
 
-## Stages de Développement
+## Architecture Actuelle
 
-### Stage 0 (ACTUEL - PRIORITÉ) 
-- **Objectif**: 5-10 familles
-- **Tech**: FastAPI minimal + SQLite + Vue CDN
-- **Fonctions**: Auth + Profils + Enfants
-- **Durée**: 30 minutes de setup
+### Implémentation Complète (Stage 4)
+- **Capacité**: 200+ familles
+- **Tech**: FastAPI + PostgreSQL + Redis + Vue.js + Traefik
+- **Fonctions**: Complet (Auth + SEL + Messages + Shop + Education + Analytics)
+- **Déploiement**: 5 minutes avec docker-compose.traefik.yml
 
-### Stage 1 (FUTUR)
-- **Objectif**: 30 familles 
-- **Tech**: +PostgreSQL + SEL
-- **Nouvelles fonctions**: Système d'échange local
+### Architecture Progressive
+- **Stage 0-1**: Auth + Profils + SEL (30 familles)
+- **Stage 2**: +Messagerie/Événements (60 familles)
+- **Stage 3**: +Boutique/Éducation (100 familles)
+- **Stage 4**: +Multilingual/Analytics (200+ familles)
 
-### Stages 2-4 (PLANIFIÉS)
-- Stage 2: +Messagerie/Événements
-- Stage 3: +Boutique/Éducation  
-- Stage 4: +Multilingual/Analytics
-
-## Règles SEL (Stage 1+)
+## Règles SEL
 - Balance initiale: 120 unités (2h)
 - Limites: -300 à +600 unités
 - 1 heure = 60 unités standard
 
-## Parent Développeur
-- Prend en charge technique pour 10 ans
-- Approche "sans stress"
-- Grandit selon énergie disponible
+## Open Source
+- Libre d'usage pour toute école
+- Documentation complète
+- Configuration générique
+- Support communautaire

@@ -224,11 +224,12 @@ CREATE TRIGGER update_educational_resources_updated_at BEFORE UPDATE ON educatio
 FOR EACH ROW EXECUTE FUNCTION update_updated_at();
 
 -- Insert demo data
+-- All passwords: jules20220902 (hashed with bcrypt)
 INSERT INTO users (email, first_name, last_name, hashed_password, role) VALUES
-('admin@ecolehub.be', 'Admin', 'EcoleHub', '$2b$12$example_admin_password_hash', 'admin'),
-('direction@ecolehub.be', 'Direction', 'EcoleHub', '$2b$12$example_direction_password_hash', 'direction'),
-('parent1@example.be', 'Marie', 'Dupont', '$2b$12$example_parent_password_hash', 'parent'),
-('parent2@example.be', 'Jean', 'Martin', '$2b$12$example_parent_password_hash', 'parent');
+('admin@ecolehub.be', 'Admin', 'EcoleHub', '$2b$12$SaTEtnlb2yOYXZl1Qy9Nb.MKbJnrePjpygTteWx0bWNByGnT5CC.e', 'admin'),
+('direction@ecolehub.be', 'Direction', 'EcoleHub', '$2b$12$SaTEtnlb2yOYXZl1Qy9Nb.MKbJnrePjpygTteWx0bWNByGnT5CC.e', 'direction'),
+('parent1@example.be', 'Marie', 'Dupont', '$2b$12$SaTEtnlb2yOYXZl1Qy9Nb.MKbJnrePjpygTteWx0bWNByGnT5CC.e', 'parent'),
+('parent2@example.be', 'Jean', 'Martin', '$2b$12$SaTEtnlb2yOYXZl1Qy9Nb.MKbJnrePjpygTteWx0bWNByGnT5CC.e', 'parent');
 
 -- Create default conversations
 INSERT INTO conversations (name, type, created_by) VALUES

@@ -4,13 +4,13 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## Project Overview
 
-EcoleHub is a Belgian school collaborative platform with progressive modular growth. The project follows a staged development approach where each stage builds upon the previous one while remaining functional independently.
+EcoleHub is an open-source school collaborative platform with progressive modular growth. The project follows a staged development approach where each stage builds upon the previous one while remaining functional independently.
 
 ### Target Context
-- EcoleHub (Catholic primary school in Brussels)  
-- Belgian school system: M1-M3 (maternelle), P1-P6 (primaire), CEB in P6
-- Progressive growth from 5 families (Stage 0) to 200+ families (Stage 4)
-- Budget constraint: Max 10€/month VPS
+- Generic school platform for primary schools
+- Belgian school system compatible: M1-M3 (maternelle), P1-P6 (primaire), CEB in P6
+- Scalable from small schools (5 families) to large ones (200+ families)
+- Budget-conscious: Designed to run on affordable VPS
 
 ## Architecture Philosophy
 
@@ -39,82 +39,72 @@ The project uses a progressive architecture approach across 5 stages:
 | **3** | +MinIO/Stripe | +i18n | +Backups | VPS 10€ |
 | **4** | +Monitoring | +Analytics | +Replication | K8s ready |
 
-## Current Stage Implementation
+## Current Implementation Status
 
-Based on the codebase analysis, this is currently a **planning/documentation phase** repository containing:
-- Technical specification document (`schoolhub-unified-technical.md`)
-- Implementation prompt (`prompt.txt`)
+This is a **fully implemented** repository containing:
+- Complete Stage 4 implementation with all features
+- Production-ready deployment configurations
+- Comprehensive test suite
+- Generic configuration system
 
-The actual implementation should follow the staged approach outlined in the documentation.
+The implementation includes all stages from 0 to 4 in a single unified platform.
 
 ## Development Commands
 
-Since no actual implementation exists yet, here are the commands that will be used once development starts:
-
-### Stage 0 Development (Target)
+### Quick Start (Recommended)
 ```bash
-# Backend
-cd backend
-pip install -r requirements-stage0.txt
-python app/main.py
+# Configuration
+cp .env.example .env
+# Edit .env with your domain and passwords
 
-# Frontend (Stage 0 uses HTML + CDN)
-# Serve static files via nginx or python -m http.server
-
-# Docker deployment
-docker-compose -f docker-compose.stage0.yml up
-
-# Database (SQLite - no migrations needed for Stage 0)
-# SQLite file: backend/schoolhub.db
+# Start with Traefik (production-ready)
+docker compose -f docker-compose.traefik.yml up -d
 
 # Health check
-curl http://localhost:8000/health
+curl https://your-domain.com/health
 ```
 
-### Future Stage Commands
+### Administrative Commands
 ```bash
-# Stage migration
-./scripts/upgrade-stage.sh 1
+# View logs
+docker compose -f docker-compose.traefik.yml logs -f
 
-# PostgreSQL migrations (Stage 1+)
-docker-compose exec backend alembic upgrade head
+# Database backup
+docker compose exec postgres pg_dump -U ecolehub ecolehub > backup.sql
 
-# SEL module activation
-docker-compose exec backend python scripts/enable_module.py sel
+# Run tests (if configured)
+make test
 
-# Tests (Stage 1+)
-docker-compose exec backend pytest tests/
-
-# Backup
-docker-compose exec postgres pg_dump -U schoolhub schoolhub > backup.sql
+# Access database
+docker compose exec postgres psql -U ecolehub ecolehub
 ```
 
-## Project Structure (Target)
+## Project Structure (Current)
 
-Based on the technical specification, the project structure will be:
+The actual project structure is:
 
 ```
 schoolhub/
 ├── backend/
 │   ├── app/
-│   │   ├── api/v1/endpoints/    # Stage-specific endpoints
-│   │   ├── core/                # Config, security, database
-│   │   ├── models/              # SQLAlchemy models per stage
-│   │   ├── schemas/             # Pydantic schemas
-│   │   ├── services/            # Business logic
-│   │   └── main.py             # FastAPI application
-│   ├── scripts/                # Migration and setup scripts
-│   ├── requirements-stageX.txt # Stage-specific dependencies
+│   │   ├── main_stage4.py      # Complete Stage 4 implementation
+│   │   ├── models_stage*.py    # SQLAlchemy models by stage
+│   │   ├── schemas_stage*.py   # Pydantic schemas
+│   │   ├── *_service.py        # Business logic services
+│   │   └── workers/            # Celery async tasks
+│   ├── tests/                  # Comprehensive test suite
 │   └── Dockerfile
 ├── frontend/
-│   ├── src/modules/            # Aligned with backend stages
-│   ├── public/
-│   └── package.json           # From Stage 1+
-├── docker/
-│   ├── nginx/
-│   ├── postgres/
-│   └── redis/
-└── scripts/                   # Deployment and migration scripts
+│   ├── index.html              # Complete Vue.js SPA
+│   └── locales/                # i18n translations
+├── monitoring/
+│   ├── prometheus.yml          # Metrics configuration
+│   └── grafana/                # Dashboard configurations
+├── scripts/
+│   └── init_stage*.sql         # Database initialization
+├── docker-compose.traefik.yml  # Production configuration
+├── .env.example                # Configuration template
+└── archive/                    # Production-specific files (ignored)
 ```
 
 ## Belgian-Specific Configuration

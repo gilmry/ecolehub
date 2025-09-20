@@ -1,221 +1,79 @@
-# Règles de Développement EcoleHub
+# EcoleHub Development Guidelines
 
-## Principes Généraux
+## General Principles
 
-### 1. Simplicité Absolue
-- Toujours choisir la solution la plus simple
-- Si tu hésites entre 2 approches, prends la plus directe
-- Pas de patterns complexes si pas nécessaire
-- Un fichier qui fait tout > 10 fichiers "bien organisés" pour Stage 0
+### 1. Simplicity First
+- Always choose the simplest working solution
+- Don't over-engineer for future requirements
+- One working file is better than complex architecture
 
-### 2. Production-Ready Dès le Début
-- Chaque ligne de code doit être déployable
-- Gestion d'erreur basique mais présente
-- HTTPS obligatoire même en développement
-- Logs essentiels seulement
+### 2. Production Ready
+- Every line of code must be deployable
+- HTTPS required for all deployments
+- Proper error handling and validation
+- GDPR compliant by default
 
-### 3. Approche Progressive
-- Ne JAMAIS implémenter plusieurs stages en même temps
-- Stage actuel doit être parfait avant le suivant
-- Migrations entre stages sans perte de données
-- Backward compatibility maintenue
+### 3. Configuration Management
+- Use environment variables for all configuration
+- Generic configuration via `.env.example`
+- No hardcoded domain names or secrets
+- Document all configuration options
 
-## Règles Techniques
+## Technical Guidelines
 
 ### Backend (FastAPI)
-```python
-# ✅ BON - Tout en 1 fichier pour Stage 0
-from fastapi import FastAPI, Depends, HTTPException
-# ... tout le code dans main.py
+- Use existing Stage 4 implementation (`main_stage4.py`) as reference
+- API endpoints prefixed with `/api/`
+- SQLAlchemy models for database
+- Pydantic schemas for validation
+- JWT authentication
 
-# ❌ MAUVAIS - Structure complexe pour Stage 0
-# from app.services.user_service import UserService
-# from app.repositories.user_repository import UserRepository
-```
+### Frontend (Vue.js)
+- Single-page application in `index.html`
+- Vue 3 with Composition API
+- Tailwind CSS for styling
+- API calls to `/api/*` endpoints
 
-### Frontend (Vue 3)
-```html
-<!-- ✅ BON - CDN pour Stage 0 -->
-<script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+### Database
+- PostgreSQL for production
+- Use existing models and migrations
+- Backup procedures documented
 
-<!-- ❌ MAUVAIS - Build process Stage 0 -->
-<script type="module" src="/src/main.js"></script>
-```
+### Deployment
+- Docker Compose with Traefik
+- Let's Encrypt for SSL certificates
+- Environment-based configuration
+- Health checks for all services
 
-### Base de Données
-```python
-# ✅ BON - SQLite Stage 0
-DATABASE_URL = "sqlite:///./schoolhub.db"
+## Code Quality
 
-# ❌ MAUVAIS - PostgreSQL Stage 0  
-DATABASE_URL = "postgresql://user:pass@localhost/db"
-```
+### Testing
+- Use existing test suite as reference
+- Unit tests for business logic
+- Integration tests for API endpoints
+- Test coverage reporting available
 
-## Règles de Sécurité
+### Documentation
+- Update README.md for user-facing changes
+- Update CONFIGURATION-GUIDE.md for deployment changes
+- Comment complex business logic
+- Keep Claude instructions up to date
 
-### Authentification
-- JWT avec expiration (7 jours max)
-- Mots de passe hashés avec bcrypt
-- CORS configuré correctement
-- Pas de secrets en dur dans le code
+## Security
 
-### RGPD/Privacy
-- Données minimales collectées
-- Consentement explicite
-- Possibilité de suppression compte
-- Logs sans données personnelles
+### Authentication
+- JWT tokens for API access
+- Role-based access control (admin/parent)
+- Secure password hashing (bcrypt)
 
-## Conventions de Code
+### Data Protection
+- GDPR compliant data handling
+- Input validation and sanitization
+- SQL injection prevention
+- XSS protection
 
-### Nommage
-- **Classes Python**: PascalCase (`User`, `SELTransaction`)
-- **Fonctions/variables**: snake_case (`get_user`, `user_id`)
-- **Endpoints API**: kebab-case (`/api/v1/user-profile`)
-- **Variables env**: UPPER_SNAKE_CASE (`DATABASE_URL`)
-
-### Structure des Commits
-```
-type(scope): description
-
-feat(auth): add JWT token validation
-fix(sel): correct balance calculation limits
-docs(readme): update deployment instructions
-```
-
-### Classes Belges (Validation)
-```python
-VALID_CLASSES = ['M1', 'M2', 'M3', 'P1', 'P2', 'P3', 'P4', 'P5', 'P6']
-```
-
-## Gestion d'Erreurs
-
-### API Responses
-```python
-# ✅ BON
-@app.post("/register")
-def register(user: UserCreate):
-    try:
-        # logic
-        return {"message": "Utilisateur créé"}
-    except ValueError as e:
-        raise HTTPException(status_code=400, detail=str(e))
-
-# ❌ MAUVAIS - Trop complexe Stage 0
-# Custom exception classes, error handlers, etc.
-```
-
-### Frontend Error Handling
-```javascript
-// ✅ BON
-try {
-    const response = await fetch('/api/register', {
-        method: 'POST',
-        headers: {'Content-Type': 'application/json'},
-        body: JSON.stringify(userData)
-    });
-    if (!response.ok) {
-        throw new Error('Erreur inscription');
-    }
-} catch (error) {
-    alert(error.message); // Simple pour Stage 0
-}
-```
-
-## Performance Guidelines
-
-### Stage 0 (SQLite)
-- Pas d'optimisation prématurée
-- Index seulement si problème de performance
-- Requêtes directes, pas de cache
-
-### Stage 1+ (PostgreSQL)
-- Index sur foreign keys
-- Connection pooling
-- Cache Redis pour sessions
-
-## Testing Strategy
-
-### Stage 0
-- Tests manuels uniquement
-- Checklist de validation
-- Test sur mobile
-
-### Stage 1+
-- Tests unitaires essentiels
-- Tests d'intégration API
-- Tests end-to-end critiques
-
-## Déploiement
-
-### Variables d'Environnement
-```bash
-# Obligatoires toujours
-SECRET_KEY=your-secret-key-here
-DATABASE_URL=sqlite:///./schoolhub.db
-
-# Stage 1+
-DB_PASSWORD=secure-password
-REDIS_PASSWORD=secure-redis-password
-
-# Stage 3+
-MOLLIE_API_KEY=mollie-key
-PRINTFUL_API_KEY=printful-key
-```
-
-### Docker
-- Images Alpine Linux (plus légères)
-- Multi-stage builds pour production
-- Health checks obligatoires
-- Logs structurés
-
-## Anti-Patterns à Éviter
-
-### ❌ Sur-ingénierie
-```python
-# Pas pour Stage 0
-class UserServiceFactory:
-    def create_user_service(self, db_type: str):
-        # ...
-```
-
-### ❌ Prématuré
-```python
-# Pas besoin Stage 0
-async def get_user_with_cache(user_id: int):
-    # Redis cache logic
-```
-
-### ❌ Complexité inutile
-```javascript
-// Stage 0 - Simple suffit
-const state = reactive({
-    user: null,
-    isAuthenticated: false
-});
-
-// Pas besoin de Pinia/Vuex Stage 0
-```
-
-## Validation Avant Commit
-
-1. Code fonctionne en local
-2. Docker Compose démarre sans erreur
-3. Flow utilisateur complet testé
-4. Responsive OK sur mobile
-5. Pas de secrets committes
-6. README à jour
-
-## Métriques de Qualité
-
-### Stage 0
-- Temps de démarrage < 30 secondes
-- Interface responsive
-- 0 erreur JavaScript console
-- SSL configuré
-
-### Performance Targets
-| Stage | Users | Response Time | Uptime |
-|-------|-------|---------------|--------|
-| 0     | 5-10  | <500ms        | 95%    |
-| 1     | 30    | <300ms        | 98%    |
-| 2     | 60    | <200ms        | 99%    |
+### Infrastructure
+- Private networks for internal services
+- Only frontend and API publicly accessible
+- SSL/TLS encryption everywhere
+- Regular security updates

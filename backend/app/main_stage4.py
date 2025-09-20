@@ -80,9 +80,13 @@ pwd_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
 # FastAPI app
 app = FastAPI(
     title="EcoleHub Stage 4 - Complete Platform",
-    version="4.0.0", 
+    version="4.0.0",
     description="Plateforme scolaire collaborative multilingue avec analytics - EcoleHub"
 )
+
+# API Router with prefix
+from fastapi import APIRouter
+api_router = APIRouter(prefix="/api")
 
 # Prometheus instrumentation
 instrumentator = Instrumentator(
@@ -98,17 +102,13 @@ instrumentator = Instrumentator(
 
 instrumentator.instrument(app)
 
+# CORS configuration from environment
+cors_origins = os.getenv("CORS_ORIGINS", "http://localhost,https://localhost").split(",")
+cors_origins = [origin.strip() for origin in cors_origins if origin.strip()]
+
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=[
-        "http://localhost",
-        "http://localhost:80",
-        "http://127.0.0.1",
-        "https://*.ngrok.io",  # Support ngrok domains
-        "https://*.ngrok-free.app",  # New ngrok domains
-        "https://*.ngrok.app",
-        "*"  # Temporary for development
-    ],
+    allow_origins=cors_origins,
     allow_credentials=True,
     allow_methods=["GET", "POST", "PUT", "DELETE", "OPTIONS"],
     allow_headers=["*"],
@@ -259,7 +259,7 @@ def get_metrics(db: Session = Depends(get_db), redis_conn = Depends(get_redis)):
 # ANALYTICS ENDPOINTS (NEW STAGE 4)
 # ==========================================
 
-@app.get("/analytics/platform")
+@api_router.get("/analytics/platform")
 def get_platform_analytics(
     current_user: User = Depends(get_current_user),
     db: Session = Depends(get_db),
@@ -272,7 +272,7 @@ def get_platform_analytics(
     analytics = get_analytics_service(db, redis_conn)
     return analytics.get_platform_overview()
 
-@app.get("/analytics/shop")
+@api_router.get("/analytics/shop")
 def get_shop_analytics(
     current_user: User = Depends(get_current_user),
     db: Session = Depends(get_db),
@@ -285,7 +285,7 @@ def get_shop_analytics(
     analytics = get_analytics_service(db, redis_conn)
     return analytics.get_shop_analytics()
 
-@app.get("/analytics/sel")
+@api_router.get("/analytics/sel")
 def get_sel_analytics(
     current_user: User = Depends(get_current_user),
     db: Session = Depends(get_db),
@@ -298,7 +298,7 @@ def get_sel_analytics(
     analytics = get_analytics_service(db, redis_conn)
     return analytics.get_sel_analytics()
 
-@app.get("/analytics/user/{user_id}")
+@api_router.get("/analytics/user/{user_id}")
 def get_user_analytics(
     user_id: UUID,
     current_user: User = Depends(get_current_user),
@@ -317,7 +317,7 @@ def get_user_analytics(
 # MULTILINGUAL ENDPOINTS (NEW STAGE 4) 
 # ==========================================
 
-@app.get("/i18n/locales")
+@api_router.get("/i18n/locales")
 def get_supported_locales():
     """Get supported languages for EcoleHub."""
     return [
@@ -326,7 +326,7 @@ def get_supported_locales():
         {"code": "en", "name": "English", "flag": "🇬🇧", "primary": False}
     ]
 
-@app.get("/i18n/translations/{locale}")
+@api_router.get("/i18n/translations/{locale}")
 def get_translations(locale: str):
     """Get translations for specific locale."""
     try:
@@ -343,7 +343,7 @@ def get_translations(locale: str):
 # AUTHENTICATION WITH ANALYTICS TRACKING
 # ==========================================
 
-@app.post("/register", response_model=Token)
+@api_router.post("/register", response_model=Token)
 def register(
     user: UserCreate, 
     db: Session = Depends(get_db), 
@@ -387,41 +387,42 @@ def register(
     access_token = create_access_token(data={"sub": user.email})
     return Token(access_token=access_token)
 
-@app.post("/login", response_model=Token)
+@api_router.post("/login", response_model=Token)
 def login(
-    email: str = Form(...), 
-    password: str = Form(...), 
+    email: str = Form(...),
+    password: str = Form(...),
     db: Session = Depends(get_db),
     redis_conn = Depends(get_redis)
 ):
     user = db.query(User).filter(User.email == email).first()
     if not user or not verify_password(password, user.hashed_password):
         raise HTTPException(status_code=401, detail="Email ou mot de passe incorrect")
-    
+
     # Track login in analytics
     analytics = get_analytics_service(db, redis_conn)
     analytics.track_user_action(str(user.id), 'login', {
         "user_type": "admin" if "admin" in email else "parent"
     })
-    
+
     access_token = create_access_token(data={"sub": user.email})
     return Token(access_token=access_token)
+
 
 # ==========================================
 # ALL PREVIOUS STAGE ENDPOINTS (INHERITED)
 # ==========================================
 
 # User Management
-@app.get("/me", response_model=UserResponse)
+@api_router.get("/me", response_model=UserResponse)
 def read_users_me(current_user: User = Depends(get_current_user)):
     return current_user
 
-@app.get("/children", response_model=List[ChildResponse])
+@api_router.get("/children", response_model=List[ChildResponse])
 def get_children(current_user: User = Depends(get_current_user), db: Session = Depends(get_db)):
     children = db.query(Child).filter(Child.parent_id == current_user.id).all()
     return children
 
-@app.post("/children", response_model=ChildResponse)
+@api_router.post("/children", response_model=ChildResponse)
 def create_child(
     child: ChildCreate,
     current_user: User = Depends(get_current_user),
@@ -439,15 +440,16 @@ def create_child(
     return db_child
 
 # SEL System
-@app.get("/sel/categories", response_model=List[SELCategoryResponse])
+@api_router.get("/sel/categories", response_model=List[SELCategoryResponse])
 def get_sel_categories(sel_service: SELBusinessLogic = Depends(get_sel_service)):
     return sel_service.get_categories()
 
-@app.get("/sel/balance", response_model=SELBalanceResponse)
+
+@api_router.get("/sel/balance", response_model=SELBalanceResponse)
 def get_sel_balance(current_user: User = Depends(get_current_user), sel_service: SELBusinessLogic = Depends(get_sel_service)):
     return sel_service.get_or_create_balance(current_user.id)
 
-@app.get("/sel/services", response_model=List[SELServiceWithOwner])
+@api_router.get("/sel/services", response_model=List[SELServiceWithOwner])
 def get_sel_services(
     category: Optional[str] = Query(None),
     limit: int = Query(50, le=100),
@@ -457,7 +459,7 @@ def get_sel_services(
     services = sel_service.get_available_services(current_user.id, category, limit)
     return [{"user": service.user, **service.__dict__} for service in services]
 
-@app.get("/sel/services/mine", response_model=List[SELServiceResponse])
+@api_router.get("/sel/services/mine", response_model=List[SELServiceResponse])
 def get_my_sel_services(
     current_user: User = Depends(get_current_user), 
     db: Session = Depends(get_db)
@@ -465,12 +467,12 @@ def get_my_sel_services(
     services = db.query(SELService).filter(SELService.user_id == current_user.id).all()
     return services
 
-@app.post("/sel/services", response_model=SELServiceResponse)
+@api_router.post("/sel/services", response_model=SELServiceResponse)
 def create_sel_service(service: SELServiceCreate, current_user: User = Depends(get_current_user), sel_service: SELBusinessLogic = Depends(get_sel_service)):
     return sel_service.create_service(current_user.id, service)
 
 # Shop System (Stage 3)
-@app.get("/shop/products")
+@api_router.get("/shop/products")
 def get_shop_products(
     category: Optional[str] = Query(None),
     current_user: User = Depends(get_current_user),
@@ -501,7 +503,7 @@ def get_shop_products(
     
     return result
 
-@app.post("/shop/products")
+@api_router.post("/shop/products")
 def create_shop_product(
     product_data: dict,
     current_user: User = Depends(get_current_user),
@@ -532,7 +534,7 @@ def create_shop_product(
     }
 
 # Events (Stage 2)
-@app.get("/events")
+@api_router.get("/events")
 def get_events(upcoming_only: bool = Query(False), current_user: User = Depends(get_current_user), db: Session = Depends(get_db)):
     query = db.query(Event).filter(Event.is_active == True)
     
@@ -570,6 +572,9 @@ def get_events(upcoming_only: bool = Query(False), current_user: User = Depends(
         })
     
     return result
+
+# Include API router
+app.include_router(api_router)
 
 # Expose Prometheus metrics
 instrumentator.expose(app)

@@ -14,7 +14,7 @@ def test_password_hashing():
     
     from app.main_stage4 import get_password_hash, verify_password
     
-    password = "test123"
+    password = "jules20220902"
     hashed = get_password_hash(password)
     
     assert hashed != password

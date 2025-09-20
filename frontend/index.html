@@ -69,6 +69,25 @@
             </div>
         </header>
 
+        <!-- Bannière Demo -->
+        <div class="bg-orange-100 border-l-4 border-orange-500 text-orange-700 p-4">
+            <div class="max-w-6xl mx-auto px-4 flex items-center">
+                <div class="flex">
+                    <div class="flex-shrink-0">
+                        <svg class="h-5 w-5 text-orange-400" viewBox="0 0 20 20" fill="currentColor">
+                            <path fill-rule="evenodd" d="M8.257 3.099c.765-1.36 2.722-1.36 3.486 0l5.58 9.92c.75 1.334-.213 2.98-1.742 2.98H4.42c-1.53 0-2.493-1.646-1.743-2.98l5.58-9.92zM11 13a1 1 0 11-2 0 1 1 0 012 0zm-1-8a1 1 0 00-1 1v3a1 1 0 002 0V6a1 1 0 00-1-1z" clip-rule="evenodd" />
+                        </svg>
+                    </div>
+                    <div class="ml-3">
+                        <p class="text-sm">
+                            <strong>Version démo</strong> - Cette plateforme est présentée en mode démonstration pour la réunion de parents.
+                            <span class="font-medium">Comptes de test disponibles</span>
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
         <main class="max-w-6xl mx-auto px-4 py-8">
             <!-- Messages -->
             <div v-if="errorMessage" class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded mb-4">
@@ -1110,14 +1129,207 @@
                     </div>
                 </div>
 
+                <!-- Mentions légales -->
+                <div v-if="currentTab === 'legal'">
+                    <div class="bg-white rounded-lg shadow-lg p-6">
+                        <h2 class="text-2xl font-bold mb-6">⚖️ Mentions légales</h2>
+
+                        <div class="prose max-w-none">
+                            <h3 class="text-lg font-semibold mb-3">Éditeur du site</h3>
+                            <div class="mb-6 text-gray-700">
+                                <p><strong>EcoleHub Platform</strong></p>
+                                <p>1000 Bruxelles, Belgique</p>
+                                <p>Email : <a href="mailto:gilmry+ecolehub@gmail.com" class="text-blue-600">gilmry+ecolehub@gmail.com</a></p>
+                            </div>
+
+                            <h3 class="text-lg font-semibold mb-3">Responsable de la publication</h3>
+                            <div class="mb-6 text-gray-700">
+                                <p>Responsable technique EcoleHub</p>
+                                <p>Email : <a href="mailto:gilmry+ecolehub@gmail.com" class="text-blue-600">gilmry+ecolehub@gmail.com</a></p>
+                            </div>
+
+                            <h3 class="text-lg font-semibold mb-3">Hébergement</h3>
+                            <div class="mb-6 text-gray-700">
+                                <p>EcoleHub est hébergé par OVHcloud</p>
+                                <p>OVH SAS - 2 rue Kellermann, 59100 Roubaix, France</p>
+                                <p>Serveurs situés en Europe</p>
+                                <p>Conformément à la législation belge et européenne</p>
+                            </div>
+
+                            <h3 class="text-lg font-semibold mb-3">Propriété intellectuelle</h3>
+                            <div class="mb-6 text-gray-700">
+                                <p>EcoleHub est un logiciel open source sous licence MIT.</p>
+                                <p>Le contenu publié par les utilisateurs reste leur propriété.</p>
+                                <p>Les logos et visuels des établissements restent propriété des établissements.</p>
+                            </div>
+
+                            <h3 class="text-lg font-semibold mb-3">Responsabilité</h3>
+                            <div class="text-gray-700">
+                                <p>EcoleHub s'efforce de maintenir des informations exactes mais ne peut garantir l'exhaustivité ou l'exactitude de toutes les informations.</p>
+                                <p>Les utilisateurs utilisent la plateforme sous leur propre responsabilité.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Politique de confidentialité -->
+                <div v-if="currentTab === 'privacy'">
+                    <div class="bg-white rounded-lg shadow-lg p-6">
+                        <h2 class="text-2xl font-bold mb-6">🔒 Politique de confidentialité</h2>
+
+                        <div class="prose max-w-none">
+                            <h3 class="text-lg font-semibold mb-3">Collecte des données</h3>
+                            <div class="mb-6 text-gray-700">
+                                <p>Nous collectons uniquement les données nécessaires au fonctionnement de la plateforme :</p>
+                                <ul class="list-disc ml-6 mt-2">
+                                    <li>Nom, prénom et email des parents</li>
+                                    <li>Prénom et classe des enfants</li>
+                                    <li>Transactions du système SEL (Système d'Échange Local)</li>
+                                    <li>Messages et communications via la plateforme</li>
+                                </ul>
+                            </div>
+
+                            <h3 class="text-lg font-semibold mb-3">Utilisation des données</h3>
+                            <div class="mb-6 text-gray-700">
+                                <p>Vos données sont utilisées exclusivement pour :</p>
+                                <ul class="list-disc ml-6 mt-2">
+                                    <li>Faciliter la communication entre parents et établissements scolaires</li>
+                                    <li>Gérer le système d'échange local (SEL)</li>
+                                    <li>Organiser les événements scolaires</li>
+                                    <li>Gérer la boutique collaborative</li>
+                                </ul>
+                            </div>
+
+                            <h3 class="text-lg font-semibold mb-3">Partage des données</h3>
+                            <div class="mb-6 text-gray-700">
+                                <p>Vos données ne sont jamais vendues ou partagées avec des tiers.</p>
+                                <p>Seuls les membres de la communauté scolaire y ont accès dans le cadre de la plateforme.</p>
+                            </div>
+
+                            <h3 class="text-lg font-semibold mb-3">Sécurité</h3>
+                            <div class="text-gray-700">
+                                <p>Nous mettons en place des mesures techniques appropriées pour protéger vos données :</p>
+                                <ul class="list-disc ml-6 mt-2">
+                                    <li>Chiffrement des communications</li>
+                                    <li>Mots de passe sécurisés</li>
+                                    <li>Sauvegardes régulières</li>
+                                    <li>Serveurs sécurisés en Belgique</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Protection des données RGPD -->
+                <div v-if="currentTab === 'rgpd'">
+                    <div class="bg-white rounded-lg shadow-lg p-6">
+                        <h2 class="text-2xl font-bold mb-6">🛡️ Protection des données (RGPD)</h2>
+
+                        <div class="prose max-w-none">
+                            <h3 class="text-lg font-semibold mb-3">Vos droits selon le RGPD</h3>
+                            <div class="mb-6 text-gray-700">
+                                <p>Conformément au Règlement Général sur la Protection des Données, vous disposez des droits suivants :</p>
+                                <ul class="list-disc ml-6 mt-2">
+                                    <li><strong>Droit d'accès :</strong> Vous pouvez demander l'accès à vos données personnelles</li>
+                                    <li><strong>Droit de rectification :</strong> Vous pouvez corriger vos données inexactes</li>
+                                    <li><strong>Droit à l'effacement :</strong> Vous pouvez demander la suppression de vos données</li>
+                                    <li><strong>Droit de portabilité :</strong> Vous pouvez récupérer vos données</li>
+                                    <li><strong>Droit d'opposition :</strong> Vous pouvez vous opposer au traitement</li>
+                                </ul>
+                            </div>
+
+                            <h3 class="text-lg font-semibold mb-3">Base légale du traitement</h3>
+                            <div class="mb-6 text-gray-700">
+                                <p>Le traitement de vos données est basé sur :</p>
+                                <ul class="list-disc ml-6 mt-2">
+                                    <li><strong>Votre consentement</strong> pour l'inscription à la plateforme</li>
+                                    <li><strong>L'intérêt légitime</strong> des établissements pour la communication scolaire</li>
+                                    <li><strong>L'exécution du contrat</strong> d'éducation avec l'établissement</li>
+                                </ul>
+                            </div>
+
+                            <h3 class="text-lg font-semibold mb-3">Conservation des données</h3>
+                            <div class="mb-6 text-gray-700">
+                                <p>Nous conservons vos données :</p>
+                                <ul class="list-disc ml-6 mt-2">
+                                    <li>Pendant la scolarité de votre enfant dans l'établissement</li>
+                                    <li>Puis 2 ans supplémentaires pour l'historique</li>
+                                    <li>Vous pouvez demander la suppression anticipée à tout moment</li>
+                                </ul>
+                            </div>
+
+                            <h3 class="text-lg font-semibold mb-3">Contact DPO</h3>
+                            <div class="mb-6 text-gray-700">
+                                <p>Pour exercer vos droits ou poser une question sur la protection des données :</p>
+                                <p><strong>Responsable Protection des Données</strong></p>
+                                <p>Email : <a href="mailto:gilmry+ecolehub@gmail.com" class="text-blue-600">gilmry+ecolehub@gmail.com</a></p>
+                                <p>Courrier : EcoleHub Platform - DPO, 1000 Bruxelles</p>
+                            </div>
+
+                            <h3 class="text-lg font-semibold mb-3">Réclamation</h3>
+                            <div class="text-gray-700">
+                                <p>Si vous estimez que vos droits ne sont pas respectés, vous pouvez introduire une réclamation auprès de :</p>
+                                <p><strong>Autorité de Protection des Données</strong></p>
+                                <p>Website : <a href="https://www.autoriteprotectiondonnees.be" class="text-blue-600" target="_blank">www.autoriteprotectiondonnees.be</a></p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
                 <!-- Déconnexion -->
-                <div class="text-center">
+                <div v-if="isAuthenticated" class="text-center">
                     <button @click="logout()" class="bg-red-500 text-white px-6 py-2 rounded hover:bg-red-600">
                         Se déconnecter
                     </button>
                 </div>
             </div>
         </main>
+
+        <!-- Footer avec mentions légales -->
+        <footer class="bg-gray-800 text-white mt-16">
+            <div class="max-w-6xl mx-auto px-4 py-8">
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                    <!-- À propos -->
+                    <div>
+                        <h3 class="text-lg font-semibold mb-4">🏫 EcoleHub</h3>
+                        <p class="text-gray-300 text-sm">
+                            Plateforme collaborative pour les écoles belges.
+                            Facilitons ensemble la vie scolaire de nos enfants.
+                        </p>
+                    </div>
+
+                    <!-- Contact -->
+                    <div>
+                        <h3 class="text-lg font-semibold mb-4">Contact</h3>
+                        <p class="text-gray-300 text-sm">
+                            EcoleHub Platform<br>
+                            1000 Bruxelles, Belgique<br>
+                            <a href="mailto:gilmry+ecolehub@gmail.com" class="text-blue-400 hover:text-blue-300">gilmry+ecolehub@gmail.com</a>
+                        </p>
+                    </div>
+
+                    <!-- Mentions légales -->
+                    <div>
+                        <h3 class="text-lg font-semibold mb-4">Informations légales</h3>
+                        <ul class="text-gray-300 text-sm space-y-2">
+                            <li><a href="#" @click="currentTab = 'legal'" class="hover:text-blue-300">Mentions légales</a></li>
+                            <li><a href="#" @click="currentTab = 'privacy'" class="hover:text-blue-300">Politique de confidentialité</a></li>
+                            <li><a href="#" @click="currentTab = 'rgpd'" class="hover:text-blue-300">Protection des données</a></li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="border-t border-gray-700 mt-8 pt-8 text-center">
+                    <p class="text-gray-400 text-sm">
+                        © 2024 EcoleHub - Plateforme open source pour écoles belges -
+                        <span class="text-xs">Version démo pour réunion de parents</span>
+                    </p>
+                    <p class="text-gray-500 text-xs mt-2">
+                        Conforme au RGPD et à la législation belge sur la protection des données
+                    </p>
+                </div>
+            </div>
+        </footer>
     </div>
 
     <script>

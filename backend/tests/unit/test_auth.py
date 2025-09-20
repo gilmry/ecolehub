@@ -113,7 +113,7 @@ class TestAuthenticationEndpoints:
         """Test login with valid credentials."""
         response = client.post(
             "/login",
-            data={"email": test_user_parent.email, "password": "test123"}
+            data={"email": test_user_parent.email, "password": "jules20220902"}
         )
         
         assert response.status_code == 200
@@ -125,7 +125,7 @@ class TestAuthenticationEndpoints:
         """Test login fails with non-existent email."""
         response = client.post(
             "/login",
-            data={"email": "nonexistent@test.be", "password": "test123"}
+            data={"email": "nonexistent@test.be", "password": "jules20220902"}
         )
         
         assert response.status_code == 401
@@ -148,7 +148,7 @@ class TestAuthenticationEndpoints:
             email="inactive@test.be",
             first_name="Inactive",
             last_name="User",
-            hashed_password=get_password_hash("test123"),
+            hashed_password=get_password_hash("jules20220902"),
             role=UserRole.PARENT,
             is_active=False
         )
@@ -157,7 +157,7 @@ class TestAuthenticationEndpoints:
         
         response = client.post(
             "/login",
-            data={"email": "inactive@test.be", "password": "test123"}
+            data={"email": "inactive@test.be", "password": "jules20220902"}
         )
         
         assert response.status_code == 401

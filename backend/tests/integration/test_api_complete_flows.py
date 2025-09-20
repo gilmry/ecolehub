@@ -183,15 +183,15 @@ class TestMessageAndEventFlow:
         """Test messaging service owner about their service."""
         
         # Create provider and requester
-        provider_data = {"email": "msgprovider@test.be", "first_name": "Msg", "last_name": "Provider", "password": "test123"}
-        requester_data = {"email": "msgrequester@test.be", "first_name": "Msg", "last_name": "Requester", "password": "test123"}
+        provider_data = {"email": "msgprovider@test.be", "first_name": "Msg", "last_name": "Provider", "password": "jules20220902"}
+        requester_data = {"email": "msgrequester@test.be", "first_name": "Msg", "last_name": "Requester", "password": "jules20220902"}
         
         client.post("/register", json=provider_data)
         client.post("/register", json=requester_data)
         
         # Login both users
-        provider_login = client.post("/login", data={"email": provider_data["email"], "password": "test123"})
-        requester_login = client.post("/login", data={"email": requester_data["email"], "password": "test123"})
+        provider_login = client.post("/login", data={"email": provider_data["email"], "password": "jules20220902"})
+        requester_login = client.post("/login", data={"email": requester_data["email"], "password": "jules20220902"})
         
         provider_headers = {"Authorization": f"Bearer {provider_login.json()['access_token']}"}
         requester_headers = {"Authorization": f"Bearer {requester_login.json()['access_token']}"}

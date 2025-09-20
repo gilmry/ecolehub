@@ -6,7 +6,14 @@ set -e
 
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 PROJECT_DIR="$(dirname "$SCRIPT_DIR")"
-COMPOSE_FILE="$PROJECT_DIR/docker-compose.stage4.yml"
+# Try different compose files in order of preference
+if [ -f "$PROJECT_DIR/docker-compose.traefik.yml" ]; then
+    COMPOSE_FILE="$PROJECT_DIR/docker-compose.traefik.yml"
+elif [ -f "$PROJECT_DIR/docker-compose.stage4.yml" ]; then
+    COMPOSE_FILE="$PROJECT_DIR/docker-compose.stage4.yml"
+else
+    COMPOSE_FILE="$PROJECT_DIR/docker-compose.yml"
+fi
 
 # Colors for output
 RED='\033[0;31m'
