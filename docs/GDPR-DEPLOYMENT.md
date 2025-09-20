@@ -38,3 +38,49 @@ Cette note décrit les paramètres et vérifications nécessaires pour un déplo
 ---
 
 Ces contrôles techniques ne remplacent pas un audit légal/organisationnel. La conformité finale dépend de vos processus, contrats et pratiques.
+### Exemples curl
+
+Export des données (JSON):
+
+```bash
+curl -H "Authorization: Bearer <TOKEN>" \
+  http://<host>/api/me/data_export \
+  -o ecolehub-export.json
+```
+
+Export des données incluant l'historique des événements:
+
+```bash
+curl -H "Authorization: Bearer <TOKEN>" \
+  "http://<host>/api/me/data_export?include_events=true" \
+  -o ecolehub-export-with-events.json
+```
+
+Lecture des préférences de consentement:
+
+```bash
+curl -H "Authorization: Bearer <TOKEN>" \
+  http://<host>/api/consent/preferences
+```
+
+Mise à jour des préférences (ex: activer analytics et newsletter):
+
+```bash
+curl -X POST -H "Authorization: Bearer <TOKEN>" -H "Content-Type: application/json" \
+  -d '{"consent_analytics_platform": true, "consent_comms_newsletter": true}' \
+  http://<host>/api/consent/preferences
+```
+
+Retrait du consentement:
+
+```bash
+curl -X POST -H "Authorization: Bearer <TOKEN>" \
+  http://<host>/api/consent/withdraw
+```
+
+Purge admin (événements + anonymisation finale):
+
+```bash
+curl -X POST -H "Authorization: Bearer <ADMIN_TOKEN>" \
+  http://<host>/api/admin/privacy/purge
+```

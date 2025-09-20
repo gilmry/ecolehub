@@ -869,6 +869,23 @@
                             <div><strong>{{ $t('privacy.photosPublication') }}:</strong> <span :class="consentPrefs.consent_photos_publication ? 'text-green-700' : 'text-gray-700'">{{ consentPrefs.consent_photos_publication ? 'Oui' : 'Non' }}</span></div>
                             <div><strong>{{ $t('privacy.dataShareThirdparties') }}:</strong> <span :class="consentPrefs.consent_data_share_thirdparties ? 'text-green-700' : 'text-gray-700'">{{ consentPrefs.consent_data_share_thirdparties ? 'Oui' : 'Non' }}</span></div>
                         </div>
+                        <div class="flex flex-wrap gap-2">
+                            <button @click="openConsentSettings" class="px-4 py-2 rounded bg-blue-600 text-white hover:bg-blue-700">{{ $t('privacy.settings') }}</button>
+                            <button @click="exportMyData(false)" class="px-4 py-2 rounded bg-gray-200 hover:bg-gray-300 text-gray-900">{{ $t('privacy.exportData') }}</button>
+                            <button @click="exportMyData(true)" class="px-4 py-2 rounded bg-green-600 text-white hover:bg-green-700">{{ $t('privacy.exportDataWithHistory') }}</button>
+                        </div>
+                    </div>
+                    <!-- Privacy/Consent Card -->
+                    <div class="bg-white rounded-lg shadow-lg p-6 mb-6">
+                        <h2 class="text-2xl font-bold mb-4">🔒 {{ $t('privacy.settings') }}</h2>
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-3 mb-3 text-sm">
+                            <div><strong>{{ $t('privacy.analytics') }}:</strong> <span :class="consentPrefs.consent_analytics_platform ? 'text-green-700' : 'text-gray-700'">{{ consentPrefs.consent_analytics_platform ? 'Oui' : 'Non' }}</span></div>
+                            <div><strong>{{ $t('privacy.newsletter') }}:</strong> <span :class="consentPrefs.consent_comms_newsletter ? 'text-green-700' : 'text-gray-700'">{{ consentPrefs.consent_comms_newsletter ? 'Oui' : 'Non' }}</span></div>
+                            <div><strong>{{ $t('privacy.shopMarketing') }}:</strong> <span :class="consentPrefs.consent_comms_shop_marketing ? 'text-green-700' : 'text-gray-700'">{{ consentPrefs.consent_comms_shop_marketing ? 'Oui' : 'Non' }}</span></div>
+                            <div><strong>{{ $t('privacy.cookiesPreference') }}:</strong> <span :class="consentPrefs.consent_cookies_preference ? 'text-green-700' : 'text-gray-700'">{{ consentPrefs.consent_cookies_preference ? 'Oui' : 'Non' }}</span></div>
+                            <div><strong>{{ $t('privacy.photosPublication') }}:</strong> <span :class="consentPrefs.consent_photos_publication ? 'text-green-700' : 'text-gray-700'">{{ consentPrefs.consent_photos_publication ? 'Oui' : 'Non' }}</span></div>
+                            <div><strong>{{ $t('privacy.dataShareThirdparties') }}:</strong> <span :class="consentPrefs.consent_data_share_thirdparties ? 'text-green-700' : 'text-gray-700'">{{ consentPrefs.consent_data_share_thirdparties ? 'Oui' : 'Non' }}</span></div>
+                        </div>
                         <button @click="openConsentSettings" class="px-4 py-2 rounded bg-blue-600 text-white hover:bg-blue-700">{{ $t('privacy.settings') }}</button>
                     </div>
                     <!-- Profil Utilisateur -->
@@ -2508,3 +2525,32 @@
     </script>
 </body>
 </html>
+                // Data export methods
+                async exportMyData(includeEvents) {
+                  try {
+                    const token = localStorage.getItem('token');
+                    if (!token) {
+                      this.errorMessage = this.$t ? this.$t('privacy.loginRequired') : 'Veuillez vous connecter';
+                      return;
+                    }
+                    const url = includeEvents ? '/api/me/data_export?include_events=true' : '/api/me/data_export';
+                    const resp = await fetch(url, { headers: { 'Authorization': `Bearer ${token}` } });
+                    if (!resp.ok) {
+                      this.errorMessage = 'Export échoué';
+                      return;
+                    }
+                    const data = await resp.json();
+                    const blob = new Blob([JSON.stringify(data, null, 2)], { type: 'application/json' });
+                    const a = document.createElement('a');
+                    const ts = new Date().toISOString().replace(/[:.]/g, '-');
+                    a.href = URL.createObjectURL(blob);
+                    a.download = includeEvents ? `ecolehub-export-${ts}-with-events.json` : `ecolehub-export-${ts}.json`;
+                    document.body.appendChild(a);
+                    a.click();
+                    a.remove();
+                    URL.revokeObjectURL(a.href);
+                  } catch (e) {
+                    console.error('Export error', e);
+                    this.errorMessage = 'Export échoué';
+                  }
+                },

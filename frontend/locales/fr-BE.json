@@ -33,6 +33,11 @@
     "dataShareThirdparties": "Autoriser le partage de données à des tiers (hors prestataires nécessaires)",
     "rejectNonEssential": "Tout refuser (hors nécessaire)",
     "acceptAll": "Tout accepter"
+    "dataExportTitle": "Export de mes données",
+    "dataExportDescription": "Vous pouvez télécharger une copie de vos données. L'option 'incl. historique' ajoute votre historique de confidentialité (événements)",
+    "exportData": "Exporter mes données",
+    "exportDataWithHistory": "Exporter (incl. historique)",
+    "loginRequired": "Veuillez vous connecter pour exporter vos données"
   },
   "auth": {
     "login": "Connexion",

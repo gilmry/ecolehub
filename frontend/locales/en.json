@@ -33,6 +33,11 @@
     "dataShareThirdparties": "Allow sharing data with third parties (excluding necessary processors)",
     "rejectNonEssential": "Reject all (except necessary)",
     "acceptAll": "Accept all"
+    "dataExportTitle": "Export my data",
+    "dataExportDescription": "You can download a copy of your data. The 'incl. history' option adds your privacy events history",
+    "exportData": "Export my data",
+    "exportDataWithHistory": "Export (incl. history)",
+    "loginRequired": "Please log in to export your data"
   },
   "auth": {
     "login": "Login",

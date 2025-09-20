@@ -33,6 +33,11 @@
     "dataShareThirdparties": "Gegevens delen met derden toestaan (excl. verwerkers)",
     "rejectNonEssential": "Alles weigeren (behalve noodzakelijk)",
     "acceptAll": "Alles accepteren"
+    "dataExportTitle": "Mijn gegevens exporteren",
+    "dataExportDescription": "U kunt een kopie van uw gegevens downloaden. De optie 'incl. geschiedenis' voegt uw privacygebeurtenissen toe",
+    "exportData": "Gegevens exporteren",
+    "exportDataWithHistory": "Exporteren (incl. geschiedenis)",
+    "loginRequired": "Log in om uw gegevens te exporteren"
   },
   "auth": {
     "login": "Aanmelden",
