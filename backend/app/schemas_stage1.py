@@ -8,7 +8,7 @@ from pydantic import BaseModel, EmailStr, Field, validator
 
 # Enums
 class TransactionStatus(str, Enum):
-    PEEcoleHubNG = "pending"
+    PENDING = "pending"
     APPROVED = "approved"
     COMPLETED = "completed"
     CANCELLED = "cancelled"
@@ -121,6 +121,8 @@ class SELServiceUpdate(BaseModel):
 class SELServiceResponse(SELServiceBase):
     id: UUID
     user_id: UUID
+    # Back-compat: duplicate owner id as provider_id for some flows/tests
+    provider_id: UUID
     is_active: bool
     created_at: datetime
     updated_at: datetime
@@ -203,12 +205,7 @@ class SELTransactionWithDetails(SELTransactionResponse):
         from_attributes = True
 
 
-# Service with owner details
-class SELServiceWithOwner(SELServiceResponse):
-    user: UserResponse
-
-    class Config:
-        from_attributes = True
+# (removed duplicate SELServiceWithOwner; defined earlier)
 
 
 # Dashboard summary

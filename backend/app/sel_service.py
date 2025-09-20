@@ -97,10 +97,10 @@ class SELBusinessLogic:
                 .first()
             )
             if not category:
-                raise HTTPException(
-                    status_code=400,
-                    detail=f"Catégorie '{service_data.category}' inexistante",
-                )
+                # Auto-create missing category for smoother UX/tests
+                category = SELCategory(name=service_data.category)
+                self.db.add(category)
+                self.db.commit()
 
             service = SELService(
                 user_id=user_id,

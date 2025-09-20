@@ -7,6 +7,34 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [4.1.1] - 2025-09-20
 
+## [4.1.2] - 2025-09-20
+
+### ✅ Tests & Backward Compatibility
+- Restored legacy, non-`/api` routes for auth, children, SEL services, and transactions to satisfy Stage 0–2 integration tests.
+- Reintroduced missing SEL transaction endpoints in Stage 4 (`POST /sel/transactions`, `PUT /sel/transactions/{id}/approve`).
+- Flattened shop product listing shape to include top‑level fields (e.g., `name`, `base_price`) for tests.
+- Added `provider_id` to `SELServiceResponse` for flows expecting provider id.
+- Auto‑create SEL categories on service creation when missing (test/dev convenience).
+
+### 🗄️ Models & Schemas
+- Added `User.role` (default `parent`) for test fixtures.
+- Added `Child.last_name` and `class_level` synonym for `class_name`.
+- Added `SELService.provider_id` synonym and `provider` relationship alias.
+- Converted `SELBalance` to use a UUID primary key (`id`) for consistent ORM behavior in tests.
+- Fixed `TransactionStatus.PENDING` enum typo.
+
+### 📊 Monitoring & Metrics
+- Prometheus: added `users_total` gauge alongside existing `ecolehub_*` metrics to satisfy metrics tests.
+
+### 🧪 CI-local & Security
+- `scripts/ci-local.sh`: robust venv detection; runs Bandit/Safety from the active venv; uses Safety `scan`.
+- `backend/requirements.test.txt`: added Bandit and Safety; upgraded to non‑vulnerable versions (black 24.8.0, bandit 1.7.9; safety 3.x).
+- MinIO client guarded under `TESTING=1` to avoid network calls during tests.
+
+### 🔐 Secure Defaults
+- Uvicorn bind host is now controlled via `BIND_HOST` (default `127.0.0.1`); Docker compose sets `BIND_HOST=0.0.0.0` for containers. Removes Bandit B104 finding.
+
+
 ### 🌍 i18n Improvements
 - Added `de-BE` locale and language selector (FR‑BE/NL‑BE/DE‑BE/EN)
 - Extracted major UI texts to locale files; added fallback chain (fr‑BE → en)

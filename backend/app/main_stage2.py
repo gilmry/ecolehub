@@ -641,17 +641,23 @@ def get_conversations(
                 "name": conversation.name,
                 "type": conversation.type,
                 "class_name": conversation.class_name,
-                "last_message": {
-                    "content": last_message.content if last_message else None,
-                    "created_at": last_message.created_at.isoformat()
+                "last_message": (
+                    {
+                        "content": last_message.content if last_message else None,
+                        "created_at": (
+                            last_message.created_at.isoformat()
+                            if last_message
+                            else None
+                        ),
+                        "user_name": (
+                            f"{last_message.user.first_name} {last_message.user.last_name}"
+                            if last_message
+                            else None
+                        ),
+                    }
                     if last_message
-                    else None,
-                    "user_name": f"{last_message.user.first_name} {last_message.user.last_name}"
-                    if last_message
-                    else None,
-                }
-                if last_message
-                else None,
+                    else None
+                ),
                 "unread_count": 0,  # TODO: Calculate based on last_read_at
                 "updated_at": conversation.updated_at.isoformat(),
             }
@@ -836,9 +842,11 @@ def get_events(
                 "max_participants": event.max_participants,
                 "participants_count": participants_count,
                 "registration_required": event.registration_required,
-                "registration_deadline": event.registration_deadline.isoformat()
-                if event.registration_deadline
-                else None,
+                "registration_deadline": (
+                    event.registration_deadline.isoformat()
+                    if event.registration_deadline
+                    else None
+                ),
                 "is_registered": participant is not None,
                 "created_by": str(event.created_by),
                 "created_at": event.created_at.isoformat(),
@@ -945,6 +953,10 @@ async def websocket_endpoint(
 
 
 if __name__ == "__main__":
+    import os
+
     import uvicorn
 
-    uvicorn.run(app, host="0.0.0.0", port=8000)
+    host = os.getenv("BIND_HOST", "127.0.0.1")
+    port = int(os.getenv("PORT", "8000"))
+    uvicorn.run(app, host=host, port=port)

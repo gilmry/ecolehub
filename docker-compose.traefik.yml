@@ -51,6 +51,7 @@ services:
       args:
         STAGE: ${STAGE:-4}
     environment:
+      - BIND_HOST=0.0.0.0
       - DATABASE_URL=postgresql://ecolehub:${DB_PASSWORD:-ecolehub_secure_password}@postgres:5432/ecolehub
       - REDIS_URL=redis://:${REDIS_PASSWORD:-ecolehub_redis_cache_password}@redis:6379/0
       - MINIO_ENDPOINT=minio:9000

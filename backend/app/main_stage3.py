@@ -678,17 +678,23 @@ def get_conversations(
                 "name": conversation.name,
                 "type": conversation.type,
                 "class_name": conversation.class_name,
-                "last_message": {
-                    "content": last_message.content if last_message else None,
-                    "created_at": last_message.created_at.isoformat()
+                "last_message": (
+                    {
+                        "content": last_message.content if last_message else None,
+                        "created_at": (
+                            last_message.created_at.isoformat()
+                            if last_message
+                            else None
+                        ),
+                        "user_name": (
+                            f"{last_message.user.first_name} {last_message.user.last_name}"
+                            if last_message
+                            else None
+                        ),
+                    }
                     if last_message
-                    else None,
-                    "user_name": f"{last_message.user.first_name} {last_message.user.last_name}"
-                    if last_message
-                    else None,
-                }
-                if last_message
-                else None,
+                    else None
+                ),
                 "updated_at": conversation.updated_at.isoformat(),
             }
         )
@@ -964,9 +970,11 @@ def get_education_resources(
                 "file_size": resource.file_size,
                 "is_public": resource.is_public,
                 "created_at": resource.created_at.isoformat(),
-                "creator_name": f"{resource.creator.first_name} {resource.creator.last_name}"
-                if resource.creator
-                else "École",
+                "creator_name": (
+                    f"{resource.creator.first_name} {resource.creator.last_name}"
+                    if resource.creator
+                    else "École"
+                ),
             }
         )
 
@@ -1051,7 +1059,7 @@ def create_payment(
 ):
     """Create Mollie payment for EcoleHub orders."""
     redirect_url = f"http://localhost/payment/return/{order_id}"
-    webhook_url = f"http://localhost:8000/payments/webhook"
+    webhook_url = "http://localhost:8000/payments/webhook"
 
     result = mollie_service.create_payment(
         amount=amount,
@@ -1093,6 +1101,10 @@ def mollie_webhook(payment_id: str = Form(...)):
 
 
 if __name__ == "__main__":
+    import os
+
     import uvicorn
 
-    uvicorn.run(app, host="0.0.0.0", port=8000)
+    host = os.getenv("BIND_HOST", "127.0.0.1")
+    port = int(os.getenv("PORT", "8000"))
+    uvicorn.run(app, host=host, port=port)

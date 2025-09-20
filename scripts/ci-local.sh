@@ -22,8 +22,10 @@ echo "🐍 Backend: environment"
 export STAGE=4 TESTING=1 DATABASE_URL=sqlite:///test.db REDIS_URL=redis://localhost:6379/15 SECRET_KEY=test-secret-key-for-ci-only
 
 PYBIN="python3"
-if [ -x backend/venv/bin/python ]; then
-  PYBIN="backend/venv/bin/python"
+if [ -x "$ROOT_DIR/backend/venv/bin/python" ]; then
+  PYBIN="$ROOT_DIR/backend/venv/bin/python"
+elif [ -x "$ROOT_DIR/venv/bin/python" ]; then
+  PYBIN="$ROOT_DIR/venv/bin/python"
 fi
 
 echo "📦 Ensure test dependencies (best effort)"
@@ -37,14 +39,20 @@ $PYBIN -m pip install -q black isort autopep8 autoflake || echo "⚠️ Some for
 ./scripts/ci-backend.sh
 
 echo "🛡️ Security scans (optional)"
-if $PYBIN -m pip show bandit >/dev/null 2>&1 || $PYBIN -m pip install -q bandit; then
-  (cd backend && bandit -r app/ -ll) || true
+# Prefer venv-provided tools; fall back gracefully if unavailable
+if $PYBIN -c 'import bandit' >/dev/null 2>&1; then
+  $PYBIN -m bandit -r backend/app/ -ll || true
 else
   echo "ℹ️ bandit not installed; skipping"
 fi
-if $PYBIN -m pip show safety >/dev/null 2>&1 || $PYBIN -m pip install -q safety; then
+if $PYBIN -c 'import safety' >/dev/null 2>&1; then
   if [ -f backend/requirements.test.txt ]; then
-    (cd backend && safety check -r requirements.test.txt) || true
+    # Prefer modern 'scan'; fallback to 'check' if older safety present
+    if $PYBIN -m safety --help 2>&1 | grep -q " scan "; then
+      $PYBIN -m safety scan -r backend/requirements.test.txt || true
+    else
+      $PYBIN -m safety check -r backend/requirements.test.txt || true
+    fi
   fi
 else
   echo "ℹ️ safety not installed; skipping"

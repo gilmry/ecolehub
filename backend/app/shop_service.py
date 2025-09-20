@@ -182,7 +182,7 @@ class ShopCollaborativeService:
 
         # If threshold reached, notify about potential group order
         if threshold_reached:
-            result["message"] += f" - Seuil atteint ! Commande groupée possible."
+            result["message"] += " - Seuil atteint ! Commande groupée possible."
             # TODO: Send notifications to interested parents
             # TODO: Create Celery task for order processing
 
@@ -315,9 +315,11 @@ class ShopCollaborativeService:
                     "total_price": float(item.total_price),
                     "payment_status": item.payment_status,
                     "order_status": item.order.status,
-                    "estimated_delivery": item.order.estimated_delivery.isoformat()
-                    if item.order.estimated_delivery
-                    else None,
+                    "estimated_delivery": (
+                        item.order.estimated_delivery.isoformat()
+                        if item.order.estimated_delivery
+                        else None
+                    ),
                     "created_at": item.created_at.isoformat(),
                 }
             )

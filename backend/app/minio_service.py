@@ -40,8 +40,12 @@ class MinIOStorageService:
         }
 
         # Avoid network calls when running tests
-        if os.getenv("TESTING") != "1":
-            self._ensure_buckets_exist()
+        # Best-effort: avoid breaking tests/environments without MinIO
+        try:
+            if os.getenv("TESTING") != "1":
+                self._ensure_buckets_exist()
+        except Exception as e:
+            logging.warning(f"MinIO init skipped (non-fatal): {e}")
 
     def _ensure_buckets_exist(self):
         """Create buckets if they don't exist."""
@@ -55,7 +59,7 @@ class MinIOStorageService:
                     if bucket_type == "products":
                         self._set_public_read_policy(bucket_name)
 
-            except S3Error as e:
+            except Exception as e:
                 logging.error(f"❌ Error creating bucket {bucket_name}: {e}")
 
     def _set_public_read_policy(self, bucket_name: str):

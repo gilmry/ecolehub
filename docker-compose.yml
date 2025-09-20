@@ -6,6 +6,7 @@ services:
     ports:
       - "8000:8000"
     environment:
+      - BIND_HOST=0.0.0.0
       - DATABASE_URL=sqlite:///./db/ecolehub.db
       - SECRET_KEY=${SECRET_KEY:-change-this-in-production-very-important}
     volumes:

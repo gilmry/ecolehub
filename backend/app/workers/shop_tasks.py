@@ -22,11 +22,11 @@ def process_group_order(order_id: str, total_amount: float) -> Dict[str, Any]:
         # Create Mollie payment for group order
         payment_result = mollie_service.create_payment(
             amount=total_amount,
-            description=f"Commande groupée EcoleHub",
+            description="Commande groupée EcoleHub",
             user_email="commande-groupee@ecolehub.local",  # School email for group orders
             order_id=order_id,
             redirect_url=f"http://localhost/shop/order/{order_id}/success",
-            webhook_url=f"http://localhost:8000/payments/webhook",
+            webhook_url="http://localhost:8000/payments/webhook",
         )
 
         if payment_result["success"]:

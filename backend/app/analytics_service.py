@@ -40,6 +40,9 @@ ecolehub_active_users = Gauge("ecolehub_active_users", "Currently active users")
 ecolehub_total_families = Gauge("ecolehub_total_families", "Total registered families")
 ecolehub_sel_balance_avg = Gauge("ecolehub_sel_balance_average", "Average SEL balance")
 
+# Common metrics names some dashboards/tests expect
+users_total_gauge = Gauge("users_total", "Total number of users")
+
 # Response time tracking
 ecolehub_request_duration = Histogram(
     "ecolehub_request_duration_seconds",
@@ -201,11 +204,11 @@ class EcoleHubAnalytics:
                 },
                 "shop_activity": {
                     "interests_expressed": user_interests,
-                    "participation_level": "High"
-                    if user_interests > 3
-                    else "Medium"
-                    if user_interests > 0
-                    else "Low",
+                    "participation_level": (
+                        "High"
+                        if user_interests > 3
+                        else "Medium" if user_interests > 0 else "Low"
+                    ),
                 },
                 "communication": {
                     "messages_sent": user_messages,
@@ -378,6 +381,7 @@ class EcoleHubAnalytics:
             # Update gauges with current values
             total_users = self.db.query(func.count(User.id)).scalar()
             ecolehub_total_families.set(total_users)
+            users_total_gauge.set(total_users)
 
             # Active users (logged in last hour)
             active_count = len(self.redis.keys("session:*"))

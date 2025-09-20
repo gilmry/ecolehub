@@ -11,7 +11,7 @@ from sqlalchemy import (
     Text,
 )
 from sqlalchemy.ext.declarative import declarative_base
-from sqlalchemy.orm import relationship
+from sqlalchemy.orm import relationship, synonym
 from sqlalchemy.sql import func
 
 from .db_types import UUIDType
@@ -29,6 +29,8 @@ class User(Base):
     hashed_password = Column(String(255), nullable=False)
     is_active = Column(Boolean, default=True)
     is_verified = Column(Boolean, default=False)
+    # Optional role for compatibility with tests and later stages
+    role = Column(String(20), default="parent")
     # GDPR/consent metadata
     consent_version = Column(String(20))
     consented_at = Column(DateTime(timezone=True))
@@ -68,7 +70,10 @@ class Child(Base):
         UUIDType(), ForeignKey("users.id", ondelete="CASCADE"), nullable=False
     )
     first_name = Column(String(100), nullable=False)
+    last_name = Column(String(100), nullable=False, default="")
     class_name = Column(String(10), nullable=False)
+    # Compatibility: allow using 'class_level' synonym in constructors/queries
+    class_level = synonym("class_name")
     birth_date = Column(DateTime(timezone=True))
     created_at = Column(DateTime(timezone=True), server_default=func.now())
     updated_at = Column(
@@ -104,6 +109,8 @@ class SELService(Base):
     user_id = Column(
         UUIDType(), ForeignKey("users.id", ondelete="CASCADE"), nullable=False
     )
+    # Compatibility: earlier tests may refer to provider_id
+    provider_id = synonym("user_id")
     title = Column(String(200), nullable=False)
     description = Column(Text)
     category = Column(String(50), nullable=False)
@@ -116,6 +123,8 @@ class SELService(Base):
 
     # Relationships
     user = relationship("User", back_populates="sel_services")
+    # Compatibility alias for tests expecting 'provider'
+    provider = synonym("user")
     transactions = relationship("SELTransaction", back_populates="service")
 
 
@@ -156,9 +165,9 @@ class SELTransaction(Base):
 
 class SELBalance(Base):
     __tablename__ = "sel_balances"
-
+    id = Column(UUIDType(), primary_key=True, default=uuid.uuid4)
     user_id = Column(
-        UUIDType(), ForeignKey("users.id", ondelete="CASCADE"), primary_key=True
+        UUIDType(), ForeignKey("users.id", ondelete="CASCADE"), unique=True
     )
     balance = Column(Integer, default=120)  # Initial: 120 units (2 hours credit)
     total_given = Column(Integer, default=0)
