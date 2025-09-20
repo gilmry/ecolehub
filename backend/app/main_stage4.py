@@ -149,7 +149,7 @@ def _seed_default_sel_categories() -> None:
 redis_client = redis.Redis.from_url(REDIS_URL, decode_responses=True)
 
 # Password hashing
-pwd_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
+pwd_context = CryptContext(schemes=["pbkdf2_sha256", "bcrypt"], deprecated="auto")
 
 # FastAPI app
 app = FastAPI(
@@ -836,11 +836,7 @@ def get_events(
     return result
 
 
-# Include API router
-app.include_router(api_router)
-
-# Expose Prometheus metrics
-instrumentator.expose(app)
+# (router inclusion moved to bottom to ensure routes defined after are included)
 
 # ------------------------------------------
 # Backward-compatibility: expose core routes without /api prefix
@@ -1307,6 +1303,12 @@ PREFERENCE_KEYS = {
 @app.get("/consent/preferences")
 def compat_get_prefs(current_user: User = Depends(get_current_user)):
     return {k: bool(getattr(current_user, k, False)) for k in PREFERENCE_KEYS}
+
+
+# Now include the API router and expose Prometheus metrics at the very end,
+# so routes defined after the earlier section are included as well.
+app.include_router(api_router)
+instrumentator.expose(app)
 
 
 @app.post("/consent/preferences")
