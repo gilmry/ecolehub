@@ -326,16 +326,14 @@ test-all: ## Run i18n lint (STRICT) then tests
 	@echo "🧪 Running test suite..."
 	@$(MAKE) test
 
-ci-local: ## Run CI-like checks locally (i18n + tests + flake8)
-	@echo "🏃 Running CI checks locally (no push required)"
-	@echo "🌐 i18n-lint (STRICT)" && STRICT=1 ./scripts/i18n-lint.sh
-	@echo "🧪 Backend tests"
-	@cd backend && \
-	if [ -x venv/bin/python ]; then \
-	  TESTING=1 DATABASE_URL=sqlite:///test.db REDIS_URL=redis://localhost:6379/15 venv/bin/python -m pytest tests -v --tb=short; \
-	else \
-	  echo "ℹ️ No venv found. Using scripts/run-tests-local.sh"; \
-	  TESTING=1 DATABASE_URL=sqlite:///test.db REDIS_URL=redis://localhost:6379/15 ../scripts/run-tests-local.sh simple; \
-	fi
-	@echo "🔍 flake8 (non-blocking)"
-	@cd backend && (venv/bin/python -m pip show flake8 >/dev/null 2>&1 && venv/bin/python -m flake8 app/ --count --select=E9,F63,F7,F82 --show-source --statistics || true)
+ci-local: ## Run CI-like checks locally (mirrors GitHub CI)
+	@./scripts/ci-local.sh
+
+ci-local-docker: ## Build & run backend image locally (like CI docker-build-test)
+	@echo "🐳 Building backend image..."
+	@cd backend && docker build -t ecolehub-backend:test --build-arg STAGE=4 .
+	@echo "▶️ Running container health check..."
+	@docker run --rm -d --name test-backend -e DATABASE_URL=sqlite:///test.db -e STAGE=4 -p 8000:8000 ecolehub-backend:test
+	@sleep 10
+	@echo "ℹ️ (Optional) curl http://localhost:8000/health"
+	@docker stop test-backend >/dev/null

@@ -66,6 +66,7 @@ make logs-traefik   # Logs de Traefik uniquement
 make dev            # Mode développement
 make test           # Lancer les tests
 make test-all       # i18n-lint (STRICT) puis tests
+make ci-local       # CI local (i18n STRICT + tests + flake8)
 make ci-local       # i18n-lint STRICT + tests + flake8 en local
 make lint           # Vérifier le code
 make format         # Formater le code
