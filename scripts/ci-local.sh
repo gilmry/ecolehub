@@ -77,6 +77,15 @@ else
   echo "ℹ️ safety not installed; skipping"
 fi
 
+echo "♿ Accessibility (frontend)"
+# Serve frontend with Python and run pa11y audit (non-strict by default)
+bash -c 'set -euo pipefail; \
+  PORT=${A11Y_FRONTEND_PORT:-8089}; \
+  (cd frontend && python3 -m http.server $PORT >/dev/null 2>&1 &) ; \
+  PID=$!; trap "kill $PID >/dev/null 2>&1 || true" EXIT; \
+  sleep 2; \
+  BASE_URL=http://localhost:$PORT STRICT=${A11Y_STRICT:-0} ./scripts/a11y-audit.sh'
+
 echo "📖 Docs checks"
 [ -f README.md ] || { echo "❌ README.md missing"; exit 1; }
 [ -f CHANGELOG.md ] || { echo "❌ CHANGELOG.md missing"; exit 1; }
