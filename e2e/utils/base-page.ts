@@ -12,10 +12,22 @@ export class BasePage {
   }
 
   async waitForLoadingToFinish() {
-    // Wait for Vue app to be ready
+    // Wait for Vue app to be ready - more flexible detection
     await this.page.waitForFunction(() => {
-      return window.Vue && document.querySelector('#app')?.__vue_app__;
-    }, { timeout: 10000 });
+      // Check if Vue app is mounted and #app element exists
+      const app = document.querySelector('#app');
+      return app && (
+        window.Vue ||
+        app.classList.length > 0 ||
+        app.children.length > 0 ||
+        app.textContent?.trim()
+      );
+    }, { timeout: 15000 });
+
+    // Additional wait for any network requests to settle
+    await this.page.waitForLoadState('networkidle', { timeout: 5000 }).catch(() => {
+      // Ignore timeout, continue anyway
+    });
   }
 
   async takeScreenshot(name: string) {

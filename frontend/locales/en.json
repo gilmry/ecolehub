@@ -32,7 +32,7 @@
     "photosPublication": "Allow publication of activity photos",
     "dataShareThirdparties": "Allow sharing data with third parties (excluding necessary processors)",
     "rejectNonEssential": "Reject all (except necessary)",
-    "acceptAll": "Accept all"
+    "acceptAll": "Accept all",
     "dataExportTitle": "Export my data",
     "dataExportDescription": "You can download a copy of your data. The 'incl. history' option adds your privacy events history",
     "exportData": "Export my data",

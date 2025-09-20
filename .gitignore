@@ -48,6 +48,12 @@ backup/
 
 # Node modules si ajoutés plus tard
 node_modules/
+test-results/
+playwright-report/
+.playwright/
+.playwright-artifacts*/
+coverage/
+.pytest_cache/
 
 # MacOS
 .DS_Store

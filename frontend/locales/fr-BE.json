@@ -32,7 +32,7 @@
     "photosPublication": "Autoriser la publication de photos d'activités",
     "dataShareThirdparties": "Autoriser le partage de données à des tiers (hors prestataires nécessaires)",
     "rejectNonEssential": "Tout refuser (hors nécessaire)",
-    "acceptAll": "Tout accepter"
+    "acceptAll": "Tout accepter",
     "dataExportTitle": "Export de mes données",
     "dataExportDescription": "Vous pouvez télécharger une copie de vos données. L'option 'incl. historique' ajoute votre historique de confidentialité (événements)",
     "exportData": "Exporter mes données",
@@ -160,7 +160,7 @@
     "deactivate": "Désactiver",
     "productCreated": "Produit créé avec succès !",
     "productUpdated": "Produit mis à jour",
-    "adminRequired": "Accès administrateur requis"
+    "adminRequired": "Accès administrateur requis",
     "productNamePlaceholder": "ex: T-shirt EcoleHub",
     "productDescriptionPlaceholder": "Description du produit..."
   },
@@ -257,7 +257,7 @@
     "ipParagraph3": "Les logos et visuels des établissements restent propriété des établissements.",
     "responsibilityTitle": "Responsabilité",
     "responsibilityP1": "EcoleHub s'efforce de maintenir des informations exactes mais ne peut garantir l'exhaustivité ou l'exactitude de toutes les informations.",
-    "responsibilityP2": "Les utilisateurs utilisent la plateforme sous leur propre responsabilité."
+    "responsibilityP2": "Les utilisateurs utilisent la plateforme sous leur propre responsabilité.",
     "emailLabel": "Email :",
     "contactEmailText": "Contact",
     "techManager": "Responsable technique EcoleHub",
@@ -277,80 +277,4 @@
     "copyright": "© 2024 EcoleHub - Plateforme open source pour écoles belges",
     "gdprCompliant": "Conforme au RGPD et à la législation belge sur la protection des données"
   }
-  "privacy": {
-    "title": "Politique de confidentialité",
-    "collectionTitle": "Collecte des données",
-    "collectionIntro": "Nous collectons uniquement les données nécessaires au fonctionnement de la plateforme :",
-    "collection": {
-      "items": {
-        "parentsIdentity": "Nom, prénom et email des parents",
-        "childrenClass": "Prénom et classe des enfants",
-        "selTransactions": "Transactions du système SEL (Système d'Échange Local)",
-        "messages": "Messages et communications via la plateforme"
-      }
-    },
-    "useTitle": "Utilisation des données",
-    "useIntro": "Vos données sont utilisées exclusivement pour :",
-    "use": {
-      "items": {
-        "communication": "Faciliter la communication entre parents et établissements scolaires",
-        "sel": "Gérer le système d'échange local (SEL)",
-        "events": "Organiser les événements scolaires",
-        "shop": "Gérer la boutique collaborative"
-      }
-    },
-    "shareTitle": "Partage des données",
-    "shareP1": "Vos données ne sont jamais vendues ou partagées avec des tiers.",
-    "shareP2": "Seuls les membres de la communauté scolaire y ont accès dans le cadre de la plateforme.",
-    "securityTitle": "Sécurité",
-    "securityIntro": "Nous mettons en place des mesures techniques appropriées pour protéger vos données :",
-    "security": {
-      "items": {
-        "encryption": "Chiffrement des communications",
-        "passwords": "Mots de passe sécurisés",
-        "backups": "Sauvegardes régulières",
-        "serversBE": "Serveurs sécurisés en Belgique"
-      }
-    }
-  },
-  "rgpd": {
-    "title": "Protection des données (RGPD)",
-    "rightsTitle": "Vos droits selon le RGPD",
-    "rightsIntro": "Conformément au Règlement Général sur la Protection des Données, vous disposez des droits suivants :",
-    "rights": {
-      "access": "Droit d'accès : Vous pouvez demander l'accès à vos données personnelles",
-      "rectification": "Droit de rectification : Vous pouvez corriger vos données inexactes",
-      "erasure": "Droit à l'effacement : Vous pouvez demander la suppression de vos données",
-      "portability": "Droit de portabilité : Vous pouvez récupérer vos données",
-      "objection": "Droit d'opposition : Vous pouvez vous opposer au traitement"
-    },
-    "legalBasisTitle": "Base légale du traitement",
-    "legalBasisIntro": "Le traitement de vos données est basé sur :",
-    "legalBasis": {
-      "consent": "Votre consentement pour l'inscription à la plateforme",
-      "legitimateInterest": "L'intérêt légitime des établissements pour la communication scolaire",
-      "contract": "L'exécution du contrat d'éducation avec l'établissement"
-    },
-    "retentionTitle": "Conservation des données",
-    "retentionIntro": "Nous conservons vos données :",
-    "retention": {
-      "schooling": "Pendant la scolarité de votre enfant dans l'établissement",
-      "twoYears": "Puis 2 ans supplémentaires pour l'historique",
-      "earlyDeletion": "Vous pouvez demander la suppression anticipée à tout moment"
-    }
-  },
-  "dpo": {
-    "title": "Contact DPO",
-    "contactIntro": "Pour exercer vos droits ou poser une question sur la protection des données :",
-    "nameLabel": "Responsable Protection des Données",
-    "emailLabel": "Email :",
-    "address": "Courrier : EcoleHub Platform - DPO, 1000 Bruxelles"
-  },
-  "complaint": {
-    "title": "Réclamation",
-    "intro": "Si vous estimez que vos droits ne sont pas respectés, vous pouvez introduire une réclamation auprès de :",
-    "authorityName": "Autorité de Protection des Données",
-    "websiteLabel": "Site web :"
-  }
 }
-    "acronym": "SEL",

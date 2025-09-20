@@ -16,7 +16,7 @@ export default defineConfig({
     ['json', { outputFile: 'test-results/video-docs-results.json' }]
   ],
   use: {
-    baseURL: process.env.BASE_URL || 'http://localhost:8000',
+    baseURL: process.env.BASE_URL || 'http://localhost',
     trace: 'on', // Always generate traces for documentation
     video: 'on', // Always record videos
     screenshot: 'on', // Always take screenshots
@@ -40,8 +40,8 @@ export default defineConfig({
   ],
 
   webServer: {
-    command: 'docker compose -f docker-compose.traefik.yml up -d && sleep 15',
-    port: 8000,
+    command: 'docker compose up -d && sleep 15',
+    port: 80,
     reuseExistingServer: !process.env.CI,
     timeout: 120 * 1000,
   },

@@ -15,7 +15,7 @@ export default defineConfig({
     ['junit', { outputFile: 'test-results/junit.xml' }]
   ],
   use: {
-    baseURL: process.env.BASE_URL || 'http://localhost:8000',
+    baseURL: process.env.BASE_URL || 'http://localhost',
     trace: 'on-first-retry',
     video: 'retain-on-failure',
     screenshot: 'only-on-failure',
@@ -44,10 +44,10 @@ export default defineConfig({
     },
   ],
 
-  webServer: {
-    command: 'docker compose -f docker-compose.traefik.yml up -d && sleep 10',
-    port: 8000,
-    reuseExistingServer: !process.env.CI,
-    timeout: 120 * 1000,
-  },
+  // webServer: {
+  //   command: 'docker compose up -d && sleep 10',
+  //   port: 80,
+  //   reuseExistingServer: true, // Always reuse existing server
+  //   timeout: 120 * 1000,
+  // },
 });

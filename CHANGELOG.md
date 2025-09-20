@@ -5,6 +5,13 @@ All notable changes to EcoleHub will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [4.2.1] - 2025-09-20
+
+### 🧹 Housekeeping & Dev UX
+- Ignore E2E artifacts and reports in Git: add `test-results/`, `playwright-report/`, `.playwright*/` to `.gitignore`.
+- Commit `package-lock.json` to lock JS dependencies for CI stability.
+- Minor E2E config and locale adjustments kept in sync.
+
 ## [4.2.0] - 2025-09-20
 
 ### 🎭 New Feature: E2E Testing & Video Documentation Infrastructure

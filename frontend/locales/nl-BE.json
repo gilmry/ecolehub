@@ -32,7 +32,7 @@
     "photosPublication": "Publicatie van foto's toestaan",
     "dataShareThirdparties": "Gegevens delen met derden toestaan (excl. verwerkers)",
     "rejectNonEssential": "Alles weigeren (behalve noodzakelijk)",
-    "acceptAll": "Alles accepteren"
+    "acceptAll": "Alles accepteren",
     "dataExportTitle": "Mijn gegevens exporteren",
     "dataExportDescription": "U kunt een kopie van uw gegevens downloaden. De optie 'incl. geschiedenis' voegt uw privacygebeurtenissen toe",
     "exportData": "Gegevens exporteren",
@@ -140,7 +140,7 @@
     "deactivate": "Deactiveren",
     "productCreated": "Product succesvol aangemaakt!",
     "productUpdated": "Product bijgewerkt",
-    "adminRequired": "Beheerder toegang vereist"
+    "adminRequired": "Beheerder toegang vereist",
     "productNamePlaceholder": "bv. EcoleHub T‑shirt",
     "productDescriptionPlaceholder": "Productbeschrijving..."
   },
@@ -195,55 +195,4 @@
     "privacy": "Privacybeleid",
     "dataProtection": "Gegevensbescherming"
   }
-  "profile": {
-    "title": "Mijn Profiel",
-    "children": "Mijn Kinderen", 
-    "addChild": "Kind toevoegen",
-    "childName": "Naam van het kind",
-    "class": "Klas",
-    "chooseClass": "Kies een klas",
-    "childAdded": "Kind toegevoegd!",
-    "childDeleted": "Kind verwijderd"
-    "emailLabel": "E-mail:",
-    "contactEmailText": "Contact",
-    "techManager": "Technische verantwoordelijke EcoleHub",
-    "responsibilityTitle": "Verantwoordelijkheid",
-    "responsibilityP1": "EcoleHub streeft naar correcte informatie maar kan volledigheid en absolute juistheid niet garanderen.",
-    "responsibilityP2": "Gebruikers gebruiken het platform op eigen verantwoordelijkheid."
-  },
-  "footer": {
-    "brand": "EcoleHub",
-    "aboutP1": "Collaboratief platform voor Belgische scholen.",
-    "aboutP2": "Samen maken we het schoolleven makkelijker.",
-    "contactTitle": "Contact",
-    "companyName": "EcoleHub Platform",
-    "companyAddress": "1000 Brussel, België",
-    "emailLinkText": "Contact per e-mail",
-    "legalTitle": "Wettelijke informatie",
-    "copyright": "© 2024 EcoleHub - Open‑source platform voor Belgische scholen",
-    "gdprCompliant": "Conform AVG en Belgische wetgeving gegevensbescherming"
-  }
-  "classes": {
-    "M1": "M1 (1e kleuterklas)",
-    "M2": "M2 (2e kleuterklas)",
-    "M3": "M3 (3e kleuterklas)", 
-    "P1": "P1 (1e leerjaar)",
-    "P2": "P2 (2e leerjaar)",
-    "P3": "P3 (3e leerjaar)",
-    "P4": "P4 (4e leerjaar)",
-    "P5": "P5 (5e leerjaar)",
-    "P6": "P6 (6e leerjaar)"
-  }
 }
-    "myBalance": "Mijn SEL-saldo",
-    "availableServices": "Beschikbare Diensten",
-    "myServices": "Mijn Diensten",
-    "proposeService": "Nieuwe dienst voorstellen",
-    "serviceTitle": "Titel van de dienst",
-    "category": "Categorie",
-    "chooseCategory": "Kies een categorie",
-    "description": "Beschrijving",
-    "unitsPerHour": "Eenheden per uur",
-    "standardRate": "Standaard: 60 eenheden = 1 uur",
-    "request": "Aanvragen",
-    "acronym": "SEL",

@@ -26,7 +26,7 @@ npx playwright install
 
 # Start the application
 echo "🚀 Starting EcoleHub application..."
-docker compose -f docker-compose.traefik.yml up -d
+docker compose up -d
 
 # Wait for application to be ready
 echo "⏳ Waiting for application to be ready..."
@@ -65,7 +65,7 @@ echo "🌐 View HTML report at: http://localhost:9323"
 echo "   (Report server PID: $REPORT_PID)"
 echo ""
 echo "💡 To stop the report server: kill $REPORT_PID"
-echo "💡 To stop the application: docker compose -f docker-compose.traefik.yml down"
+echo "💡 To stop the application: docker compose down"
 echo ""
 
 # Save PID for cleanup

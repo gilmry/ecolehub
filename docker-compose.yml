@@ -2,17 +2,23 @@ version: '3.8'
 
 services:
   backend:
-    build: ./backend
+    build:
+      context: ./backend
+      args:
+        STAGE: ${STAGE:-4}
     ports:
       - "8000:8000"
     environment:
       - BIND_HOST=0.0.0.0
       - DATABASE_URL=sqlite:///./db/ecolehub.db
       - SECRET_KEY=${SECRET_KEY:-change-this-in-production-very-important}
+      - STAGE=${STAGE:-4}
+      - CORS_ORIGINS=${CORS_ORIGINS:-http://localhost,https://localhost}
     volumes:
       - ./backend/app:/app/app
       - ./data:/app/data
       - ./db:/app/db
+      - ./frontend/locales:/app/frontend/locales:ro
     healthcheck:
       test: ["CMD", "curl", "-f", "http://localhost:8000/health"]
       interval: 30s

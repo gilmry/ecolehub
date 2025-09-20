@@ -25,7 +25,7 @@
     "photosPublication": "Veröffentlichung von Fotos erlauben",
     "dataShareThirdparties": "Weitergabe von Daten an Dritte erlauben (außer notwendigen Auftragsverarbeitern)",
     "rejectNonEssential": "Alles ablehnen (außer notwendig)",
-    "acceptAll": "Alles akzeptieren"
+    "acceptAll": "Alles akzeptieren",
     "dataExportTitle": "Meine Daten exportieren",
     "dataExportDescription": "Sie können eine Kopie Ihrer Daten herunterladen. Die Option 'inkl. Verlauf' fügt Ihren Datenschutzverlauf hinzu",
     "exportData": "Daten exportieren",
@@ -237,46 +237,3 @@
     "gdprCompliant": "Konform mit DSGVO und belgischem Datenschutzrecht"
   }
 }
-  "messages": {
-    "messageLabel": "Nachricht"
-  },
-  "sel": {
-    "myBalance": "Mein SEL-Guthaben",
-    "availableServices": "Verfügbare Dienste",
-    "myServices": "Meine Dienste",
-    "proposeService": "Neuen Dienst vorschlagen",
-    "serviceTitle": "Diensttitel",
-    "category": "Kategorie",
-    "chooseCategory": "Kategorie wählen",
-    "description": "Beschreibung",
-    "unitsPerHour": "Einheiten pro Stunde",
-    "standardRate": "Standard: 60 Einheiten = 1 Stunde",
-    "request": "Anfragen"
-  },
-  "shop": {
-    "noProducts": "Zurzeit keine Produkte verfügbar."
-  },
-  "navigation": {
-    "dashboard": "Übersicht",
-    "services": "SEL-Dienste",
-    "transactions": "Transaktionen",
-    "messages": "Nachrichten",
-    "events": "Veranstaltungen",
-    "shop": "Shop",
-    "education": "Bildung",
-    "profile": "Profil",
-    "admin": "Admin"
-  },
-  "classes": {
-    "M1": "M1 (1. Kindergarten)",
-    "M2": "M2 (2. Kindergarten)",
-    "M3": "M3 (3. Kindergarten)",
-    "P1": "P1 (1. Grundschule)",
-    "P2": "P2 (2. Grundschule)",
-    "P3": "P3 (3. Grundschule)",
-    "P4": "P4 (4. Grundschule)",
-    "P5": "P5 (5. Grundschule)",
-    "P6": "P6 (6. Grundschule)"
-  }
-}
-    "acronym": "SEL",
