@@ -46,17 +46,32 @@ else
   echo "ℹ️ bandit not installed; skipping"
 fi
 if $PYBIN -c 'import safety' >/dev/null 2>&1; then
-  # Scan runtime dependencies
-  if [ -f backend/requirements.txt ]; then
-    ($PYBIN -m safety scan -r backend/requirements.txt >/dev/null 2>&1) \
-      || ($PYBIN -m safety check -r backend/requirements.txt >/dev/null 2>&1) \
-      || echo "ℹ️ safety (runtime) scan/check skipped"
-  fi
-  # Scan test/dev dependencies
-  if [ -f backend/requirements.test.txt ]; then
-    ($PYBIN -m safety scan -r backend/requirements.test.txt >/dev/null 2>&1) \
-      || ($PYBIN -m safety check -r backend/requirements.test.txt >/dev/null 2>&1) \
-      || echo "ℹ️ safety (test) scan/check skipped"
+  # Verbose mode: show safety output if SAFETY_VERBOSE=1
+  if [ "${SAFETY_VERBOSE:-0}" = "1" ]; then
+    # Scan runtime dependencies
+    if [ -f backend/requirements.txt ]; then
+      $PYBIN -m safety scan -r backend/requirements.txt \
+        || $PYBIN -m safety check -r backend/requirements.txt \
+        || echo "ℹ️ safety (runtime) scan/check skipped"
+    fi
+    # Scan test/dev dependencies
+    if [ -f backend/requirements.test.txt ]; then
+      $PYBIN -m safety scan -r backend/requirements.test.txt \
+        || $PYBIN -m safety check -r backend/requirements.test.txt \
+        || echo "ℹ️ safety (test) scan/check skipped"
+    fi
+  else
+    # Silent mode: suppress noisy output (default for CI scripts)
+    if [ -f backend/requirements.txt ]; then
+      ($PYBIN -m safety scan -r backend/requirements.txt >/dev/null 2>&1) \
+        || ($PYBIN -m safety check -r backend/requirements.txt >/dev/null 2>&1) \
+        || echo "ℹ️ safety (runtime) scan/check skipped"
+    fi
+    if [ -f backend/requirements.test.txt ]; then
+      ($PYBIN -m safety scan -r backend/requirements.test.txt >/dev/null 2>&1) \
+        || ($PYBIN -m safety check -r backend/requirements.test.txt >/dev/null 2>&1) \
+        || echo "ℹ️ safety (test) scan/check skipped"
+    fi
   fi
 else
   echo "ℹ️ safety not installed; skipping"

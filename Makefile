@@ -363,7 +363,7 @@ test-all: ## Run i18n lint (STRICT) then tests
 	@$(MAKE) test
 
 ci-local: ## Run CI-like checks locally (mirrors GitHub CI)
-	@./scripts/ci-local.sh
+	@SAFETY_VERBOSE=1 ./scripts/ci-local.sh
 
 ci-local-docker: ## Build & run backend image locally (like CI docker-build-test)
 	@echo "🐳 Building backend image..."
