@@ -1,19 +1,27 @@
 # EcoleHub Test Configuration & Fixtures
 import os
+from typing import Generator
+
 import pytest
-from typing import Generator, Any
 from fastapi.testclient import TestClient
 from sqlalchemy import create_engine
-from sqlalchemy.orm import sessionmaker, Session
+from sqlalchemy.orm import Session, sessionmaker
 from sqlalchemy.pool import StaticPool
+
+from app.main_stage4 import (
+    Base,
+    app,
+    create_access_token,
+    get_db,
+    get_password_hash,
+    get_redis,
+)
+from app.models_stage1 import Child, SELService, User
 
 # Set test environment
 os.environ["TESTING"] = "1"
 os.environ["DATABASE_URL"] = "sqlite:///test.db"
 os.environ["REDIS_URL"] = "redis://localhost:6379/15"
-
-from app.main_stage4 import app, Base, get_db, get_password_hash, get_redis
-from app.models_stage1 import User, SELService, Child
 
 
 # Test Database Setup
@@ -40,9 +48,9 @@ def db_session(db_engine) -> Generator[Session, None, None]:
     connection = db_engine.connect()
     transaction = connection.begin()
     session = TestingSessionLocal(bind=connection)
-    
+
     yield session
-    
+
     session.close()
     transaction.rollback()
     connection.close()
@@ -61,7 +69,7 @@ class FakeRedis:
 
     def keys(self, pattern: str):
         # Minimal pattern support for 'session:*'
-        if pattern.endswith('*'):
+        if pattern.endswith("*"):
             prefix = pattern[:-1]
             return [k for k in self._store if k.startswith(prefix)]
         return [k for k in self._store if k == pattern]
@@ -73,6 +81,7 @@ class FakeRedis:
 @pytest.fixture
 def client(db_session: Session) -> Generator[TestClient, None, None]:
     """Create FastAPI test client with test database and fake Redis."""
+
     def get_test_db():
         yield db_session
 
@@ -94,7 +103,7 @@ def test_user_parent(db_session: Session) -> User:
         first_name="Marie",
         last_name="Dupont",
         hashed_password=get_password_hash("jules20220902"),
-        is_active=True
+        is_active=True,
     )
     db_session.add(user)
     db_session.commit()
@@ -110,7 +119,7 @@ def test_user_admin(db_session: Session) -> User:
         first_name="Admin",
         last_name="EcoleHub",
         hashed_password=get_password_hash("jules20220902"),
-        is_active=True
+        is_active=True,
     )
     db_session.add(user)
     db_session.commit()
@@ -126,7 +135,7 @@ def test_user_direction(db_session: Session) -> User:
         first_name="Direction",
         last_name="EcoleHub",
         hashed_password=get_password_hash("jules20220902"),
-        is_active=True
+        is_active=True,
     )
     db_session.add(user)
     db_session.commit()
@@ -137,11 +146,7 @@ def test_user_direction(db_session: Session) -> User:
 @pytest.fixture
 def test_child(db_session: Session, test_user_parent: User) -> Child:
     """Create test child."""
-    child = Child(
-        first_name="Emma",
-        class_name="P3",
-        parent_id=test_user_parent.id
-    )
+    child = Child(first_name="Emma", class_name="P3", parent_id=test_user_parent.id)
     db_session.add(child)
     db_session.commit()
     db_session.refresh(child)
@@ -157,7 +162,7 @@ def test_sel_service(db_session: Session, test_user_parent: User) -> SELService:
         category="garde",
         units_per_hour=60,
         is_active=True,
-        user_id=test_user_parent.id
+        user_id=test_user_parent.id,
     )
     db_session.add(service)
     db_session.commit()
@@ -167,35 +172,23 @@ def test_sel_service(db_session: Session, test_user_parent: User) -> SELService:
 
 # Authentication Fixtures
 @pytest.fixture
-def auth_headers_parent(client: TestClient) -> dict:
-    """Get authentication headers for parent user."""
-    response = client.post(
-        "/login",
-        data={"email": "parent@test.be", "password": "jules20220902"}
-    )
-    token = response.json()["access_token"]
+def auth_headers_parent() -> dict:
+    """Get authentication headers for parent user (direct token)."""
+    token = create_access_token({"sub": "parent@test.be"})
     return {"Authorization": f"Bearer {token}"}
 
 
 @pytest.fixture
-def auth_headers_admin(client: TestClient) -> dict:
-    """Get authentication headers for admin user."""
-    response = client.post(
-        "/login",
-        data={"email": "admin@test.be", "password": "jules20220902"}
-    )
-    token = response.json()["access_token"]
+def auth_headers_admin() -> dict:
+    """Get authentication headers for admin user (direct token)."""
+    token = create_access_token({"sub": "admin@test.be"})
     return {"Authorization": f"Bearer {token}"}
 
 
 @pytest.fixture
-def auth_headers_direction(client: TestClient) -> dict:
-    """Get authentication headers for direction user."""
-    response = client.post(
-        "/login",
-        data={"email": "direction@test.be", "password": "jules20220902"}
-    )
-    token = response.json()["access_token"]
+def auth_headers_direction() -> dict:
+    """Get authentication headers for direction user (direct token)."""
+    token = create_access_token({"sub": "direction@test.be"})
     return {"Authorization": f"Bearer {token}"}
 
 
@@ -205,7 +198,7 @@ def belgian_classes():
     """Belgian school class levels."""
     return {
         "maternelle": ["M1", "M2", "M3"],
-        "primaire": ["P1", "P2", "P3", "P4", "P5", "P6"]
+        "primaire": ["P1", "P2", "P3", "P4", "P5", "P6"],
     }
 
 
@@ -213,7 +206,14 @@ def belgian_classes():
 def sel_categories():
     """SEL service categories for Belgian context."""
     return [
-        "garde", "devoirs", "transport", "cuisine", 
-        "jardinage", "informatique", "artisanat", 
-        "sport", "musique", "autre"
+        "garde",
+        "devoirs",
+        "transport",
+        "cuisine",
+        "jardinage",
+        "informatique",
+        "artisanat",
+        "sport",
+        "musique",
+        "autre",
     ]

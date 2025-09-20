@@ -31,6 +31,9 @@ if [ -f backend/requirements.test.txt ]; then
   $PYBIN -m pip install -q -r backend/requirements.test.txt || true
 fi
 
+echo "🔧 Install formatting tools"
+$PYBIN -m pip install -q black isort autopep8 autoflake || echo "⚠️ Some formatting tools failed to install"
+
 ./scripts/ci-backend.sh
 
 echo "🛡️ Security scans (optional)"

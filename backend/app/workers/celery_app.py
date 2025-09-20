@@ -4,6 +4,7 @@ Background tasks for shop orders and notifications
 """
 
 import os
+
 from celery import Celery
 
 # Redis URL for Celery broker
@@ -14,23 +15,20 @@ celery_app = Celery(
     "ecolehub_tasks",
     broker=REDIS_URL,
     backend=REDIS_URL,
-    include=[
-        "app.workers.shop_tasks",
-        "app.workers.notification_tasks"
-    ]
+    include=["app.workers.shop_tasks", "app.workers.notification_tasks"],
 )
 
 # Celery configuration
 celery_app.conf.update(
-    task_serializer='json',
-    accept_content=['json'],
-    result_serializer='json',
-    timezone='Europe/Brussels',  # Belgian timezone
+    task_serializer="json",
+    accept_content=["json"],
+    result_serializer="json",
+    timezone="Europe/Brussels",  # Belgian timezone
     enable_utc=True,
     task_routes={
-        'app.workers.shop_tasks.*': {'queue': 'shop'},
-        'app.workers.notification_tasks.*': {'queue': 'notifications'},
-    }
+        "app.workers.shop_tasks.*": {"queue": "shop"},
+        "app.workers.notification_tasks.*": {"queue": "notifications"},
+    },
 )
 
 # Configure task execution

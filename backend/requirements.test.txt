@@ -8,4 +8,14 @@ factory-boy==3.3.0
 faker==20.1.0
 pytest-env==1.1.3
 pytest-xdist==3.5.0  # Parallel test execution
-flake8
+
+# Linting and formatting tools
+flake8==6.1.0
+black==23.12.1
+isort==5.13.2
+autopep8==2.1.0
+autoflake==2.2.1
+
+# Security and code quality
+bandit==1.7.5
+# safety==2.3.5  # Temporarily disabled due to packaging conflict

@@ -1,11 +1,16 @@
 # Authentication Unit Tests
 import pytest
 from fastapi.testclient import TestClient
+from jose import jwt
 from sqlalchemy.orm import Session
 
-from app.security import create_access_token, verify_token, get_password_hash, verify_password
-from app.models.user import User
-from app.schemas.user import UserRole
+from app.main_stage4 import (
+    ALGORITHM,
+    create_access_token,
+    get_password_hash,
+    verify_password,
+)
+from app.models_stage1 import User
 
 
 class TestPasswordHashing:
@@ -15,7 +20,7 @@ class TestPasswordHashing:
         """Test password hashing and verification works correctly."""
         password = "test_password_123"
         hashed = get_password_hash(password)
-        
+
         assert hashed != password
         assert verify_password(password, hashed) is True
         assert verify_password("wrong_password", hashed) is False
@@ -24,10 +29,10 @@ class TestPasswordHashing:
         """Test that different passwords produce different hashes."""
         password1 = "password1"
         password2 = "password2"
-        
+
         hash1 = get_password_hash(password1)
         hash2 = get_password_hash(password2)
-        
+
         assert hash1 != hash2
 
 
@@ -38,7 +43,7 @@ class TestJWTTokens:
         """Test access token creation."""
         user_email = "test@ecolehub.be"
         token = create_access_token(data={"sub": user_email})
-        
+
         assert token is not None
         assert isinstance(token, str)
         assert len(token) > 10
@@ -47,16 +52,22 @@ class TestJWTTokens:
         """Test token verification with valid token."""
         user_email = "test@ecolehub.be"
         token = create_access_token(data={"sub": user_email})
-        
-        payload = verify_token(token)
-        assert payload["sub"] == user_email
+
+        payload = jwt.decode(
+            token, "dev-fallback-change-in-production", algorithms=[ALGORITHM]
+        )
+        assert payload.get("sub") == user_email
 
     def test_verify_invalid_token(self):
         """Test token verification with invalid token."""
         invalid_token = "invalid.jwt.token"
-        
-        payload = verify_token(invalid_token)
-        assert payload is None
+
+        with pytest.raises(Exception):
+            jwt.decode(
+                invalid_token,
+                "dev-fallback-change-in-production",
+                algorithms=[ALGORITHM],
+            )
 
 
 @pytest.mark.auth
@@ -69,32 +80,29 @@ class TestAuthenticationEndpoints:
             "email": "newuser@ecolehub.be",
             "first_name": "New",
             "last_name": "User",
-            "password": "secure123"
+            "password": "secure123",
         }
-        
-        response = client.post("/register", json=user_data)
-        
-        assert response.status_code == 201
+
+        response = client.post("/api/register", json=user_data)
+
+        assert response.status_code == 200
         data = response.json()
-        assert data["email"] == user_data["email"]
-        assert data["first_name"] == user_data["first_name"]
-        assert data["role"] == "parent"  # Default role
-        assert "password" not in data
-        assert "hashed_password" not in data
+        assert "access_token" in data
+        assert data["token_type"] == "bearer"
 
     def test_register_duplicate_email(self, client: TestClient, test_user_parent: User):
         """Test registration fails with duplicate email."""
         user_data = {
             "email": test_user_parent.email,
             "first_name": "Duplicate",
-            "last_name": "User", 
-            "password": "secure123"
+            "last_name": "User",
+            "password": "secure123",
         }
-        
-        response = client.post("/register", json=user_data)
-        
+
+        response = client.post("/api/register", json=user_data)
+
         assert response.status_code == 400
-        assert "already registered" in response.json()["detail"].lower()
+        assert "déjà enregistré" in response.json()["detail"].lower()
 
     def test_register_invalid_email(self, client: TestClient):
         """Test registration fails with invalid email."""
@@ -102,20 +110,20 @@ class TestAuthenticationEndpoints:
             "email": "invalid-email",
             "first_name": "Test",
             "last_name": "User",
-            "password": "secure123"
+            "password": "secure123",
         }
-        
-        response = client.post("/register", json=user_data)
-        
+
+        response = client.post("/api/register", json=user_data)
+
         assert response.status_code == 422  # Validation error
 
     def test_login_valid_credentials(self, client: TestClient, test_user_parent: User):
         """Test login with valid credentials."""
         response = client.post(
-            "/login",
-            data={"email": test_user_parent.email, "password": "jules20220902"}
+            "/api/login",
+            data={"email": test_user_parent.email, "password": "jules20220902"},
         )
-        
+
         assert response.status_code == 200
         data = response.json()
         assert "access_token" in data
@@ -124,20 +132,20 @@ class TestAuthenticationEndpoints:
     def test_login_invalid_email(self, client: TestClient):
         """Test login fails with non-existent email."""
         response = client.post(
-            "/login",
-            data={"email": "nonexistent@test.be", "password": "jules20220902"}
+            "/api/login",
+            data={"email": "nonexistent@test.be", "password": "jules20220902"},
         )
-        
+
         assert response.status_code == 401
         assert "incorrect" in response.json()["detail"].lower()
 
     def test_login_invalid_password(self, client: TestClient, test_user_parent: User):
         """Test login fails with wrong password."""
         response = client.post(
-            "/login",
-            data={"email": test_user_parent.email, "password": "wrongpass"}
+            "/api/login",
+            data={"email": test_user_parent.email, "password": "wrongpass"},
         )
-        
+
         assert response.status_code == 401
         assert "incorrect" in response.json()["detail"].lower()
 
@@ -149,39 +157,39 @@ class TestAuthenticationEndpoints:
             first_name="Inactive",
             last_name="User",
             hashed_password=get_password_hash("jules20220902"),
-            role=UserRole.PARENT,
-            is_active=False
+            is_active=False,
         )
         db_session.add(inactive_user)
         db_session.commit()
-        
-        response = client.post(
-            "/login",
-            data={"email": "inactive@test.be", "password": "jules20220902"}
-        )
-        
-        assert response.status_code == 401
-        assert "inactive" in response.json()["detail"].lower()
 
-    def test_get_current_user_valid_token(self, client: TestClient, auth_headers_parent: dict):
+        response = client.post(
+            "/api/login",
+            data={"email": "inactive@test.be", "password": "jules20220902"},
+        )
+
+        assert response.status_code == 401
+        assert "inactif" in response.json()["detail"].lower()
+
+    def test_get_current_user_valid_token(
+        self, client: TestClient, auth_headers_parent: dict, test_user_parent: User
+    ):
         """Test getting current user info with valid token."""
-        response = client.get("/me", headers=auth_headers_parent)
-        
+        response = client.get("/api/me", headers=auth_headers_parent)
+
         assert response.status_code == 200
         data = response.json()
         assert data["email"] == "parent@test.be"
         assert data["first_name"] == "Marie"
-        assert data["role"] == "parent"
 
     def test_get_current_user_no_token(self, client: TestClient):
         """Test getting current user fails without token."""
-        response = client.get("/me")
-        
+        response = client.get("/api/me")
+
         assert response.status_code == 401
 
     def test_get_current_user_invalid_token(self, client: TestClient):
         """Test getting current user fails with invalid token."""
         headers = {"Authorization": "Bearer invalid_token"}
-        response = client.get("/me", headers=headers)
-        
+        response = client.get("/api/me", headers=headers)
+
         assert response.status_code == 401

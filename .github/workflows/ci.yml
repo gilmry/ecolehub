@@ -139,11 +139,15 @@ jobs:
           pip install fastapi uvicorn sqlalchemy psycopg2-binary redis pytest
         fi
 
-    - name: 🔍 Lint with flake8
+    - name: 🎨 Code formatting and quality
       run: |
         cd backend
-        # Install flake8 if not already installed
-        pip install flake8 || true
+        # Install formatting and linting tools
+        pip install black isort autopep8 autoflake flake8 || true
+
+        # Run centralized formatting script (non-blocking)
+        ../scripts/format-python.sh || echo "Formatting completed with warnings"
+
         # Run linting (non-blocking for generics)
         python -m flake8 app/ --count --select=E9,F63,F7,F82 --show-source --statistics || echo "Linting issues found"
         python -m flake8 app/ --count --exit-zero --max-complexity=10 --max-line-length=127 --statistics || echo "Style issues found"

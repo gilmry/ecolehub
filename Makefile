@@ -188,13 +188,20 @@ test-install: ## Install test dependencies
 
 lint: ## Run code linting
 	@echo "🔍 $(BLUE)Running linters...$(NC)"
-	$(COMPOSE) exec backend python -m flake8 app/ || true
-	$(COMPOSE) exec backend python -m black --check app/ || true
+	$(COMPOSE) exec backend python -m flake8 app/ tests/ || true
+	$(COMPOSE) exec backend python -m black --check app/ tests/ || true
+	$(COMPOSE) exec backend python -m isort --check-only app/ tests/ || true
 
-format: ## Format code
-	@echo "📝 $(BLUE)Formatting code...$(NC)"
-	$(COMPOSE) exec backend python -m black app/
-	$(COMPOSE) exec backend python -m isort app/
+format: ## Format code automatically
+	@echo "📝 $(BLUE)Auto-formatting Python code...$(NC)"
+	./scripts/format-python.sh
+
+format-docker: ## Format code using Docker containers
+	@echo "📝 $(BLUE)Formatting code in containers...$(NC)"
+	$(COMPOSE) exec backend python -m autoflake --in-place --remove-all-unused-imports --remove-unused-variables --recursive app/ tests/ || true
+	$(COMPOSE) exec backend python -m isort app/ tests/ --profile black || true
+	$(COMPOSE) exec backend python -m autopep8 --in-place --aggressive --aggressive --recursive app/ tests/ || true
+	$(COMPOSE) exec backend python -m black app/ tests/ || true
 
 shell-backend: ## Open shell in backend container
 	$(COMPOSE) exec backend /bin/bash

@@ -21,7 +21,7 @@ def test_platform_analytics_admin_only(client: TestClient):
             "email": "admin@test.be",
             "first_name": "Admin",
             "last_name": "User",
-            "password": "admin123"
+            "password": "admin123",
         },
     )
     assert reg.status_code == 200
@@ -40,7 +40,9 @@ def test_platform_analytics_admin_only(client: TestClient):
     assert resp.status_code == 200
     data = resp.json()
     # Validate structure from analytics_service
-    assert "users" in data and "sel" in data and "shop" in data and "communication" in data
+    assert (
+        "users" in data and "sel" in data and "shop" in data and "communication" in data
+    )
     assert "timestamp" in data
 
 

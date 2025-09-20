@@ -18,6 +18,20 @@ if [ -x backend/venv/bin/python ]; then
   fi
 fi
 
+echo "🎨 Auto-formatting Python code"
+# Use centralized formatting script as source of truth
+FORMAT_SCRIPT="$ROOT_DIR/scripts/format-python.sh"
+if [ -x "$FORMAT_SCRIPT" ]; then
+  "$FORMAT_SCRIPT"
+else
+  echo "⚠️ format-python.sh not found at $FORMAT_SCRIPT, using fallback formatting"
+  # Fallback if script not available
+  if $PYBIN_ABS - <<<'import black' >/dev/null 2>&1; then
+    echo "  ⚫ black: basic formatting"
+    (cd backend && $PYBIN_ABS -m black app tests --line-length 88 --safe) || true
+  fi
+fi
+
 echo "🔍 flake8 (strict then relaxed)"
 if $PYBIN_ABS - <<<'import flake8' >/dev/null 2>&1; then
   (cd backend && $PYBIN_ABS -m flake8 app/ --count --select=E9,F63,F7,F82 --show-source --statistics) || echo "Linting issues found"
