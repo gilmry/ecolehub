@@ -50,8 +50,14 @@ def format_violation(v):
     )
 
 
-def test_accessibility_serious_and_critical_only():
+def test_accessibility_with_configurable_impact():
     base_url = os.environ.get("BASE_URL", "http://localhost:8089")
+    # Configurable impact threshold via env (comma-separated)
+    # Examples: "critical" | "serious,critical" | "moderate,serious,critical"
+    impact_env = os.environ.get("A11Y_IMPACT", "serious,critical")
+    fail_impacts = {i.strip().lower() for i in impact_env.split(",") if i.strip()}
+    if not fail_impacts:
+        fail_impacts = {"serious", "critical"}
     with sync_playwright() as p:
         browser = p.chromium.launch()
         context = browser.new_context()
@@ -61,13 +67,17 @@ def test_accessibility_serious_and_critical_only():
         axe = run_axe(page)
         violations = axe.get("violations", [])
 
-        # Filter to serious/critical only to reduce noise in early stages
-        problematic = [v for v in violations if v.get("impact") in {"serious", "critical"}]
+        # Filter by configured impacts to reduce noise in early stages
+        problematic = [v for v in violations if (v.get("impact") or "minor").lower() in fail_impacts]
 
         if problematic:
             details = "\n\n".join(format_violation(v) for v in problematic)
-            pytest.fail(f"Accessibility violations detected (serious/critical):\n{details}")
+            pytest.fail(
+                "Accessibility violations detected (impacts: "
+                + ", ".join(sorted(fail_impacts))
+                + "):\n"
+                + details
+            )
 
         context.close()
         browser.close()
-

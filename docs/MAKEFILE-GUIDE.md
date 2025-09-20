@@ -70,12 +70,19 @@ make ci-local       # CI local (i18n STRICT + tests + flake8)
 make a11y-audit     # Audit accessibilité (pa11y, BASE_URL configurable)
 make a11y-serve-frontend   # Sert le frontend localement (par défaut : 8089)
 make a11y-audit-frontend   # Sert temporairement puis lance l'audit a11y
+make a11y-playwright       # Lance le test Playwright + axe (Python)
 make ci-local       # i18n-lint STRICT + tests + flake8 en local
 make lint           # Vérifier le code
 make format         # Formater le code
 make shell-backend  # Shell dans le container backend
 make shell-db       # Shell dans la base de données
 ```
+
+Astuce:
+- Personnaliser l'impact axe via `A11Y_IMPACT` (par défaut: `serious,critical`).
+  Exemples:
+  - `A11Y_IMPACT=critical make a11y-playwright`
+  - `A11Y_IMPACT=moderate,serious,critical make a11y-playwright`
 
 ## 🐳 Gestion Docker
 
