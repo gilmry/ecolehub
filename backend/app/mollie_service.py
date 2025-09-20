@@ -173,12 +173,16 @@ class MolliePaymentService:
                             "id": method.id,
                             "description": method.description,
                             "image": method.image,
-                            "min_amount": float(method.minimum_amount["value"])
-                            if method.minimum_amount
-                            else 0,
-                            "max_amount": float(method.maximum_amount["value"])
-                            if method.maximum_amount
-                            else 999999,
+                            "min_amount": (
+                                float(method.minimum_amount["value"])
+                                if method.minimum_amount
+                                else 0
+                            ),
+                            "max_amount": (
+                                float(method.maximum_amount["value"])
+                                if method.maximum_amount
+                                else 999999
+                            ),
                         }
                     )
 

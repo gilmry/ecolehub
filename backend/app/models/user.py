@@ -2,6 +2,7 @@
 
 Maps to Stage 1 SQLAlchemy User model while accepting extra kwargs like 'role'.
 """
+
 from typing import Any
 
 from app.models_stage1 import User as SAUser

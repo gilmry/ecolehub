@@ -9,6 +9,7 @@
 
 # Python
 __pycache__/
+.pytest_cache/
 *.pyc
 *.pyo
 *.pyd
@@ -27,6 +28,10 @@ env/
 
 # Logs
 *.log
+
+# Test coverage artifacts
+.coverage
+coverage.xml
 
 # Docker
 .dockerignore
