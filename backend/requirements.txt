@@ -4,4 +4,10 @@ sqlalchemy==2.0.23
 python-jose[cryptography]==3.5.0
 passlib[bcrypt]==1.7.4
 python-multipart==0.0.20
-pydantic[email]==2.5.0
+# Align with Safety requirements and FastAPI constraints
+pydantic[email]>=2.6.0,<2.10.0
+redis==5.0.1
+minio==7.1.17
+prometheus-client==0.19.0
+prometheus-fastapi-instrumentator==6.1.0
+python-magic==0.4.27
