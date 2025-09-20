@@ -62,6 +62,15 @@ def test_backend_uses_env_for_secret_key():
     ), "Backend must read SECRET_KEY from env/secrets"
 
 
+def test_privacy_doc_present_and_fields():
+    # Minimal privacy policy document should exist with placeholders replaced by deployment
+    root = repo_root()
+    privacy_md = root / "docs/PRIVACY.md"
+    assert privacy_md.exists(), "docs/PRIVACY.md must exist"
+    content = privacy_md.read_text(encoding="utf-8", errors="ignore")
+    assert "Politique de confidentialité" in content
+
+
 def test_frontend_has_legal_privacy_links():
     # Frontend should reference legal/privacy info for users (static check)
     root = repo_root()

@@ -1095,6 +1095,8 @@ if __name__ == "__main__":
     uvicorn.run(app, host=host, port=port)
 # GDPR / Privacy policy version
 PRIVACY_POLICY_VERSION = os.getenv("PRIVACY_POLICY_VERSION", "1.0.0")
+GDPR_PRIVACY_CONTACT_EMAIL = os.getenv("GDPR_PRIVACY_CONTACT_EMAIL", "privacy@example.org")
+GDPR_DATA_RETENTION_DAYS = int(os.getenv("GDPR_DATA_RETENTION_DAYS", "365"))
 # ==========================================
 # PRIVACY / GDPR ENDPOINTS
 # ==========================================
@@ -1105,6 +1107,8 @@ def get_privacy_policy():
     """Expose privacy policy metadata and links (static)."""
     return {
         "version": PRIVACY_POLICY_VERSION,
+        "contact_email": GDPR_PRIVACY_CONTACT_EMAIL,
+        "retention_days": GDPR_DATA_RETENTION_DAYS,
         "locales": [
             {"code": "fr-BE", "url": "/#legal"},
             {"code": "nl-BE", "url": "/#legal"},
