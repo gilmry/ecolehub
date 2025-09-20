@@ -476,6 +476,7 @@ def register(
         first_name=user.first_name,
         last_name=user.last_name,
         hashed_password=hashed_password,
+        is_active=True,
     )
     db.add(db_user)
     db.commit()
@@ -864,6 +865,7 @@ def compat_register(
         first_name=user.first_name,
         last_name=user.last_name,
         hashed_password=hashed_password,
+        is_active=True,
     )
     db.add(db_user)
     db.commit()
