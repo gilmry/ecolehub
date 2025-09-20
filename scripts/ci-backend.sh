@@ -12,24 +12,34 @@ export SECRET_KEY=${SECRET_KEY:-test-secret-key-for-ci-only}
 
 PYBIN="python3"
 if [ -x backend/venv/bin/python ]; then
-  PYBIN="backend/venv/bin/python"
+  # Verify venv python works; otherwise fallback
+  if backend/venv/bin/python -V >/dev/null 2>&1; then
+    PYBIN="backend/venv/bin/python"
+  fi
 fi
 
 echo "🔍 flake8 (strict then relaxed)"
-$PYBIN -m pip install -q flake8 || true
-(cd backend && $PYBIN -m flake8 app/ --count --select=E9,F63,F7,F82 --show-source --statistics) || echo "Linting issues found"
-(cd backend && $PYBIN -m flake8 app/ --count --exit-zero --max-complexity=10 --max-line-length=127 --statistics) || echo "Style issues found"
+if $PYBIN - <<<'import flake8' >/dev/null 2>&1; then
+  (cd backend && $PYBIN -m flake8 app/ --count --select=E9,F63,F7,F82 --show-source --statistics) || echo "Linting issues found"
+  (cd backend && $PYBIN -m flake8 app/ --count --exit-zero --max-complexity=10 --max-line-length=127 --statistics) || echo "Style issues found"
+else
+  echo "ℹ️ flake8 not available; skipping"
+fi
 
-echo "🧪 Pytest: unit"
-(cd backend && $PYBIN -m pytest tests/unit/ -v --tb=short -m unit)
-echo "🧪 Pytest: integration"
-(cd backend && $PYBIN -m pytest tests/integration/ -v --tb=short -m integration)
-echo "🧪 Pytest: auth"
-(cd backend && $PYBIN -m pytest tests/ -v --tb=short -m auth)
-echo "🧪 Pytest: sel"
-(cd backend && $PYBIN -m pytest tests/ -v --tb=short -m sel)
-echo "📊 Coverage"
-(cd backend && $PYBIN -m pytest tests/ --cov=app --cov-report=xml:coverage.xml --cov-report=term)
+if $PYBIN - <<<'import pytest' >/dev/null 2>&1; then
+  echo "🧪 Pytest: unit"
+  (cd backend && $PYBIN -m pytest tests/unit/ -v --tb=short -m unit)
+  echo "🧪 Pytest: integration"
+  (cd backend && $PYBIN -m pytest tests/integration/ -v --tb=short -m integration)
+  echo "🧪 Pytest: auth"
+  (cd backend && $PYBIN -m pytest tests/ -v --tb=short -m auth)
+  echo "🧪 Pytest: sel"
+  (cd backend && $PYBIN -m pytest tests/ -v --tb=short -m sel)
+  echo "📊 Coverage"
+  (cd backend && $PYBIN -m pytest tests/ --cov=app --cov-report=xml:coverage.xml --cov-report=term)
+else
+  echo "⚠️ pytest not available; please run 'scripts/run-tests-local.sh' locally with internet or ensure venv dependencies installed."
+  exit 2
+fi
 
 echo "✅ Backend CI script completed"
-
