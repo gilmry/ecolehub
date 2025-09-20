@@ -1236,7 +1236,10 @@ def compat_update_prefs(data: dict, current_user: User = Depends(get_current_use
     changed = {}
     for k, v in data.items():
         if k in PREFERENCE_KEYS and isinstance(v, bool):
-            setattr(current_user, k, v)
+            if k == "consent_comms_operational":
+                setattr(current_user, k, True)
+            else:
+                setattr(current_user, k, v)
             changed[k] = v
     db.add(current_user)
     db.commit()
