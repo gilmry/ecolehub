@@ -3,6 +3,7 @@
 [![CI](https://github.com/gilmry/ecolehub/actions/workflows/ci.yml/badge.svg?branch=master)](https://github.com/gilmry/ecolehub/actions/workflows/ci.yml)
 [![Coverage](https://codecov.io/gh/gilmry/ecolehub/branch/master/graph/badge.svg)](https://codecov.io/gh/gilmry/ecolehub)
 [![A11Y](https://img.shields.io/badge/a11y-STRICT-green)](#-accessibilite)
+[![GDPR](https://img.shields.io/badge/GDPR-Ready-green)](#-rgpd)
 
 Plateforme scolaire collaborative open-source pour écoles primaires.
 
@@ -65,6 +66,16 @@ En local:
 ```bash
 make ci-local  # lance un audit Pa11y STRICT après les tests
 ```
+
+## 🔒 RGPD
+
+EcoleHub intègre des bonnes pratiques liées au RGPD:
+- Consentement explicite pour la création de compte et mentions légales dédiées
+- Données minimisées (profils/children) et suppression/désactivation de compte
+- Sécrets et clés hors dépôt (.env / Docker secrets)
+- Journalisation sobre et métriques anonymisées côté analytics
+
+Attention: la conformité RGPD finale dépend de votre déploiement (registre des traitements, mentions d'information, sécurité opérationnelle). Ce badge indique la préparation du projet, pas un audit légal.
 
 # Sauvegarde base de données
 docker compose exec postgres pg_dump -U ecolehub ecolehub > backup.sql
