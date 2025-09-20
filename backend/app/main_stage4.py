@@ -1148,7 +1148,7 @@ def data_export(current_user: User = Depends(get_current_user), db: Session = De
     )
     services = db.query(SELService).filter(SELService.user_id == current_user.id).all()
     balance = db.query(SELBalance).filter(SELBalance.user_id == current_user.id).first()
-    return {
+    response = {
         "user": {
             "id": str(current_user.id),
             "email": current_user.email,
@@ -1182,6 +1182,12 @@ def data_export(current_user: User = Depends(get_current_user), db: Session = De
             "total_received": balance.total_received if balance else 0,
         },
     }
+    try:
+        db.add(PrivacyEvent(user_id=current_user.id, action="privacy.data.export"))
+        db.commit()
+    except Exception:
+        db.rollback()
+    return response
 
 
 @api_router.delete("/me")
@@ -1203,13 +1209,41 @@ def delete_me(current_user: User = Depends(get_current_user), db: Session = Depe
     current_user.consent_withdrawn_at = func.now()
     db.add(current_user)
     db.commit()
+    try:
+        db.add(PrivacyEvent(user_id=current_user.id, action="privacy.data.delete"))
+        db.commit()
+    except Exception:
+        db.rollback()
     return {"status": "deleted"}
+PREFERENCE_KEYS = {
+    "consent_analytics_platform",
+    "consent_comms_operational",
+    "consent_comms_newsletter",
+    "consent_comms_shop_marketing",
+    "consent_cookies_preference",
+    "consent_photos_publication",
+    "consent_data_share_thirdparties",
+}
+
 # Consent preferences
 @app.get("/consent/preferences")
 def compat_get_prefs(current_user: User = Depends(get_current_user)):
-    return get_consent_preferences(current_user)
+    return {k: bool(getattr(current_user, k, False)) for k in PREFERENCE_KEYS}
 
 
 @app.post("/consent/preferences")
 def compat_update_prefs(data: dict, current_user: User = Depends(get_current_user), db: Session = Depends(get_db)):
-    return update_consent_preferences(data=data, current_user=current_user, db=db)
+    changed = {}
+    for k, v in data.items():
+        if k in PREFERENCE_KEYS and isinstance(v, bool):
+            setattr(current_user, k, v)
+            changed[k] = v
+    db.add(current_user)
+    db.commit()
+    if changed:
+        try:
+            db.add(PrivacyEvent(user_id=current_user.id, action="privacy.preferences.update", details=str(changed)))
+            db.commit()
+        except Exception:
+            db.rollback()
+    return {k: bool(getattr(current_user, k, False)) for k in PREFERENCE_KEYS}

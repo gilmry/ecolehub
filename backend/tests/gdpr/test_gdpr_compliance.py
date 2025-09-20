@@ -169,6 +169,74 @@ def test_consent_preferences_get_post(client):
     assert prefs2["consent_comms_newsletter"] is True
 
 
+def test_privacy_events_export_and_purge(client, db_session):
+    # Register and login
+    reg = client.post(
+        "/api/register",
+        json={
+            "email": "eventuser@test.be",
+            "first_name": "Event",
+            "last_name": "User",
+            "password": "secret123",
+        },
+    )
+    assert reg.status_code in (200, 201)
+    login = client.post(
+        "/api/login",
+        data={"email": "eventuser@test.be", "password": "secret123"},
+        headers={"content-type": "application/x-www-form-urlencoded"},
+    )
+    token = login.json()["access_token"]
+    headers = {"Authorization": f"Bearer {token}"}
+
+    # Trigger some privacy events
+    client.get("/api/me/data_export", headers=headers)
+    client.post("/api/consent", headers=headers)
+
+    # Export events
+    events = client.get("/api/me/privacy_events", headers=headers)
+    assert events.status_code == 200
+    lst = events.json()
+    assert any(e.get("action", "").startswith("privacy.") for e in lst)
+
+    # Simulate an old event and purge
+    from app.models_stage2 import PrivacyEvent
+    from datetime import datetime, timedelta
+    from sqlalchemy.orm import Session
+
+    sess: Session = db_session
+    old = PrivacyEvent(user_id=lst and lst[0] and lst[0].get("id") or None, action="privacy.test.old")
+    # Guard: if user_id None because of the simplistic extraction, fallback to first event's id as user
+    # Better: fetch real user id
+    from app.models_stage1 import User
+    user = sess.query(User).filter(User.email == "eventuser@test.be").first()
+    old.user_id = user.id
+    old.created_at = datetime.utcnow() - timedelta(days=9999)
+    sess.add(old)
+    sess.commit()
+
+    # Purge as admin
+    # Use admin-like user and login
+    client.post(
+        "/api/register",
+        json={
+            "email": "admin@test.be",
+            "first_name": "Admin",
+            "last_name": "User",
+            "password": "admin123",
+        },
+    )
+    admin_login = client.post(
+        "/api/login",
+        data={"email": "admin@test.be", "password": "admin123"},
+        headers={"content-type": "application/x-www-form-urlencoded"},
+    )
+    admin_token = admin_login.json()["access_token"]
+    admin_headers = {"Authorization": f"Bearer {admin_token}"}
+    purge = client.post("/api/admin/privacy/purge", headers=admin_headers)
+    assert purge.status_code == 200
+
+
 def test_analytics_respects_consent(client):
     # Register and login with analytics consent disabled
     reg = client.post(
