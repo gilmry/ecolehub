@@ -1,0 +1,14 @@
+blank_issues_enabled: false
+contact_links:
+  - name: 💬 Discussions Communauté
+    url: https://github.com/gilmry/ecolehub/discussions
+    about: Questions générales, aide à l'installation, échanges entre écoles
+  - name: 🔒 Problème de Sécurité
+    url: mailto:security@ecolehub.be
+    about: Signaler une vulnérabilité de sécurité (confidentiel)
+  - name: 📧 Contact Direct
+    url: mailto:contact@ecolehub.be
+    about: Contact direct avec l'équipe EcoleHub
+  - name: 📖 Documentation
+    url: https://github.com/gilmry/ecolehub/blob/master/README.md
+    about: Guide d'installation et documentation technique

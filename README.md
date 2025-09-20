@@ -186,13 +186,63 @@ curl -X POST https://votre-domaine.com/api/login \
 - **Transactions SEL** : 1000+/mois
 - **Commandes groupées** : 50+/mois
 
-## 🤝 Contribution
+## 🤝 Communauté Open Source
 
-Contributions bienvenues ! Voir [TESTING-GUIDE.md](./docs/TESTING-GUIDE.md) pour les tests.
+### 🏫 Rejoindre la Communauté EcoleHub
+
+EcoleHub est **conçu par et pour les écoles belges**. Nous accueillons toutes les contributions :
+
+- **🎓 Écoles** : Retours d'expérience, tests, besoins spécifiques
+- **👨‍💻 Développeurs** : Code, tests, documentation
+- **🎨 Designers** : UX/UI adaptée au milieu éducatif
+- **🌍 Traducteurs** : Français ↔ Néerlandais ↔ Anglais
+- **⚖️ Experts RGPD** : Conformité protection des données
+
+### 📋 Comment Contribuer
+
+1. **📖 Lire** le [Guide de Contribution](./CONTRIBUTING.md)
+2. **🐛 Signaler** des bugs via [Issues](https://github.com/gilmry/ecolehub/issues)
+3. **💡 Proposer** des fonctionnalités
+4. **🔧 Contribuer** du code via Pull Requests
+5. **🏫 Partager** votre expérience d'école
+
+### 🛡️ Code de Conduite
+
+Notre communauté respecte un [Code de Conduite](./CODE_OF_CONDUCT.md) strict, particulièrement adapté au contexte éducatif et à la protection des données d'enfants.
+
+### 🔒 Sécurité
+
+Vulnérabilités de sécurité ? Consultez notre [Politique de Sécurité](./SECURITY.md) et contactez security@ecolehub.be
+
+### 📞 Support & Contact
+
+- **🐛 Bugs & Features** : [GitHub Issues](https://github.com/gilmry/ecolehub/issues)
+- **💬 Discussions** : [GitHub Discussions](https://github.com/gilmry/ecolehub/discussions)
+- **📧 Contact Direct** : contact@ecolehub.be
+- **🔒 Sécurité** : security@ecolehub.be
+
+### 🏆 Reconnaissance
+
+Les contributeurs sont reconnus dans notre [Hall of Fame](./CONTRIBUTORS.md) et les release notes.
+
+## 📊 Statistiques du Projet
+
+![GitHub stars](https://img.shields.io/github/stars/gilmry/ecolehub?style=social)
+![GitHub forks](https://img.shields.io/github/forks/gilmry/ecolehub?style=social)
+![GitHub contributors](https://img.shields.io/github/contributors/gilmry/ecolehub)
+![GitHub last commit](https://img.shields.io/github/last-commit/gilmry/ecolehub)
 
 ## 📄 Licence
 
-MIT - Libre d'usage pour toute école.
+**MIT License** - Libre d'usage pour toute école.
+
+Cette licence permet à toutes les écoles de :
+- ✅ Utiliser EcoleHub gratuitement
+- ✅ Modifier le code selon leurs besoins
+- ✅ Distribuer leurs améliorations
+- ✅ Utilisation commerciale autorisée
+
+Voir [LICENSE](./LICENSE) pour les détails complets.
 
 ---
 
