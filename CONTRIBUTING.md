@@ -1,6 +1,8 @@
-# 🤝 Guide de Contribution à EcoleHub
+# 🤝 Contributing to EcoleHub / Guide de Contribution à EcoleHub
 
-Merci de votre intérêt pour contribuer à EcoleHub ! Ce projet vise à fournir une plateforme collaborative open source pour les écoles belges, avec une approche progressive et modulaire.
+> **English**: Thank you for your interest in contributing to EcoleHub! This project provides a progressive, open-source collaborative platform for Belgian schools, designed to scale from small schools (5 families) to large ones (200+ families) while maintaining GDPR compliance and accessibility standards.
+
+**Français** : Merci de votre intérêt pour contribuer à EcoleHub ! Ce projet vise à fournir une plateforme collaborative open source pour les écoles belges, avec une approche progressive et modulaire.
 
 ## 🎯 Vision du Projet
 
