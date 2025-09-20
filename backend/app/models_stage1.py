@@ -35,6 +35,7 @@ class User(Base):
     consent_version = Column(String(20))
     consented_at = Column(DateTime(timezone=True))
     privacy_locale = Column(String(10))
+    deleted_at = Column(DateTime(timezone=True))
     created_at = Column(DateTime(timezone=True), server_default=func.now())
     updated_at = Column(
         DateTime(timezone=True), server_default=func.now(), onupdate=func.now()

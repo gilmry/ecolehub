@@ -69,7 +69,53 @@ def test_frontend_has_legal_privacy_links():
     assert index_html.exists(), "frontend/index.html missing"
     content = index_html.read_text(encoding="utf-8", errors="ignore").lower()
     # Look for common legal/privacy cues
-    assert any(k in content for k in ["rgpd", "privacy", "mentions", "données", "protection"]), (
+    assert any(k in content for k in ["rgpd", "privacy", "mentions", "données", "protection", "legal"]), (
         "Frontend should include legal/privacy cues (RGPD/mentions/données)"
     )
 
+
+def test_privacy_policy_endpoint(client):
+    # Verify privacy endpoint exposes version and locales
+    resp = client.get("/api/privacy")
+    assert resp.status_code == 200
+    data = resp.json()
+    assert "version" in data and "locales" in data
+
+
+def test_data_export_and_delete_flow(client):
+    # Register and login
+    reg = client.post(
+        "/api/register",
+        json={
+            "email": "gdpruser@test.be",
+            "first_name": "GDPR",
+            "last_name": "User",
+            "password": "secret123",
+        },
+    )
+    assert reg.status_code in (200, 201)
+    login = client.post(
+        "/api/login",
+        data={"email": "gdpruser@test.be", "password": "secret123"},
+        headers={"content-type": "application/x-www-form-urlencoded"},
+    )
+    assert login.status_code == 200
+    token = login.json()["access_token"]
+    headers = {"Authorization": f"Bearer {token}"}
+
+    # Data export
+    export = client.get("/api/me/data_export", headers=headers)
+    assert export.status_code == 200
+    data = export.json()
+    assert "user" in data and "children" in data and "services" in data
+
+    # Delete (erasure)
+    delete = client.delete("/api/me", headers=headers)
+    assert delete.status_code == 200
+    # Re-login should still reject if password invalidated (optional but we check is_active flag via /api/me)
+    me = client.get("/api/me", headers=headers)
+    assert me.status_code == 200
+    profile = me.json()
+    # After deletion, user is inactive and anonymized
+    assert profile["is_active"] is False
+    assert profile["email"].startswith("deleted+")

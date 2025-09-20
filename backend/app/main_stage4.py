@@ -479,6 +479,17 @@ def register(
     db.commit()
     db.refresh(db_user)
 
+    # Record initial consent at registration (version + timestamp + locale)
+    try:
+        lang = "fr-BE"
+        db_user.consent_version = PRIVACY_POLICY_VERSION
+        db_user.consented_at = func.now()
+        db_user.privacy_locale = lang
+        db.add(db_user)
+        db.commit()
+    except Exception:
+        db.rollback()
+
     # Create SEL balance and user status
     sel_service.get_or_create_balance(db_user.id)
     user_status = UserStatus(user_id=db_user.id)
@@ -1060,3 +1071,97 @@ if __name__ == "__main__":
     host = os.getenv("BIND_HOST", "127.0.0.1")
     port = int(os.getenv("PORT", "8000"))
     uvicorn.run(app, host=host, port=port)
+# GDPR / Privacy policy version
+PRIVACY_POLICY_VERSION = os.getenv("PRIVACY_POLICY_VERSION", "1.0.0")
+# ==========================================
+# PRIVACY / GDPR ENDPOINTS
+# ==========================================
+
+
+@api_router.get("/privacy")
+def get_privacy_policy():
+    """Expose privacy policy metadata and links (static)."""
+    return {
+        "version": PRIVACY_POLICY_VERSION,
+        "locales": [
+            {"code": "fr-BE", "url": "/#legal"},
+            {"code": "nl-BE", "url": "/#legal"},
+            {"code": "en", "url": "/#privacy"},
+        ],
+    }
+
+
+@api_router.post("/consent")
+def record_consent(request: Request, current_user: User = Depends(get_current_user), db: Session = Depends(get_db)):
+    """Record user consent version and timestamp."""
+    current_user.consent_version = PRIVACY_POLICY_VERSION
+    current_user.consented_at = func.now()
+    # best effort locale from header
+    lang = request.headers.get("accept-language", "fr-BE").split(",")[0]
+    current_user.privacy_locale = lang[:10]
+    db.add(current_user)
+    db.commit()
+    return {"status": "ok", "version": PRIVACY_POLICY_VERSION}
+
+
+@api_router.get("/me/data_export")
+def data_export(current_user: User = Depends(get_current_user), db: Session = Depends(get_db)):
+    """Export user-related data (data portability)."""
+    children = (
+        db.query(Child).filter(Child.parent_id == current_user.id).all()
+    )
+    services = db.query(SELService).filter(SELService.user_id == current_user.id).all()
+    balance = db.query(SELBalance).filter(SELBalance.user_id == current_user.id).first()
+    return {
+        "user": {
+            "id": str(current_user.id),
+            "email": current_user.email,
+            "first_name": current_user.first_name,
+            "last_name": current_user.last_name,
+            "consent_version": current_user.consent_version,
+            "consented_at": current_user.consented_at.isoformat() if current_user.consented_at else None,
+            "privacy_locale": current_user.privacy_locale,
+        },
+        "children": [
+            {
+                "id": str(c.id),
+                "first_name": c.first_name,
+                "class_name": c.class_name,
+                "created_at": c.created_at.isoformat() if c.created_at else None,
+            }
+            for c in children
+        ],
+        "services": [
+            {
+                "id": str(s.id),
+                "title": s.title,
+                "category": s.category,
+                "is_active": s.is_active,
+            }
+            for s in services
+        ],
+        "balance": {
+            "balance": balance.balance if balance else 0,
+            "total_given": balance.total_given if balance else 0,
+            "total_received": balance.total_received if balance else 0,
+        },
+    }
+
+
+@api_router.delete("/me")
+def delete_me(current_user: User = Depends(get_current_user), db: Session = Depends(get_db)):
+    """Erasure request: soft-delete and anonymize user while preserving integrity."""
+    from sqlalchemy import update
+
+    # Soft delete marker
+    current_user.is_active = False
+    current_user.deleted_at = func.now()
+    # Anonymize PII
+    current_user.first_name = "Deleted"
+    current_user.last_name = "User"
+    current_user.email = f"deleted+{current_user.id}@example.invalid"
+    # Invalidate credentials
+    current_user.hashed_password = "!"
+    db.add(current_user)
+    db.commit()
+    return {"status": "deleted"}
