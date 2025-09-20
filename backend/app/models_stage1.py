@@ -1,5 +1,5 @@
 from sqlalchemy import Column, String, Integer, Boolean, DateTime, Text, ForeignKey, CheckConstraint
-from sqlalchemy.dialects.postgresql import UUID
+from .db_types import UUIDType
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import relationship
 from sqlalchemy.sql import func
@@ -10,7 +10,7 @@ Base = declarative_base()
 class User(Base):
     __tablename__ = "users"
     
-    id = Column(UUID(as_uuid=True), primary_key=True, default=uuid.uuid4)
+    id = Column(UUIDType(), primary_key=True, default=uuid.uuid4)
     email = Column(String(255), unique=True, nullable=False, index=True)
     first_name = Column(String(100), nullable=False)
     last_name = Column(String(100), nullable=False)
@@ -30,8 +30,8 @@ class User(Base):
 class Child(Base):
     __tablename__ = "children"
     
-    id = Column(UUID(as_uuid=True), primary_key=True, default=uuid.uuid4)
-    parent_id = Column(UUID(as_uuid=True), ForeignKey("users.id", ondelete="CASCADE"), nullable=False)
+    id = Column(UUIDType(), primary_key=True, default=uuid.uuid4)
+    parent_id = Column(UUIDType(), ForeignKey("users.id", ondelete="CASCADE"), nullable=False)
     first_name = Column(String(100), nullable=False)
     class_name = Column(String(10), nullable=False)
     birth_date = Column(DateTime(timezone=True))
@@ -52,7 +52,7 @@ class Child(Base):
 class SELCategory(Base):
     __tablename__ = "sel_categories"
     
-    id = Column(UUID(as_uuid=True), primary_key=True, default=uuid.uuid4)
+    id = Column(UUIDType(), primary_key=True, default=uuid.uuid4)
     name = Column(String(100), nullable=False, unique=True)
     description = Column(Text)
     icon = Column(String(50))
@@ -61,8 +61,8 @@ class SELCategory(Base):
 class SELService(Base):
     __tablename__ = "sel_services"
     
-    id = Column(UUID(as_uuid=True), primary_key=True, default=uuid.uuid4)
-    user_id = Column(UUID(as_uuid=True), ForeignKey("users.id", ondelete="CASCADE"), nullable=False)
+    id = Column(UUIDType(), primary_key=True, default=uuid.uuid4)
+    user_id = Column(UUIDType(), ForeignKey("users.id", ondelete="CASCADE"), nullable=False)
     title = Column(String(200), nullable=False)
     description = Column(Text)
     category = Column(String(50), nullable=False)
@@ -78,10 +78,10 @@ class SELService(Base):
 class SELTransaction(Base):
     __tablename__ = "sel_transactions"
     
-    id = Column(UUID(as_uuid=True), primary_key=True, default=uuid.uuid4)
-    from_user_id = Column(UUID(as_uuid=True), ForeignKey("users.id"), nullable=False)
-    to_user_id = Column(UUID(as_uuid=True), ForeignKey("users.id"), nullable=False)
-    service_id = Column(UUID(as_uuid=True), ForeignKey("sel_services.id"))
+    id = Column(UUIDType(), primary_key=True, default=uuid.uuid4)
+    from_user_id = Column(UUIDType(), ForeignKey("users.id"), nullable=False)
+    to_user_id = Column(UUIDType(), ForeignKey("users.id"), nullable=False)
+    service_id = Column(UUIDType(), ForeignKey("sel_services.id"))
     units = Column(Integer, nullable=False)
     description = Column(Text)
     status = Column(String(20), default='pending')
@@ -106,7 +106,7 @@ class SELTransaction(Base):
 class SELBalance(Base):
     __tablename__ = "sel_balances"
     
-    user_id = Column(UUID(as_uuid=True), ForeignKey("users.id", ondelete="CASCADE"), primary_key=True)
+    user_id = Column(UUIDType(), ForeignKey("users.id", ondelete="CASCADE"), primary_key=True)
     balance = Column(Integer, default=120)  # Initial: 120 units (2 hours credit)
     total_given = Column(Integer, default=0)
     total_received = Column(Integer, default=0)

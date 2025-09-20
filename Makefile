@@ -13,7 +13,14 @@
 .DEFAULT_GOAL := help
 
 # Docker Compose configuration
-COMPOSE_FILE := docker-compose.stage4.yml
+# Default to Stage 4 compose as documented; allow override and fallback.
+# Order:
+# 1) docker-compose.stage4.yml (dev/full stack; matches docs)
+# 2) docker-compose.traefik.yml (production with HTTPS)
+# 3) docker-compose.yml (fallback)
+COMPOSE_FILE ?= $(shell if [ -f docker-compose.stage4.yml ]; then echo docker-compose.stage4.yml; \
+                        elif [ -f docker-compose.traefik.yml ]; then echo docker-compose.traefik.yml; \
+                        else echo docker-compose.yml; fi)
 COMPOSE := docker compose -f $(COMPOSE_FILE)
 
 # Colors for output
@@ -28,6 +35,7 @@ NC := \033[0m # No Color
 help: ## Show this help message
 	@echo "🏫 $(GREEN)EcoleHub Stage 4$(NC) - Management Commands"
 	@echo ""
+	@echo "Using compose file: $(YELLOW)$(COMPOSE_FILE)$(NC)"
 	@echo "$(BLUE)Available commands:$(NC)"
 	@awk 'BEGIN {FS = ":.*##"; printf "\n"} /^[a-zA-Z_0-9-]+:.*?##/ { printf "  $(BLUE)%-15s$(NC) %s\n", $$1, $$2 } /^##@/ { printf "\n$(YELLOW)%s$(NC)\n", substr($$0, 5) } ' $(MAKEFILE_LIST)
 	@echo ""
@@ -35,6 +43,7 @@ help: ## Show this help message
 	@echo "  make start        # Start the application"
 	@echo "  make logs         # View logs"
 	@echo "  make users-list   # List all users"
+	@echo "  COMPOSE_FILE=docker-compose.traefik.yml make start  # Override file"
 	@echo ""
 
 start: ## Start all services
@@ -47,6 +56,12 @@ start: ## Start all services
 	@echo "   🔌 API: http://localhost/api/"
 	@echo "   📊 Grafana: http://localhost:3001/"
 	@echo "   🔍 Traefik: http://localhost:8080/"
+
+start-traefik: ## Start using docker-compose.traefik.yml
+	@$(MAKE) start COMPOSE_FILE=docker-compose.traefik.yml
+
+start-stage4: ## Start using docker-compose.stage4.yml
+	@$(MAKE) start COMPOSE_FILE=docker-compose.stage4.yml
 
 stop: ## Stop all services
 	@echo "🛑 $(YELLOW)Stopping EcoleHub services...$(NC)"
@@ -297,3 +312,16 @@ _check-compose:
 
 _check-deps: _check-docker _check-compose
 	@echo "✅ Dependencies OK"
+##@ 🌐 Internationalization
+
+i18n-lint: ## Scan frontend for hardcoded strings (STRICT=1 to fail on findings)
+	@echo "🔎 Scanning for non-i18n strings..."
+	@./scripts/i18n-lint.sh
+
+##@ ✅ Tests & QA
+
+test-all: ## Run i18n lint (STRICT) then tests
+	@echo "🔎 Running i18n lint in STRICT mode..."
+	@STRICT=1 ./scripts/i18n-lint.sh
+	@echo "🧪 Running test suite..."
+	@$(MAKE) test

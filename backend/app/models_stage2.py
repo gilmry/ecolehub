@@ -3,7 +3,7 @@ EcoleHub Stage 2 Models - Extends Stage 1 with Messaging and Events
 """
 
 from sqlalchemy import Column, String, Integer, Boolean, DateTime, Text, ForeignKey, CheckConstraint
-from sqlalchemy.dialects.postgresql import UUID
+from .db_types import UUIDType
 from sqlalchemy.orm import relationship
 from sqlalchemy.sql import func
 import uuid
@@ -14,11 +14,11 @@ from .models_stage1 import Base, User, Child, SELService, SELTransaction, SELBal
 class Conversation(Base):
     __tablename__ = "conversations"
     
-    id = Column(UUID(as_uuid=True), primary_key=True, default=uuid.uuid4)
+    id = Column(UUIDType(), primary_key=True, default=uuid.uuid4)
     name = Column(String(200))
     type = Column(String(20), nullable=False)
     class_name = Column(String(10))  # For class-specific conversations
-    created_by = Column(UUID(as_uuid=True), ForeignKey("users.id"))
+    created_by = Column(UUIDType(), ForeignKey("users.id"))
     is_active = Column(Boolean, default=True)
     created_at = Column(DateTime(timezone=True), server_default=func.now())
     updated_at = Column(DateTime(timezone=True), server_default=func.now(), onupdate=func.now())
@@ -43,9 +43,9 @@ class Conversation(Base):
 class Message(Base):
     __tablename__ = "messages"
     
-    id = Column(UUID(as_uuid=True), primary_key=True, default=uuid.uuid4)
-    conversation_id = Column(UUID(as_uuid=True), ForeignKey("conversations.id", ondelete="CASCADE"), nullable=False)
-    user_id = Column(UUID(as_uuid=True), ForeignKey("users.id"), nullable=False)
+    id = Column(UUIDType(), primary_key=True, default=uuid.uuid4)
+    conversation_id = Column(UUIDType(), ForeignKey("conversations.id", ondelete="CASCADE"), nullable=False)
+    user_id = Column(UUIDType(), ForeignKey("users.id"), nullable=False)
     content = Column(Text, nullable=False)
     message_type = Column(String(20), default='text')
     edited_at = Column(DateTime(timezone=True))
@@ -66,8 +66,8 @@ class Message(Base):
 class ConversationParticipant(Base):
     __tablename__ = "conversation_participants"
     
-    conversation_id = Column(UUID(as_uuid=True), ForeignKey("conversations.id", ondelete="CASCADE"), primary_key=True)
-    user_id = Column(UUID(as_uuid=True), ForeignKey("users.id", ondelete="CASCADE"), primary_key=True)
+    conversation_id = Column(UUIDType(), ForeignKey("conversations.id", ondelete="CASCADE"), primary_key=True)
+    user_id = Column(UUIDType(), ForeignKey("users.id", ondelete="CASCADE"), primary_key=True)
     joined_at = Column(DateTime(timezone=True), server_default=func.now())
     last_read_at = Column(DateTime(timezone=True), server_default=func.now())
     is_admin = Column(Boolean, default=False)
@@ -79,7 +79,7 @@ class ConversationParticipant(Base):
 class Event(Base):
     __tablename__ = "events"
     
-    id = Column(UUID(as_uuid=True), primary_key=True, default=uuid.uuid4)
+    id = Column(UUIDType(), primary_key=True, default=uuid.uuid4)
     title = Column(String(200), nullable=False)
     description = Column(Text)
     start_date = Column(DateTime(timezone=True), nullable=False)
@@ -90,7 +90,7 @@ class Event(Base):
     registration_deadline = Column(DateTime(timezone=True))
     event_type = Column(String(50), default='general')
     class_name = Column(String(10))  # For class-specific events
-    created_by = Column(UUID(as_uuid=True), ForeignKey("users.id"))
+    created_by = Column(UUIDType(), ForeignKey("users.id"))
     is_active = Column(Boolean, default=True)
     created_at = Column(DateTime(timezone=True), server_default=func.now())
     updated_at = Column(DateTime(timezone=True), server_default=func.now(), onupdate=func.now())
@@ -116,8 +116,8 @@ class Event(Base):
 class EventParticipant(Base):
     __tablename__ = "event_participants"
     
-    event_id = Column(UUID(as_uuid=True), ForeignKey("events.id", ondelete="CASCADE"), primary_key=True)
-    user_id = Column(UUID(as_uuid=True), ForeignKey("users.id", ondelete="CASCADE"), primary_key=True)
+    event_id = Column(UUIDType(), ForeignKey("events.id", ondelete="CASCADE"), primary_key=True)
+    user_id = Column(UUIDType(), ForeignKey("users.id", ondelete="CASCADE"), primary_key=True)
     registered_at = Column(DateTime(timezone=True), server_default=func.now())
     status = Column(String(20), default='registered')
     notes = Column(Text)
@@ -137,7 +137,7 @@ class EventParticipant(Base):
 class UserStatus(Base):
     __tablename__ = "user_status"
     
-    user_id = Column(UUID(as_uuid=True), ForeignKey("users.id", ondelete="CASCADE"), primary_key=True)
+    user_id = Column(UUIDType(), ForeignKey("users.id", ondelete="CASCADE"), primary_key=True)
     is_online = Column(Boolean, default=False)
     last_seen = Column(DateTime(timezone=True), server_default=func.now())
     status_message = Column(String(100))

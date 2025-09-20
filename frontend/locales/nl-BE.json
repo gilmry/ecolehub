@@ -1,5 +1,10 @@
 {
   "app": {
+    "language": "Taal",
+    "connected": "Verbonden:",
+    "demoVersion": "Demoversie",
+    "demoDescription": "Dit platform wordt in demomodus getoond voor de ouderavond.",
+    "testAccounts": "Testaccounts beschikbaar",
     "title": "EcoleHub Stage 4",
     "subtitle": "Meertalig collaboratief platform",
     "loading": "Laden...",
@@ -24,7 +29,9 @@
     "loginSuccess": "Succesvol aangemeld!",
     "registerSuccess": "Registratie gelukt! Welkom bij EcoleHub.",
     "invalidCredentials": "E-mail of wachtwoord onjuist",
-    "emailPlaceholder": "uw.email@ecolehub.be"
+    "emailPlaceholder": "uw.email@ecolehub.be",
+    "firstNamePlaceholder": "Voornaam",
+    "lastNamePlaceholder": "Achternaam"
   },
   "navigation": {
     "dashboard": "Dashboard",
@@ -56,6 +63,7 @@
       "autre": "Andere"
     },
     "limits": "Belgische limieten: -300 tot +600 eenheden • 60 eenheden = 1 uur",
+    "noServices": "Momenteel geen diensten beschikbaar.",
     "createService": "Dienst aanmaken",
     "serviceCreated": "Dienst succesvol aangemaakt!",
     "transactionApproved": "Transactie goedgekeurd! Saldi bijgewerkt."
@@ -83,9 +91,14 @@
     "vatIncluded": "BTW inbegrepen",
     "minimumQuantity": "Minimum aantal",
     "price": "Prijs", 
-    "description": "Beschrijving"
+    "description": "Beschrijving",
+    "noProducts": "Geen producten beschikbaar op dit moment."
   },
   "admin": {
+    "productManagement": "Productbeheer",
+    "chooseCategory": "Kies categorie",
+    "priceEUR": "Prijs (€)",
+    "parentsInterestsView": "Oudersinteresses overzicht",
     "title": "EcoleHub Beheer",
     "products": "Producten",
     "interests": "Interesses",
@@ -107,6 +120,7 @@
     "sendDirectMessage": "Direct bericht sturen",
     "recipient": "Ontvanger",
     "chooseParent": "Kies een ouder",
+    "messageLabel": "Bericht",
     "typeMessage": "Typ uw bericht...",
     "send": "Versturen",
     "refresh": "Vernieuwen",
@@ -141,6 +155,16 @@
     "classResources": "Klas Bronnen",
     "schoolCommunications": "School Communicatie"
   },
+  "transactions": {
+    "none": "Nog geen transacties.",
+    "received": "Ontvangen",
+    "given": "Gegeven"
+  },
+  "legal": {
+    "mentions": "Juridische vermeldingen",
+    "privacy": "Privacybeleid",
+    "dataProtection": "Gegevensbescherming"
+  }
   "profile": {
     "title": "Mijn Profiel",
     "children": "Mijn Kinderen", 
@@ -163,3 +187,14 @@
     "P6": "P6 (6e leerjaar)"
   }
 }
+    "myBalance": "Mijn SEL-saldo",
+    "availableServices": "Beschikbare Diensten",
+    "myServices": "Mijn Diensten",
+    "proposeService": "Nieuwe dienst voorstellen",
+    "serviceTitle": "Titel van de dienst",
+    "category": "Categorie",
+    "chooseCategory": "Kies een categorie",
+    "description": "Beschrijving",
+    "unitsPerHour": "Eenheden per uur",
+    "standardRate": "Standaard: 60 eenheden = 1 uur",
+    "request": "Aanvragen",

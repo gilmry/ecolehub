@@ -1,7 +1,12 @@
 {
   "app": {
-    "title": "EcoleHub Stage 4",
+    "title": "EcoleHub",
     "subtitle": "Plateforme collaborative multilingue",
+    "language": "Langue",
+    "connected": "Connecté:",
+    "demoVersion": "Version démo",
+    "demoDescription": "Cette plateforme est présentée en mode démonstration pour la réunion de parents.",
+    "testAccounts": "Comptes de test disponibles",
     "loading": "Chargement...",
     "error": "Erreur",
     "success": "Succès",
@@ -24,12 +29,14 @@
     "loginSuccess": "Connexion réussie !",
     "registerSuccess": "Inscription réussie ! Bienvenue sur EcoleHub.",
     "invalidCredentials": "Email ou mot de passe incorrect",
-    "emailPlaceholder": "votre.email@ecolehub.be"
+    "emailPlaceholder": "votre.email@ecolehub.be",
+    "firstNamePlaceholder": "Prénom",
+    "lastNamePlaceholder": "Nom de famille"
   },
   "navigation": {
     "dashboard": "Tableau de bord",
     "services": "Services SEL",
-    "transactions": "Transactions", 
+    "transactions": "Transactions",
     "messages": "Messages",
     "events": "Événements",
     "shop": "Boutique",
@@ -56,16 +63,34 @@
       "autre": "Autre"
     },
     "limits": "Limites belges : -300 à +600 unités • 60 unités = 1 heure",
+    "noServices": "Aucun service disponible pour le moment.",
     "createService": "Créer un service",
     "serviceCreated": "Service créé avec succès !",
-    "transactionApproved": "Transaction approuvée ! Soldes mis à jour."
+    "transactionApproved": "Transaction approuvée ! Soldes mis à jour.",
+    "myBalance": "Ma Balance SEL",
+    "availableServices": "Services Disponibles",
+    "myServices": "Mes Services",
+    "proposeService": "Proposer un nouveau service",
+    "serviceTitle": "Titre du service",
+    "category": "Catégorie",
+    "chooseCategory": "Choisir une catégorie",
+    "description": "Description",
+    "unitsPerHour": "Unités par heure",
+    "standardRate": "Standard: 60 unités = 1 heure",
+    "request": "Demander"
+  },
+  "transactions": {
+    "title": "Mes Transactions",
+    "none": "Aucune transaction pour le moment.",
+    "received": "Reçues",
+    "given": "Données"
   },
   "shop": {
     "title": "Boutique Collaborative",
     "products": "Produits",
     "categories": {
       "fournitures": "Fournitures",
-      "vetements": "Vêtements", 
+      "vetements": "Vêtements",
       "accessoires": "Accessoires"
     },
     "interested": "Je suis intéressé(e)",
@@ -76,24 +101,29 @@
     "howItWorks": "Comment ça marche ?",
     "workflow": [
       "Les parents expriment leur intérêt pour un produit",
-      "Quand le seuil minimum est atteint → commande groupée possible", 
+      "Quand le seuil minimum est atteint → commande groupée possible",
       "Paiement via Mollie (Bancontact, carte, virement)",
       "Livraison groupée = prix avantageux pour tous !"
     ],
     "vatIncluded": "TVA incluse",
     "minimumQuantity": "Quantité minimum",
     "price": "Prix",
-    "description": "Description"
+    "description": "Description",
+    "noProducts": "Aucun produit disponible pour le moment."
   },
   "admin": {
     "title": "Administration EcoleHub",
     "products": "Produits",
-    "interests": "Intérêts", 
+    "interests": "Intérêts",
     "orders": "Commandes",
     "statistics": "Statistiques",
     "newProduct": "Nouveau Produit",
     "productName": "Nom du produit",
     "category": "Catégorie",
+    "chooseCategory": "Choisir catégorie",
+    "productManagement": "Gestion des Produits",
+    "priceEUR": "Prix (€)",
+    "parentsInterestsView": "Vue des Intérêts Parents",
     "launchGroupOrder": "Lancer Commande Groupée",
     "activate": "Activer",
     "deactivate": "Désactiver",
@@ -107,6 +137,7 @@
     "sendDirectMessage": "Envoyer un message direct",
     "recipient": "Destinataire",
     "chooseParent": "Choisir un parent",
+    "messageLabel": "Message",
     "typeMessage": "Tapez votre message...",
     "send": "Envoyer",
     "refresh": "Actualiser",
@@ -117,7 +148,7 @@
     "title": "Événements École",
     "filters": {
       "all": "Tous",
-      "school": "École", 
+      "school": "École",
       "class": "Classes",
       "celebration": "Fêtes"
     },
@@ -130,7 +161,7 @@
     "registrationConfirmed": "Inscription à l'événement confirmée !"
   },
   "education": {
-    "title": "Éducation EcoleHub", 
+    "title": "Éducation EcoleHub",
     "resources": "Ressources",
     "categories": {
       "homework": "Devoirs",
@@ -139,7 +170,19 @@
       "announcements": "Annonces"
     },
     "classResources": "Ressources Classe",
-    "schoolCommunications": "Communications École"
+    "schoolCommunications": "Communications École",
+    "moduleInProgress": "Module Éducatif en Développement",
+    "communications": "Communications",
+    "lists": {
+      "supplies": "Listes fournitures P1-P6, M1-M3",
+      "calendar": "Calendrier scolaire belge",
+      "forms": "Formulaires école (inscriptions, sorties)",
+      "rules": "Règlement intérieur école",
+      "announcements": "Annonces direction école",
+      "project": "Projet éducatif EcoleHub",
+      "parentMeetings": "Info réunions parents",
+      "specialEvents": "Événements spéciaux école"
+    }
   },
   "profile": {
     "title": "Mon Profil",
@@ -153,7 +196,7 @@
   },
   "classes": {
     "M1": "M1 (1ère maternelle)",
-    "M2": "M2 (2ème maternelle)", 
+    "M2": "M2 (2ème maternelle)",
     "M3": "M3 (3ème maternelle)",
     "P1": "P1 (1ère primaire)",
     "P2": "P2 (2ème primaire)",
@@ -161,5 +204,101 @@
     "P4": "P4 (4ème primaire)",
     "P5": "P5 (5ème primaire)",
     "P6": "P6 (6ème primaire)"
+  },
+  "legal": {
+    "mentions": "Mentions légales",
+    "privacy": "Politique de confidentialité",
+    "dataProtection": "Protection des données",
+    "sitePublisherTitle": "Éditeur du site",
+    "publisherName": "EcoleHub Platform",
+    "publisherAddress": "1000 Bruxelles, Belgique",
+    "publicationManagerTitle": "Responsable de la publication",
+    "hostingTitle": "Hébergement",
+    "hostingProvider": "EcoleHub est hébergé par OVHcloud",
+    "hostingAddress": "OVH SAS - 2 rue Kellermann, 59100 Roubaix, France",
+    "serversInEurope": "Serveurs situés en Europe",
+    "complianceNote": "Conformément à la législation belge et européenne",
+    "intellectualPropertyTitle": "Propriété intellectuelle",
+    "ipParagraph1": "EcoleHub est un logiciel open source sous licence MIT.",
+    "ipParagraph2": "Le contenu publié par les utilisateurs reste leur propriété.",
+    "ipParagraph3": "Les logos et visuels des établissements restent propriété des établissements.",
+    "responsibilityTitle": "Responsabilité",
+    "responsibilityP1": "EcoleHub s'efforce de maintenir des informations exactes mais ne peut garantir l'exhaustivité ou l'exactitude de toutes les informations.",
+    "responsibilityP2": "Les utilisateurs utilisent la plateforme sous leur propre responsabilité."
+  },
+  "privacy": {
+    "title": "Politique de confidentialité",
+    "collectionTitle": "Collecte des données",
+    "collectionIntro": "Nous collectons uniquement les données nécessaires au fonctionnement de la plateforme :",
+    "collection": {
+      "items": {
+        "parentsIdentity": "Nom, prénom et email des parents",
+        "childrenClass": "Prénom et classe des enfants",
+        "selTransactions": "Transactions du système SEL (Système d'Échange Local)",
+        "messages": "Messages et communications via la plateforme"
+      }
+    },
+    "useTitle": "Utilisation des données",
+    "useIntro": "Vos données sont utilisées exclusivement pour :",
+    "use": {
+      "items": {
+        "communication": "Faciliter la communication entre parents et établissements scolaires",
+        "sel": "Gérer le système d'échange local (SEL)",
+        "events": "Organiser les événements scolaires",
+        "shop": "Gérer la boutique collaborative"
+      }
+    },
+    "shareTitle": "Partage des données",
+    "shareP1": "Vos données ne sont jamais vendues ou partagées avec des tiers.",
+    "shareP2": "Seuls les membres de la communauté scolaire y ont accès dans le cadre de la plateforme.",
+    "securityTitle": "Sécurité",
+    "securityIntro": "Nous mettons en place des mesures techniques appropriées pour protéger vos données :",
+    "security": {
+      "items": {
+        "encryption": "Chiffrement des communications",
+        "passwords": "Mots de passe sécurisés",
+        "backups": "Sauvegardes régulières",
+        "serversBE": "Serveurs sécurisés en Belgique"
+      }
+    }
+  },
+  "rgpd": {
+    "title": "Protection des données (RGPD)",
+    "rightsTitle": "Vos droits selon le RGPD",
+    "rightsIntro": "Conformément au Règlement Général sur la Protection des Données, vous disposez des droits suivants :",
+    "rights": {
+      "access": "Droit d'accès : Vous pouvez demander l'accès à vos données personnelles",
+      "rectification": "Droit de rectification : Vous pouvez corriger vos données inexactes",
+      "erasure": "Droit à l'effacement : Vous pouvez demander la suppression de vos données",
+      "portability": "Droit de portabilité : Vous pouvez récupérer vos données",
+      "objection": "Droit d'opposition : Vous pouvez vous opposer au traitement"
+    },
+    "legalBasisTitle": "Base légale du traitement",
+    "legalBasisIntro": "Le traitement de vos données est basé sur :",
+    "legalBasis": {
+      "consent": "Votre consentement pour l'inscription à la plateforme",
+      "legitimateInterest": "L'intérêt légitime des établissements pour la communication scolaire",
+      "contract": "L'exécution du contrat d'éducation avec l'établissement"
+    },
+    "retentionTitle": "Conservation des données",
+    "retentionIntro": "Nous conservons vos données :",
+    "retention": {
+      "schooling": "Pendant la scolarité de votre enfant dans l'établissement",
+      "twoYears": "Puis 2 ans supplémentaires pour l'historique",
+      "earlyDeletion": "Vous pouvez demander la suppression anticipée à tout moment"
+    }
+  },
+  "dpo": {
+    "title": "Contact DPO",
+    "contactIntro": "Pour exercer vos droits ou poser une question sur la protection des données :",
+    "nameLabel": "Responsable Protection des Données",
+    "emailLabel": "Email :",
+    "address": "Courrier : EcoleHub Platform - DPO, 1000 Bruxelles"
+  },
+  "complaint": {
+    "title": "Réclamation",
+    "intro": "Si vous estimez que vos droits ne sont pas respectés, vous pouvez introduire une réclamation auprès de :",
+    "authorityName": "Autorité de Protection des Données",
+    "websiteLabel": "Site web :"
   }
 }

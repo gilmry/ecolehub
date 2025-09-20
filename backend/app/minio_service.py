@@ -38,7 +38,9 @@ class MinIOStorageService:
             "user-uploads": "ecolehub-uploads"    # Parent uploads
         }
         
-        self._ensure_buckets_exist()
+        # Avoid network calls when running tests
+        if os.getenv("TESTING") != "1":
+            self._ensure_buckets_exist()
     
     def _ensure_buckets_exist(self):
         """Create buckets if they don't exist."""

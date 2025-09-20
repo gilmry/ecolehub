@@ -12,7 +12,7 @@ os.environ["TESTING"] = "1"
 os.environ["DATABASE_URL"] = "sqlite:///test.db"
 os.environ["REDIS_URL"] = "redis://localhost:6379/15"
 
-from app.main_stage4 import app, Base, get_db, get_password_hash
+from app.main_stage4 import app, Base, get_db, get_password_hash, get_redis
 from app.models_stage1 import User, SELService, Child
 
 
@@ -48,17 +48,40 @@ def db_session(db_engine) -> Generator[Session, None, None]:
     connection.close()
 
 
+class FakeRedis:
+    def __init__(self):
+        self._store = {}
+
+    def lpush(self, key, value):
+        self._store.setdefault(key, []).insert(0, value)
+
+    def expire(self, key, seconds):
+        # No-op for tests
+        return True
+
+    def keys(self, pattern: str):
+        # Minimal pattern support for 'session:*'
+        if pattern.endswith('*'):
+            prefix = pattern[:-1]
+            return [k for k in self._store if k.startswith(prefix)]
+        return [k for k in self._store if k == pattern]
+
+    def ping(self):
+        return True
+
+
 @pytest.fixture
 def client(db_session: Session) -> Generator[TestClient, None, None]:
-    """Create FastAPI test client with test database."""
+    """Create FastAPI test client with test database and fake Redis."""
     def get_test_db():
         yield db_session
 
     app.dependency_overrides[get_db] = get_test_db
-    
+    app.dependency_overrides[get_redis] = lambda: FakeRedis()
+
     with TestClient(app) as test_client:
         yield test_client
-    
+
     app.dependency_overrides.clear()
 
 

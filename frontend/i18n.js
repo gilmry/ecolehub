@@ -5,7 +5,7 @@ class EcoleHubI18n {
   constructor() {
     this.currentLocale = 'fr-BE';
     this.translations = {};
-    this.fallbackLocale = 'fr-BE';
+    this.fallbackLocales = ['fr-BE', 'en'];
   }
 
   async loadLocale(locale) {
@@ -43,11 +43,15 @@ class EcoleHubI18n {
       translation = translation?.[k];
     }
 
-    // Fallback to primary locale if translation not found
-    if (!translation && this.currentLocale !== this.fallbackLocale) {
-      translation = this.translations[this.fallbackLocale];
-      for (const k of keys) {
-        translation = translation?.[k];
+    // Fallback chain if translation not found
+    if (!translation) {
+      for (const fb of this.fallbackLocales) {
+        if (fb === this.currentLocale) continue;
+        let candidate = this.translations[fb];
+        for (const k of keys) {
+          candidate = candidate?.[k];
+        }
+        if (candidate) { translation = candidate; break; }
       }
     }
 
@@ -72,6 +76,7 @@ class EcoleHubI18n {
     return [
       { code: 'fr-BE', name: 'Français (Belgique)', flag: '🇧🇪' },
       { code: 'nl-BE', name: 'Nederlands (België)', flag: '🇳🇱' },
+      { code: 'de-BE', name: 'Deutsch (Belgien)', flag: '🇩🇪' },
       { code: 'en', name: 'English', flag: '🇬🇧' }
     ];
   }
@@ -81,16 +86,20 @@ class EcoleHubI18n {
   }
 
   async initializeFromStorage() {
-    const stored = localStorage.getItem('ecolehub-locale') || 'fr-BE';
+    const stored = localStorage.getItem('ecolehub-locale') || (navigator.language || 'fr-BE');
+    const normalized = ['fr-BE','nl-BE','de-BE','en'].includes(stored) ? stored : 'fr-BE';
     
     // Load all locales at startup
     await Promise.all([
       this.loadLocale('fr-BE'),
-      this.loadLocale('nl-BE'), 
+      this.loadLocale('nl-BE'),
+      this.loadLocale('de-BE'),
       this.loadLocale('en')
     ]);
-    
-    await this.setLocale(stored);
+    await this.setLocale(normalized);
+
+    // Set document title from i18n once loaded
+    try { document.title = this.t('app.title'); } catch (e) {}
   }
 }
 

@@ -65,6 +65,7 @@ make logs-traefik   # Logs de Traefik uniquement
 ```bash
 make dev            # Mode développement
 make test           # Lancer les tests
+make test-all       # i18n-lint (STRICT) puis tests
 make lint           # Vérifier le code
 make format         # Formater le code
 make shell-backend  # Shell dans le container backend

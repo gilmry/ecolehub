@@ -1,0 +1,101 @@
+{
+  "app": {
+    "title": "EcoleHub",
+    "subtitle": "Mehrsprachige kollaborative Plattform",
+    "loading": "Wird geladen...",
+    "error": "Fehler",
+    "success": "Erfolg",
+    "confirm": "Bestätigen",
+    "cancel": "Abbrechen",
+    "save": "Speichern",
+    "language": "Sprache"
+  },
+  "sel": {
+    "noServices": "Keine Dienste verfügbar.",
+    "units": "Einheiten"
+  },
+  "admin": {
+    "title": "EcoleHub Verwaltung",
+    "productManagement": "Produktverwaltung",
+    "chooseCategory": "Kategorie wählen",
+    "priceEUR": "Preis (€)",
+    "parentsInterestsView": "Übersicht Elterninteressen"
+  },
+  "legal": {
+    "sitePublisherTitle": "Seitenherausgeber",
+    "publisherName": "EcoleHub Plattform",
+    "publisherAddress": "1000 Brüssel, Belgien",
+    "publicationManagerTitle": "Verantwortlicher der Veröffentlichung",
+    "hostingTitle": "Hosting",
+    "hostingProvider": "EcoleHub wird von OVHcloud gehostet",
+    "hostingAddress": "OVH SAS - 2 rue Kellermann, 59100 Roubaix, Frankreich",
+    "serversInEurope": "Server in Europa",
+    "complianceNote": "Gemäß belgischem und europäischem Recht",
+    "intellectualPropertyTitle": "Geistiges Eigentum",
+    "ipParagraph1": "EcoleHub ist Open-Source-Software unter der MIT-Lizenz.",
+    "ipParagraph2": "Von Nutzern veröffentlichte Inhalte bleiben ihr Eigentum.",
+    "ipParagraph3": "Schullogos und -grafiken bleiben Eigentum der Schulen."
+  }
+  "transactions": {
+    "none": "Noch keine Transaktionen.",
+    "received": "Erhalten",
+    "given": "Gegeben"
+  },
+  "legal": {
+    "mentions": "Rechtliche Hinweise",
+    "privacy": "Datenschutzrichtlinie",
+    "dataProtection": "Datenschutz"
+  }
+  "auth": {
+    "login": "Anmeldung",
+    "register": "Registrierung",
+    "logout": "Abmelden",
+    "email": "E-Mail",
+    "password": "Passwort",
+    "firstName": "Vorname",
+    "lastName": "Nachname",
+    "firstNamePlaceholder": "Vorname",
+    "lastNamePlaceholder": "Nachname"
+  },
+  "messages": {
+    "messageLabel": "Nachricht"
+  },
+  "sel": {
+    "myBalance": "Mein SEL-Guthaben",
+    "availableServices": "Verfügbare Dienste",
+    "myServices": "Meine Dienste",
+    "proposeService": "Neuen Dienst vorschlagen",
+    "serviceTitle": "Diensttitel",
+    "category": "Kategorie",
+    "chooseCategory": "Kategorie wählen",
+    "description": "Beschreibung",
+    "unitsPerHour": "Einheiten pro Stunde",
+    "standardRate": "Standard: 60 Einheiten = 1 Stunde",
+    "request": "Anfragen"
+  },
+  "shop": {
+    "noProducts": "Zurzeit keine Produkte verfügbar."
+  },
+  "navigation": {
+    "dashboard": "Übersicht",
+    "services": "SEL-Dienste",
+    "transactions": "Transaktionen",
+    "messages": "Nachrichten",
+    "events": "Veranstaltungen",
+    "shop": "Shop",
+    "education": "Bildung",
+    "profile": "Profil",
+    "admin": "Admin"
+  },
+  "classes": {
+    "M1": "M1 (1. Kindergarten)",
+    "M2": "M2 (2. Kindergarten)",
+    "M3": "M3 (3. Kindergarten)",
+    "P1": "P1 (1. Grundschule)",
+    "P2": "P2 (2. Grundschule)",
+    "P3": "P3 (3. Grundschule)",
+    "P4": "P4 (4. Grundschule)",
+    "P5": "P5 (5. Grundschule)",
+    "P6": "P6 (6. Grundschule)"
+  }
+}

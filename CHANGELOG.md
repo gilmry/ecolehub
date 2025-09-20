@@ -5,7 +5,24 @@ All notable changes to EcoleHub will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## [4.1.0] - 2024-09-20
+## [4.1.1] - 2025-09-20
+
+### 🌍 i18n Improvements
+- Added `de-BE` locale and language selector (FR‑BE/NL‑BE/DE‑BE/EN)
+- Extracted major UI texts to locale files; added fallback chain (fr‑BE → en)
+- Introduced `scripts/i18n-lint.sh` and `make i18n-lint` to detect hardcoded strings
+
+### 🧪 Testing & Infra
+- Added Stage 4 integration tests for i18n, analytics, and shop admin
+- Test-friendly Redis mock (FakeRedis) and MinIO network guard under `TESTING=1`
+- Introduced cross‑dialect `UUIDType` and updated models for SQLite compatibility in tests
+
+### 🛠️ Dev Experience
+- Makefile: auto‑select compose file, new `test-all` target (STRICT i18n‑lint + tests)
+- CI: added `frontend-i18n` job to run STRICT i18n linting on PRs
+- Docs: new `AGENTS.md` contributor guide and `docs/TODO.md` (i18n + tests roadmap)
+
+## [4.1.0] - 2025-09-20
 
 ### 🏗️ Repository Reorganization & Genericization
 - **Generic configuration**: Removed production-specific hardcoded values
@@ -33,7 +50,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - **scripts/ tools**: Comprehensive CLI and management tools with documentation
 - **Runtime directories**: `data/`, `db/`, `uploads/`, `secrets/`, `letsencrypt/` properly ignored
 
-## [4.0.0] - 2025-01-16
+## [4.0.0] - 2025-09-11
 
 ### ✨ Added - Makefile Management System
 - **Comprehensive Makefile** with 60+ organized commands for project management
@@ -90,6 +107,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - **Grafana**: http://localhost:3001/
 - **Traefik Dashboard**: http://localhost:8080/
 - **Prometheus**: http://localhost:9090/
+
+Note: Exposure of Grafana/Prometheus depends on the chosen compose file. In `docker-compose.traefik.yml`, these services are internal-only by default (no host ports or Traefik routes).
 - **MinIO Console**: http://localhost:9001/
 
 ### 👤 Test Accounts Confirmed
@@ -110,7 +129,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - **MAKEFILE-GUIDE.md** comprehensive usage guide created
 - **Installation process** streamlined to `make start`
 
-## [3.0.0] - 2024-08-28
+## [3.0.0] - 2025-08-28
 
 ### Added - Stage 3 Collaborative Shop + Education + Admin
 
@@ -166,7 +185,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - **Generic Branding**: Removed specific school references for open-source reusability
 - **Admin Security**: Simple role-based authentication for administrative functions
 
-## [2.0.0] - 2024-08-27
+## [2.0.0] - 2025-08-27
 
 ### Added - Stage 2 Real-time Messaging + Events
 
@@ -212,7 +231,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - **Parent Communication**: Direct messaging for service coordination
 - **Event Types**: Aligned with Belgian school activities and celebrations
 
-## [1.0.0] - 2024-08-27
+## [1.0.0] - 2025-08-27
 
 ### Added - Stage 1 Complete SEL System
 
@@ -252,7 +271,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - **Visibility**: All proposals visible to community for adoption
 - **Future Integration**: Popular proposals can become official categories
 
-## [0.1.0] - 2024-08-27
+## [0.1.0] - 2025-08-27
 
 ### Added - Stage 0 Foundation
 

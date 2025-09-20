@@ -208,7 +208,7 @@ def read_root():
         "école": "EcoleHub",
         "version": "4.0.0",
         "features": ["Authentication", "Profiles", "Children", "SEL System", "Messaging", "Events", "Shop", "Education", "Analytics", "Multilingual"],
-        "languages": ["fr-BE", "nl-BE", "en"],
+        "languages": ["fr-BE", "nl-BE", "de-BE", "en"],
         "capacity": "200+ families"
     }
 
@@ -323,6 +323,7 @@ def get_supported_locales():
     return [
         {"code": "fr-BE", "name": "Français (Belgique)", "flag": "🇧🇪", "primary": True},
         {"code": "nl-BE", "name": "Nederlands (België)", "flag": "🇳🇱", "primary": False},
+        {"code": "de-BE", "name": "Deutsch (Belgien)", "flag": "🇩🇪", "primary": False},
         {"code": "en", "name": "English", "flag": "🇬🇧", "primary": False}
     ]
 

@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>EcoleHub Stage 4</title>
+    <title>EcoleHub</title>
     <!-- Fixed: Using production Vue.js build and handling CDN warnings -->
     <script>
         // Suppress Tailwind CDN warning - must be loaded before Tailwind
@@ -38,12 +38,12 @@
                         <h1 class="text-3xl font-bold text-gray-900">
                             🏫 EcoleHub Stage 4
                         </h1>
-                        <p class="text-gray-600 mt-2">Plateforme collaborative multilingue</p>
+                        <p class="text-gray-600 mt-2">{{ $t('app.subtitle') }}</p>
                     </div>
                     
                     <!-- Language Selector -->
                     <div class="flex items-center space-x-2">
-                        <label class="text-sm text-gray-600">Langue:</label>
+                        <label class="text-sm text-gray-600">{{ $t('app.language') }}</label>
                         <select 
                             v-model="currentLanguage" 
                             @change="changeLanguage"
@@ -56,8 +56,8 @@
                     </div>
                 </div>
                 <div v-if="isAuthenticated" class="mt-2 flex justify-between items-center">
-                    <span class="text-sm text-green-600">
-                        Connecté: {{ user.first_name }} {{ user.last_name }}
+                        <span class="text-sm text-green-600">
+                        {{ $t('app.connected') }} {{ user.first_name }} {{ user.last_name }}
                     </span>
                     <div v-if="balance" class="text-sm">
                         <span class="font-semibold" :class="balanceColor">
@@ -80,8 +80,8 @@
                     </div>
                     <div class="ml-3">
                         <p class="text-sm">
-                            <strong>Version démo</strong> - Cette plateforme est présentée en mode démonstration pour la réunion de parents.
-                            <span class="font-medium">Comptes de test disponibles</span>
+                            <strong>{{ $t('app.demoVersion') }}</strong> - {{ $t('app.demoDescription') }}
+                            <span class="font-medium">{{ $t('app.testAccounts') }}</span>
                         </p>
                     </div>
                 </div>
@@ -109,7 +109,7 @@
                     
                     <form @submit.prevent="isLogin ? login() : register()">
                         <div class="mb-4">
-                            <label class="block text-gray-700 text-sm font-bold mb-2">Email</label>
+                            <label class="block text-gray-700 text-sm font-bold mb-2">{{ $t('auth.email') }}</label>
                             <input
                                 v-model="formData.email"
                                 type="email"
@@ -120,7 +120,7 @@
                         </div>
                         
                         <div v-if="!isLogin" class="mb-4">
-                            <label class="block text-gray-700 text-sm font-bold mb-2">Prénom</label>
+                            <label class="block text-gray-700 text-sm font-bold mb-2">{{ $t('auth.firstName') }}</label>
                             <input
                                 v-model="formData.first_name"
                                 type="text"
@@ -131,7 +131,7 @@
                         </div>
                         
                         <div v-if="!isLogin" class="mb-4">
-                            <label class="block text-gray-700 text-sm font-bold mb-2">Nom</label>
+                            <label class="block text-gray-700 text-sm font-bold mb-2">{{ $t('auth.lastName') }}</label>
                             <input
                                 v-model="formData.last_name"
                                 type="text"
@@ -142,7 +142,7 @@
                         </div>
                         
                         <div class="mb-6">
-                            <label class="block text-gray-700 text-sm font-bold mb-2">Mot de passe</label>
+                            <label class="block text-gray-700 text-sm font-bold mb-2">{{ $t('auth.password') }}</label>
                             <input
                                 v-model="formData.password"
                                 type="password"
@@ -158,7 +158,7 @@
                             :disabled="isLoading"
                             class="w-full bg-blue-500 text-white p-3 rounded-lg hover:bg-blue-600 disabled:opacity-50"
                         >
-                            <span v-if="isLoading">⏳ Chargement...</span>
+                            <span v-if="isLoading">⏳ {{ $t('app.loading') }}</span>
                             <span v-else>{{ isLogin ? 'Se connecter' : "S'inscrire" }}</span>
                         </button>
                     </form>
@@ -247,29 +247,29 @@
                 <div v-if="currentTab === 'dashboard'">
                     <!-- Balance SEL -->
                     <div class="bg-white rounded-lg shadow-lg p-6 mb-6">
-                        <h2 class="text-2xl font-bold mb-4">💰 Ma Balance SEL</h2>
+                        <h2 class="text-2xl font-bold mb-4">💰 {{ $t('sel.myBalance') }}</h2>
                         <div v-if="balance" class="grid grid-cols-1 md:grid-cols-3 gap-4">
                             <div class="text-center p-4 bg-blue-50 rounded-lg">
                                 <div class="text-3xl font-bold" :class="balanceColor">{{ balance.balance }}</div>
-                                <div class="text-gray-600">Unités actuelles</div>
+                                <div class="text-gray-600">{{ $t('sel.units') }}</div>
                             </div>
                             <div class="text-center p-4 bg-green-50 rounded-lg">
                                 <div class="text-2xl font-bold text-green-600">{{ balance.total_received }}</div>
-                                <div class="text-gray-600">Reçues</div>
+                                <div class="text-gray-600">{{ $t('transactions.received') }}</div>
                             </div>
                             <div class="text-center p-4 bg-orange-50 rounded-lg">
                                 <div class="text-2xl font-bold text-orange-600">{{ balance.total_given }}</div>
-                                <div class="text-gray-600">Données</div>
+                                <div class="text-gray-600">{{ $t('transactions.given') }}</div>
                             </div>
                         </div>
                         <div class="mt-4 text-sm text-gray-600">
-                            <p><strong>Règles belges :</strong> -300 à +600 unités • 60 unités = 1 heure</p>
+                            <p>{{ $t('sel.limits') }}</p>
                         </div>
                     </div>
 
                     <!-- Services Disponibles -->
                     <div class="bg-white rounded-lg shadow-lg p-6 mb-6">
-                        <h2 class="text-2xl font-bold mb-4">🛍️ Services Disponibles</h2>
+                        <h2 class="text-2xl font-bold mb-4">🛍️ {{ $t('sel.availableServices') }}</h2>
                         <div v-if="availableServices.length > 0" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
                             <div v-for="service in availableServices" :key="service.id" 
                                  class="border rounded-lg p-4 hover:shadow-md transition">
@@ -285,19 +285,19 @@
                                             @click="requestService(service)"
                                             class="bg-blue-500 text-white px-3 py-1 rounded text-sm hover:bg-blue-600"
                                         >
-                                            Demander
+                                            {{ $t('sel.request') }}
                                         </button>
                                         <button 
                                             @click="messageServiceOwner(service)"
                                             class="bg-green-500 text-white px-3 py-1 rounded text-sm hover:bg-green-600"
                                         >
-                                            💬 Message
+                                            💬 {{ $t('messages.send') }}
                                         </button>
                                     </div>
                                 </div>
                             </div>
                         </div>
-                        <p v-else class="text-gray-500">Aucun service disponible pour le moment.</p>
+                        <p v-else class="text-gray-500">{{ $t('sel.noServices') }}</p>
                     </div>
                 </div>
 
@@ -305,7 +305,7 @@
                 <div v-if="currentTab === 'services'">
                     <!-- Mes Services -->
                     <div class="bg-white rounded-lg shadow-lg p-6 mb-6">
-                        <h2 class="text-2xl font-bold mb-4">💼 Mes Services</h2>
+                        <h2 class="text-2xl font-bold mb-4">💼 {{ $t('sel.myServices') }}</h2>
                         
                         <!-- Liste mes services -->
                         <div v-if="myServices.length > 0" class="space-y-4 mb-6">
@@ -328,11 +328,11 @@
                         </div>
 
                         <!-- Formulaire nouveau service -->
-                        <h3 class="text-lg font-semibold mb-4">Proposer un nouveau service</h3>
+                        <h3 class="text-lg font-semibold mb-4">{{ $t('sel.proposeService') }}</h3>
                         <form @submit.prevent="createService()" class="space-y-4">
                             <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
                                 <div>
-                                    <label class="block text-gray-700 text-sm font-bold mb-2">Titre du service</label>
+                                    <label class="block text-gray-700 text-sm font-bold mb-2">{{ $t('sel.serviceTitle') }}</label>
                                     <input
                                         v-model="serviceForm.title"
                                         type="text"
@@ -342,14 +342,14 @@
                                     >
                                 </div>
                                 <div>
-                                    <label class="block text-gray-700 text-sm font-bold mb-2">Catégorie</label>
+                                    <label class="block text-gray-700 text-sm font-bold mb-2">{{ $t('sel.category') }}</label>
                                     <select
                                         v-model="serviceForm.category"
                                         class="w-full p-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
                                         required
                                         @change="onCategoryChange"
                                     >
-                                        <option value="">Choisir une catégorie</option>
+                                        <option value="">{{ $t('sel.chooseCategory') }}</option>
                                         <option v-for="cat in categories" :key="cat.id" :value="cat.name">
                                             {{ cat.icon }} {{ cat.name }} - {{ cat.description }}
                                         </option>
@@ -375,7 +375,7 @@
                             </div>
                             
                             <div>
-                                <label class="block text-gray-700 text-sm font-bold mb-2">Description</label>
+                                <label class="block text-gray-700 text-sm font-bold mb-2">{{ $t('sel.description') }}</label>
                                 <textarea
                                     v-model="serviceForm.description"
                                     class="w-full p-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
@@ -384,7 +384,7 @@
                                 ></textarea>
                             </div>
                             <div class="w-full md:w-1/2">
-                                <label class="block text-gray-700 text-sm font-bold mb-2">Unités par heure</label>
+                                <label class="block text-gray-700 text-sm font-bold mb-2">{{ $t('sel.unitsPerHour') }}</label>
                                 <input
                                     v-model.number="serviceForm.units_per_hour"
                                     type="number"
@@ -393,7 +393,7 @@
                                     class="w-full p-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
                                     placeholder="60"
                                 >
-                                <div class="text-xs text-gray-500 mt-1">Standard: 60 unités = 1 heure</div>
+                                <div class="text-xs text-gray-500 mt-1">{{ $t('sel.standardRate') }}</div>
                             </div>
                             <button
                                 type="submit"
@@ -409,7 +409,7 @@
                 <!-- Transactions Tab -->
                 <div v-if="currentTab === 'transactions'">
                     <div class="bg-white rounded-lg shadow-lg p-6">
-                        <h2 class="text-2xl font-bold mb-4">💱 Mes Transactions</h2>
+                        <h2 class="text-2xl font-bold mb-4">💱 {{ $t('transactions.title') }}</h2>
                         
                         <div v-if="transactions.length > 0" class="space-y-4">
                             <div v-for="transaction in transactions" :key="transaction.id"
@@ -447,7 +447,7 @@
                                 </div>
                             </div>
                         </div>
-                        <p v-else class="text-gray-500">Aucune transaction pour le moment.</p>
+                        <p v-else class="text-gray-500">{{ $t('transactions.none') }}</p>
                     </div>
                 </div>
 
@@ -455,7 +455,7 @@
                 <div v-if="currentTab === 'messages'">
                     <div class="bg-white rounded-lg shadow-lg p-6">
                         <div class="flex justify-between items-center mb-4">
-                            <h2 class="text-2xl font-bold">💬 Messages</h2>
+                            <h2 class="text-2xl font-bold">💬 {{ $t('messages.title') }}</h2>
                             <button 
                                 @click="showNewMessageForm = !showNewMessageForm"
                                 class="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600"
@@ -466,23 +466,23 @@
                         
                         <!-- Formulaire nouveau message direct -->
                         <div v-if="showNewMessageForm" class="bg-gray-50 border rounded-lg p-4 mb-6">
-                            <h3 class="font-semibold mb-3">Envoyer un message direct</h3>
+                            <h3 class="font-semibold mb-3">{{ $t('messages.sendDirectMessage') }}</h3>
                             <form @submit.prevent="createDirectMessage()" class="space-y-4">
                                 <div>
-                                    <label class="block text-gray-700 text-sm font-bold mb-2">Destinataire</label>
+                                    <label class="block text-gray-700 text-sm font-bold mb-2">{{ $t('messages.recipient') }}</label>
                                     <select
                                         v-model="newDirectMessage.user_id"
                                         class="w-full p-2 border rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
                                         required
                                     >
-                                        <option value="">Choisir un parent</option>
+                                        <option value="">{{ $t('messages.chooseParent') }}</option>
                                         <option v-for="user in otherUsers" :key="user.id" :value="user.id">
                                             {{ user.name }}
                                         </option>
                                     </select>
                                 </div>
                                 <div>
-                                    <label class="block text-gray-700 text-sm font-bold mb-2">Message</label>
+                                    <label class="block text-gray-700 text-sm font-bold mb-2">{{ $t('messages.messageLabel') }}</label>
                                     <textarea
                                         v-model="newDirectMessage.content"
                                         class="w-full p-2 border rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
@@ -521,7 +521,7 @@
                                         <p v-if="conversation.last_message" class="text-gray-600 text-sm mt-1">
                                             {{ conversation.last_message.user_name }}: {{ conversation.last_message.content }}
                                         </p>
-                                        <p v-else class="text-gray-500 text-sm mt-1">Aucun message</p>
+                                        <p v-else class="text-gray-500 text-sm mt-1">{{ $t('messages.noMessages') }}</p>
                                     </div>
                                     <div class="text-right text-sm text-gray-500">
                                         <div class="flex items-center space-x-2">
@@ -539,7 +539,7 @@
                                 </div>
                             </div>
                         </div>
-                        <p v-else class="text-gray-500">Aucune conversation pour le moment.</p>
+                        <p v-else class="text-gray-500">{{ $t('messages.noConversations') }}</p>
                         
                         <!-- Messages de la conversation sélectionnée -->
                         <div v-if="selectedConversation" class="mt-6 border-t pt-6">
@@ -573,7 +573,7 @@
                                         </div>
                                     </div>
                                 </div>
-                                <p v-else class="text-gray-500 text-center">Aucun message dans cette conversation</p>
+                                <p v-else class="text-gray-500 text-center">{{ $t('messages.noMessages') }}</p>
                             </div>
                             
                             <!-- Formulaire nouveau message -->
@@ -600,7 +600,7 @@
                 <!-- Events Tab -->
                 <div v-if="currentTab === 'events'">
                     <div class="bg-white rounded-lg shadow-lg p-6">
-                        <h2 class="text-2xl font-bold mb-4">📅 Événements École</h2>
+                        <h2 class="text-2xl font-bold mb-4">📅 {{ $t('events.title') }}</h2>
                         
                         <!-- Filtres événements -->
                         <div class="mb-6 flex flex-wrap gap-2">
@@ -657,18 +657,18 @@
                                 
                                 <div class="grid grid-cols-1 md:grid-cols-3 gap-4 text-sm">
                                     <div>
-                                        <span class="font-medium">📅 Date:</span>
+                                        <span class="font-medium">📅 {{ $t('events.date') }}:</span>
                                         <div>{{ formatEventDate(event.start_date) }}</div>
                                         <div v-if="event.end_date" class="text-gray-600">
                                             jusqu'à {{ formatTime(event.end_date) }}
                                         </div>
                                     </div>
                                     <div v-if="event.location">
-                                        <span class="font-medium">📍 Lieu:</span>
+                                        <span class="font-medium">📍 {{ $t('events.location') }}:</span>
                                         <div>{{ event.location }}</div>
                                     </div>
                                     <div v-if="event.registration_required">
-                                        <span class="font-medium">👥 Participants:</span>
+                                        <span class="font-medium">👥 {{ $t('events.participants') }}:</span>
                                         <div>{{ event.participants_count }}{{ event.max_participants ? '/' + event.max_participants : '' }}</div>
                                     </div>
                                 </div>
@@ -696,7 +696,7 @@
                 <!-- Shop Tab -->
                 <div v-if="currentTab === 'shop'">
                     <div class="bg-white rounded-lg shadow-lg p-6">
-                        <h2 class="text-2xl font-bold mb-4">🛒 Boutique Collaborative EcoleHub</h2>
+                        <h2 class="text-2xl font-bold mb-4">🛒 {{ $t('shop.title') }}</h2>
                         
                         <!-- Filtres boutique -->
                         <div class="mb-6 flex flex-wrap gap-2">
@@ -736,7 +736,7 @@
                                 <div class="mb-4">
                                     <div class="flex justify-between items-center mb-2">
                                         <span class="text-lg font-bold text-green-600">{{ product.price_breakdown.total_amount }}€</span>
-                                        <span class="text-sm text-gray-500">TVA incluse</span>
+                                        <span class="text-sm text-gray-500">{{ $t('shop.vatIncluded') }}</span>
                                     </div>
                                     
                                     <!-- Barre de progression commande groupée -->
@@ -784,16 +784,16 @@
                                 </div>
                             </div>
                         </div>
-                        <p v-else class="text-gray-500">Aucun produit disponible pour le moment.</p>
+                        <p v-else class="text-gray-500">{{ $t('shop.noProducts') }}</p>
                         
                         <!-- Info système commandes groupées -->
                         <div class="mt-8 bg-blue-50 border border-blue-200 rounded-lg p-4">
-                            <h3 class="font-semibold text-blue-800 mb-2">💡 Comment ça marche ?</h3>
+                            <h3 class="font-semibold text-blue-800 mb-2">💡 {{ $t('shop.howItWorks') }}</h3>
                             <ol class="text-sm text-blue-700 space-y-1">
-                                <li><strong>1.</strong> Les parents expriment leur intérêt pour un produit</li>
-                                <li><strong>2.</strong> Quand le seuil minimum est atteint → commande groupée possible</li>
-                                <li><strong>3.</strong> Paiement via Mollie (Bancontact, carte, virement)</li>
-                                <li><strong>4.</strong> Livraison groupée = prix avantageux pour tous !</li>
+                                <li><strong>1.</strong> {{ $t('shop.workflow')[0] }}</li>
+                                    <li><strong>2.</strong> {{ $t('shop.workflow')[1] }}</li>
+                                    <li><strong>3.</strong> {{ $t('shop.workflow')[2] }}</li>
+                                    <li><strong>4.</strong> {{ $t('shop.workflow')[3] }}</li>
                             </ol>
                         </div>
                     </div>
@@ -802,33 +802,33 @@
                 <!-- Education Tab -->
                 <div v-if="currentTab === 'education'">
                     <div class="bg-white rounded-lg shadow-lg p-6">
-                        <h2 class="text-2xl font-bold mb-4">📚 Éducation EcoleHub</h2>
+                        <h2 class="text-2xl font-bold mb-4">📚 {{ $t('education.title') }}</h2>
                         
                         <!-- Coming soon message -->
                         <div class="bg-green-50 border border-green-200 rounded-lg p-6 text-center">
                             <div class="text-6xl mb-4">📖</div>
-                            <h3 class="text-xl font-semibold text-green-800 mb-2">Module Éducatif en Développement</h3>
+                            <h3 class="text-xl font-semibold text-green-800 mb-2">{{ $t('education.moduleInProgress') }}</h3>
                             <p class="text-green-700 mb-4">
                                 Prochainement : Ressources pédagogiques, listes de fournitures, 
                                 calendrier scolaire et communications école.
                             </p>
                             <div class="grid grid-cols-1 md:grid-cols-2 gap-4 text-left">
                                 <div class="bg-white p-4 rounded-lg">
-                                    <h4 class="font-semibold text-gray-800 mb-2">📋 Ressources Classe</h4>
+                                    <h4 class="font-semibold text-gray-800 mb-2">📋 {{ $t('education.classResources') }}</h4>
                                     <ul class="text-sm text-gray-600 space-y-1">
-                                        <li>• Listes fournitures P1-P6, M1-M3</li>
-                                        <li>• Calendrier scolaire belge</li>
-                                        <li>• Formulaires école (inscriptions, sorties)</li>
-                                        <li>• Règlement intérieur école</li>
+                                        <li>• {{ $t('education.lists.supplies') }}</li>
+                                        <li>• {{ $t('education.lists.calendar') }}</li>
+                                        <li>• {{ $t('education.lists.forms') }}</li>
+                                        <li>• {{ $t('education.lists.rules') }}</li>
                                     </ul>
                                 </div>
                                 <div class="bg-white p-4 rounded-lg">
-                                    <h4 class="font-semibold text-gray-800 mb-2">📢 Communications</h4>
+                                    <h4 class="font-semibold text-gray-800 mb-2">📢 {{ $t('education.communications') }}</h4>
                                     <ul class="text-sm text-gray-600 space-y-1">
-                                        <li>• Annonces direction école</li>
-                                        <li>• Projet éducatif EcoleHub</li>
-                                        <li>• Info réunions parents</li>
-                                        <li>• Événements spéciaux école</li>
+                                        <li>• {{ $t('education.lists.announcements') }}</li>
+                                        <li>• {{ $t('education.lists.project') }}</li>
+                                        <li>• {{ $t('education.lists.parentMeetings') }}</li>
+                                        <li>• {{ $t('education.lists.specialEvents') }}</li>
                                     </ul>
                                 </div>
                             </div>
@@ -843,7 +843,7 @@
                 <div v-if="currentTab === 'profile'">
                     <!-- Profil Utilisateur -->
                     <div class="bg-white rounded-lg shadow-lg p-6 mb-6">
-                        <h2 class="text-2xl font-bold mb-4">👤 Mon Profil</h2>
+                        <h2 class="text-2xl font-bold mb-4">👤 {{ $t('profile.title') }}</h2>
                         <div class="space-y-2">
                             <p><strong>Email:</strong> {{ user.email }}</p>
                             <p><strong>Prénom:</strong> {{ user.first_name }}</p>
@@ -853,7 +853,7 @@
 
                     <!-- Enfants -->
                     <div class="bg-white rounded-lg shadow-lg p-6 mb-6">
-                        <h2 class="text-2xl font-bold mb-4">👶 Mes Enfants</h2>
+                        <h2 class="text-2xl font-bold mb-4">👶 {{ $t('profile.children') }}</h2>
                         
                         <div v-if="children.length > 0" class="space-y-3 mb-6">
                             <div v-for="child in children" :key="child.id"
@@ -873,7 +873,7 @@
                         <form @submit.prevent="addChild()" class="space-y-4">
                             <div class="grid md:grid-cols-2 gap-4">
                                 <div>
-                                    <label class="block text-gray-700 text-sm font-bold mb-2">Prénom de l'enfant</label>
+                                    <label class="block text-gray-700 text-sm font-bold mb-2">{{ $t('profile.childName') }}</label>
                                     <input
                                         v-model="childForm.first_name"
                                         type="text"
@@ -882,22 +882,22 @@
                                     >
                                 </div>
                                 <div>
-                                    <label class="block text-gray-700 text-sm font-bold mb-2">Classe</label>
+                                    <label class="block text-gray-700 text-sm font-bold mb-2">{{ $t('profile.class') }}</label>
                                     <select
                                         v-model="childForm.class_name"
                                         class="w-full p-2 border rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
                                         required
                                     >
-                                        <option value="">Choisir une classe</option>
-                                        <option value="M1">M1 (1ère maternelle)</option>
-                                        <option value="M2">M2 (2ème maternelle)</option>
-                                        <option value="M3">M3 (3ème maternelle)</option>
-                                        <option value="P1">P1 (1ère primaire)</option>
-                                        <option value="P2">P2 (2ème primaire)</option>
-                                        <option value="P3">P3 (3ème primaire)</option>
-                                        <option value="P4">P4 (4ème primaire)</option>
-                                        <option value="P5">P5 (5ème primaire)</option>
-                                        <option value="P6">P6 (6ème primaire)</option>
+                                        <option value="">{{ $t('profile.chooseClass') }}</option>
+                                        <option value="M1">{{ $t('classes.M1') }}</option>
+                                        <option value="M2">{{ $t('classes.M2') }}</option>
+                                        <option value="M3">{{ $t('classes.M3') }}</option>
+                                        <option value="P1">{{ $t('classes.P1') }}</option>
+                                        <option value="P2">{{ $t('classes.P2') }}</option>
+                                        <option value="P3">{{ $t('classes.P3') }}</option>
+                                        <option value="P4">{{ $t('classes.P4') }}</option>
+                                        <option value="P5">{{ $t('classes.P5') }}</option>
+                                        <option value="P6">{{ $t('classes.P6') }}</option>
                                     </select>
                                 </div>
                             </div>
@@ -921,7 +921,7 @@
                 <!-- Admin Tab -->
                 <div v-if="currentTab === 'admin'">
                     <div class="bg-white rounded-lg shadow-lg p-6">
-                        <h2 class="text-2xl font-bold mb-4">⚙️ Administration EcoleHub</h2>
+                        <h2 class="text-2xl font-bold mb-4">⚙️ {{ $t('admin.title') }}</h2>
                         
                         <!-- Navigation Admin -->
                         <div class="mb-6 flex space-x-4">
@@ -958,7 +958,7 @@
                         <!-- Section Gestion Produits -->
                         <div v-if="adminSection === 'products'">
                             <div class="flex justify-between items-center mb-4">
-                                <h3 class="text-lg font-semibold">📦 Gestion des Produits</h3>
+                                <h3 class="text-lg font-semibold">📦 {{ $t('admin.productManagement') }}</h3>
                                 <button 
                                     @click="showProductForm = !showProductForm"
                                     class="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600"
@@ -969,11 +969,11 @@
                             
                             <!-- Formulaire création produit -->
                             <div v-if="showProductForm" class="bg-gray-50 border rounded-lg p-4 mb-6">
-                                <h4 class="font-semibold mb-3">Créer un nouveau produit</h4>
+                                <h4 class="font-semibold mb-3">{{ $t('admin.newProduct') }}</h4>
                                 <form @submit.prevent="createProduct()" class="space-y-4">
                                     <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
                                         <div>
-                                            <label class="block text-gray-700 text-sm font-bold mb-2">Nom du produit</label>
+                                            <label class="block text-gray-700 text-sm font-bold mb-2">{{ $t('admin.productName') }}</label>
                                             <input
                                                 v-model="newProduct.name"
                                                 type="text"
@@ -989,10 +989,10 @@
                                                 class="w-full p-2 border rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
                                                 required
                                             >
-                                                <option value="">Choisir catégorie</option>
-                                                <option value="fournitures">📚 Fournitures</option>
-                                                <option value="vetements">👕 Vêtements</option>
-                                                <option value="accessoires">🎒 Accessoires</option>
+                                                <option value="">{{ $t('admin.chooseCategory') }}</option>
+                                                <option value="fournitures">📚 {{ $t('shop.categories.fournitures') }}</option>
+                                                <option value="vetements">👕 {{ $t('shop.categories.vetements') }}</option>
+                                                <option value="accessoires">🎒 {{ $t('shop.categories.accessoires') }}</option>
                                             </select>
                                         </div>
                                     </div>
@@ -1007,7 +1007,7 @@
                                     </div>
                                     <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
                                         <div>
-                                            <label class="block text-gray-700 text-sm font-bold mb-2">Prix (€)</label>
+                                        <label class="block text-gray-700 text-sm font-bold mb-2">{{ $t('admin.priceEUR') }}</label>
                                             <input
                                                 v-model.number="newProduct.base_price"
                                                 type="number"
@@ -1019,7 +1019,7 @@
                                             >
                                         </div>
                                         <div>
-                                            <label class="block text-gray-700 text-sm font-bold mb-2">Quantité minimum</label>
+                                        <label class="block text-gray-700 text-sm font-bold mb-2">{{ $t('shop.minimumQuantity') }}</label>
                                             <input
                                                 v-model.number="newProduct.min_quantity"
                                                 type="number"
@@ -1093,7 +1093,7 @@
 
                         <!-- Section Intérêts -->
                         <div v-if="adminSection === 'interests'">
-                            <h3 class="text-lg font-semibold mb-4">👥 Vue des Intérêts Parents</h3>
+                            <h3 class="text-lg font-semibold mb-4">👥 {{ $t('admin.parentsInterestsView') }}</h3>
                             <div class="bg-blue-50 border border-blue-200 rounded-lg p-4 text-center">
                                 <div class="text-4xl mb-2">🔄</div>
                                 <p class="text-blue-700">
@@ -1105,7 +1105,7 @@
 
                         <!-- Section Commandes -->
                         <div v-if="adminSection === 'orders'">
-                            <h3 class="text-lg font-semibold mb-4">🚀 Gestion des Commandes</h3>
+                            <h3 class="text-lg font-semibold mb-4">🚀 {{ $t('admin.orders') }}</h3>
                             <div class="bg-green-50 border border-green-200 rounded-lg p-4 text-center">
                                 <div class="text-4xl mb-2">📋</div>
                                 <p class="text-green-700">
@@ -1117,7 +1117,7 @@
 
                         <!-- Section Statistiques -->
                         <div v-if="adminSection === 'stats'">
-                            <h3 class="text-lg font-semibold mb-4">📊 Statistiques Boutique</h3>
+                            <h3 class="text-lg font-semibold mb-4">📊 {{ $t('admin.statistics') }}</h3>
                             <div class="bg-purple-50 border border-purple-200 rounded-lg p-4 text-center">
                                 <div class="text-4xl mb-2">📈</div>
                                 <p class="text-purple-700">
@@ -1132,35 +1132,35 @@
                 <!-- Mentions légales -->
                 <div v-if="currentTab === 'legal'">
                     <div class="bg-white rounded-lg shadow-lg p-6">
-                        <h2 class="text-2xl font-bold mb-6">⚖️ Mentions légales</h2>
+                        <h2 class="text-2xl font-bold mb-6">⚖️ {{ $t('legal.mentions') }}</h2>
 
                         <div class="prose max-w-none">
-                            <h3 class="text-lg font-semibold mb-3">Éditeur du site</h3>
+                            <h3 class="text-lg font-semibold mb-3">{{ $t('legal.sitePublisherTitle') }}</h3>
                             <div class="mb-6 text-gray-700">
-                                <p><strong>EcoleHub Platform</strong></p>
-                                <p>1000 Bruxelles, Belgique</p>
+                                <p><strong>{{ $t('legal.publisherName') }}</strong></p>
+                                <p>{{ $t('legal.publisherAddress') }}</p>
                                 <p>Email : <a href="mailto:gilmry+ecolehub@gmail.com" class="text-blue-600">gilmry+ecolehub@gmail.com</a></p>
                             </div>
 
-                            <h3 class="text-lg font-semibold mb-3">Responsable de la publication</h3>
+                            <h3 class="text-lg font-semibold mb-3">{{ $t('legal.publicationManagerTitle') }}</h3>
                             <div class="mb-6 text-gray-700">
                                 <p>Responsable technique EcoleHub</p>
                                 <p>Email : <a href="mailto:gilmry+ecolehub@gmail.com" class="text-blue-600">gilmry+ecolehub@gmail.com</a></p>
                             </div>
 
-                            <h3 class="text-lg font-semibold mb-3">Hébergement</h3>
+                            <h3 class="text-lg font-semibold mb-3">{{ $t('legal.hostingTitle') }}</h3>
                             <div class="mb-6 text-gray-700">
-                                <p>EcoleHub est hébergé par OVHcloud</p>
-                                <p>OVH SAS - 2 rue Kellermann, 59100 Roubaix, France</p>
-                                <p>Serveurs situés en Europe</p>
-                                <p>Conformément à la législation belge et européenne</p>
+                                <p>{{ $t('legal.hostingProvider') }}</p>
+                                <p>{{ $t('legal.hostingAddress') }}</p>
+                                <p>{{ $t('legal.serversInEurope') }}</p>
+                                <p>{{ $t('legal.complianceNote') }}</p>
                             </div>
 
-                            <h3 class="text-lg font-semibold mb-3">Propriété intellectuelle</h3>
+                            <h3 class="text-lg font-semibold mb-3">{{ $t('legal.intellectualPropertyTitle') }}</h3>
                             <div class="mb-6 text-gray-700">
-                                <p>EcoleHub est un logiciel open source sous licence MIT.</p>
-                                <p>Le contenu publié par les utilisateurs reste leur propriété.</p>
-                                <p>Les logos et visuels des établissements restent propriété des établissements.</p>
+                                <p>{{ $t('legal.ipParagraph1') }}</p>
+                                <p>{{ $t('legal.ipParagraph2') }}</p>
+                                <p>{{ $t('legal.ipParagraph3') }}</p>
                             </div>
 
                             <h3 class="text-lg font-semibold mb-3">Responsabilité</h3>
@@ -1175,45 +1175,45 @@
                 <!-- Politique de confidentialité -->
                 <div v-if="currentTab === 'privacy'">
                     <div class="bg-white rounded-lg shadow-lg p-6">
-                        <h2 class="text-2xl font-bold mb-6">🔒 Politique de confidentialité</h2>
+                        <h2 class="text-2xl font-bold mb-6">🔒 {{ $t('privacy.title') }}</h2>
 
                         <div class="prose max-w-none">
-                            <h3 class="text-lg font-semibold mb-3">Collecte des données</h3>
+                            <h3 class="text-lg font-semibold mb-3">{{ $t('privacy.collectionTitle') }}</h3>
                             <div class="mb-6 text-gray-700">
-                                <p>Nous collectons uniquement les données nécessaires au fonctionnement de la plateforme :</p>
+                                <p>{{ $t('privacy.collectionIntro') }}</p>
                                 <ul class="list-disc ml-6 mt-2">
-                                    <li>Nom, prénom et email des parents</li>
-                                    <li>Prénom et classe des enfants</li>
-                                    <li>Transactions du système SEL (Système d'Échange Local)</li>
-                                    <li>Messages et communications via la plateforme</li>
+                                    <li>{{ $t('privacy.collection.items.parentsIdentity') }}</li>
+                                    <li>{{ $t('privacy.collection.items.childrenClass') }}</li>
+                                    <li>{{ $t('privacy.collection.items.selTransactions') }}</li>
+                                    <li>{{ $t('privacy.collection.items.messages') }}</li>
                                 </ul>
                             </div>
 
-                            <h3 class="text-lg font-semibold mb-3">Utilisation des données</h3>
+                            <h3 class="text-lg font-semibold mb-3">{{ $t('privacy.useTitle') }}</h3>
                             <div class="mb-6 text-gray-700">
-                                <p>Vos données sont utilisées exclusivement pour :</p>
+                                <p>{{ $t('privacy.useIntro') }}</p>
                                 <ul class="list-disc ml-6 mt-2">
-                                    <li>Faciliter la communication entre parents et établissements scolaires</li>
-                                    <li>Gérer le système d'échange local (SEL)</li>
-                                    <li>Organiser les événements scolaires</li>
-                                    <li>Gérer la boutique collaborative</li>
+                                    <li>{{ $t('privacy.use.items.communication') }}</li>
+                                    <li>{{ $t('privacy.use.items.sel') }}</li>
+                                    <li>{{ $t('privacy.use.items.events') }}</li>
+                                    <li>{{ $t('privacy.use.items.shop') }}</li>
                                 </ul>
                             </div>
 
-                            <h3 class="text-lg font-semibold mb-3">Partage des données</h3>
+                            <h3 class="text-lg font-semibold mb-3">{{ $t('privacy.shareTitle') }}</h3>
                             <div class="mb-6 text-gray-700">
-                                <p>Vos données ne sont jamais vendues ou partagées avec des tiers.</p>
-                                <p>Seuls les membres de la communauté scolaire y ont accès dans le cadre de la plateforme.</p>
+                                <p>{{ $t('privacy.shareP1') }}</p>
+                                <p>{{ $t('privacy.shareP2') }}</p>
                             </div>
 
-                            <h3 class="text-lg font-semibold mb-3">Sécurité</h3>
+                            <h3 class="text-lg font-semibold mb-3">{{ $t('privacy.securityTitle') }}</h3>
                             <div class="text-gray-700">
-                                <p>Nous mettons en place des mesures techniques appropriées pour protéger vos données :</p>
+                                <p>{{ $t('privacy.securityIntro') }}</p>
                                 <ul class="list-disc ml-6 mt-2">
-                                    <li>Chiffrement des communications</li>
-                                    <li>Mots de passe sécurisés</li>
-                                    <li>Sauvegardes régulières</li>
-                                    <li>Serveurs sécurisés en Belgique</li>
+                                    <li>{{ $t('privacy.security.items.encryption') }}</li>
+                                    <li>{{ $t('privacy.security.items.passwords') }}</li>
+                                    <li>{{ $t('privacy.security.items.backups') }}</li>
+                                    <li>{{ $t('privacy.security.items.serversBE') }}</li>
                                 </ul>
                             </div>
                         </div>
@@ -1223,54 +1223,54 @@
                 <!-- Protection des données RGPD -->
                 <div v-if="currentTab === 'rgpd'">
                     <div class="bg-white rounded-lg shadow-lg p-6">
-                        <h2 class="text-2xl font-bold mb-6">🛡️ Protection des données (RGPD)</h2>
+                        <h2 class="text-2xl font-bold mb-6">🛡️ {{ $t('rgpd.title') }}</h2>
 
                         <div class="prose max-w-none">
-                            <h3 class="text-lg font-semibold mb-3">Vos droits selon le RGPD</h3>
+                            <h3 class="text-lg font-semibold mb-3">{{ $t('rgpd.rightsTitle') }}</h3>
                             <div class="mb-6 text-gray-700">
-                                <p>Conformément au Règlement Général sur la Protection des Données, vous disposez des droits suivants :</p>
+                                <p>{{ $t('rgpd.rightsIntro') }}</p>
                                 <ul class="list-disc ml-6 mt-2">
-                                    <li><strong>Droit d'accès :</strong> Vous pouvez demander l'accès à vos données personnelles</li>
-                                    <li><strong>Droit de rectification :</strong> Vous pouvez corriger vos données inexactes</li>
-                                    <li><strong>Droit à l'effacement :</strong> Vous pouvez demander la suppression de vos données</li>
-                                    <li><strong>Droit de portabilité :</strong> Vous pouvez récupérer vos données</li>
-                                    <li><strong>Droit d'opposition :</strong> Vous pouvez vous opposer au traitement</li>
+                                    <li>{{ $t('rgpd.rights.access') }}</li>
+                                    <li>{{ $t('rgpd.rights.rectification') }}</li>
+                                    <li>{{ $t('rgpd.rights.erasure') }}</li>
+                                    <li>{{ $t('rgpd.rights.portability') }}</li>
+                                    <li>{{ $t('rgpd.rights.objection') }}</li>
                                 </ul>
                             </div>
 
-                            <h3 class="text-lg font-semibold mb-3">Base légale du traitement</h3>
+                            <h3 class="text-lg font-semibold mb-3">{{ $t('rgpd.legalBasisTitle') }}</h3>
                             <div class="mb-6 text-gray-700">
-                                <p>Le traitement de vos données est basé sur :</p>
+                                <p>{{ $t('rgpd.legalBasisIntro') }}</p>
                                 <ul class="list-disc ml-6 mt-2">
-                                    <li><strong>Votre consentement</strong> pour l'inscription à la plateforme</li>
-                                    <li><strong>L'intérêt légitime</strong> des établissements pour la communication scolaire</li>
-                                    <li><strong>L'exécution du contrat</strong> d'éducation avec l'établissement</li>
+                                    <li>{{ $t('rgpd.legalBasis.consent') }}</li>
+                                    <li>{{ $t('rgpd.legalBasis.legitimateInterest') }}</li>
+                                    <li>{{ $t('rgpd.legalBasis.contract') }}</li>
                                 </ul>
                             </div>
 
-                            <h3 class="text-lg font-semibold mb-3">Conservation des données</h3>
+                            <h3 class="text-lg font-semibold mb-3">{{ $t('rgpd.retentionTitle') }}</h3>
                             <div class="mb-6 text-gray-700">
-                                <p>Nous conservons vos données :</p>
+                                <p>{{ $t('rgpd.retentionIntro') }}</p>
                                 <ul class="list-disc ml-6 mt-2">
-                                    <li>Pendant la scolarité de votre enfant dans l'établissement</li>
-                                    <li>Puis 2 ans supplémentaires pour l'historique</li>
-                                    <li>Vous pouvez demander la suppression anticipée à tout moment</li>
+                                    <li>{{ $t('rgpd.retention.schooling') }}</li>
+                                    <li>{{ $t('rgpd.retention.twoYears') }}</li>
+                                    <li>{{ $t('rgpd.retention.earlyDeletion') }}</li>
                                 </ul>
                             </div>
 
-                            <h3 class="text-lg font-semibold mb-3">Contact DPO</h3>
+                            <h3 class="text-lg font-semibold mb-3">{{ $t('dpo.title') }}</h3>
                             <div class="mb-6 text-gray-700">
-                                <p>Pour exercer vos droits ou poser une question sur la protection des données :</p>
-                                <p><strong>Responsable Protection des Données</strong></p>
-                                <p>Email : <a href="mailto:gilmry+ecolehub@gmail.com" class="text-blue-600">gilmry+ecolehub@gmail.com</a></p>
-                                <p>Courrier : EcoleHub Platform - DPO, 1000 Bruxelles</p>
+                                <p>{{ $t('dpo.contactIntro') }}</p>
+                                <p><strong>{{ $t('dpo.nameLabel') }}</strong></p>
+                                <p>{{ $t('dpo.emailLabel') }} <a href="mailto:gilmry+ecolehub@gmail.com" class="text-blue-600">gilmry+ecolehub@gmail.com</a></p>
+                                <p>{{ $t('dpo.address') }}</p>
                             </div>
 
-                            <h3 class="text-lg font-semibold mb-3">Réclamation</h3>
+                            <h3 class="text-lg font-semibold mb-3">{{ $t('complaint.title') }}</h3>
                             <div class="text-gray-700">
-                                <p>Si vous estimez que vos droits ne sont pas respectés, vous pouvez introduire une réclamation auprès de :</p>
-                                <p><strong>Autorité de Protection des Données</strong></p>
-                                <p>Website : <a href="https://www.autoriteprotectiondonnees.be" class="text-blue-600" target="_blank">www.autoriteprotectiondonnees.be</a></p>
+                                <p>{{ $t('complaint.intro') }}</p>
+                                <p><strong>{{ $t('complaint.authorityName') }}</strong></p>
+                                <p>{{ $t('complaint.websiteLabel') }} <a href="https://www.autoriteprotectiondonnees.be" class="text-blue-600" target="_blank">www.autoriteprotectiondonnees.be</a></p>
                             </div>
                         </div>
                     </div>
@@ -1312,9 +1312,9 @@
                     <div>
                         <h3 class="text-lg font-semibold mb-4">Informations légales</h3>
                         <ul class="text-gray-300 text-sm space-y-2">
-                            <li><a href="#" @click="currentTab = 'legal'" class="hover:text-blue-300">Mentions légales</a></li>
-                            <li><a href="#" @click="currentTab = 'privacy'" class="hover:text-blue-300">Politique de confidentialité</a></li>
-                            <li><a href="#" @click="currentTab = 'rgpd'" class="hover:text-blue-300">Protection des données</a></li>
+                            <li><a href="#" @click="currentTab = 'legal'" class="hover:text-blue-300">{{ $t('legal.mentions') }}</a></li>
+                            <li><a href="#" @click="currentTab = 'privacy'" class="hover:text-blue-300">{{ $t('legal.privacy') }}</a></li>
+                            <li><a href="#" @click="currentTab = 'rgpd'" class="hover:text-blue-300">{{ $t('legal.dataProtection') }}</a></li>
                         </ul>
                     </div>
                 </div>
@@ -1408,11 +1408,7 @@
                     
                     // Stage 4: Multilingual Data
                     currentLanguage: 'fr-BE',
-                    supportedLocales: [
-                        { code: 'fr-BE', name: 'Français (Belgique)', flag: '🇧🇪' },
-                        { code: 'nl-BE', name: 'Nederlands (België)', flag: '🇳🇱' },
-                        { code: 'en', name: 'English', flag: '🇬🇧' }
-                    ]
+                    supportedLocales: window.EcoleHubI18n.getSupportedLocales()
                 }
             },
             

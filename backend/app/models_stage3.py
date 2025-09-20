@@ -3,7 +3,7 @@ EcoleHub Stage 3 Models - Extends Stage 2 with Shop and Education
 """
 
 from sqlalchemy import Column, String, Integer, Boolean, DateTime, Text, ForeignKey, CheckConstraint, DECIMAL, Date
-from sqlalchemy.dialects.postgresql import UUID
+from .db_types import UUIDType
 from sqlalchemy.orm import relationship
 from sqlalchemy.sql import func
 import uuid
@@ -15,7 +15,7 @@ from .models_stage1 import SELService, SELTransaction, SELBalance, SELCategory
 class ShopProduct(Base):
     __tablename__ = "shop_products"
     
-    id = Column(UUID(as_uuid=True), primary_key=True, default=uuid.uuid4)
+    id = Column(UUIDType(), primary_key=True, default=uuid.uuid4)
     name = Column(String(200), nullable=False)
     description = Column(Text)
     base_price = Column(DECIMAL(10, 2), nullable=False)
@@ -24,7 +24,7 @@ class ShopProduct(Base):
     category = Column(String(50), nullable=False)
     min_quantity = Column(Integer, default=10)  # Minimum for group order
     is_active = Column(Boolean, default=True)
-    created_by = Column(UUID(as_uuid=True), ForeignKey("users.id"))
+    created_by = Column(UUIDType(), ForeignKey("users.id"))
     created_at = Column(DateTime(timezone=True), server_default=func.now())
     updated_at = Column(DateTime(timezone=True), server_default=func.now(), onupdate=func.now())
     
@@ -36,9 +36,9 @@ class ShopProduct(Base):
 class ShopInterest(Base):
     __tablename__ = "shop_interests"
     
-    id = Column(UUID(as_uuid=True), primary_key=True, default=uuid.uuid4)
-    product_id = Column(UUID(as_uuid=True), ForeignKey("shop_products.id", ondelete="CASCADE"), nullable=False)
-    user_id = Column(UUID(as_uuid=True), ForeignKey("users.id", ondelete="CASCADE"), nullable=False)
+    id = Column(UUIDType(), primary_key=True, default=uuid.uuid4)
+    product_id = Column(UUIDType(), ForeignKey("shop_products.id", ondelete="CASCADE"), nullable=False)
+    user_id = Column(UUIDType(), ForeignKey("users.id", ondelete="CASCADE"), nullable=False)
     quantity = Column(Integer, default=1)
     notes = Column(Text)  # Size, color, special requirements
     status = Column(String(20), default='interested')
@@ -60,8 +60,8 @@ class ShopInterest(Base):
 class ShopOrder(Base):
     __tablename__ = "shop_orders"
     
-    id = Column(UUID(as_uuid=True), primary_key=True, default=uuid.uuid4)
-    product_id = Column(UUID(as_uuid=True), ForeignKey("shop_products.id"), nullable=False)
+    id = Column(UUIDType(), primary_key=True, default=uuid.uuid4)
+    product_id = Column(UUIDType(), ForeignKey("shop_products.id"), nullable=False)
     total_quantity = Column(Integer, nullable=False)
     unit_price = Column(DECIMAL(10, 2), nullable=False)
     total_price = Column(DECIMAL(10, 2), nullable=False)
@@ -90,9 +90,9 @@ class ShopOrder(Base):
 class ShopOrderItem(Base):
     __tablename__ = "shop_order_items"
     
-    id = Column(UUID(as_uuid=True), primary_key=True, default=uuid.uuid4)
-    order_id = Column(UUID(as_uuid=True), ForeignKey("shop_orders.id", ondelete="CASCADE"), nullable=False)
-    user_id = Column(UUID(as_uuid=True), ForeignKey("users.id"), nullable=False)
+    id = Column(UUIDType(), primary_key=True, default=uuid.uuid4)
+    order_id = Column(UUIDType(), ForeignKey("shop_orders.id", ondelete="CASCADE"), nullable=False)
+    user_id = Column(UUIDType(), ForeignKey("users.id"), nullable=False)
     quantity = Column(Integer, nullable=False)
     unit_price = Column(DECIMAL(10, 2), nullable=False)
     total_price = Column(DECIMAL(10, 2), nullable=False)
@@ -116,7 +116,7 @@ class ShopOrderItem(Base):
 class EducationResource(Base):
     __tablename__ = "education_resources"
     
-    id = Column(UUID(as_uuid=True), primary_key=True, default=uuid.uuid4)
+    id = Column(UUIDType(), primary_key=True, default=uuid.uuid4)
     title = Column(String(200), nullable=False)
     description = Column(Text)
     category = Column(String(50), nullable=False)  # 'homework', 'calendar', 'forms', 'announcements'
@@ -125,7 +125,7 @@ class EducationResource(Base):
     file_type = Column(String(50))  # pdf, doc, image, etc.
     file_size = Column(Integer)  # in bytes
     is_public = Column(Boolean, default=False)  # Public or parent-only
-    created_by = Column(UUID(as_uuid=True), ForeignKey("users.id"))
+    created_by = Column(UUIDType(), ForeignKey("users.id"))
     created_at = Column(DateTime(timezone=True), server_default=func.now())
     updated_at = Column(DateTime(timezone=True), server_default=func.now(), onupdate=func.now())
     
@@ -148,8 +148,8 @@ class EducationResource(Base):
 class ResourceAccess(Base):
     __tablename__ = "resource_access"
     
-    resource_id = Column(UUID(as_uuid=True), ForeignKey("education_resources.id", ondelete="CASCADE"), primary_key=True)
-    user_id = Column(UUID(as_uuid=True), ForeignKey("users.id", ondelete="CASCADE"), primary_key=True)
+    resource_id = Column(UUIDType(), ForeignKey("education_resources.id", ondelete="CASCADE"), primary_key=True)
+    user_id = Column(UUIDType(), ForeignKey("users.id", ondelete="CASCADE"), primary_key=True)
     access_type = Column(String(20), default='read')
     granted_at = Column(DateTime(timezone=True), server_default=func.now())
     

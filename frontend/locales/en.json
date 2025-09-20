@@ -1,7 +1,12 @@
 {
   "app": {
-    "title": "EcoleHub Stage 4",
+    "title": "EcoleHub",
     "subtitle": "Multilingual collaborative platform",
+    "language": "Language",
+    "connected": "Connected:",
+    "demoVersion": "Demo version",
+    "demoDescription": "This platform is presented in demo mode for the parent meeting.",
+    "testAccounts": "Test accounts available",
     "loading": "Loading...",
     "error": "Error",
     "success": "Success",
@@ -9,14 +14,14 @@
     "cancel": "Cancel",
     "save": "Save",
     "delete": "Delete",
-    "edit": "Edit", 
+    "edit": "Edit",
     "create": "Create",
     "close": "Close"
   },
   "auth": {
     "login": "Login",
     "register": "Register",
-    "logout": "Logout", 
+    "logout": "Logout",
     "email": "Email",
     "password": "Password",
     "firstName": "First Name",
@@ -24,14 +29,16 @@
     "loginSuccess": "Login successful!",
     "registerSuccess": "Registration successful! Welcome to EcoleHub.",
     "invalidCredentials": "Invalid email or password",
-    "emailPlaceholder": "your.email@ecolehub.be"
+    "emailPlaceholder": "your.email@ecolehub.be",
+    "firstNamePlaceholder": "First name",
+    "lastNamePlaceholder": "Last name"
   },
   "navigation": {
     "dashboard": "Dashboard",
     "services": "SEL Services",
     "transactions": "Transactions",
     "messages": "Messages",
-    "events": "Events", 
+    "events": "Events",
     "shop": "Shop",
     "education": "Education",
     "profile": "Profile",
@@ -41,7 +48,7 @@
     "title": "Local Exchange System",
     "balance": "Balance",
     "units": "units",
-    "services": "Services", 
+    "services": "Services",
     "transactions": "Transactions",
     "categories": {
       "garde": "Childcare",
@@ -51,14 +58,32 @@
       "bricolage": "DIY/Crafts",
       "jardinage": "Gardening",
       "menage": "Housework",
-      "courses": "Shopping", 
+      "courses": "Shopping",
       "proposition": "Proposals",
       "autre": "Other"
     },
     "limits": "Belgian limits: -300 to +600 units • 60 units = 1 hour",
+    "noServices": "No services available yet.",
     "createService": "Create service",
     "serviceCreated": "Service created successfully!",
-    "transactionApproved": "Transaction approved! Balances updated."
+    "transactionApproved": "Transaction approved! Balances updated.",
+    "myBalance": "My SEL Balance",
+    "availableServices": "Available Services",
+    "myServices": "My Services",
+    "proposeService": "Propose a new service",
+    "serviceTitle": "Service title",
+    "category": "Category",
+    "chooseCategory": "Choose a category",
+    "description": "Description",
+    "unitsPerHour": "Units per hour",
+    "standardRate": "Standard: 60 units = 1 hour",
+    "request": "Request"
+  },
+  "transactions": {
+    "title": "My Transactions",
+    "none": "No transactions yet.",
+    "received": "Received",
+    "given": "Given"
   },
   "shop": {
     "title": "Collaborative Shop",
@@ -70,20 +95,21 @@
     },
     "interested": "I'm interested",
     "cancelInterest": "Cancel interest",
-    "interestExpressed": "Interest expressed", 
+    "interestExpressed": "Interest expressed",
     "groupOrderReady": "Ready to order!",
     "participants": "interested parent(s)",
     "howItWorks": "How it works?",
     "workflow": [
       "Parents express interest in a product",
       "When minimum threshold is reached → group order possible",
-      "Payment via Mollie (Bancontact, card, transfer)", 
+      "Payment via Mollie (Bancontact, card, transfer)",
       "Group delivery = better prices for everyone!"
     ],
     "vatIncluded": "VAT included",
     "minimumQuantity": "Minimum quantity",
     "price": "Price",
-    "description": "Description"
+    "description": "Description",
+    "noProducts": "No products available yet."
   },
   "admin": {
     "title": "EcoleHub Administration",
@@ -94,6 +120,10 @@
     "newProduct": "New Product",
     "productName": "Product name",
     "category": "Category",
+    "chooseCategory": "Choose category",
+    "productManagement": "Product Management",
+    "priceEUR": "Price (€)",
+    "parentsInterestsView": "Parents' Interests View",
     "launchGroupOrder": "Launch Group Order",
     "activate": "Activate",
     "deactivate": "Deactivate",
@@ -107,8 +137,9 @@
     "sendDirectMessage": "Send direct message",
     "recipient": "Recipient",
     "chooseParent": "Choose a parent",
+    "messageLabel": "Message",
     "typeMessage": "Type your message...",
-    "send": "Send", 
+    "send": "Send",
     "refresh": "Refresh",
     "noConversations": "No conversations yet",
     "noMessages": "No messages in this conversation"
@@ -125,7 +156,7 @@
     "registered": "Registered",
     "full": "Full",
     "date": "Date",
-    "location": "Location", 
+    "location": "Location",
     "participants": "Participants",
     "registrationConfirmed": "Event registration confirmed!"
   },
@@ -134,12 +165,24 @@
     "resources": "Resources",
     "categories": {
       "homework": "Homework",
-      "calendar": "Calendar", 
+      "calendar": "Calendar",
       "forms": "Forms",
       "announcements": "Announcements"
     },
     "classResources": "Class Resources",
-    "schoolCommunications": "School Communications"
+    "schoolCommunications": "School Communications",
+    "moduleInProgress": "Education module in development",
+    "communications": "Communications",
+    "lists": {
+      "supplies": "Supplies lists P1–P6, M1–M3",
+      "calendar": "Belgian school calendar",
+      "forms": "School forms (enrollment, trips)",
+      "rules": "School internal rules",
+      "announcements": "Head announcements",
+      "project": "EcoleHub educational project",
+      "parentMeetings": "Parents' meetings info",
+      "specialEvents": "School special events"
+    }
   },
   "profile": {
     "title": "My Profile",
@@ -155,11 +198,32 @@
     "M1": "M1 (1st kindergarten)",
     "M2": "M2 (2nd kindergarten)",
     "M3": "M3 (3rd kindergarten)",
-    "P1": "P1 (1st grade)", 
+    "P1": "P1 (1st grade)",
     "P2": "P2 (2nd grade)",
     "P3": "P3 (3rd grade)",
     "P4": "P4 (4th grade)",
     "P5": "P5 (5th grade)",
     "P6": "P6 (6th grade)"
+  },
+  "legal": {
+    "mentions": "Legal notice",
+    "privacy": "Privacy policy",
+    "dataProtection": "Data protection",
+    "sitePublisherTitle": "Site publisher",
+    "publisherName": "EcoleHub Platform",
+    "publisherAddress": "1000 Brussels, Belgium",
+    "publicationManagerTitle": "Publication manager",
+    "hostingTitle": "Hosting",
+    "hostingProvider": "EcoleHub is hosted by OVHcloud",
+    "hostingAddress": "OVH SAS - 2 rue Kellermann, 59100 Roubaix, France",
+    "serversInEurope": "Servers located in Europe",
+    "complianceNote": "In accordance with Belgian and European legislation",
+    "intellectualPropertyTitle": "Intellectual property",
+    "ipParagraph1": "EcoleHub is open source software under the MIT license.",
+    "ipParagraph2": "Content published by users remains their property.",
+    "ipParagraph3": "School logos and visuals remain the property of the schools.",
+    "responsibilityTitle": "Responsibility",
+    "responsibilityP1": "EcoleHub strives to keep information accurate but cannot guarantee completeness or absolute accuracy.",
+    "responsibilityP2": "Users use the platform at their own responsibility."
   }
 }

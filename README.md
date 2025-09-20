@@ -37,6 +37,7 @@ open https://votre-domaine.com
 - **[README-TRAEFIK.md](./docs/README-TRAEFIK.md)** - Déploiement avec Traefik
 - **[TESTING-GUIDE.md](./docs/TESTING-GUIDE.md)** - Tests automatisés
 - **[Comptes de démo](./docs/DEMO-ACCOUNTS.example.md)** - Template des comptes de test
+- **[TODO / Roadmap](./docs/TODO.md)** - Prochaines tâches et priorités
 
 ## 🎯 Administration
 
