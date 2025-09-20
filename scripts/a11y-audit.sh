@@ -15,9 +15,17 @@ run_pa11y_ci() {
   local out_json="$REPORT_DIR/pa11y-ci.json"
   echo "🧾 Writing Pa11y CI JSON report to: $out_json"
   if [ "$STRICT" = "1" ]; then
-    pa11y-ci --reporter json | tee "$out_json"
+    pa11y-ci --reporter json \
+      --chrome-arg="--no-sandbox" \
+      --chrome-arg="--disable-setuid-sandbox" \
+      --chrome-arg="--disable-dev-shm-usage" \
+      | tee "$out_json"
   else
-    pa11y-ci --reporter json | tee "$out_json" || true
+    pa11y-ci --reporter json \
+      --chrome-arg="--no-sandbox" \
+      --chrome-arg="--disable-setuid-sandbox" \
+      --chrome-arg="--disable-dev-shm-usage" \
+      | tee "$out_json" || true
   fi
 }
 
@@ -25,9 +33,17 @@ run_pa11y() {
   local out_json="$REPORT_DIR/pa11y.json"
   echo "🧾 Writing Pa11y JSON report to: $out_json"
   if [ "$STRICT" = "1" ]; then
-    pa11y "$BASE_URL" --standard WCAG2AA --reporter json | tee "$out_json"
+    pa11y "$BASE_URL" --standard WCAG2AA --reporter json \
+      --chrome-arg="--no-sandbox" \
+      --chrome-arg="--disable-setuid-sandbox" \
+      --chrome-arg="--disable-dev-shm-usage" \
+      | tee "$out_json"
   else
-    pa11y "$BASE_URL" --standard WCAG2AA --reporter json | tee "$out_json" || true
+    pa11y "$BASE_URL" --standard WCAG2AA --reporter json \
+      --chrome-arg="--no-sandbox" \
+      --chrome-arg="--disable-setuid-sandbox" \
+      --chrome-arg="--disable-dev-shm-usage" \
+      | tee "$out_json" || true
   fi
 }
 
@@ -55,18 +71,34 @@ if command -v npx >/dev/null 2>&1; then
   if [ "$USE_CONFIG" = "1" ]; then
     echo "ℹ️ Using npx pa11y-ci (network required)"
     if [ "$STRICT" = "1" ]; then
-      npx --yes pa11y-ci --reporter json | tee "$REPORT_DIR/pa11y-ci.json"
+      npx --yes pa11y-ci --reporter json \
+        --chrome-arg="--no-sandbox" \
+        --chrome-arg="--disable-setuid-sandbox" \
+        --chrome-arg="--disable-dev-shm-usage" \
+        | tee "$REPORT_DIR/pa11y-ci.json"
     else
-      npx --yes pa11y-ci --reporter json | tee "$REPORT_DIR/pa11y-ci.json" || true
+      npx --yes pa11y-ci --reporter json \
+        --chrome-arg="--no-sandbox" \
+        --chrome-arg="--disable-setuid-sandbox" \
+        --chrome-arg="--disable-dev-shm-usage" \
+        | tee "$REPORT_DIR/pa11y-ci.json" || true
     fi
     exit 0
   else
     echo "ℹ️ Using npx pa11y (network required)"
     echo "🔎 Auditing BASE_URL: $BASE_URL"
     if [ "$STRICT" = "1" ]; then
-      npx --yes pa11y "$BASE_URL" --standard WCAG2AA --reporter json | tee "$REPORT_DIR/pa11y.json"
+      npx --yes pa11y "$BASE_URL" --standard WCAG2AA --reporter json \
+        --chrome-arg="--no-sandbox" \
+        --chrome-arg="--disable-setuid-sandbox" \
+        --chrome-arg="--disable-dev-shm-usage" \
+        | tee "$REPORT_DIR/pa11y.json"
     else
-      npx --yes pa11y "$BASE_URL" --standard WCAG2AA --reporter json | tee "$REPORT_DIR/pa11y.json" || true
+      npx --yes pa11y "$BASE_URL" --standard WCAG2AA --reporter json \
+        --chrome-arg="--no-sandbox" \
+        --chrome-arg="--disable-setuid-sandbox" \
+        --chrome-arg="--disable-dev-shm-usage" \
+        | tee "$REPORT_DIR/pa11y.json" || true
     fi
     exit 0
   fi

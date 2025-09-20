@@ -52,6 +52,8 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: '18'
+      - name: 📦 Install pa11y-ci globally
+        run: npm i -g pa11y-ci@3.1.0
 
       - name: ♿ Run pa11y against local frontend (STRICT)
         env:
