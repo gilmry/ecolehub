@@ -480,6 +480,8 @@ def register(
     db.add(db_user)
     db.commit()
     db.refresh(db_user)
+    # Cache primary key early to avoid accessing possibly-expired attributes later
+    user_id = db_user.id
 
     # Record initial consent at registration (version + timestamp + locale)
     try:
@@ -493,8 +495,8 @@ def register(
         db.rollback()
 
     # Create SEL balance and user status
-    sel_service.get_or_create_balance(db_user.id)
-    user_status = UserStatus(user_id=db_user.id)
+    sel_service.get_or_create_balance(user_id)
+    user_status = UserStatus(user_id=user_id)
     db.add(user_status)
 
     # Auto-subscribe to announcement conversation
@@ -503,7 +505,7 @@ def register(
     )
     if announcement_conv:
         participant = ConversationParticipant(
-            conversation_id=announcement_conv.id, user_id=db_user.id
+            conversation_id=announcement_conv.id, user_id=user_id
         )
         db.add(participant)
 
@@ -512,7 +514,7 @@ def register(
     # Track registration in analytics
     analytics = get_analytics_service(db, redis_conn)
     analytics.track_user_action(
-        str(db_user.id),
+        str(user_id),
         "register",
         {"user_type": "admin" if "admin" in user.email else "parent"},
     )
