@@ -320,9 +320,23 @@ i18n-lint: ## Scan frontend for hardcoded strings (STRICT=1 to fail on findings)
 
 ##@ ♿ Accessibility
 
+a11y-serve-frontend: ## Serve frontend statically on a local port (A11Y_FRONTEND_PORT=8089 by default)
+	@echo "📡 Serving frontend at http://localhost:$${A11Y_FRONTEND_PORT:-8089} (Ctrl+C to stop)"
+	@cd frontend && python3 -m http.server $${A11Y_FRONTEND_PORT:-8089}
+
 a11y-audit: ## Run accessibility audit (pa11y; set BASE_URL if needed)
 	@echo "♿ Running a11y audit against: $${BASE_URL:-http://localhost}"
 	@./scripts/a11y-audit.sh
+
+a11y-audit-frontend: ## Serve frontend temporarily and run a11y audit (no Docker needed)
+	@echo "♿ Starting temporary frontend server and auditing..."
+	@bash -c 'set -euo pipefail; \
+	  PORT=$${A11Y_FRONTEND_PORT:-8089}; \
+	  (cd frontend && python3 -m http.server $$PORT >/dev/null 2>&1 &) ; \
+	  PID=$$!; \
+	  trap "kill $$PID >/dev/null 2>&1 || true" EXIT; \
+	  sleep 2; \
+	  BASE_URL=http://localhost:$$PORT ./scripts/a11y-audit.sh'
 
 ##@ ✅ Tests & QA
 
