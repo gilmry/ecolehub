@@ -46,13 +46,17 @@ else
   echo "ℹ️ bandit not installed; skipping"
 fi
 if $PYBIN -c 'import safety' >/dev/null 2>&1; then
+  # Scan runtime dependencies
+  if [ -f backend/requirements.txt ]; then
+    $PYBIN -m safety scan -r backend/requirements.txt \
+      || $PYBIN -m safety check -r backend/requirements.txt \
+      || echo "ℹ️ safety (runtime) scan/check skipped"
+  fi
+  # Scan test/dev dependencies
   if [ -f backend/requirements.test.txt ]; then
-    # Prefer modern 'scan'; fallback to 'check' if older safety present
-    if $PYBIN -m safety --help 2>&1 | grep -q " scan "; then
-      $PYBIN -m safety scan -r backend/requirements.test.txt || true
-    else
-      $PYBIN -m safety check -r backend/requirements.test.txt || true
-    fi
+    $PYBIN -m safety scan -r backend/requirements.test.txt \
+      || $PYBIN -m safety check -r backend/requirements.test.txt \
+      || echo "ℹ️ safety (test) scan/check skipped"
   fi
 else
   echo "ℹ️ safety not installed; skipping"
