@@ -84,7 +84,7 @@ bash -c 'set -euo pipefail; \
   (cd frontend && python3 -m http.server $PORT >/dev/null 2>&1 &) ; \
   PID=$!; trap "kill $PID >/dev/null 2>&1 || true" EXIT; \
   sleep 2; \
-  BASE_URL=http://localhost:$PORT STRICT=${A11Y_STRICT:-0} ./scripts/a11y-audit.sh'
+  BASE_URL=http://localhost:$PORT STRICT=${A11Y_STRICT:-1} ./scripts/a11y-audit.sh'
 
 echo "📖 Docs checks"
 [ -f README.md ] || { echo "❌ README.md missing"; exit 1; }
