@@ -186,7 +186,7 @@ jobs:
 
     # Coverage report will be created by the backend CI script
     - name: 📈 Upload coverage to Codecov
-      uses: codecov/codecov-action@v4
+      uses: codecov/codecov-action@v3
       with:
         files: backend/coverage.xml
         flags: backend
