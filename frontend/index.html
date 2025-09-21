@@ -36,18 +36,49 @@
             var app = document.getElementById('app');
             if (app) {
               app.removeAttribute('v-cloak');
-              app.innerHTML = (
-                '<div class="max-w-3xl mx-auto mt-12 bg-yellow-50 border border-yellow-200 rounded p-6">' +
-                '<h2 class="text-xl font-semibold text-yellow-800 mb-2">Ressources front indisponibles</h2>' +
-                '<p class="text-yellow-800">Impossible de charger les librairies depuis les CDN (Vue/Tailwind). ' +
-                'En production, servez des assets locaux ou autorisez l\'accès sortant aux CDN.</p>' +
-                '<ul class="list-disc ml-6 mt-3 text-yellow-900 text-sm">' +
-                '<li>Option 1: intégrer des copies locales de <code>vue.global.prod.js</code> et du CSS Tailwind compilé.</li>' +
-                '<li>Option 2: utiliser l\'image frontend avec build d\'assets (npm build) et sans CDN.</li>' +
-                '<li>Option 3: autoriser le trafic sortant vers <code>unpkg.com</code> et <code>cdn.tailwindcss.com</code>.</li>' +
-                '</ul>' +
-                '</div>'
-              );
+              // Build an accessible, internationalized fallback without hardcoded strings in HTML
+              const container = document.createElement('div');
+              container.className = 'max-w-3xl mx-auto mt-12 bg-yellow-50 border border-yellow-200 rounded p-6';
+              container.setAttribute('role', 'alert');
+              container.setAttribute('aria-live', 'polite');
+              container.setAttribute('aria-label', 'assets-missing');
+
+              const iconRow = document.createElement('div');
+              iconRow.className = 'flex items-center space-x-2 text-yellow-700';
+              iconRow.innerHTML = '<span class="text-2xl" aria-hidden="true">⚠️</span>' +
+                                  '<span class="w-2 h-2 rounded-full bg-yellow-500 inline-block" aria-hidden="true"></span>' +
+                                  '<span class="w-2 h-2 rounded-full bg-yellow-500 inline-block" aria-hidden="true"></span>' +
+                                  '<span class="w-2 h-2 rounded-full bg-yellow-500 inline-block" aria-hidden="true"></span>';
+
+              const title = document.createElement('h2');
+              title.className = 'text-xl font-semibold text-yellow-800 mb-2';
+              title.textContent = (window.EcoleHubI18n && window.EcoleHubI18n.t)
+                ? window.EcoleHubI18n.t('app.assetsMissing.title')
+                : '';
+
+              const body = document.createElement('p');
+              body.className = 'text-yellow-800';
+              body.textContent = (window.EcoleHubI18n && window.EcoleHubI18n.t)
+                ? window.EcoleHubI18n.t('app.assetsMissing.body')
+                : '';
+
+              const ul = document.createElement('ul');
+              ul.className = 'list-disc ml-6 mt-3 text-yellow-900 text-sm';
+              const opts = ['opt1', 'opt2', 'opt3'];
+              for (const k of opts) {
+                const li = document.createElement('li');
+                li.textContent = (window.EcoleHubI18n && window.EcoleHubI18n.t)
+                  ? window.EcoleHubI18n.t(`app.assetsMissing.options.${k}`)
+                  : '';
+                ul.appendChild(li);
+              }
+
+              container.appendChild(iconRow);
+              container.appendChild(title);
+              container.appendChild(body);
+              container.appendChild(ul);
+              app.innerHTML = '';
+              app.appendChild(container);
             }
             console.error('[EcoleHub] Vue/Tailwind non chargés (CDN bloqué).');
           }

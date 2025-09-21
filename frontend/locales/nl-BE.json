@@ -16,7 +16,16 @@
     "delete": "Verwijderen",
     "edit": "Bewerken",
     "create": "Aanmaken",
-    "close": "Sluiten"
+    "close": "Sluiten",
+    "assetsMissing": {
+      "title": "Frontend‑bronnen niet beschikbaar",
+      "body": "Bibliotheken kunnen niet van CDN’s worden geladen (Vue/Tailwind). Gebruik in productie lokale assets of sta uitgaand verkeer naar CDN’s toe.",
+      "options": {
+        "opt1": "Optie 1: lokale kopieën leveren van vue.global.prod.js en gecompileerde Tailwind CSS.",
+        "opt2": "Optie 2: de frontend‑image gebruiken met gebouwde assets (npm build) en zonder CDN.",
+        "opt3": "Optie 3: uitgaand verkeer toestaan naar unpkg.com en cdn.tailwindcss.com."
+      }
+    }
   },
   "common": {
     "save": "Opslaan"

@@ -16,7 +16,16 @@
     "delete": "Delete",
     "edit": "Edit",
     "create": "Create",
-    "close": "Close"
+    "close": "Close",
+    "assetsMissing": {
+      "title": "Frontend assets unavailable",
+      "body": "Unable to load libraries from CDNs (Vue/Tailwind). In production, serve local assets or allow outbound access to CDNs.",
+      "options": {
+        "opt1": "Option 1: ship local copies of vue.global.prod.js and compiled Tailwind CSS.",
+        "opt2": "Option 2: use the frontend image with built assets (npm build) and no CDN.",
+        "opt3": "Option 3: allow outbound traffic to unpkg.com and cdn.tailwindcss.com."
+      }
+    }
   },
   "common": {
     "save": "Save"

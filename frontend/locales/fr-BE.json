@@ -16,7 +16,16 @@
     "delete": "Supprimer",
     "edit": "Modifier",
     "create": "Créer",
-    "close": "Fermer"
+    "close": "Fermer",
+    "assetsMissing": {
+      "title": "Ressources front indisponibles",
+      "body": "Impossible de charger les librairies depuis les CDN (Vue/Tailwind). En production, servez des assets locaux ou autorisez l’accès sortant aux CDN.",
+      "options": {
+        "opt1": "Option 1: intégrer des copies locales de vue.global.prod.js et du CSS Tailwind compilé.",
+        "opt2": "Option 2: utiliser l’image frontend avec build d’assets (npm build) et sans CDN.",
+        "opt3": "Option 3: autoriser le trafic sortant vers unpkg.com et cdn.tailwindcss.com."
+      }
+    }
   },
   "common": {
     "save": "Enregistrer"

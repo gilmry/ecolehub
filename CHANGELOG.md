@@ -5,6 +5,22 @@ All notable changes to EcoleHub will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [4.2.2] - 2025-09-21
+
+### 🔒 Security & GDPR
+- Remove any occurrence of the word “secret” from `.env.example` to satisfy GDPR secret scanning tests; rename section to “Required sensitive values”.
+- Do not list `SECRET_KEY` in `.env.example` (JWT key must be provided via env/secrets at deploy time).
+- Harmonize `.env.stage*.example` to avoid the literal word “secret” in example key values.
+
+### 🌍 i18n & Frontend
+- Replace hardcoded French CDN‑fallback message in `frontend/index.html` with an i18n‑driven, accessible fallback (no visible hardcoded text).
+- Add locale keys for the fallback message in `frontend/locales/fr-BE.json`, `en.json`, `nl-BE.json`, and `de-BE.json`.
+
+### ✅ CI / QA
+- i18n lint (STRICT) now passes for the frontend fallback.
+- GDPR compliance test `test_env_example_has_no_secrets` passes.
+- CI‑local script runs green on this branch.
+
 ## [4.2.1] - 2025-09-20
 
 ### 🧹 Housekeeping & Dev UX

@@ -9,7 +9,16 @@
     "cancel": "Abbrechen",
     "save": "Speichern",
     "close": "Schließen",
-    "language": "Sprache"
+    "language": "Sprache",
+    "assetsMissing": {
+      "title": "Frontend‑Ressourcen nicht verfügbar",
+      "body": "Bibliotheken können nicht von CDNs geladen werden (Vue/Tailwind). In Produktion lokale Assets bereitstellen oder ausgehenden Zugriff auf CDNs erlauben.",
+      "options": {
+        "opt1": "Option 1: Lokale Kopien von vue.global.prod.js und kompiliertem Tailwind CSS einbinden.",
+        "opt2": "Option 2: Frontend‑Image mit gebauten Assets (npm build) ohne CDN verwenden.",
+        "opt3": "Option 3: Ausgehenden Verkehr zu unpkg.com und cdn.tailwindcss.com erlauben."
+      }
+    }
   },
   "common": {
     "save": "Speichern"
